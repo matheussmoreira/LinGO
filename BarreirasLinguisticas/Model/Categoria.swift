@@ -9,8 +9,8 @@
 import Foundation
 
 struct Categoria: Identifiable {
-    let id = UUID()
-    let nome: String
+    let id: Int // = UUID()
+    var nome: String
     var tags: [Tag]
     var posts: [Post]
     var inscritos: [Usuario]

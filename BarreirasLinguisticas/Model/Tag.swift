@@ -9,7 +9,7 @@
 import Foundation
 
 struct Tag: Identifiable {
-    let id = UUID()
+    let id: Int // = UUID()
     var nome: String
     var categorias: [Categoria]
     var posts: [Post]

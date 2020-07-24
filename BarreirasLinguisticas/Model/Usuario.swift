@@ -9,7 +9,7 @@
 import Foundation
 
 struct Usuario: Identifiable {
-    let id = UUID()
+    let id: Int // = UUID()
     let email: String
     var senha: String
     var nome: String

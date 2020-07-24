@@ -10,7 +10,7 @@ import Foundation
 import LinkPresentation
 
 struct Post: Identifiable {
-    let id = UUID()
+    let id: Int // = UUID()
     var titulo: String
     var descricao: String?
     var link: LPLinkMetadata?
