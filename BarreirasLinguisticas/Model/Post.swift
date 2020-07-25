@@ -9,16 +9,35 @@
 import Foundation
 import LinkPresentation
 
-struct Post: Identifiable {
+class Post: Identifiable {
     let id: Int // = UUID()
     var titulo: String
     var descricao: String?
-    var link: LPLinkMetadata?
-    //var date: ???
-    var categorias: [Categoria]
-    var tags: [Tag]
-    let autor: Usuario
-    //var comentarios: [Comentario]
-    var apropriado: Bool
+    var link: Link?
+    //var date = Date()
+    let publicador: Usuario
+    var improprio: Bool
+    //var comentarios: [Comentario] = []
+    var categorias: [Categoria] = []
+    var tags: [Tag] = []
+    
+    init(id: Int, titulo: String?, descricao: String?, link: Link?, publicador: Usuario, improprio: Bool) {
+        self.id = id
+        self.titulo = titulo ?? "<Titulo Post>"
+        self.descricao = descricao ?? ""
+        self.link = link
+        self.publicador = publicador
+        self.improprio = improprio
+    }
+    
+    func addCategoria (categoria: Categoria?) {
+        if (categoria != nil) { self.categorias.append(categoria!)}
+        else { print("Post com categoria inválida") }
+    }
+    
+    func addTag (tag: Tag?) {
+        if (tag != nil) { self.tags.append(tag!)}
+        else { print("Categoria com tag inválida") }
+    }
     
 }
