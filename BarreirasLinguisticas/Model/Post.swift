@@ -9,7 +9,7 @@
 import Foundation
 import LinkPresentation
 
-class Post: Identifiable {
+class Post: Identifiable, ObservableObject {
     let id: Int // = UUID()
     var titulo: String
     var descricao: String?
