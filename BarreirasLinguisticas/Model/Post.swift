@@ -40,4 +40,9 @@ class Post: Identifiable, ObservableObject {
         else { print("Categoria com tag inválida") }
     }
     
+    func addLink (link: Link?) {
+        if (link != nil) { self.link = link!/*; print("\nTitulo-Metadado no addLink: \(link?.metadata?.title ?? "O metadado titulo nao existe mesmo")\n")*/}
+        else { print("Não deu pra adquirir o link, pois está inválido")}
+    }
+    
 }

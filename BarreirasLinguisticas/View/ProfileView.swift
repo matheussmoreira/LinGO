@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @EnvironmentObject var dao: DAO
+    
     var body: some View {
         Text("Profile View!")
     }

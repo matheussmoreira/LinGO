@@ -9,8 +9,14 @@
 import SwiftUI
 
 struct PublicationView: View {
+    @EnvironmentObject var dao: DAO
+    
+    // Interface generica montada para testar a leitura dos dados
     var body: some View {
-        Text("Publication View!")
+        //Text("Publication View!")
+        List(dao.getPost(id: 1)!.tags) { item in
+            Text(item.nome)
+        }
     }
 }
 

@@ -28,11 +28,10 @@ class LinkModel {
         }
     }
     
-    func createLink(metadata: LPLinkMetadata, post: Post) -> Link {
+    func createLink(metadata: LPLinkMetadata) -> Link {
         let link = Link()
         link.id = Int(Date.timeIntervalSinceReferenceDate)
         link.metadata = metadata
-        post.link = link
         return link
     }
     

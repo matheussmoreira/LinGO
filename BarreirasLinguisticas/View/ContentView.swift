@@ -9,21 +9,23 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var dao: DAO
+    
     var body: some View {
         TabView() {
-            CategoriesView().tabItem {
+            CategoriesView().environmentObject(self.dao).tabItem {
                 Image(systemName: "command")
                 Text("Categories")
             }
-            PublicationView().tabItem {
+            PublicationView().environmentObject(self.dao).tabItem {
                 Image(systemName: "command")
                 Text("Publish")
             }
-            HomeView().tabItem {
+            HomeView().environmentObject(self.dao).tabItem {
                 Image(systemName: "command")
                 Text("Home")
             }
-            ProfileView().tabItem {
+            ProfileView().environmentObject(self.dao).tabItem {
                 Image(systemName: "command")
                 Text("My Profile")
             }
@@ -33,6 +35,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().environmentObject(DAO())
     }
 }

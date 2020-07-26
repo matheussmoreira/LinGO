@@ -11,7 +11,7 @@ import Foundation
 class Tag: Identifiable {
     let id: Int // = UUID()
     var nome: String
-    var categorias: [Categoria] = [] // tem necessidade ???
+    var categorias: [Categoria] = []
     var posts: [Post] = []
     
     init(id: Int, nome: String?) {
@@ -19,7 +19,7 @@ class Tag: Identifiable {
         self.nome = nome ?? "<Nome Tag>"
     }
     
-    func addCategoria (categoria: Categoria?) {
+    func addCategoria(categoria: Categoria?) {
         if (categoria != nil) { self.categorias.append(categoria!)}
         else { print("Tag com categoria inválida") }
     }

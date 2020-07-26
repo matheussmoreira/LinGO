@@ -9,10 +9,10 @@
 import Foundation
 import LinkPresentation
 
-class Link: NSObject, NSSecureCoding, Identifiable {
+class Link: NSObject, /*NSSecureCoding,*/ Identifiable {
     var id: Int?
     var metadata: LPLinkMetadata?
-    
+    /*
     static var supportsSecureCoding = true
      
     func encode(with coder: NSCoder) {
@@ -28,5 +28,5 @@ class Link: NSObject, NSSecureCoding, Identifiable {
     
     override init() {
         super.init()
-    }
+    }*/
 }

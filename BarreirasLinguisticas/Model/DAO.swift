@@ -13,11 +13,11 @@ class DAO: ObservableObject {
     static var unicaInstancia = DAO()
     let link_model = LinkModel()
     let id = UUID()
-    @Published var nome: String
-    @Published var usuarios: [Usuario] = []
-    @Published var posts: [Post] = []
-    @Published var categorias: [Categoria] = []
-    @Published var tags: [Tag] = []
+    var nome: String
+    var usuarios: [Usuario] = []
+    var posts: [Post] = []
+    var categorias: [Categoria] = []
+    var tags: [Tag] = []
     
     init() {
         self.nome = "Sala 1"
@@ -94,7 +94,7 @@ class DAO: ObservableObject {
         
         /* ************************************* LINKS ***************************************** */
         insereLink(url: "https://uxdesign.cc/stop-obsessing-over-user-personas-b2792ca00c7f", post: 1)
-        
+        //print("\n\nTitulo-Metadado no init: \(self.getPost(id: 1)?.link?.metadata?.title ?? "Sem titulo no init")\n\n")
         
     } // init()
     
@@ -174,29 +174,23 @@ class DAO: ObservableObject {
         let post = getPost(id: id_post)
         
         user?.salvaPost(post: post)
-        
     }
     
     /* *********************************** OUTRAS FUNCOES ****************************************** */
     
     func insereLink(url: String, post id_post: Int) {
-        if let post = getPost(id: id_post) {
-            self.link_model.fetchMetadata(for: url) { (result) in
-                DispatchQueue.main.async {
-                    switch result {
-                        case .success(let metadata):
-                            //print("Switch: Sucesso")
-                            post.link = self.link_model.createLink(metadata: metadata, post: post)
-                            print("\n\nMetadado obtido: \(post.link?.metadata?.title)\n\n")
-                        case .failure(let error):
-                            //print("Switch: Erro")
-                            print(error.localizedDescription)
-                    }
-                } // DispatchQueue
-            } // fetch
-        } else {
-            print("Problemas ao carregar ao link devido a post inválido")
-        }
-    }
+        let post = getPost(id: id_post)
+        self.link_model.fetchMetadata(for: url) { (result) in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let metadata):
+                    post?.addLink(link: self.link_model.createLink(metadata: metadata))
+                case .failure(let error):
+                    print("Erro no switch do insereLink\n\n")
+                    print(error.localizedDescription)
+                }
+            } // DispatchQueue
+        } // fetch
+    } // insereLink
     
 }

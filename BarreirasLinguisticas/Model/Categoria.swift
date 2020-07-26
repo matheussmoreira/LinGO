@@ -20,12 +20,12 @@ class Categoria: Identifiable {
         self.nome = nome ?? "<Nome Categoria>"
     }
     
-    func addTag (tag: Tag?) {
+    func addTag(tag: Tag?) {
         if (tag != nil) { self.tags.append(tag!)}
         else { print("Categoria com tag inválida") }
     }
     
-    func addPost (post: Post?) {
+    func addPost(post: Post?) {
         if (post != nil) { self.posts.append(post!)}
         else { print("Categoria com post inválido") }
     }

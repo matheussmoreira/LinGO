@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject var dao: DAO
+    
     var body: some View {
         Text("Home View!")
     }
