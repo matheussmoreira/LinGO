@@ -94,7 +94,6 @@ class DAO: ObservableObject {
         
         /* ************************************* LINKS ***************************************** */
         insereLink(url: "https://uxdesign.cc/stop-obsessing-over-user-personas-b2792ca00c7f", post: 1)
-        //print("\n\nTitulo-Metadado no init: \(self.getPost(id: 1)?.link?.metadata?.title ?? "Sem titulo no init")\n\n")
         
     } // init()
     
@@ -185,8 +184,9 @@ class DAO: ObservableObject {
                 switch result {
                 case .success(let metadata):
                     post?.addLink(link: self.link_model.createLink(metadata: metadata))
+                    post?.debug()
                 case .failure(let error):
-                    print("Erro no switch do insereLink\n\n")
+                    //print("Erro no switch do insereLink\n\n")
                     print(error.localizedDescription)
                 }
             } // DispatchQueue

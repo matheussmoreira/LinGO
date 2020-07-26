@@ -12,6 +12,7 @@ import LinkPresentation
 class Link: NSObject, /*NSSecureCoding,*/ Identifiable {
     var id: Int?
     var metadata: LPLinkMetadata?
+    
     /*
     static var supportsSecureCoding = true
      

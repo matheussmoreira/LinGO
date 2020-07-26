@@ -30,19 +30,36 @@ class Post: Identifiable, ObservableObject {
         self.improprio = improprio
     }
     
+    func debug(){
+        print("\nPOST DEBUG")
+        print("Id: \(self.id)")
+        print("Titulo: \(self.titulo)")
+        print("Descricao: \(self.descricao ?? "Sem descrição")")
+        print("Titulo do link: \(self.link?.metadata?.title ?? "Sem titulo link")")
+        print("Publicador: \(self.publicador.nome) de id \(self.publicador.id)")
+        print("Improprio: \(self.improprio)")
+        for cat in self.categorias{
+            print("Categoria: \(cat.nome) de id \(cat.id)")
+        }
+        for tag in self.tags{
+            print("Tag: \(tag.nome) de id \(tag.id)")
+        }
+        print("\n")
+    }
+    
     func addCategoria (categoria: Categoria?) {
         if (categoria != nil) { self.categorias.append(categoria!)}
         else { print("Post com categoria inválida") }
     }
     
     func addTag (tag: Tag?) {
-        if (tag != nil) { self.tags.append(tag!)}
+        if (tag != nil) { self.tags.append(tag!) }
         else { print("Categoria com tag inválida") }
     }
     
     func addLink (link: Link?) {
-        if (link != nil) { self.link = link!/*; print("\nTitulo-Metadado no addLink: \(link?.metadata?.title ?? "O metadado titulo nao existe mesmo")\n")*/}
-        else { print("Não deu pra adquirir o link, pois está inválido")}
+        if (link != nil) { self.link = link! }
+        else { print("Não deu pra adquirir o link, pois está inválido") }
     }
     
 }
