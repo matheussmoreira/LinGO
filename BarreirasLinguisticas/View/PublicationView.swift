@@ -13,10 +13,7 @@ struct PublicationView: View {
     
     // Interface generica montada para testar a leitura dos dados
     var body: some View {
-        //Text("Publication View!")
-        List(dao.getPost(id: 1)!.tags) { item in
-            Text(item.nome)
-        }
+        Text("Publication View!")
     }
 }
 

@@ -13,7 +13,7 @@ class LinkModel {
     
     func fetchMetadata(for link: String, completion: @escaping (Result<LPLinkMetadata, Error>) -> Void) {
         guard let url = URL(string: link) else { return }
-        
+        //print("Fetching metadata")
         let metadataProvider = LPMetadataProvider()
         metadataProvider.startFetchingMetadata(for: url) { (metadata, error) in
             if let error = error {

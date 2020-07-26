@@ -24,4 +24,3 @@ struct LinkView: UIViewRepresentable {
     } // do protocolo
     
 }
-

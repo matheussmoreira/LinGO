@@ -93,7 +93,13 @@ class DAO: ObservableObject {
         assinatura(usuario: 5, categoria: 5)
         
         /* ************************************* LINKS ***************************************** */
-        insereLink(url: "https://uxdesign.cc/stop-obsessing-over-user-personas-b2792ca00c7f", post: 1)
+        //insereLink(url: "https://uxdesign.cc/stop-obsessing-over-user-personas-b2792ca00c7f", post: 1)
+        insereLink(url: "https://www.google.com", post: 1)
+        
+        /*
+         Aquela mensagem "Could not signal service com.apple.WebKit.WebContent: 113: Could not find specified service""esta de alguma forma ligada ao https, por isso troquei por http
+         As mensagens agora sao diferentes
+         */
         
     } // init()
     
@@ -179,10 +185,11 @@ class DAO: ObservableObject {
     
     func insereLink(url: String, post id_post: Int) {
         let post = getPost(id: id_post)
-        self.link_model.fetchMetadata(for: url) { (result) in
+        link_model.fetchMetadata(for: url) { (result) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let metadata):
+                    //print("Case success")
                     post?.addLink(link: self.link_model.createLink(metadata: metadata))
                     post?.debug()
                 case .failure(let error):
