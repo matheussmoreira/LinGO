@@ -22,14 +22,14 @@ class DAO: ObservableObject {
     init() {
         self.nome = "Sala 1"
         
-        /* **************************************** USUARIOS **************************************** */
+        /* ************************************ USUARIOS ************************************* */
         self.usuarios.append(Usuario(id: 1, email: "matheus@boladao.com", senha: "sucoDeAbacaxi", nome: "Matheus Moreira", foto_perfil: "foto_matheus", pais: "USA", fluencia_ingles: "Intermediate", is_admin: true))
         self.usuarios.append(Usuario(id: 2, email: "victor@boladao.com", senha: "niteroiAmorzinho", nome: "Victor Duarte", foto_perfil: "foto_victor", pais: "Spain", fluencia_ingles: "Intermediate", is_admin: false))
         self.usuarios.append(Usuario(id: 3, email: "evelyn@boladona.com", senha: "roxoComAmarelo", nome: "Evelyn de Jesus", foto_perfil: "foto_evelyn", pais: "Brazil", fluencia_ingles: "Basic", is_admin: true))
         self.usuarios.append(Usuario(id: 4, email: "leonardo@boladao.com", senha: "monalisa", nome: "Leonardo da Vinci", foto_perfil: "foto_leo", pais: "Italy", fluencia_ingles: "Zero", is_admin: false))
         self.usuarios.append(Usuario(id: 5, email: "michelle@boladona.com", senha: "democracia", nome: "Michelle Obama", foto_perfil: "foto_michelle", pais: "USA", fluencia_ingles: "Advanced", is_admin: false))
         
-        /* **************************************** POSTS ****************************************** */
+        /* ************************************ POSTS *************************************** */
         publicacao(usuario: 2, post: 1, titulo: "Stop obsessing over user personas", descricao: "People don’t need your product because they belong to a stupid persona", link: nil, improprio: false)
         publicacao(usuario: 2, post: 2, titulo: "Geometry in UI Design", descricao: "Because automatic alignment sometimes just doesn’t work", link: nil, improprio: false)
         publicacao(usuario: 1, post: 3, titulo: "The Mistakes I Made As a Beginner Programmer", descricao: "Learn to identify them, make habits to avoid them", link: nil, improprio: false)
@@ -37,14 +37,14 @@ class DAO: ObservableObject {
         publicacao(usuario: 3, post: 5, titulo: "The 10 Qualities of an Emotionally Intelligent Person", descricao: nil, link: nil, improprio: false)
         publicacao(usuario: 3, post: 6, titulo: "6 Principles Of Visual Accessibility Design", descricao: "According to the World Health Organization, 285 million people in the world are visually impaired. These 285 million people still need access to the Internet, and deserve to have access to the same information that everybody else does. Many individuals believe that if someone is visually impaired, they do not use the Internet. This is untrue.", link: nil, improprio: false)
         
-        /* ************************************** CATEGORIAS **************************************** */
+        /* ********************************** CATEGORIAS ************************************* */
         self.categorias.append(Categoria(id: 1, nome: "Design"))
         self.categorias.append(Categoria(id: 2, nome: "Programming"))
         self.categorias.append(Categoria(id: 3, nome: "Accessibility"))
         self.categorias.append(Categoria(id: 4, nome: "Games"))
         self.categorias.append(Categoria(id: 5, nome: "Business"))
         
-        /* **************************************** TAGS ****************************************** */
+        /* ************************************* TAGS *************************************** */
         self.tags.append(Tag(id: 1, nome: "UX"))
         self.tags.append(Tag(id: 2, nome: "Personas"))
         self.tags.append(Tag(id: 3, nome: "Git"))
@@ -58,7 +58,7 @@ class DAO: ObservableObject {
         self.tags.append(Tag(id: 11, nome: "Self-knowledge"))
         self.tags.append(Tag(id: 12, nome: "Visual Accessibility"))
         
-        /* ***************************** ADOÇÃO TAGS-CATEGORIAS ********************************* */
+        /* ***************************** ADOÇÃO TAGS-CATEGORIAS ******************************* */
         addTagCategoria(tag: 1, categoria: 1);  addTagCategoria(tag: 2, categoria: 1)
         addTagCategoria(tag: 3, categoria: 2);  addTagCategoria(tag: 4, categoria: 1)
         addTagCategoria(tag: 4, categoria: 2);  addTagCategoria(tag: 5, categoria: 2)
@@ -68,20 +68,20 @@ class DAO: ObservableObject {
         addTagCategoria(tag: 10, categoria: 5); addTagCategoria(tag: 11, categoria: 5)
         addTagCategoria(tag: 12, categoria: 1); addTagCategoria(tag: 12, categoria: 3)
         
-        /* ***************************** ADOÇÃO CATEGORIAS-POSTS ********************************** */
+        /* *************************** ADOÇÃO CATEGORIAS-POSTS******************************** */
         addCategoriaPost(categoria: 1, post: 1); addCategoriaPost(categoria: 1, post: 2)
         addCategoriaPost(categoria: 2, post: 3); addCategoriaPost(categoria: 1, post: 4)
         addCategoriaPost(categoria: 2, post: 4); addCategoriaPost(categoria: 5, post: 5)
         addCategoriaPost(categoria: 1, post: 6); addCategoriaPost(categoria: 3, post: 6)
 
-        /* ******************************** ADOÇÃO TAGS-POSTS ************************************** */
+        /* ***************************** ADOÇÃO TAGS-POSTS *********************************** */
         addTagPost(tag: 1, post: 1);  addTagPost(tag: 1, post: 2)
         addTagPost(tag: 2, post: 1);  addTagPost(tag: 4, post: 4)
         addTagPost(tag: 11, post: 5); addTagPost(tag: 12, post: 6)
         
-        /* ************************************ POSTS SALVOS **************************************** */
+        /* ******************************** POSTS SALVOS ************************************ */
         
-        /* ************************************* ASSINATURAS **************************************** */
+        /* ********************************** ASSINATURAS ************************************ */
         assinatura(usuario: 1, categoria: 1)
         assinatura(usuario: 1, categoria: 2)
         assinatura(usuario: 1, categoria: 4)
@@ -94,16 +94,10 @@ class DAO: ObservableObject {
         
         /* ************************************* LINKS ***************************************** */
         //insereLink(url: "https://uxdesign.cc/stop-obsessing-over-user-personas-b2792ca00c7f", post: 1)
-        insereLink(url: "https://www.google.com", post: 1)
-        
-        /*
-         Aquela mensagem "Could not signal service com.apple.WebKit.WebContent: 113: Could not find specified service""esta de alguma forma ligada ao https, por isso troquei por http
-         As mensagens agora sao diferentes
-         */
         
     } // init()
     
-    /* ************************************** FUNCOES GET ******************************************* */
+    /* ********************************** FUNCOES GET **************************************** */
     func getTag(id: Int) -> Tag? {
         for tag in self.tags {
             if (id == tag.id) { return tag }
@@ -132,7 +126,7 @@ class DAO: ObservableObject {
         return nil
     }
     
-    /* ************************************ FUNCOES ADD ******************************************* */
+    /* ********************************* FUNCOES ADD ***************************************** */
     
     func addTagCategoria(tag id_tag: Int, categoria: Int) {
         let tag = getTag(id: id_tag)
@@ -181,11 +175,11 @@ class DAO: ObservableObject {
         user?.salvaPost(post: post)
     }
     
-    /* *********************************** OUTRAS FUNCOES ****************************************** */
+    /* ******************************** OUTRAS FUNCOES *************************************** */
     
-    func insereLink(url: String, post id_post: Int) {
+    /*func insereLink(url: String, post id_post: Int) {
         let post = getPost(id: id_post)
-        link_model.fetchMetadata(for: url) { (result) in
+        LinkModel.fetchMetadata(for: url) { (result) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let metadata):
@@ -199,5 +193,5 @@ class DAO: ObservableObject {
             } // DispatchQueue
         } // fetch
     } // insereLink
-    
+    */
 }
