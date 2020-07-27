@@ -11,7 +11,7 @@ import LinkPresentation
 
 class DAO: ObservableObject {
     static var unicaInstancia = DAO()
-    let link_model = LinkModel()
+    //let link_model = LinkModel()
     let id = UUID()
     var nome: String
     var usuarios: [Usuario] = []
@@ -30,12 +30,12 @@ class DAO: ObservableObject {
         self.usuarios.append(Usuario(id: 5, email: "michelle@boladona.com", senha: "democracia", nome: "Michelle Obama", foto_perfil: "foto_michelle", pais: "USA", fluencia_ingles: "Advanced", is_admin: false))
         
         /* ************************************ POSTS *************************************** */
-        publicacao(usuario: 2, post: 1, titulo: "Stop obsessing over user personas", descricao: "People don’t need your product because they belong to a stupid persona", link: nil, improprio: false)
-        publicacao(usuario: 2, post: 2, titulo: "Geometry in UI Design", descricao: "Because automatic alignment sometimes just doesn’t work", link: nil, improprio: false)
-        publicacao(usuario: 1, post: 3, titulo: "The Mistakes I Made As a Beginner Programmer", descricao: "Learn to identify them, make habits to avoid them", link: nil, improprio: false)
-        publicacao(usuario: 3, post: 4, titulo: "SwiftUI: a new perception of developing", descricao: "This article is not intended to be a simplifying way to say that programming is “easy”. Of course there are many notions and concepts to learn but with the right motivation and with the right tools nothing is impossible. However, it can be said that with SwiftUI, everyone can program in a easier way. It is not important what your background is but the goals you want to achieve and your motivation", link: nil, improprio: false)
-        publicacao(usuario: 3, post: 5, titulo: "The 10 Qualities of an Emotionally Intelligent Person", descricao: nil, link: nil, improprio: false)
-        publicacao(usuario: 3, post: 6, titulo: "6 Principles Of Visual Accessibility Design", descricao: "According to the World Health Organization, 285 million people in the world are visually impaired. These 285 million people still need access to the Internet, and deserve to have access to the same information that everybody else does. Many individuals believe that if someone is visually impaired, they do not use the Internet. This is untrue.", link: nil, improprio: false)
+        publicacao(usuario: 2, post: 1, titulo: "Stop obsessing over user personas", descricao: "People don’t need your product because they belong to a stupid persona", link: nil/*, improprio: false*/)
+        publicacao(usuario: 2, post: 2, titulo: "Geometry in UI Design", descricao: "Because automatic alignment sometimes just doesn’t work", link: nil/*, improprio: false*/)
+        publicacao(usuario: 1, post: 3, titulo: "The Mistakes I Made As a Beginner Programmer", descricao: "Learn to identify them, make habits to avoid them", link: nil/*, improprio: false*/)
+        publicacao(usuario: 3, post: 4, titulo: "SwiftUI: a new perception of developing", descricao: "This article is not intended to be a simplifying way to say that programming is “easy”. Of course there are many notions and concepts to learn but with the right motivation and with the right tools nothing is impossible. However, it can be said that with SwiftUI, everyone can program in a easier way. It is not important what your background is but the goals you want to achieve and your motivation", link: nil/*, improprio: false*/)
+        publicacao(usuario: 3, post: 5, titulo: "The 10 Qualities of an Emotionally Intelligent Person", descricao: nil, link: nil/*, improprio: false*/)
+        publicacao(usuario: 3, post: 6, titulo: "6 Principles Of Visual Accessibility Design", descricao: "According to the World Health Organization, 285 million people in the world are visually impaired. These 285 million people still need access to the Internet, and deserve to have access to the same information that everybody else does. Many individuals believe that if someone is visually impaired, they do not use the Internet. This is untrue.", link: nil/*, improprio: false*/)
         
         /* ********************************** CATEGORIAS ************************************* */
         self.categorias.append(Categoria(id: 1, nome: "Design"))
@@ -93,7 +93,7 @@ class DAO: ObservableObject {
         assinatura(usuario: 5, categoria: 5)
         
         /* ************************************* LINKS ***************************************** */
-        //insereLink(url: "https://uxdesign.cc/stop-obsessing-over-user-personas-b2792ca00c7f", post: 1)
+        insereLink(url: "https://uxdesign.cc/stop-obsessing-over-user-personas-b2792ca00c7f", post: 1)
         
     } // init()
     
@@ -152,9 +152,9 @@ class DAO: ObservableObject {
         post?.addCategoria(categoria: categ)
     } // Quando um post tem uma categoria, aquela categoria ganha essa post
     
-    func publicacao(usuario: Int, post id_post: Int, titulo: String, descricao: String?, link: Link?, improprio: Bool) {
+    func publicacao(usuario: Int, post id_post: Int, titulo: String, descricao: String?, link: Link?/*, improprio: Bool*/) {
         let user = getUsuario(id: usuario)
-        let post = Post(id: id_post, titulo: titulo, descricao: descricao, link: link, publicador: user!, improprio: improprio)
+        let post = Post(id: id_post, titulo: titulo, descricao: descricao, link: link, publicador: user!/*, improprio: improprio*/)
         
         self.posts.append(post)
         user?.publicaPost(post: post)
@@ -177,21 +177,21 @@ class DAO: ObservableObject {
     
     /* ******************************** OUTRAS FUNCOES *************************************** */
     
-    /*func insereLink(url: String, post id_post: Int) {
+    func insereLink(url: String, post id_post: Int) {
         let post = getPost(id: id_post)
         LinkModel.fetchMetadata(for: url) { (result) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let metadata):
-                    //print("Case success")
-                    post?.addLink(link: self.link_model.createLink(metadata: metadata))
+                    print("Case success")
+                    post?.addLink(link: LinkModel.createLink(metadata: metadata))
                     post?.debug()
                 case .failure(let error):
-                    //print("Erro no switch do insereLink\n\n")
+                    print("Case failure")
                     print(error.localizedDescription)
                 }
             } // DispatchQueue
         } // fetch
     } // insereLink
-    */
+    
 }

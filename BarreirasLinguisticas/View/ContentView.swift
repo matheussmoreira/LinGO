@@ -17,13 +17,13 @@ struct ContentView: View {
                 Image(systemName: "command")
                 Text("Categories")
             }
-            PublicationView().environmentObject(self.dao).tabItem {
-                Image(systemName: "command")
-                Text("Publish")
-            }
             HomeView().environmentObject(self.dao).tabItem {
                 Image(systemName: "command")
                 Text("Home")
+            }
+            PublicationView().environmentObject(self.dao).tabItem {
+                Image(systemName: "command")
+                Text("Publish")
             }
             ProfileView().environmentObject(self.dao).tabItem {
                 Image(systemName: "command")

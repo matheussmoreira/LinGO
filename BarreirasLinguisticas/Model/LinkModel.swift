@@ -31,11 +31,13 @@ class LinkModel {
            } // startFetchingMetadata
        }
     
-    func createLink(metadata: LPLinkMetadata) -> Link {
+    class func createLink(metadata: LPLinkMetadata) -> Link {
         let link = Link()
         link.id = Int(Date.timeIntervalSinceReferenceDate)
         link.metadata = metadata
         return link
     }
+    
+    // Fazer: Save e Load
     
 }
