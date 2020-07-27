@@ -12,18 +12,18 @@ struct HomeView: View {
     @EnvironmentObject var dao: DAO
     
     var body: some View {
-        //Text("Home View!")
-        VStack {
-            if dao.getPost(id: 1)?.link?.metadata != nil {
-                Image(uiImage: dao.getPost(id: 1)?.link_image)
+        Text("Home View!")
+        /*VStack {
+            if dao.getPost(id: 2)?.link_image != nil {
+                Image(uiImage: (dao.getPost(id: 2)?.link_image)!)
                     .aspectRatio(contentMode: .fit)
-                //LinkView(metadata: dao.getPost(id: 1)?.link?.metadata)
-                    //.aspectRatio(contentMode: .fit)
+                /*LinkView(metadata: dao.getPost(id: 1)?.link?.metadata)
+                    .aspectRatio(contentMode: .fit)*/
             }
             else {
-                Text("Não pegou os metadados")
+                Text("Não pegou os metadados :(")
             }
-        }
+        }*/
     }
 }
 

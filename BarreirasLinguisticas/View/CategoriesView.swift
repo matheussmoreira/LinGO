@@ -16,8 +16,7 @@ struct CategoriesView: View {
         
         NavigationView {
             VStack {
-                
-                TextField("Search for categories or posts ???", text: $texto)
+                TextField("Search for categories or for posts (??)", text: $texto)
                     .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6))
                     .foregroundColor(.secondary)
                     .background(Color(.secondarySystemBackground))
@@ -46,7 +45,6 @@ struct CategoriesView: View {
                 .navigationBarTitle(Text("Categories"))
             }
         }
-        
     } // body
 }
 

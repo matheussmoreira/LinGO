@@ -15,6 +15,7 @@ class Post: Identifiable, ObservableObject {
     var descricao: String?
     var link: Link?
     var link_image: UIImage?
+    var link_icon: UIImage?
     //var date = Date()
     let publicador: Usuario
     var improprio = false
@@ -22,16 +23,15 @@ class Post: Identifiable, ObservableObject {
     var categorias: [Categoria] = []
     var tags: [Tag] = []
     
-    init(id: Int, titulo: String?, descricao: String?, link: Link?, publicador: Usuario/*, improprio: Bool*/) {
+    init(id: Int, titulo: String?, descricao: String?, link: Link?, publicador: Usuario) {
         self.id = id
         self.titulo = titulo ?? "<Titulo Post>"
         self.descricao = descricao ?? ""
         self.link = link
         self.publicador = publicador
-        //self.improprio = improprio
     }
     
-    func debug(){
+    /*func debug(){
         print("\nPOST DEBUG")
         print("Id: \(self.id)")
         print("Titulo: \(self.titulo)")
@@ -46,7 +46,7 @@ class Post: Identifiable, ObservableObject {
             print("Tag: \(tag.nome) de id \(tag.id)")
         }
         print("\n")
-    }
+    }*/
     
     func addCategoria(categoria: Categoria?) {
         if (categoria != nil) { self.categorias.append(categoria!)}
@@ -59,15 +59,28 @@ class Post: Identifiable, ObservableObject {
     }
     
     func addLink(link: Link?) {
-        if (link != nil) { self.link = link! }
-        else { print("Não deu pra adquirir o link, pois está inválido") }
+        if (link != nil) {
+            self.link = link!
+            addLinkImage(from: link!)
+            addLinkIcon(from: link!)
+        }
+        else { print("Não deu pra adquirir o link, está inválido") }
     }
     
-    func addImageLink(link: Link) {
+    func addLinkImage(from link: Link) {
         let md = link.metadata
         let _ = md?.imageProvider?.loadObject(ofClass: UIImage.self, completionHandler: { (image, err) in
             DispatchQueue.main.async {
                 self.link_image = image as? UIImage
+            }
+        })
+    }
+    
+    func addLinkIcon(from link: Link) {
+        let md = link.metadata
+        let _ = md?.iconProvider?.loadObject(ofClass: UIImage.self, completionHandler: { (icon, err) in
+            DispatchQueue.main.async {
+                self.link_icon = icon as? UIImage
             }
         })
     }

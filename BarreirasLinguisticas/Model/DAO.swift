@@ -13,15 +13,13 @@ class DAO: ObservableObject {
     static var unicaInstancia = DAO()
     //let link_model = LinkModel()
     let id = UUID()
-    var nome: String
+    var nome: String = "Sala 1"
     var usuarios: [Usuario] = []
     var posts: [Post] = []
     var categorias: [Categoria] = []
     var tags: [Tag] = []
     
     init() {
-        self.nome = "Sala 1"
-        
         /* ************************************ USUARIOS ************************************* */
         self.usuarios.append(Usuario(id: 1, email: "matheus@boladao.com", senha: "sucoDeAbacaxi", nome: "Matheus Moreira", foto_perfil: "foto_matheus", pais: "USA", fluencia_ingles: "Intermediate", is_admin: true))
         self.usuarios.append(Usuario(id: 2, email: "victor@boladao.com", senha: "niteroiAmorzinho", nome: "Victor Duarte", foto_perfil: "foto_victor", pais: "Spain", fluencia_ingles: "Intermediate", is_admin: false))
@@ -30,12 +28,12 @@ class DAO: ObservableObject {
         self.usuarios.append(Usuario(id: 5, email: "michelle@boladona.com", senha: "democracia", nome: "Michelle Obama", foto_perfil: "foto_michelle", pais: "USA", fluencia_ingles: "Advanced", is_admin: false))
         
         /* ************************************ POSTS *************************************** */
-        publicacao(usuario: 2, post: 1, titulo: "Stop obsessing over user personas", descricao: "People don’t need your product because they belong to a stupid persona", link: nil/*, improprio: false*/)
-        publicacao(usuario: 2, post: 2, titulo: "Geometry in UI Design", descricao: "Because automatic alignment sometimes just doesn’t work", link: nil/*, improprio: false*/)
-        publicacao(usuario: 1, post: 3, titulo: "The Mistakes I Made As a Beginner Programmer", descricao: "Learn to identify them, make habits to avoid them", link: nil/*, improprio: false*/)
-        publicacao(usuario: 3, post: 4, titulo: "SwiftUI: a new perception of developing", descricao: "This article is not intended to be a simplifying way to say that programming is “easy”. Of course there are many notions and concepts to learn but with the right motivation and with the right tools nothing is impossible. However, it can be said that with SwiftUI, everyone can program in a easier way. It is not important what your background is but the goals you want to achieve and your motivation", link: nil/*, improprio: false*/)
-        publicacao(usuario: 3, post: 5, titulo: "The 10 Qualities of an Emotionally Intelligent Person", descricao: nil, link: nil/*, improprio: false*/)
-        publicacao(usuario: 3, post: 6, titulo: "6 Principles Of Visual Accessibility Design", descricao: "According to the World Health Organization, 285 million people in the world are visually impaired. These 285 million people still need access to the Internet, and deserve to have access to the same information that everybody else does. Many individuals believe that if someone is visually impaired, they do not use the Internet. This is untrue.", link: nil/*, improprio: false*/)
+        publicacao(usuario: 2, post: 1, titulo: "Stop obsessing over user personas", descricao: "People don’t need your product because they belong to a stupid persona", link: nil)
+        publicacao(usuario: 2, post: 2, titulo: "Geometry in UI Design", descricao: "Because automatic alignment sometimes just doesn’t work", link: nil)
+        publicacao(usuario: 1, post: 3, titulo: "The Mistakes I Made As a Beginner Programmer", descricao: "Learn to identify them, make habits to avoid them", link: nil)
+        publicacao(usuario: 3, post: 4, titulo: "SwiftUI: a new perception of developing", descricao: "This article is not intended to be a simplifying way to say that programming is “easy”. Of course there are many notions and concepts to learn but with the right motivation and with the right tools nothing is impossible. However, it can be said that with SwiftUI, everyone can program in a easier way. It is not important what your background is but the goals you want to achieve and your motivation", link: nil)
+        publicacao(usuario: 3, post: 5, titulo: "The 10 Qualities of an Emotionally Intelligent Person", descricao: nil, link: nil)
+        publicacao(usuario: 3, post: 6, titulo: "6 Principles Of Visual Accessibility Design", descricao: "According to the World Health Organization, 285 million people in the world are visually impaired. These 285 million people still need access to the Internet, and deserve to have access to the same information that everybody else does. Many individuals believe that if someone is visually impaired, they do not use the Internet. This is untrue.", link: nil)
         
         /* ********************************** CATEGORIAS ************************************* */
         self.categorias.append(Categoria(id: 1, nome: "Design"))
@@ -94,6 +92,11 @@ class DAO: ObservableObject {
         
         /* ************************************* LINKS ***************************************** */
         insereLink(url: "https://uxdesign.cc/stop-obsessing-over-user-personas-b2792ca00c7f", post: 1)
+        insereLink(url: "https://medium.com/design-notes/geometry-in-ui-design-61ef4f88218a", post: 2)
+        insereLink(url: "https://medium.com/edge-coders/the-mistakes-i-made-as-a-beginner-programmer-ac8b3e54c312", post: 3)
+        insereLink(url: "https://medium.com/apple-developer-academy-federico-ii/swiftui-a-new-perception-of-developing-780906ee492a", post: 4)
+        insereLink(url: "https://medium.com/personal-growth/the-10-qualities-of-an-emotionally-intelligent-person-f595440af4fb", post: 5)
+        insereLink(url: "https://usabilitygeek.com/6-principles-visual-accessibility-design/", post: 6)
         
     } // init()
     
@@ -126,7 +129,7 @@ class DAO: ObservableObject {
         return nil
     }
     
-    /* ********************************* FUNCOES ADD ***************************************** */
+    /* ******************************* RELACIONAMENTOS *************************************** */
     
     func addTagCategoria(tag id_tag: Int, categoria: Int) {
         let tag = getTag(id: id_tag)
@@ -185,7 +188,7 @@ class DAO: ObservableObject {
                 case .success(let metadata):
                     print("Case success")
                     post?.addLink(link: LinkModel.createLink(metadata: metadata))
-                    post?.debug()
+                    //post?.debug()
                 case .failure(let error):
                     print("Case failure")
                     print(error.localizedDescription)
