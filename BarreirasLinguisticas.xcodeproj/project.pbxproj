@@ -25,6 +25,7 @@
 		66D7AA8724CB80F0001CEA3A /* CategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7AA8624CB80F0001CEA3A /* CategoriesView.swift */; };
 		66D7AA8924CB8121001CEA3A /* PublicationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7AA8824CB8121001CEA3A /* PublicationView.swift */; };
 		66D7AA8B24CB8140001CEA3A /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7AA8A24CB8140001CEA3A /* ProfileView.swift */; };
+		EA6ADB8524D0EA5800832808 /* FYCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6ADB8424D0EA5700832808 /* FYCardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		66D7AA8624CB80F0001CEA3A /* CategoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesView.swift; sourceTree = "<group>"; };
 		66D7AA8824CB8121001CEA3A /* PublicationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationView.swift; sourceTree = "<group>"; };
 		66D7AA8A24CB8140001CEA3A /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		EA6ADB8424D0EA5700832808 /* FYCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FYCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				66D7AA6824CB5135001CEA3A /* ContentView.swift */,
+				EA6ADB8424D0EA5700832808 /* FYCardView.swift */,
 				66D7AA8624CB80F0001CEA3A /* CategoriesView.swift */,
 				66D7AA8424CB80B2001CEA3A /* HomeView.swift */,
 				66D7AA8824CB8121001CEA3A /* PublicationView.swift */,
@@ -213,6 +216,7 @@
 				66D7AA8024CB5A08001CEA3A /* Post.swift in Sources */,
 				66D7AA8724CB80F0001CEA3A /* CategoriesView.swift in Sources */,
 				66D7AA7C24CB59E1001CEA3A /* Categoria.swift in Sources */,
+				EA6ADB8524D0EA5800832808 /* FYCardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
