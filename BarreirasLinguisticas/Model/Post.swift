@@ -25,7 +25,7 @@ class Post: Identifiable, ObservableObject {
     
     init(id: Int, titulo: String?, descricao: String?, link: Link?, publicador: Usuario) {
         self.id = id
-        self.titulo = titulo ?? "<Titulo Post>"
+        self.titulo = titulo ?? "Post sem título"
         self.descricao = descricao ?? ""
         self.link = link
         self.publicador = publicador
