@@ -1,5 +1,5 @@
 //
-//  NewTags.swift
+//  NewTagsView.swift
 //  BarreirasLinguisticas
 //
 //  Created by Matheus S. Moreira on 28/07/20.
@@ -22,7 +22,7 @@ struct NewTagsView: View {
     } //body
 }
 
-struct NewTags_Previews: PreviewProvider {
+struct NewTagsView_Previews: PreviewProvider {
     static var previews: some View {
         NewTagsView(nome: "Tag")
     }

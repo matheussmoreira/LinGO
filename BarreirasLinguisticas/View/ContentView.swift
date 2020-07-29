@@ -10,9 +10,10 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var dao: DAO
+    //@State private var selection = 2
     
     var body: some View {
-        TabView() {
+        TabView(/*selection: $selection*/) {
             CategoriesView().environmentObject(self.dao).tabItem {
                 Image(systemName: "command")
                 Text("Categories")
@@ -29,8 +30,8 @@ struct ContentView: View {
                 Image(systemName: "command")
                 Text("My Profile")
             }
-        }
-    }
+        } //TabView
+    } //body
 }
 
 struct ContentView_Previews: PreviewProvider {

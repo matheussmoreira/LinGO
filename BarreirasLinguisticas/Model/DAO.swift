@@ -129,6 +129,34 @@ class DAO: ObservableObject {
         return nil
     }
     
+    func getPostsByCategorie(categ: Int) -> [Post] {
+        var posts: [Post] = []
+
+        for post in self.posts {
+            for cat in post.categorias {
+                if cat.id == categ {
+                    posts.append(post)
+                }
+            }
+        }
+        
+        return posts
+    }
+    
+    func getPostsByTag(tag id_tag: Int) -> [Post] {
+        var posts: [Post] = []
+        
+        for post in self.posts {
+            for tag in post.tags {
+                if tag.id == id_tag {
+                    posts.append(post)
+                }
+            }
+        }
+        
+        return posts
+    }
+    
     /* ******************************* RELACIONAMENTOS *************************************** */
     
     func addTagCategoria(tag id_tag: Int, categoria: Int) {

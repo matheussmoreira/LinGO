@@ -1,5 +1,5 @@
 //
-//  RecentView.swift
+//  RecentsView.swift
 //  BarreirasLinguisticas
 //
 //  Created by Matheus S. Moreira on 28/07/20.
@@ -10,6 +10,7 @@ import SwiftUI
 
 struct RecentsView: View {
     let post: Post
+    
     var body: some View {
         ZStack {
             //CARD
@@ -19,7 +20,6 @@ struct RecentsView: View {
                 .padding()
             
             VStack {
-                
                 VStack(alignment: .leading) {
                     //TITULO DO POST
                     HStack {
@@ -34,7 +34,7 @@ struct RecentsView: View {
                         Spacer()
                     }
                     
-                    //TEXTO DO POST
+                    //DESCRICAO DO POST
                     Text(verbatim: post.descricao!)
                         .font(.body)
                         .foregroundColor(Color.black)
@@ -43,13 +43,13 @@ struct RecentsView: View {
                 }
                 .padding(.horizontal, 32)
                 .frame(height: 190.0)
-            }
-        }//ZStack
+            } //VStack
+        } //ZStack
         .shadow(radius: 15)
-    }//body
+    } //body
 }
 
-struct RecentView_Previews: PreviewProvider {
+struct RecentsView_Preview: PreviewProvider {
     static var previews: some View {
         RecentsView(post: DAO().posts[0])
     }

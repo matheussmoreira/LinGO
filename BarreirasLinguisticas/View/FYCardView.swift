@@ -13,7 +13,7 @@ struct FYCardView: View {
     
     var body: some View {
         ZStack {
-            //Card
+            //CARD
             RoundedRectangle(cornerRadius: 15, style: .continuous)
                 .fill(Color.white)
                 .frame(height: 260)
@@ -21,19 +21,19 @@ struct FYCardView: View {
             
             VStack {
                 HStack {
-                    //Name of the Category
-                    Text(post.categorias[0].nome)
+                    //NOME DA CATEGORIA
+                    Text(post.categorias[0].nome) // vai ser so o primeiro mesmo ???
                         .fontWeight(.semibold)
                         .foregroundColor(Color.gray)
                         .lineLimit(1)
                     
                     Spacer()
-                    //Shared by \(someone)
+                    //SHARED BY \(SOMEONE)
                     Text("Shared by \(post.publicador.nome)")
                         .foregroundColor(Color.gray)
                         .lineLimit(1)
                     
-                    //English Level
+                    //ENGLISH FLUENCY COLOR
                     Image(systemName: "circle.fill")
                         .imageScale(.small)
                         .foregroundColor(post.publicador.cor_fluencia)
@@ -41,7 +41,7 @@ struct FYCardView: View {
                 } .padding(.horizontal, 32)
                 
                 VStack(alignment: .leading) {
-                    //Title of the post
+                    //TITULO DO POST
                     Text(post.titulo)
                         .fontWeight(.bold)
                         .foregroundColor(Color.black)
@@ -51,7 +51,7 @@ struct FYCardView: View {
                         .lineLimit(2)
                     
                     HStack {
-                        //Text of the post
+                        //DESCRICAO DO POST
                         Text(verbatim: post.descricao!)
                             .font(.body)
                             .foregroundColor(Color.black)
@@ -65,7 +65,7 @@ struct FYCardView: View {
                 .padding(.horizontal, 32)
                 .frame(height: 190.0)
                 
-                //Related Tags
+                //TAGS DO POST
                 HStack {
                     ForEach(post.tags) { tag in
                         Text(tag.nome)

@@ -10,53 +10,43 @@ import SwiftUI
 
 struct CategoriesView: View {
     @EnvironmentObject var dao: DAO
-    @State var textoPesq: String = ""
+    @State private var textoPesq: String = ""
     
     var body: some View {
         
         NavigationView {
             VStack {
-                // Search bar
-                TextField("Search for (??)", text: $textoPesq)
-                    .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6))
-                    .foregroundColor(.secondary)
-                    .background(Color(.secondarySystemBackground))
-                    .cornerRadius(10.0)
-                    .padding()
-                    .animation(.default)
+                SearchBarView(mensagem: "Search for categories")
                 
-                CategorieView(dao: dao)
-            }
-        }
+                List (dao.categorias){ categ in
+                    HStack {
+                        // ICON
+                        Image(systemName: "command")
+                            .imageScale(.large)
+                            .foregroundColor(.blue)
+                            .font(.system(size: 16, weight: .semibold))
+                        
+                        // CATEGORIAS E TAGS
+                        VStack(alignment: .leading) {
+                            NavigationLink(destination: PostsCategorieView(categorie: categ.id, categorie_name: categ.nome)) {
+                                Text(categ.nome)
+                                .font(.headline)
+                                .multilineTextAlignment(.leading)
+                            }
+                            
+                            TagsView(tags: categ.tags)
+                        }
+                    }
+                } //List
+                .navigationBarTitle(Text("Categories"))
+            } //VStack
+        } //NavigationView
     } // body
 }
 
 struct CategoriesView_Previews: PreviewProvider {
     static var previews: some View {
         CategoriesView()
-    }
-}
-
-struct CategorieView: View {
-    var dao: DAO
-    var body: some View {
-        List (dao.categorias){ categ in
-            HStack {
-                Image(systemName: "command")
-                    .imageScale(.large)
-                    .foregroundColor(.blue)
-                    .font(.system(size: 16, weight: .semibold))
-                
-                VStack(alignment: .leading) {
-                    Text(categ.nome)
-                        .font(.headline)
-                        .multilineTextAlignment(.leading)
-                    
-                    TagsView(tags: categ.tags)
-                }
-            }
-        }
-        .navigationBarTitle(Text("Categories"))
     }
 }
 
