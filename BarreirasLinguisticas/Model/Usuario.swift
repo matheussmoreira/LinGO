@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class Usuario: Identifiable {
     let id: Int // = UUID()
@@ -16,6 +17,15 @@ class Usuario: Identifiable {
     var foto_perfil: String
     var pais: String
     var fluencia_ingles: String
+    var cor_fluencia: Color {
+        switch fluencia_ingles {
+        case "Advanced": return .blue
+        case "Intermediate": return .yellow
+        case "Basic": return .green
+        case "Zero": return .gray
+        default: return .black
+        }
+    }
     var is_admin: Bool
     //var comentarios: [Comentario] = []
     var assinaturas: [Categoria] = []

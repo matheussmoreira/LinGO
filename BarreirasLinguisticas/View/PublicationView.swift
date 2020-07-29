@@ -13,6 +13,7 @@ struct PublicationView: View {
     
     var body: some View {
         Text("Publication View!")
+            .fontWeight(.bold)
     }
 }
 
