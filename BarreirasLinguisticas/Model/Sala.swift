@@ -12,7 +12,7 @@ import LinkPresentation
 class Sala: Identifiable {
     let id: Int
     var nome: String
-    var usuarios: [Membro] = []
+    var membros: [Membro] = []
     var posts: [Post] = []
     var categorias: [Categoria] = []
     var tags: [Tag] = []
@@ -23,11 +23,11 @@ class Sala: Identifiable {
         
         if (self.id == 1 || self.id == 2) {
             /* ************************************ USUARIOS ************************************* */
-            self.usuarios.append(Membro(id: 1, email: "matheus@boladao.com", senha: "sucoDeAbacaxi", nome: "Matheus Moreira", foto_perfil: "foto_matheus", pais: "USA", fluencia_ingles: "Intermediate", is_admin: true))
-            self.usuarios.append(Membro(id: 2, email: "victor@boladao.com", senha: "niteroiAmorzinho", nome: "Victor Duarte", foto_perfil: "foto_victor", pais: "Spain", fluencia_ingles: "Advanced", is_admin: false))
-            self.usuarios.append(Membro(id: 3, email: "evelyn@boladona.com", senha: "roxoComAmarelo", nome: "Evelyn de Jesus", foto_perfil: "foto_evelyn", pais: "Brazil", fluencia_ingles: "Basic", is_admin: true))
-            self.usuarios.append(Membro(id: 4, email: "leonardo@boladao.com", senha: "monalisa", nome: "Leonardo da Vinci", foto_perfil: "foto_leo", pais: "Italy", fluencia_ingles: "Zero", is_admin: false))
-            self.usuarios.append(Membro(id: 5, email: "michelle@boladona.com", senha: "democracia", nome: "Michelle Obama", foto_perfil: "foto_michelle", pais: "USA", fluencia_ingles: "Advanced", is_admin: false))
+            self.membros.append(Membro(id: 1, email: "matheus@boladao.com", senha: "sucoDeAbacaxi", nome: "Matheus Moreira", foto_perfil: "foto_matheus", pais: "USA", fluencia_ingles: "Intermediate", is_admin: true))
+            self.membros.append(Membro(id: 2, email: "victor@boladao.com", senha: "niteroiAmorzinho", nome: "Victor Duarte", foto_perfil: "foto_victor", pais: "Spain", fluencia_ingles: "Advanced", is_admin: false))
+            self.membros.append(Membro(id: 3, email: "evelyn@boladona.com", senha: "roxoComAmarelo", nome: "Evelyn de Jesus", foto_perfil: "foto_evelyn", pais: "Brazil", fluencia_ingles: "Basic", is_admin: true))
+            self.membros.append(Membro(id: 4, email: "leonardo@boladao.com", senha: "monalisa", nome: "Leonardo da Vinci", foto_perfil: "foto_leo", pais: "Italy", fluencia_ingles: "Zero", is_admin: false))
+            self.membros.append(Membro(id: 5, email: "michelle@boladona.com", senha: "democracia", nome: "Michelle Obama", foto_perfil: "foto_michelle", pais: "USA", fluencia_ingles: "Advanced", is_admin: false))
             
             /* ************************************ POSTS *************************************** */
             publicacao(usuario: 2, post: 1, titulo: "Stop obsessing over user personas", descricao: "People don’t need your product because they belong to a stupid persona", link: nil)
@@ -125,7 +125,7 @@ class Sala: Identifiable {
     }
     
     func getUsuario(id: Int) -> Membro? {
-        for user in self.usuarios {
+        for user in self.membros {
             if (id == user.id) { return user }
         }
         return nil
