@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct PublicationView: View {
-    @EnvironmentObject var dao: DAO
+    var sala: Sala
     
     var body: some View {
         Text("Publication View!")
@@ -19,6 +19,6 @@ struct PublicationView: View {
 
 struct PublicationView_Previews: PreviewProvider {
     static var previews: some View {
-        PublicationView()
+        PublicationView(sala: DAO().salas[0])
     }
 }

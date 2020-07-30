@@ -9,33 +9,34 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var dao: DAO
+    var sala: Sala
     //@State private var selection = 2
     
     var body: some View {
         TabView(/*selection: $selection*/) {
-            CategoriesView().environmentObject(self.dao).tabItem {
+            CategoriesView(sala: sala).tabItem {
                 Image(systemName: "command")
                 Text("Categories")
             }
-            HomeView().environmentObject(self.dao).tabItem {
+            HomeView(sala: sala).tabItem {
                 Image(systemName: "command")
                 Text("Home")
             }
-            PublicationView().environmentObject(self.dao).tabItem {
+            PublicationView(sala: sala).tabItem{
                 Image(systemName: "command")
                 Text("Publish")
             }
-            ProfileView().environmentObject(self.dao).tabItem {
+            ProfileView(sala: sala).tabItem{
                 Image(systemName: "command")
-                Text("My Profile")
+                Text("Profile")
             }
         } //TabView
+        //.navigationBarBackButtonHidden(true)
     } //body
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(DAO())
+        ContentView(sala: DAO().salas[0])
     }
 }

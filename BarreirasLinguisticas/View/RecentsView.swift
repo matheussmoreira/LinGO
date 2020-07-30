@@ -51,6 +51,6 @@ struct RecentsView: View {
 
 struct RecentsView_Preview: PreviewProvider {
     static var previews: some View {
-        RecentsView(post: DAO().posts[0])
+        RecentsView(post: DAO().salas[0].posts[0])
     }
 }

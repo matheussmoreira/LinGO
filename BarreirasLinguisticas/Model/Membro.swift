@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-class Usuario: Identifiable {
+class Membro: Identifiable {
     let id: Int // = UUID()
     let email: String
     var senha: String
@@ -34,7 +34,7 @@ class Usuario: Identifiable {
     
     init(id: Int, email: String?, senha: String?, nome: String?, foto_perfil: String?, pais: String?, fluencia_ingles: String?, is_admin: Bool) {
         self.id = id
-        self.email = email ?? "<usuario@email.com>"
+        self.email = email ?? "<membro@email.com>"
         self.senha = senha ?? "<senha>"
         self.nome = nome ?? "<nome>"
         self.foto_perfil = foto_perfil ?? "user_icon"

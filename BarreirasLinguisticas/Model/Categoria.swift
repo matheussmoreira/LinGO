@@ -13,7 +13,7 @@ class Categoria: Identifiable {
     var nome: String
     var tags: [Tag] = []
     var posts: [Post] = []
-    var assinantes: [Usuario] = []
+    var assinantes: [Membro] = []
     
     init(id: Int, nome: String?) {
         self.id = id
@@ -30,7 +30,7 @@ class Categoria: Identifiable {
         else { print("Categoria com post inválido") }
     }
     
-    func addAssinantes(usuario user: Usuario?) {
+    func addAssinantes(usuario user: Membro?) {
         if (user != nil) { self.assinantes.append(user!)}
         else { print("Problema na assinatura por usuario inválido") }
     }

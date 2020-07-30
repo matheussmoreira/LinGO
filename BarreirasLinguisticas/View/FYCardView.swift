@@ -83,6 +83,6 @@ struct FYCardView: View {
 
 struct FYCardView_Previews: PreviewProvider {
     static var previews: some View {
-        FYCardView(post: DAO().posts[0])
+        FYCardView(post: DAO().salas[0].posts[0])
     }
 }

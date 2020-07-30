@@ -9,13 +9,13 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject var dao: DAO
-    private var allPosts : [Post] { return DAO().posts }
-    private var recentPosts: [Post] { return DAO().posts }
+    var sala: Sala
+    private var allPosts : [Post] { return sala.posts }
+    private var recentPosts: [Post] { return sala.posts }
     // mudar o recentPosts para os recentes com base na data!!
     
     var body: some View {
-        VStack {
+        ScrollView(.vertical, showsIndicators: false) {
             //TOPICO DOS FOR YOU
             HStack {
                 Text("For you")
@@ -71,7 +71,7 @@ struct HomeView: View {
             else {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 20){
-                        ForEach(dao.posts){ post in
+                        ForEach(sala.posts){ post in
                             Button(action: { print("Clicou!") },label: { RecentsView(post: post)
                             })
                         }
@@ -90,6 +90,13 @@ struct HomeView: View {
             }
             
             //NEW TAGS
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(sala.tags) { tag in
+                        NewTagsView(nome: tag.nome)
+                    }
+                }
+            }
             
             Spacer()
         } //VStack
@@ -98,6 +105,6 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        HomeView(sala: DAO().salas[0])
     }
 }

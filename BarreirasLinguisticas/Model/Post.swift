@@ -17,13 +17,13 @@ class Post: Identifiable, ObservableObject {
     var link_image: UIImage?
     var link_icon: UIImage?
     //var date = Date()
-    let publicador: Usuario
+    let publicador: Membro
     var improprio = false
     //var comentarios: [Comentario] = []
     var categorias: [Categoria] = []
     var tags: [Tag] = []
     
-    init(id: Int, titulo: String?, descricao: String?, link: Link?, publicador: Usuario) {
+    init(id: Int, titulo: String?, descricao: String?, link: Link?, publicador: Membro) {
         self.id = id
         self.titulo = titulo ?? "Post sem título"
         self.descricao = descricao ?? ""

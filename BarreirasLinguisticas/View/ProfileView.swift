@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @EnvironmentObject var dao: DAO
+    var sala: Sala
     
     var body: some View {
         Text("Profile View!")
@@ -19,6 +19,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        ProfileView(sala: DAO().salas[0])
     }
 }
