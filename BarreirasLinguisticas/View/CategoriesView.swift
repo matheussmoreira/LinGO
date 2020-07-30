@@ -18,31 +18,37 @@ struct CategoriesView: View {
             VStack {
                 SearchBarView(mensagem: "Search for categories")
                 
-                List (sala.categorias){ categ in
-                    HStack {
-                        // ICON
-                        Image(systemName: "command")
-                            .imageScale(.large)
-                            .foregroundColor(.blue)
-                            .font(.system(size: 16, weight: .semibold))
-                        
-                        // CATEGORIAS E TAGS
-                        VStack(alignment: .leading) {
-                            NavigationLink(destination: PostsCategorieView(categorie_id: categ.id, categorie_name: categ.nome, sala: self.sala)) {
-                                Text(categ.nome)
-                                .font(.headline)
-                                .multilineTextAlignment(.leading)
-                            }
+                if sala.categorias.count == 0 {
+                    Text("Add a new categorie by adding a new post!")
+                        .foregroundColor(Color.gray)
+                    
+                }
+                else{
+                    List (sala.categorias){ categ in
+                        HStack {
+                            // ICON
+                            Image(systemName: "command")
+                                .imageScale(.large)
+                                .foregroundColor(.blue)
+                                .font(.system(size: 16, weight: .semibold))
                             
-                            TagsView(tags: categ.tags)
-                        }
-                    }
-                } //List
-                .navigationBarTitle(Text("Categories"))
+                            // CATEGORIAS E TAGS
+                            VStack(alignment: .leading) {
+                                NavigationLink(destination: PostsCategorieView(categorie_id: categ.id, categorie_name: categ.nome, sala: self.sala)) {
+                                    Text(categ.nome)
+                                    .font(.headline)
+                                    .multilineTextAlignment(.leading)
+                                }
+                                
+                                TagsView(tags: categ.tags)
+                            }
+                        } //HStack
+                    } //List
+                    .navigationBarTitle(Text("Categories"))
+                } //else
             } //VStack
         } //NavigationView
     } // body
-    
 }
 
 struct CategoriesView_Previews: PreviewProvider {

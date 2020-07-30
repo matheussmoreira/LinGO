@@ -10,8 +10,8 @@ import SwiftUI
 
 struct HomeView: View {
     var sala: Sala
-    private var allPosts : [Post] { return sala.posts }
-    private var recentPosts: [Post] { return sala.posts }
+    var allPosts : [Post] { return sala.posts }
+    var recentPosts: [Post] { return sala.posts }
     // mudar o recentPosts para os recentes com base na data!!
     
     var body: some View {
@@ -63,7 +63,7 @@ struct HomeView: View {
             if recentPosts.count == 0 {
                 VStack {
                     Spacer()
-                    Text("No recent posts for you :(")
+                    Text("No recent posts :(")
                         .foregroundColor(Color.gray)
                     Spacer()
                 }
@@ -90,15 +90,20 @@ struct HomeView: View {
             }
             
             //NEW TAGS
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(sala.tags) { tag in
-                        NewTagsView(nome: tag.nome)
+            if sala.tags.count == 0 {
+                Text("No new tags :(")
+                    .foregroundColor(Color.gray)
+            }
+            else {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        ForEach(sala.tags) { tag in
+                            NewTagsView(nome: tag.nome)
+                                .padding(.leading)
+                        }
                     }
                 }
-            }
-            
-            Spacer()
+            } //else
         } //VStack
     } //body
 }

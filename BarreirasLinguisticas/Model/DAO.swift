@@ -10,10 +10,9 @@ import Foundation
 
 class DAO: ObservableObject {
     static var unicaInstancia = DAO()
-    var salas: [Sala] = []
+    @Published var salas: [Sala] = []
     
     init(){
-        self.salas.append(Sala(id: 0, nome: "Room 0"))
         self.salas.append(Sala(id: 1, nome: "Room 1"))
         self.salas.append(Sala(id: 2, nome: "Room 2"))
     }
@@ -23,5 +22,10 @@ class DAO: ObservableObject {
             if (id == sala.id) { return sala }
         }
         return nil
+    }
+    
+    func addNovaSala(){
+        let next = self.salas.last!.id+1
+        self.salas.append(Sala(id: next, nome: "Room \(next)"))
     }
 }

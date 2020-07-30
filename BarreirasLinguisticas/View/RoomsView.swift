@@ -13,18 +13,30 @@ struct RoomsView: View {
     
     var body: some View {
         VStack{
-            NavigationView {
-                ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(dao.salas) { sala in
-                        NavigationLink(destination: ContentView(sala: sala)){
-                            Text("Go to \(sala.nome)")
-                                .fontWeight(.bold)
+            if dao.salas.count == 0 {
+                Spacer()
+                Text("There are no rooms :(")
+                    .foregroundColor(Color.gray)
+                Spacer()
+            }
+            else{
+                NavigationView {
+                    VStack{
+                        ForEach(dao.salas) { sala in
+                            NavigationLink(destination: ContentView(sala: sala)){
+                                Text("Go to \(sala.nome)")
+                                    .fontWeight(.bold)
+                            }
                         }
-                    }
-                } //ScrollView
-            } //NavigationView
+                    } //VStack
+                } //NavigationView
+            } //else
+            Button(action: {self.dao.addNovaSala()}) {
+                Text("Add new Room")
+            }
         } //VStack
     } //body
+    
 }
 
 struct RoomsView_Previews: PreviewProvider {
