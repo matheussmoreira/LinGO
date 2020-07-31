@@ -10,11 +10,9 @@ import SwiftUI
 
 struct HomeView: View {
     var sala: Sala
-    var id_membro: Int
-    var membro: Membro { return sala.getMembro(id: id_membro)! }
+    var membro: Membro
     var allPosts : [Post] { return sala.posts }
-    var recentPosts: [Post] { return sala.posts }
-    // mudar o recentPosts para os recentes com base na data!!
+    var recentPosts: [Post] { return sala.posts } // mudar para base na data
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -79,7 +77,7 @@ struct HomeView: View {
                         }
                     }
                 }
-            }
+            } //else
             
             //TOPICO DAS NEW TAGS
             HStack {
@@ -112,6 +110,6 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(sala: DAO().salas[0], id_membro: 1)
+        HomeView(sala: DAO().salas[0], membro: DAO().salas[0].membros[0])
     }
 }

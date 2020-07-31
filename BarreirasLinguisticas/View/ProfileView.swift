@@ -10,8 +10,7 @@ import SwiftUI
 
 struct ProfileView: View {
     var sala: Sala
-    var id_membro: Int
-    var membro: Membro { return sala.getMembro(id: id_membro)! }
+    var membro: Membro
     
     var body: some View {
         //Text("Profile View!")
@@ -32,12 +31,20 @@ struct ProfileView: View {
             Text(sala.nome)
                 .font(.subheadline)
                 .foregroundColor(Color.gray)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack{
+                    ForEach(sala.membros) { membro in
+                        Text(membro.nome)
+                            .padding(.leading)
+                    }
+                }
+            }
         }
     } //body
 }
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(sala: DAO().salas[0], id_membro: 1)
+        ProfileView(sala: DAO().salas[0], membro: DAO().salas[0].membros[0])
     }
 }

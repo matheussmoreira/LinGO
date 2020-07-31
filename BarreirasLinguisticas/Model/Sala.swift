@@ -200,12 +200,15 @@ class Sala: Identifiable {
     }
     
     /* ******************************** NOVOS OBJETOS **************************************** */
-    
     func novoMembro(id id_membro: Int, is_admin: Bool) {
         if let usuario = DAO().getUsuario(id: id_membro) {
-            let membro = Membro(usuario: usuario, is_admin: is_admin)
-            self.membros.append(membro)
-            if is_admin { self.admins.append(membro) }
+            //usuario.addNovaSala(self)
+            let membro_existe = getMembro(id: usuario.id)
+            if membro_existe == nil {
+                let membro = Membro(usuario: usuario, is_admin: is_admin)
+                self.membros.append(membro)
+                if is_admin { self.admins.append(membro) }
+            }
         }
         else {
             print("Membro não pode ser adicionado à sala \(self.nome)")

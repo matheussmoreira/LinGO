@@ -12,28 +12,28 @@ struct ContentView: View {
     @EnvironmentObject var dao: DAO
     var sala: Sala
     var usuario: Usuario
+    var membro: Membro { return sala.getMembro(id: usuario.id)!}
     //@State private var selection = 2
     
     var body: some View {
         TabView(/*selection: $selection*/) {
-            CategoriesView(sala: sala, id_membro: usuario.id).tabItem {
+            CategoriesView(sala: sala, membro: membro).tabItem {
                 Image(systemName: "command")
                 Text("Categories")
             }
-            HomeView(sala: sala, id_membro: usuario.id).tabItem {
+            HomeView(sala: sala, membro: membro).tabItem {
                 Image(systemName: "command")
                 Text("Home")
             }
-            PublicationView(sala: sala, id_membro: usuario.id).tabItem{
+            PublicationView(sala: sala, membro: membro).tabItem{
                 Image(systemName: "command")
                 Text("Publish")
             }
-            ProfileView(sala: sala, id_membro: usuario.id).tabItem{
+            ProfileView(sala: sala, membro: membro).tabItem{
                 Image(systemName: "command")
                 Text("Profile")
             }
         } //TabView
-        //.navigationBarBackButtonHidden(true)
     } //body
 }
 

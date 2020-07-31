@@ -10,8 +10,7 @@ import SwiftUI
 
 struct PublicationView: View {
     var sala: Sala
-    var id_membro: Int
-    var membro: Membro { return sala.getMembro(id: id_membro)! }
+    var membro: Membro
     
     var body: some View {
         Text("Publication View!")
@@ -21,6 +20,6 @@ struct PublicationView: View {
 
 struct PublicationView_Previews: PreviewProvider {
     static var previews: some View {
-        PublicationView(sala: DAO().salas[0], id_membro: 1)
+        PublicationView(sala: DAO().salas[0], membro: DAO().salas[0].membros[0])
     }
 }
