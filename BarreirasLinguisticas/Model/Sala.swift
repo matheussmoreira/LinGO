@@ -202,7 +202,10 @@ class Sala: Identifiable, ObservableObject {
     /* ******************************** NOVOS OBJETOS **************************************** */
     func novoMembro(id id_membro: Int, is_admin: Bool) {
         if let usuario = DAO().getUsuario(id: id_membro) {
-            //usuario.addNovaSala(self)
+            
+            usuario.addNovaSala(self) // ?????
+            getMembro(id: id_membro)?.addNovaSala(self) // ?????
+            
             let membro_existe = getMembro(id: usuario.id)
             if membro_existe == nil {
                 let membro = Membro(usuario: usuario, is_admin: is_admin)
