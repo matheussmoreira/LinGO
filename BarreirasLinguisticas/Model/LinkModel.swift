@@ -12,7 +12,25 @@ import LinkPresentation
 class LinkModel {
     //@Published var links = [Link]()
     
-     class func fetchMetadata(for link: String, completion: @escaping (Result<LPLinkMetadata, Error>) -> Void) {
+    func getLink(url: String) -> Link? {
+        var link: Link?
+        fetchMetadata(for: url) { (result) in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let metadata):
+                    print("Case success")
+                    link = self.createLink(metadata: metadata)
+                case .failure(let error):
+                    print("Case failure")
+                    print(error.localizedDescription)
+                    link = nil
+                }
+            } // DispatchQueue
+        } // fetch
+        return link
+    }
+    
+     func fetchMetadata(for link: String, completion: @escaping (Result<LPLinkMetadata, Error>) -> Void) {
            guard let url = URL(string: link) else { return }
            let metadataProvider = LPMetadataProvider()
            
@@ -31,7 +49,7 @@ class LinkModel {
            } // startFetchingMetadata
        }
     
-    class func createLink(metadata: LPLinkMetadata) -> Link {
+    func createLink(metadata: LPLinkMetadata) -> Link {
         let link = Link()
         link.id = Int(Date.timeIntervalSinceReferenceDate)
         link.metadata = metadata

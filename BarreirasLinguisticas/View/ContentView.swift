@@ -9,24 +9,26 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var dao: DAO
     var sala: Sala
+    var usuario: Usuario
     //@State private var selection = 2
     
     var body: some View {
         TabView(/*selection: $selection*/) {
-            CategoriesView(sala: sala).tabItem {
+            CategoriesView(sala: sala, id_membro: usuario.id).tabItem {
                 Image(systemName: "command")
                 Text("Categories")
             }
-            HomeView(sala: sala).tabItem {
+            HomeView(sala: sala, id_membro: usuario.id).tabItem {
                 Image(systemName: "command")
                 Text("Home")
             }
-            PublicationView(sala: sala).tabItem{
+            PublicationView(sala: sala, id_membro: usuario.id).tabItem{
                 Image(systemName: "command")
                 Text("Publish")
             }
-            ProfileView(sala: sala).tabItem{
+            ProfileView(sala: sala, id_membro: usuario.id).tabItem{
                 Image(systemName: "command")
                 Text("Profile")
             }
@@ -37,6 +39,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(sala: DAO().salas[0])
+        ContentView(sala: DAO().salas[0], usuario: DAO().usuarios[0]).environmentObject(DAO())
     }
 }

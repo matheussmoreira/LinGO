@@ -10,6 +10,8 @@ import SwiftUI
 
 struct HomeView: View {
     var sala: Sala
+    var id_membro: Int
+    var membro: Membro { return sala.getMembro(id: id_membro)! }
     var allPosts : [Post] { return sala.posts }
     var recentPosts: [Post] { return sala.posts }
     // mudar o recentPosts para os recentes com base na data!!
@@ -110,6 +112,6 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(sala: DAO().salas[0])
+        HomeView(sala: DAO().salas[0], id_membro: 1)
     }
 }

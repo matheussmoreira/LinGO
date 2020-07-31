@@ -14,9 +14,10 @@ class Tag: Identifiable {
     var categorias: [Categoria] = []
     var posts: [Post] = []
     
-    init(id: Int, nome: String?) {
+    init(id: Int, nome: String?, categorias: [Categoria]) {
         self.id = id
         self.nome = nome ?? "<Nome Tag>"
+        self.categorias.append(contentsOf: categorias)
     }
     
     func addCategoria(categoria: Categoria?) {

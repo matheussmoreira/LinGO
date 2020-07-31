@@ -30,8 +30,8 @@ class Categoria: Identifiable {
         else { print("Categoria com post inválido") }
     }
     
-    func addAssinantes(usuario user: Membro?) {
-        if (user != nil) { self.assinantes.append(user!)}
-        else { print("Problema na assinatura por usuario inválido") }
+    func addAssinantes(membro memb: Membro?) {
+        if (memb != nil) { self.assinantes.append(memb!)}
+        else { print("Problema na assinatura por membro inválido") }
     }
 }

@@ -10,6 +10,8 @@ import SwiftUI
 
 struct CategoriesView: View {
     var sala: Sala
+    var id_membro: Int
+    var membro: Membro { return sala.getMembro(id: id_membro)! }
     @State private var textoPesq: String = ""
     
     var body: some View {
@@ -53,7 +55,7 @@ struct CategoriesView: View {
 
 struct CategoriesView_Previews: PreviewProvider {
     static var previews: some View {
-        CategoriesView(sala: DAO().salas[0])
+        CategoriesView(sala: DAO().salas[0], id_membro: 1)
     }
 }
 

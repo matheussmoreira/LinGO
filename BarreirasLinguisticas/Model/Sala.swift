@@ -12,100 +12,82 @@ import LinkPresentation
 class Sala: Identifiable {
     let id: Int
     var nome: String
+    var admins: [Membro] = []
     var membros: [Membro] = []
     var posts: [Post] = []
     var categorias: [Categoria] = []
     var tags: [Tag] = []
+    var link_model = LinkModel()
     
-    init(id: Int, nome: String) {
+    init(id: Int, nome: String, criador: Membro) {
         self.id = id
         self.nome = nome
+        self.admins.append(criador)
+        self.membros.append(criador)
+        //o criador se torna automaticamente um adm e um membro da sala
         
-        if (self.id == 1 || self.id == 2) {
-            /* ************************************ USUARIOS ************************************* */
-            self.membros.append(Membro(id: 1, email: "matheus@boladao.com", senha: "sucoDeAbacaxi", nome: "Matheus Moreira", foto_perfil: "foto_matheus", pais: "USA", fluencia_ingles: "Intermediate", is_admin: true))
-            self.membros.append(Membro(id: 2, email: "victor@boladao.com", senha: "niteroiAmorzinho", nome: "Victor Duarte", foto_perfil: "foto_victor", pais: "Spain", fluencia_ingles: "Advanced", is_admin: false))
-            self.membros.append(Membro(id: 3, email: "evelyn@boladona.com", senha: "roxoComAmarelo", nome: "Evelyn de Jesus", foto_perfil: "foto_evelyn", pais: "Brazil", fluencia_ingles: "Basic", is_admin: true))
-            self.membros.append(Membro(id: 4, email: "leonardo@boladao.com", senha: "monalisa", nome: "Leonardo da Vinci", foto_perfil: "foto_leo", pais: "Italy", fluencia_ingles: "Zero", is_admin: false))
-            self.membros.append(Membro(id: 5, email: "michelle@boladona.com", senha: "democracia", nome: "Michelle Obama", foto_perfil: "foto_michelle", pais: "USA", fluencia_ingles: "Advanced", is_admin: false))
-            
-            /* ************************************ POSTS *************************************** */
-            publicacao(usuario: 2, post: 1, titulo: "Stop obsessing over user personas", descricao: "People don’t need your product because they belong to a stupid persona", link: nil)
-            publicacao(usuario: 2, post: 2, titulo: "Geometry in UI Design", descricao: "Because automatic alignment sometimes just doesn’t work", link: nil)
-            publicacao(usuario: 1, post: 3, titulo: "The Mistakes I Made As a Beginner Programmer", descricao: "Learn to identify them, make habits to avoid them", link: nil)
-            publicacao(usuario: 3, post: 4, titulo: "SwiftUI: a new perception of developing", descricao: "This article is not intended to be a simplifying way to say that programming is “easy”. Of course there are many notions and concepts to learn but with the right motivation and with the right tools nothing is impossible. However, it can be said that with SwiftUI, everyone can program in a easier way. It is not important what your background is but the goals you want to achieve and your motivation", link: nil)
-            publicacao(usuario: 3, post: 5, titulo: "The 10 Qualities of an Emotionally Intelligent Person", descricao: nil, link: nil)
-            publicacao(usuario: 3, post: 6, titulo: "6 Principles Of Visual Accessibility Design", descricao: "According to the World Health Organization, 285 million people in the world are visually impaired. These 285 million people still need access to the Internet, and deserve to have access to the same information that everybody else does. Many individuals believe that if someone is visually impaired, they do not use the Internet. This is untrue.", link: nil)
+        if (self.id < 3) { //so popula com dados as duas primeiras salas
+            /* ************************************ MEMBROS ************************************* */
+            novoMembro(id: 1, is_admin: true)
+            novoMembro(id: 2, is_admin: false)
+            novoMembro(id: 3, is_admin: true)
+            novoMembro(id: 4, is_admin: false)
+            novoMembro(id: 5, is_admin: false)
             
             /* ********************************** CATEGORIAS ************************************* */
-            self.categorias.append(Categoria(id: 1, nome: "Design"))
-            self.categorias.append(Categoria(id: 2, nome: "Programming"))
-            self.categorias.append(Categoria(id: 3, nome: "Accessibility"))
-            self.categorias.append(Categoria(id: 4, nome: "Games"))
-            self.categorias.append(Categoria(id: 5, nome: "Business"))
+            novaCategoria(id: 1, nome: "Design")
+            novaCategoria(id: 2, nome: "Programming")
+            novaCategoria(id: 3, nome: "Accessibility")
+            novaCategoria(id: 4, nome: "Games")
+            novaCategoria(id: 5, nome: "Business")
             
             /* ************************************* TAGS *************************************** */
-            self.tags.append(Tag(id: 1, nome: "UX"))
-            self.tags.append(Tag(id: 2, nome: "Personas"))
-            self.tags.append(Tag(id: 3, nome: "Git"))
-            self.tags.append(Tag(id: 4, nome: "SwiftUI"))
-            self.tags.append(Tag(id: 5, nome: "JSON"))
-            self.tags.append(Tag(id: 6, nome: "Colors"))
-            self.tags.append(Tag(id: 7, nome: "Sound Effects"))
-            self.tags.append(Tag(id: 8, nome: "Characters"))
-            self.tags.append(Tag(id: 9, nome: "App Store"))
-            self.tags.append(Tag(id: 10, nome: "In-App Purchases"))
-            self.tags.append(Tag(id: 11, nome: "Self-knowledge"))
-            self.tags.append(Tag(id: 12, nome: "Visual Accessibility"))
+            novaTag(id: 1, nome: "UX", categs: [1])
+            novaTag(id: 2, nome: "Personas", categs: [1])
+            novaTag(id: 3, nome: "Git", categs: [2])
+            novaTag(id: 4, nome: "SwiftUI", categs: [1,2])
+            novaTag(id: 5, nome: "JSON", categs: [2])
+            novaTag(id: 6, nome: "Colors", categs: [1,3])
+            novaTag(id: 7, nome: "Sound Effects", categs: [3,4])
+            novaTag(id: 8, nome: "Characters", categs: [4])
+            novaTag(id: 9, nome: "App Store", categs: [5])
+            novaTag(id: 10, nome: "In-App Purchases", categs: [5])
+            novaTag(id: 11, nome: "Self-Knowledge", categs:  [5])
+            novaTag(id: 12, nome: "Visual Accessibility", categs: [1,3])
             
-            /* ***************************** ADOÇÃO TAGS-CATEGORIAS ******************************* */
-            addTagCategoria(tag: 1, categoria: 1);  addTagCategoria(tag: 2, categoria: 1)
-            addTagCategoria(tag: 3, categoria: 2);  addTagCategoria(tag: 4, categoria: 1)
-            addTagCategoria(tag: 4, categoria: 2);  addTagCategoria(tag: 5, categoria: 2)
-            addTagCategoria(tag: 6, categoria: 1);  addTagCategoria(tag: 6, categoria: 3)
-            addTagCategoria(tag: 7, categoria: 3);  addTagCategoria(tag: 7, categoria: 4)
-            addTagCategoria(tag: 8, categoria: 4);  addTagCategoria(tag: 9, categoria: 5)
-            addTagCategoria(tag: 10, categoria: 5); addTagCategoria(tag: 11, categoria: 5)
-            addTagCategoria(tag: 12, categoria: 1); addTagCategoria(tag: 12, categoria: 3)
+            /* ************************************ POSTS *************************************** */
+            novoPost(publicador: 2, post: 1, titulo: "Stop obsessing over user personas", descricao: "People don’t need your product because they belong to a stupid persona", link: nil, id_categs: [1], id_tags: [1,2])
+            novoPost(publicador: 2, post: 2, titulo: "Geometry in UI Design", descricao: "Because automatic alignment sometimes just doesn’t work", link: nil, id_categs: [1], id_tags: [1])
+            novoPost(publicador: 1, post: 3, titulo: "The Mistakes I Made As a Beginner Programmer", descricao: "Learn to identify them, make habits to avoid them", link: nil, id_categs: [2], id_tags: [])
+            novoPost(publicador: 3, post: 4, titulo: "SwiftUI: a new perception of developing", descricao: "This article is not intended to be a simplifying way to say that programming is “easy”. Of course there are many notions and concepts to learn but with the right motivation and with the right tools nothing is impossible. However, it can be said that with SwiftUI, everyone can program in a easier way. It is not important what your background is but the goals you want to achieve and your motivation", link: nil, id_categs: [1,2], id_tags: [4])
+            novoPost(publicador: 3, post: 5, titulo: "The 10 Qualities of an Emotionally Intelligent Person", descricao: nil, link: nil, id_categs: [5], id_tags: [11])
+            novoPost(publicador: 3, post: 6, titulo: "6 Principles Of Visual Accessibility Design", descricao: "According to the World Health Organization, 285 million people in the world are visually impaired. These 285 million people still need access to the Internet, and deserve to have access to the same information that everybody else does. Many individuals believe that if someone is visually impaired, they do not use the Internet. This is untrue.", link: nil, id_categs: [1,3], id_tags: [12])
             
-            /* *************************** ADOÇÃO CATEGORIAS-POSTS******************************** */
-            addCategoriaPost(categoria: 1, post: 1); addCategoriaPost(categoria: 1, post: 2)
-            addCategoriaPost(categoria: 2, post: 3); addCategoriaPost(categoria: 1, post: 4)
-            addCategoriaPost(categoria: 2, post: 4); addCategoriaPost(categoria: 5, post: 5)
-            addCategoriaPost(categoria: 1, post: 6); addCategoriaPost(categoria: 3, post: 6)
+            /* ************************************* LINKS ***************************************** */
+            addLink(url: "https://uxdesign.cc/stop-obsessing-over-user-personas-b2792ca00c7f", post: 1)
+            addLink(url: "https://medium.com/design-notes/geometry-in-ui-design-61ef4f88218a", post: 2)
+            addLink(url: "https://medium.com/edge-coders/the-mistakes-i-made-as-a-beginner-programmer-ac8b3e54c312", post: 3)
+            addLink(url: "https://medium.com/apple-developer-academy-federico-ii/swiftui-a-new-perception-of-developing-780906ee492a", post: 4)
+            addLink(url: "https://medium.com/personal-growth/the-10-qualities-of-an-emotionally-intelligent-person-f595440af4fb", post: 5)
+            addLink(url: "https://usabilitygeek.com/6-principles-visual-accessibility-design/", post: 6)
             
-            /* ***************************** ADOÇÃO TAGS-POSTS *********************************** */
-            addTagPost(tag: 1, post: 1);  addTagPost(tag: 1, post: 2)
-            addTagPost(tag: 2, post: 1);  addTagPost(tag: 4, post: 4)
-            addTagPost(tag: 11, post: 5); addTagPost(tag: 12, post: 6)
+            
+            /* ********************************** ASSINATURAS ************************************ */
+            novaAssinatura(membro: 1, categoria: 1); novaAssinatura(membro: 1, categoria: 2)
+            novaAssinatura(membro: 1, categoria: 4); novaAssinatura(membro: 2, categoria: 1)
+            novaAssinatura(membro: 2, categoria: 3); novaAssinatura(membro: 3, categoria: 2)
+            novaAssinatura(membro: 3, categoria: 3); novaAssinatura(membro: 5, categoria: 3)
+            novaAssinatura(membro: 5, categoria: 5)
             
             /* ******************************** POSTS SALVOS ************************************ */
             
-            /* ********************************** ASSINATURAS ************************************ */
-            assinatura(usuario: 1, categoria: 1)
-            assinatura(usuario: 1, categoria: 2)
-            assinatura(usuario: 1, categoria: 4)
-            assinatura(usuario: 2, categoria: 1)
-            assinatura(usuario: 2, categoria: 3)
-            assinatura(usuario: 3, categoria: 2)
-            assinatura(usuario: 3, categoria: 3)
-            assinatura(usuario: 5, categoria: 3)
-            assinatura(usuario: 5, categoria: 5)
-            
-            /* ************************************* LINKS ***************************************** */
-            insereLink(url: "https://uxdesign.cc/stop-obsessing-over-user-personas-b2792ca00c7f", post: 1)
-            insereLink(url: "https://medium.com/design-notes/geometry-in-ui-design-61ef4f88218a", post: 2)
-            insereLink(url: "https://medium.com/edge-coders/the-mistakes-i-made-as-a-beginner-programmer-ac8b3e54c312", post: 3)
-            insereLink(url: "https://medium.com/apple-developer-academy-federico-ii/swiftui-a-new-perception-of-developing-780906ee492a", post: 4)
-            insereLink(url: "https://medium.com/personal-growth/the-10-qualities-of-an-emotionally-intelligent-person-f595440af4fb", post: 5)
-            insereLink(url: "https://usabilitygeek.com/6-principles-visual-accessibility-design/", post: 6)
         } // if self.id
     } // init()
     
     /* ********************************** FUNCOES GET **************************************** */
-    func getTag(id: Int) -> Tag? {
-        for tag in self.tags {
-            if (id == tag.id) { return tag }
+    func getMembro(id: Int) -> Membro? {
+        for membro in self.membros {
+            if (id == membro.id) { return membro }
         }
         return nil
     }
@@ -117,16 +99,36 @@ class Sala: Identifiable {
         return nil
     }
     
-    func getPost(id: Int) -> Post? {
-        for post in self.posts {
-            if (id == post.id) { return post }
+    func getCategorias(ids: [Int]) -> [Categoria] {
+        var categorias: [Categoria] = []
+        for id in ids {
+            for categ in self.categorias {
+                if (id == categ.id) { categorias.append(categ) }
+            }
+        }
+        return categorias
+    }
+    
+    func getTag(id: Int) -> Tag? {
+        for tag in self.tags {
+            if (id == tag.id) { return tag }
         }
         return nil
     }
     
-    func getUsuario(id: Int) -> Membro? {
-        for user in self.membros {
-            if (id == user.id) { return user }
+    func getTags(ids: [Int]) -> [Tag] {
+        var tags: [Tag] = []
+        for id in ids {
+            for tag in self.tags {
+                if (id == tag.id) { tags.append(tag) }
+            }
+        }
+        return tags
+    }
+    
+    func getPost(id: Int) -> Post? {
+        for post in self.posts {
+            if (id == post.id) { return post }
         }
         return nil
     }
@@ -159,72 +161,76 @@ class Sala: Identifiable {
         return posts
     }
     
-    /* ******************************* RELACIONAMENTOS *************************************** */
+    /* ******************************** NOVOS OBJETOS **************************************** */
     
-    func addTagCategoria(tag id_tag: Int, categoria: Int) {
-        let tag = getTag(id: id_tag)
-        let categ = getCategoria(id: categoria)
-        
-        tag?.addCategoria(categoria: categ)
-        categ?.addTag(tag: tag)
-    } // Quando uma tag pertence a uma categoria, aquela categoria ganha essa tag
-    
-    func addTagPost(tag id_tag: Int, post id_post: Int) {
-        let tag = getTag(id: id_tag)
-        let post = getPost(id: id_post)
-        
-        tag?.addPost(post: post)
-        post?.addTag(tag: tag)
-    } // Quando um post tem uma tag, aquela tag ganha esse post
-    
-    func addCategoriaPost(categoria: Int, post id_post: Int) {
-        let categ = getCategoria(id: categoria)
-        let post = getPost(id: id_post)
-        
-        categ?.addPost(post: post)
-        post?.addCategoria(categoria: categ)
-    } // Quando um post tem uma categoria, aquela categoria ganha essa post
-    
-    func publicacao(usuario: Int, post id_post: Int, titulo: String, descricao: String?, link: Link?/*, improprio: Bool*/) {
-        let user = getUsuario(id: usuario)
-        let post = Post(id: id_post, titulo: titulo, descricao: descricao, link: link, publicador: user!/*, improprio: improprio*/)
-        
-        self.posts.append(post)
-        user?.publicaPost(post: post)
-    } // Quando uma publicacao eh feita ela vai para a lista de publicacoes do publicador
-    
-    func assinatura(usuario: Int, categoria: Int) {
-        let user = getUsuario(id: usuario)
-        let categ = getCategoria(id: categoria)
-        
-        user?.assinaCategoria(categoria: categ)
-        categ?.addAssinantes(usuario: user)
-    } // Lista de assinaturas do usuario e de assinantes da categoria
-    
-    func salvaPost(usuario: Int, post id_post: Int) {
-        let user = getUsuario(id: usuario)
-        let post = getPost(id: id_post)
-        
-        user?.salvaPost(post: post)
+    func novoMembro(id id_membro: Int, is_admin: Bool) {
+        if let usuario = DAO().getUsuario(id: id_membro) {
+            let membro = Membro(usuario: usuario, is_admin: is_admin)
+            self.membros.append(membro)
+        }
+        else {
+            print("Membro não pode ser adicionado à sala \(self.nome)")
+        }
     }
     
-    /* ******************************** OUTRAS FUNCOES *************************************** */
+    func novaCategoria(id: Int, nome: String) {
+        self.categorias.append(Categoria(id: id, nome: nome))
+    }
     
-    func insereLink(url: String, post id_post: Int) {
+    func novaTag(id: Int, nome: String, categs: [Int]) {
+        let categorias = getCategorias(ids: categs)
+        let tag = Tag(id: id, nome: nome, categorias: categorias)
+        
+        self.tags.append(tag)
+        for categ in categorias {
+            categ.addTag(tag: tag)
+        }// Todas as categorias as quais uma tag pertencera terao ela nas suas listas de tags
+    }
+    
+    func novoPost(publicador id_membro: Int, post id_post: Int, titulo: String, descricao: String?, link: Link?, id_categs: [Int], id_tags: [Int]) {
+        let membro = getMembro(id: id_membro)
+        let categorias = getCategorias(ids: id_categs)
+        let tags = getTags(ids: id_tags)
+        
+        let post = Post(id: id_post, titulo: titulo, descricao: descricao, link: link, categs: categorias, publicador: membro!)
+        
+        self.posts.append(post)
+        membro?.publicaPost(post: post)
+        // Quando uma publicacao eh feita ela vai para a lista de publicacoes do membro, para a lista de posts daquelas categorias e tags
+        for categ in categorias {
+            categ.addPost(post: post)
+        }
+        for tag in tags {
+            tag.addPost(post: post)
+        }
+        
+    }
+    
+    /* ********************************** FUNCOES ADD ****************************************** */
+    
+    func getLink(url: String) -> Link? {
+        return link_model.getLink(url: url)
+    }
+    
+    func addLink(url: String, post id_post: Int) {
+        let lk = link_model.getLink(url: url)
         let post = getPost(id: id_post)
-        LinkModel.fetchMetadata(for: url) { (result) in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let metadata):
-                    print("Case success")
-                    post?.addLink(link: LinkModel.createLink(metadata: metadata))
-                //post?.debug()
-                case .failure(let error):
-                    print("Case failure")
-                    print(error.localizedDescription)
-                }
-            } // DispatchQueue
-        } // fetch
-    } // insereLink
+        post?.addLink(link: lk)
+    }
+    
+    func novaAssinatura(membro id_membro: Int, categoria: Int) {
+        let membro = getMembro(id: id_membro)
+        let categ = getCategoria(id: categoria)
+        
+        membro?.assinaCategoria(categoria: categ)
+        categ?.addAssinantes(membro: membro)
+    }
+    
+    func salvaPost(membro id_membro: Int, post id_post: Int) {
+        let membro = getMembro(id: id_membro)
+        let post = getPost(id: id_post)
+        
+        membro?.salvaPost(post: post)
+    }
     
 }
