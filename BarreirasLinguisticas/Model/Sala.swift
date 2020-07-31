@@ -26,7 +26,7 @@ class Sala: Identifiable {
         self.membros.append(criador)
         //o criador se torna automaticamente um adm e um membro da sala
         
-        if (self.id < 3) { //so popula com dados as duas primeiras salas
+        if (self.id < 3) { //so populando com dados as duas primeiras salas
             /* ************************************ MEMBROS ************************************* */
             novoMembro(id: 1, is_admin: true)
             novoMembro(id: 2, is_admin: false)
@@ -56,12 +56,52 @@ class Sala: Identifiable {
             novaTag(id: 12, nome: "Visual Accessibility", categs: [1,3])
             
             /* ************************************ POSTS *************************************** */
-            novoPost(publicador: 2, post: 1, titulo: "Stop obsessing over user personas", descricao: "People don’t need your product because they belong to a stupid persona", link: nil, id_categs: [1], id_tags: [1,2])
-            novoPost(publicador: 2, post: 2, titulo: "Geometry in UI Design", descricao: "Because automatic alignment sometimes just doesn’t work", link: nil, id_categs: [1], id_tags: [1])
-            novoPost(publicador: 1, post: 3, titulo: "The Mistakes I Made As a Beginner Programmer", descricao: "Learn to identify them, make habits to avoid them", link: nil, id_categs: [2], id_tags: [])
-            novoPost(publicador: 3, post: 4, titulo: "SwiftUI: a new perception of developing", descricao: "This article is not intended to be a simplifying way to say that programming is “easy”. Of course there are many notions and concepts to learn but with the right motivation and with the right tools nothing is impossible. However, it can be said that with SwiftUI, everyone can program in a easier way. It is not important what your background is but the goals you want to achieve and your motivation", link: nil, id_categs: [1,2], id_tags: [4])
-            novoPost(publicador: 3, post: 5, titulo: "The 10 Qualities of an Emotionally Intelligent Person", descricao: nil, link: nil, id_categs: [5], id_tags: [11])
-            novoPost(publicador: 3, post: 6, titulo: "6 Principles Of Visual Accessibility Design", descricao: "According to the World Health Organization, 285 million people in the world are visually impaired. These 285 million people still need access to the Internet, and deserve to have access to the same information that everybody else does. Many individuals believe that if someone is visually impaired, they do not use the Internet. This is untrue.", link: nil, id_categs: [1,3], id_tags: [12])
+            novoPost(publicador: 2,
+                     post: 1,
+                     titulo: "Stop obsessing over user personas",
+                     descricao: "People don’t need your product because they belong to a stupid persona",
+                     link: nil,
+                     id_categs: [1],
+                     id_tags: [1,2])
+            
+            novoPost(publicador: 2,
+                     post: 2,
+                     titulo: "Geometry in UI Design",
+                     descricao: "Because automatic alignment sometimes just doesn’t work",
+                     link: nil,
+                     id_categs: [1],
+                     id_tags: [1])
+            
+            novoPost(publicador: 1,
+                     post: 3,
+                     titulo: "The Mistakes I Made As a Beginner Programmer",
+                     descricao: "Learn to identify them, make habits to avoid them",
+                     link: nil,
+                     id_categs: [2],
+                     id_tags: [])
+            
+            novoPost(publicador: 3,
+                     post: 4,
+                     titulo: "SwiftUI: a new perception of developing",
+                     descricao: "This article is not intended to be a simplifying way to say that programming is “easy”. Of course there are many notions and concepts to learn but with the right motivation and with the right tools nothing is impossible. However, it can be said that with SwiftUI, everyone can program in a easier way. It is not important what your background is but the goals you want to achieve and your motivation",
+                     link: nil,
+                     id_categs: [1,2],
+                     id_tags: [4])
+            
+            novoPost(publicador: 3,
+                     post: 5,
+                     titulo: "The 10 Qualities of an Emotionally Intelligent Person",
+                     descricao: nil,
+                     link: nil,
+                     id_categs: [5],
+                     id_tags: [11])
+            
+            novoPost(publicador: 3,
+                     post: 6, titulo: "6 Principles Of Visual Accessibility Design",
+                     descricao: "According to the World Health Organization, 285 million people in the world are visually impaired. These 285 million people still need access to the Internet, and deserve to have access to the same information that everybody else does. Many individuals believe that if someone is visually impaired, they do not use the Internet. This is untrue.",
+                     link: nil,
+                     id_categs: [1,3],
+                     id_tags: [12])
             
             /* ************************************* LINKS ***************************************** */
             addLink(url: "https://uxdesign.cc/stop-obsessing-over-user-personas-b2792ca00c7f", post: 1)
@@ -71,12 +111,15 @@ class Sala: Identifiable {
             addLink(url: "https://medium.com/personal-growth/the-10-qualities-of-an-emotionally-intelligent-person-f595440af4fb", post: 5)
             addLink(url: "https://usabilitygeek.com/6-principles-visual-accessibility-design/", post: 6)
             
-            
             /* ********************************** ASSINATURAS ************************************ */
-            novaAssinatura(membro: 1, categoria: 1); novaAssinatura(membro: 1, categoria: 2)
-            novaAssinatura(membro: 1, categoria: 4); novaAssinatura(membro: 2, categoria: 1)
-            novaAssinatura(membro: 2, categoria: 3); novaAssinatura(membro: 3, categoria: 2)
-            novaAssinatura(membro: 3, categoria: 3); novaAssinatura(membro: 5, categoria: 3)
+            novaAssinatura(membro: 1, categoria: 1)
+            novaAssinatura(membro: 1, categoria: 2)
+            novaAssinatura(membro: 1, categoria: 4)
+            novaAssinatura(membro: 2, categoria: 1)
+            novaAssinatura(membro: 2, categoria: 3)
+            novaAssinatura(membro: 3, categoria: 2)
+            novaAssinatura(membro: 3, categoria: 3)
+            novaAssinatura(membro: 5, categoria: 3)
             novaAssinatura(membro: 5, categoria: 5)
             
             /* ******************************** POSTS SALVOS ************************************ */
@@ -167,6 +210,7 @@ class Sala: Identifiable {
         if let usuario = DAO().getUsuario(id: id_membro) {
             let membro = Membro(usuario: usuario, is_admin: is_admin)
             self.membros.append(membro)
+            if is_admin { self.admins.append(membro) }
         }
         else {
             print("Membro não pode ser adicionado à sala \(self.nome)")
@@ -184,7 +228,7 @@ class Sala: Identifiable {
         self.tags.append(tag)
         for categ in categorias {
             categ.addTag(tag: tag)
-        }// Todas as categorias as quais uma tag pertencera terao ela nas suas listas de tags
+        }// Todas as categorias as quais uma tag pertencer terao ela nas suas listas de tags
     }
     
     func novoPost(publicador id_membro: Int, post id_post: Int, titulo: String, descricao: String?, link: Link?, id_categs: [Int], id_tags: [Int]) {
