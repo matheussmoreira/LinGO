@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Tag: Identifiable {
+class Tag: Identifiable, ObservableObject {
     let id: Int // = UUID()
     var nome: String
     var categorias: [Categoria] = []

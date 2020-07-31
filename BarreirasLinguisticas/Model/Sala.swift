@@ -9,7 +9,7 @@
 import Foundation
 import LinkPresentation
 
-class Sala: Identifiable {
+class Sala: Identifiable, ObservableObject {
     let id: Int
     var nome: String
     var admins: [Membro] = []

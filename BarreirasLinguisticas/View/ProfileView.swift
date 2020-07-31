@@ -9,8 +9,9 @@
 import SwiftUI
 
 struct ProfileView: View {
-    var sala: Sala
-    var membro: Membro
+    //@EnvironmentObject var dao: DAO
+    @ObservedObject var sala: Sala
+    @ObservedObject var membro: Membro
     
     var body: some View {
         //Text("Profile View!")

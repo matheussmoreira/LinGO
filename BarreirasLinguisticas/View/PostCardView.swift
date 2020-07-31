@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct PostCardView: View {
-    let post: Post
+    @ObservedObject var post: Post
     
     var body: some View {
         ZStack {

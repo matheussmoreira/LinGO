@@ -10,7 +10,7 @@ import SwiftUI
 
 struct RoomsView: View {
     @EnvironmentObject var dao: DAO
-    var usuario: Usuario
+    @ObservedObject var usuario: Usuario
     
     var body: some View {
         VStack{
@@ -31,7 +31,7 @@ struct RoomsView: View {
                     NavigationView {
                         VStack{
                             ForEach(usuario.salas) { sala in
-                                NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario).environmentObject(self.dao)){
+                                NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario)){
                                     Text("Go to \(sala.nome)")
                                 }
                             }

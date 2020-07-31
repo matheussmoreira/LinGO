@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct CategoriesView: View {
-    var sala: Sala
-    var membro: Membro
+    @ObservedObject var sala: Sala
+    @ObservedObject var membro: Membro
     @State private var textoPesq: String = ""
     
     var body: some View {

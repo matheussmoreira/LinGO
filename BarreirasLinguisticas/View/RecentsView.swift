@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct RecentsView: View {
-    let post: Post
+    @ObservedObject var post: Post
     
     var body: some View {
         ZStack {

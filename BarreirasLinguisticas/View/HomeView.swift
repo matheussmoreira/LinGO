@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct HomeView: View {
-    var sala: Sala
-    var membro: Membro
+    @ObservedObject var sala: Sala
+    @ObservedObject var membro: Membro
     var allPosts : [Post] { return sala.posts }
     var recentPosts: [Post] { return sala.posts } // mudar para base na data
     

@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct PublicationView: View {
-    var sala: Sala
-    var membro: Membro
+    @ObservedObject var sala: Sala
+    @ObservedObject var membro: Membro
     
     var body: some View {
         Text("Publication View!")

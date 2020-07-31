@@ -9,9 +9,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var dao: DAO
-    var sala: Sala
-    var usuario: Usuario
+    @ObservedObject var sala: Sala
+    @ObservedObject var usuario: Usuario
     var membro: Membro { return sala.getMembro(id: usuario.id)!}
     //@State private var selection = 2
     
@@ -39,6 +38,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(sala: DAO().salas[0], usuario: DAO().usuarios[0]).environmentObject(DAO())
+        ContentView(sala: DAO().salas[0], usuario: DAO().usuarios[0])/*.environmentObject(DAO())*/
     }
 }
