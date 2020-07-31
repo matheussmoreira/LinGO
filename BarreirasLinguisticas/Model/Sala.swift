@@ -17,14 +17,13 @@ class Sala: Identifiable {
     var posts: [Post] = []
     var categorias: [Categoria] = []
     var tags: [Tag] = []
-    var link_model = LinkModel()
     
     init(id: Int, nome: String, criador: Membro) {
         self.id = id
         self.nome = nome
         self.admins.append(criador)
         self.membros.append(criador)
-        //o criador se torna automaticamente um adm e um membro da sala
+        //o criador se torna automaticamente um admin e um membro da sala
         
         if (self.id < 3) { //so populando com dados as duas primeiras salas
             /* ************************************ MEMBROS ************************************* */
@@ -60,56 +59,48 @@ class Sala: Identifiable {
                      post: 1,
                      titulo: "Stop obsessing over user personas",
                      descricao: "People don’t need your product because they belong to a stupid persona",
-                     link: nil,
-                     id_categs: [1],
-                     id_tags: [1,2])
+                     link: getLink(url: "https://uxdesign.cc/stop-obsessing-over-user-personas-b2792ca00c7f"),
+                     categs: [1],
+                     tags: [1,2])
             
             novoPost(publicador: 2,
                      post: 2,
                      titulo: "Geometry in UI Design",
                      descricao: "Because automatic alignment sometimes just doesn’t work",
-                     link: nil,
-                     id_categs: [1],
-                     id_tags: [1])
+                     link: getLink(url: "https://medium.com/design-notes/geometry-in-ui-design-61ef4f88218a"),
+                     categs: [1],
+                     tags: [1])
             
             novoPost(publicador: 1,
                      post: 3,
                      titulo: "The Mistakes I Made As a Beginner Programmer",
                      descricao: "Learn to identify them, make habits to avoid them",
-                     link: nil,
-                     id_categs: [2],
-                     id_tags: [])
+                     link: getLink(url: "https://medium.com/edge-coders/the-mistakes-i-made-as-a-beginner-programmer-ac8b3e54c312"),
+                     categs: [2],
+                     tags: [])
             
             novoPost(publicador: 3,
                      post: 4,
                      titulo: "SwiftUI: a new perception of developing",
                      descricao: "This article is not intended to be a simplifying way to say that programming is “easy”. Of course there are many notions and concepts to learn but with the right motivation and with the right tools nothing is impossible. However, it can be said that with SwiftUI, everyone can program in a easier way. It is not important what your background is but the goals you want to achieve and your motivation",
-                     link: nil,
-                     id_categs: [1,2],
-                     id_tags: [4])
+                     link: getLink(url: "https://medium.com/apple-developer-academy-federico-ii/swiftui-a-new-perception-of-developing-780906ee492a"),
+                     categs: [1,2],
+                     tags: [4])
             
             novoPost(publicador: 3,
                      post: 5,
                      titulo: "The 10 Qualities of an Emotionally Intelligent Person",
                      descricao: nil,
-                     link: nil,
-                     id_categs: [5],
-                     id_tags: [11])
+                     link: getLink(url: "https://medium.com/personal-growth/the-10-qualities-of-an-emotionally-intelligent-person-f595440af4fb"),
+                     categs: [5],
+                     tags: [11])
             
             novoPost(publicador: 3,
                      post: 6, titulo: "6 Principles Of Visual Accessibility Design",
                      descricao: "According to the World Health Organization, 285 million people in the world are visually impaired. These 285 million people still need access to the Internet, and deserve to have access to the same information that everybody else does. Many individuals believe that if someone is visually impaired, they do not use the Internet. This is untrue.",
-                     link: nil,
-                     id_categs: [1,3],
-                     id_tags: [12])
-            
-            /* ************************************* LINKS ***************************************** */
-            addLink(url: "https://uxdesign.cc/stop-obsessing-over-user-personas-b2792ca00c7f", post: 1)
-            addLink(url: "https://medium.com/design-notes/geometry-in-ui-design-61ef4f88218a", post: 2)
-            addLink(url: "https://medium.com/edge-coders/the-mistakes-i-made-as-a-beginner-programmer-ac8b3e54c312", post: 3)
-            addLink(url: "https://medium.com/apple-developer-academy-federico-ii/swiftui-a-new-perception-of-developing-780906ee492a", post: 4)
-            addLink(url: "https://medium.com/personal-growth/the-10-qualities-of-an-emotionally-intelligent-person-f595440af4fb", post: 5)
-            addLink(url: "https://usabilitygeek.com/6-principles-visual-accessibility-design/", post: 6)
+                     link: getLink(url: "https://usabilitygeek.com/6-principles-visual-accessibility-design/"),
+                     categs: [1,3],
+                     tags: [12])
             
             /* ********************************** ASSINATURAS ************************************ */
             novaAssinatura(membro: 1, categoria: 1)
@@ -176,6 +167,10 @@ class Sala: Identifiable {
         return nil
     }
     
+    func getLink(url: String) -> Link? {
+        return LinkManager().getLink(url: url)
+    }
+    
     func getPostsByCategorie(categ: Int) -> [Post] {
         var posts: [Post] = []
         
@@ -231,10 +226,10 @@ class Sala: Identifiable {
         }// Todas as categorias as quais uma tag pertencer terao ela nas suas listas de tags
     }
     
-    func novoPost(publicador id_membro: Int, post id_post: Int, titulo: String, descricao: String?, link: Link?, id_categs: [Int], id_tags: [Int]) {
+    func novoPost(publicador id_membro: Int, post id_post: Int, titulo: String, descricao: String?, link: Link?, categs: [Int], tags: [Int]) {
         let membro = getMembro(id: id_membro)
-        let categorias = getCategorias(ids: id_categs)
-        let tags = getTags(ids: id_tags)
+        let categorias = getCategorias(ids: categs)
+        let tags = getTags(ids: tags)
         
         let post = Post(id: id_post, titulo: titulo, descricao: descricao, link: link, categs: categorias, publicador: membro!)
         
@@ -250,18 +245,7 @@ class Sala: Identifiable {
         
     }
     
-    /* ********************************** FUNCOES ADD ****************************************** */
-    
-    func getLink(url: String) -> Link? {
-        return link_model.getLink(url: url)
-    }
-    
-    func addLink(url: String, post id_post: Int) {
-        let lk = link_model.getLink(url: url)
-        let post = getPost(id: id_post)
-        post?.addLink(link: lk)
-    }
-    
+    /* ********************************* RELACIONAMENTOS ****************************************** */
     func novaAssinatura(membro id_membro: Int, categoria: Int) {
         let membro = getMembro(id: id_membro)
         let categ = getCategoria(id: categoria)
@@ -276,5 +260,11 @@ class Sala: Identifiable {
         
         membro?.salvaPost(post: post)
     }
+    
+    /*func addLink(url: String, post id_post: Int) {
+        let lk = link_manager.getLink(url: url)
+        let post = getPost(id: id_post)
+        post?.addLink(link: lk)
+    }*/
     
 }

@@ -44,7 +44,7 @@ struct HomeView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack (spacing: 20){
                         ForEach(allPosts){ post in
-                            Button(action: { print("Clicou!") }, label: { FYCardView(post: post)
+                            Button(action: { print("Clicou!") }, label: { PostCardView(post: post)
                             })
                         }
                     }

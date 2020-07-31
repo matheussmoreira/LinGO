@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct FYCardView: View {
+struct PostCardView: View {
     let post: Post
     
     var body: some View {
@@ -83,6 +83,6 @@ struct FYCardView: View {
 
 struct FYCardView_Previews: PreviewProvider {
     static var previews: some View {
-        FYCardView(post: DAO().salas[0].posts[0])
+        PostCardView(post: DAO().salas[0].posts[0])
     }
 }
