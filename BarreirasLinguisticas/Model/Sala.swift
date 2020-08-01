@@ -13,17 +13,17 @@ class Sala: Identifiable, ObservableObject {
     let id: Int
     var nome: String
     var admins: [Membro] = []
+    var usuarios: [Usuario] = []
     var membros: [Membro] = []
     var posts: [Post] = []
     var categorias: [Categoria] = []
     var tags: [Tag] = []
+    var link_manager = LinkManager()
     
-    init(id: Int, nome: String, criador: Membro) {
+    init(id: Int, nome: String, criador: Usuario) {
         self.id = id
         self.nome = nome
-        self.admins.append(criador)
-        self.membros.append(criador)
-        //o criador se torna automaticamente um admin e um membro da sala
+        novoMembro(id: criador.id, is_admin: true)
         
         if (self.id < 3) { //so populando com dados as duas primeiras salas
             /* ************************************ MEMBROS ************************************* */
@@ -41,17 +41,17 @@ class Sala: Identifiable, ObservableObject {
             novaCategoria(id: 5, nome: "Business")
             
             /* ************************************* TAGS *************************************** */
-            novaTag(id: 1, nome: "UX", categs: [1])
-            novaTag(id: 2, nome: "Personas", categs: [1])
-            novaTag(id: 3, nome: "Git", categs: [2])
-            novaTag(id: 4, nome: "SwiftUI", categs: [1,2])
-            novaTag(id: 5, nome: "JSON", categs: [2])
-            novaTag(id: 6, nome: "Colors", categs: [1,3])
-            novaTag(id: 7, nome: "Sound Effects", categs: [3,4])
-            novaTag(id: 8, nome: "Characters", categs: [4])
-            novaTag(id: 9, nome: "App Store", categs: [5])
-            novaTag(id: 10, nome: "In-App Purchases", categs: [5])
-            novaTag(id: 11, nome: "Self-Knowledge", categs:  [5])
+            novaTag(id: 1,  nome: "UX",                   categs: [1])
+            novaTag(id: 2,  nome: "Personas",             categs: [1])
+            novaTag(id: 3,  nome: "Git",                  categs: [2])
+            novaTag(id: 4,  nome: "SwiftUI",              categs: [1,2])
+            novaTag(id: 5,  nome: "JSON",                 categs: [2])
+            novaTag(id: 6,  nome: "Colors",               categs: [1,3])
+            novaTag(id: 7,  nome: "Sound Effects",        categs: [3,4])
+            novaTag(id: 8,  nome: "Characters",           categs: [4])
+            novaTag(id: 9,  nome: "App Store",            categs: [5])
+            novaTag(id: 10, nome: "In-App Purchases",     categs: [5])
+            novaTag(id: 11, nome: "Self-Knowledge",       categs:  [5])
             novaTag(id: 12, nome: "Visual Accessibility", categs: [1,3])
             
             /* ************************************ POSTS *************************************** */
@@ -59,7 +59,7 @@ class Sala: Identifiable, ObservableObject {
                      post: 1,
                      titulo: "Stop obsessing over user personas",
                      descricao: "People don’t need your product because they belong to a stupid persona",
-                     link: getLink(url: "https://uxdesign.cc/stop-obsessing-over-user-personas-b2792ca00c7f"),
+                     link: link_manager.getLink(url: "https://uxdesign.cc/stop-obsessing-over-user-personas-b2792ca00c7f"),
                      categs: [1],
                      tags: [1,2])
             
@@ -67,7 +67,7 @@ class Sala: Identifiable, ObservableObject {
                      post: 2,
                      titulo: "Geometry in UI Design",
                      descricao: "Because automatic alignment sometimes just doesn’t work",
-                     link: getLink(url: "https://medium.com/design-notes/geometry-in-ui-design-61ef4f88218a"),
+                     link: link_manager.getLink(url: "https://medium.com/design-notes/geometry-in-ui-design-61ef4f88218a"),
                      categs: [1],
                      tags: [1])
             
@@ -75,7 +75,7 @@ class Sala: Identifiable, ObservableObject {
                      post: 3,
                      titulo: "The Mistakes I Made As a Beginner Programmer",
                      descricao: "Learn to identify them, make habits to avoid them",
-                     link: getLink(url: "https://medium.com/edge-coders/the-mistakes-i-made-as-a-beginner-programmer-ac8b3e54c312"),
+                     link: link_manager.getLink(url: "https://medium.com/edge-coders/the-mistakes-i-made-as-a-beginner-programmer-ac8b3e54c312"),
                      categs: [2],
                      tags: [])
             
@@ -83,7 +83,7 @@ class Sala: Identifiable, ObservableObject {
                      post: 4,
                      titulo: "SwiftUI: a new perception of developing",
                      descricao: "This article is not intended to be a simplifying way to say that programming is “easy”. Of course there are many notions and concepts to learn but with the right motivation and with the right tools nothing is impossible. However, it can be said that with SwiftUI, everyone can program in a easier way. It is not important what your background is but the goals you want to achieve and your motivation",
-                     link: getLink(url: "https://medium.com/apple-developer-academy-federico-ii/swiftui-a-new-perception-of-developing-780906ee492a"),
+                     link: link_manager.getLink(url: "https://medium.com/apple-developer-academy-federico-ii/swiftui-a-new-perception-of-developing-780906ee492a"),
                      categs: [1,2],
                      tags: [4])
             
@@ -91,14 +91,14 @@ class Sala: Identifiable, ObservableObject {
                      post: 5,
                      titulo: "The 10 Qualities of an Emotionally Intelligent Person",
                      descricao: nil,
-                     link: getLink(url: "https://medium.com/personal-growth/the-10-qualities-of-an-emotionally-intelligent-person-f595440af4fb"),
+                     link: link_manager.getLink(url: "https://medium.com/personal-growth/the-10-qualities-of-an-emotionally-intelligent-person-f595440af4fb"),
                      categs: [5],
                      tags: [11])
             
             novoPost(publicador: 3,
                      post: 6, titulo: "6 Principles Of Visual Accessibility Design",
                      descricao: "According to the World Health Organization, 285 million people in the world are visually impaired. These 285 million people still need access to the Internet, and deserve to have access to the same information that everybody else does. Many individuals believe that if someone is visually impaired, they do not use the Internet. This is untrue.",
-                     link: getLink(url: "https://usabilitygeek.com/6-principles-visual-accessibility-design/"),
+                     link: link_manager.getLink(url: "https://usabilitygeek.com/6-principles-visual-accessibility-design/"),
                      categs: [1,3],
                      tags: [12])
             
@@ -121,7 +121,7 @@ class Sala: Identifiable, ObservableObject {
     /* ********************************** FUNCOES GET **************************************** */
     func getMembro(id: Int) -> Membro? {
         for membro in self.membros {
-            if (id == membro.id) { return membro }
+            if (id == membro.usuario.id) { return membro }
         }
         return nil
     }
@@ -167,10 +167,6 @@ class Sala: Identifiable, ObservableObject {
         return nil
     }
     
-    func getLink(url: String) -> Link? {
-        return LinkManager().getLink(url: url)
-    }
-    
     func getPostsByCategorie(categ: Int) -> [Post] {
         var posts: [Post] = []
         
@@ -202,19 +198,18 @@ class Sala: Identifiable, ObservableObject {
     /* ******************************** NOVOS OBJETOS **************************************** */
     func novoMembro(id id_membro: Int, is_admin: Bool) {
         if let usuario = DAO().getUsuario(id: id_membro) {
-            
-            usuario.addNovaSala(self) // ?????
-            getMembro(id: id_membro)?.addNovaSala(self) // ?????
-            
-            let membro_existe = getMembro(id: usuario.id)
-            if membro_existe == nil {
-                let membro = Membro(usuario: usuario, is_admin: is_admin)
+            if getMembro(id: usuario.id) == nil {
+                let membro = Membro(usuario: usuario, sala: self, is_admin: is_admin)
+                self.usuarios.append(usuario)
                 self.membros.append(membro)
                 if is_admin { self.admins.append(membro) }
             }
+            else {
+                print("Membro não adicionado à sala \(self.nome) pois ele já existe nela")
+            }
         }
         else {
-            print("Membro não pode ser adicionado à sala \(self.nome)")
+            print("Membro não adicionado à sala \(self.nome) pois Usuário não existe")
         }
     }
     
@@ -237,16 +232,26 @@ class Sala: Identifiable, ObservableObject {
         let categorias = getCategorias(ids: categs)
         let tags = getTags(ids: tags)
         
-        let post = Post(id: id_post, titulo: titulo, descricao: descricao, link: link, categs: categorias, publicador: membro!)
-        
-        self.posts.append(post)
-        membro?.publicaPost(post: post)
-        // Quando uma publicacao eh feita ela vai para a lista de publicacoes do membro, para a lista de posts daquelas categorias e tags
-        for categ in categorias {
-            categ.addPost(post: post)
+        if membro != nil {
+            if categorias.count != 0{
+                let post = Post(id: id_post, titulo: titulo, descricao: descricao, link: link, categs: categorias, publicador: membro!)
+                
+                self.posts.append(post)
+                membro?.publicaPost(post: post)
+                // Quando uma publicacao eh feita ela vai para a lista de publicacoes do membro, para a lista de posts daquelas categorias e tags
+                for categ in categorias {
+                    categ.addPost(post: post)
+                }
+                for tag in tags {
+                    tag.addPost(post: post)
+                }
+            }
+            else {
+                print("Impossível criar o post pois nenhuma categoria é válida")
+            }
         }
-        for tag in tags {
-            tag.addPost(post: post)
+        else {
+            print("Impossível criar o post pois o membro publicador não existe")
         }
         
     }

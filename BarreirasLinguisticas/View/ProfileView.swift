@@ -17,7 +17,7 @@ struct ProfileView: View {
         //Text("Profile View!")
             //.fontWeight(.bold)
         VStack {
-            Image(membro.foto_perfil)
+            Image(membro.usuario.foto_perfil)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 150.0, height: 150.0)
@@ -25,7 +25,7 @@ struct ProfileView: View {
                 .overlay(
                     Circle().stroke(Color.white, lineWidth: 5)
             )
-            Text(membro.nome)
+            Text(membro.usuario.nome)
             .font(.title)
             .fontWeight(.bold)
             .foregroundColor(Color.gray)
@@ -35,7 +35,7 @@ struct ProfileView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack{
                     ForEach(sala.membros) { membro in
-                        Text(membro.nome)
+                        Text(membro.usuario.nome)
                             .padding(.leading)
                     }
                 }

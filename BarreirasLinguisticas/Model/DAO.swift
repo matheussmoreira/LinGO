@@ -62,6 +62,16 @@ class DAO: ObservableObject {
         return nil
     }
     
+    func getSalasByUser(id: Int) -> [Sala] {
+        var salas: [Sala] = []
+        for sala in self.salas {
+            for usuario in sala.usuarios {
+                if (id == usuario.id) { salas.append(sala) } 
+            }
+        }
+        return salas
+    }
+    
     func getUsuario(id: Int) -> Usuario? {
         for user in self.usuarios {
             if (id == user.id) { return user }

@@ -29,14 +29,14 @@ struct PostCardView: View {
                     
                     Spacer()
                     //SHARED BY \(SOMEONE)
-                    Text("Shared by \(post.publicador.nome)")
+                    Text("Shared by \(post.publicador.usuario.nome)")
                         .foregroundColor(Color.gray)
                         .lineLimit(1)
                     
                     //ENGLISH FLUENCY COLOR
                     Image(systemName: "circle.fill")
                         .imageScale(.small)
-                        .foregroundColor(post.publicador.cor_fluencia)
+                        .foregroundColor(post.publicador.usuario.cor_fluencia)
                     
                 } .padding(.horizontal, 32)
                 

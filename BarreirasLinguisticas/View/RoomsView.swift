@@ -11,47 +11,49 @@ import SwiftUI
 struct RoomsView: View {
     @EnvironmentObject var dao: DAO
     @ObservedObject var usuario: Usuario
+    var salas: [Sala] { return dao.getSalasByUser(id: usuario.id) }
     
     var body: some View {
         VStack{
-            Text("\(usuario.nome)'s Rooms")
-            .font(.title)
-            .fontWeight(.bold)
-            if usuario.salas.count == 0 {
+            if salas.count == 0 {//usuario.salas.count == 0 {
+                Text("\(usuario.nome)'s Rooms")
+                    .font(.title)
+                    .fontWeight(.bold)
                 Spacer()
                 Text("There are no rooms :(")
                     .foregroundColor(Color.gray)
                 Spacer()
             }
             else{
-                VStack{
-                    Text("Choose a Room")
-                    .font(.title)
-                    
-                    NavigationView {
-                        VStack{
-                            ForEach(usuario.salas) { sala in
-                                NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario)){
-                                    Text("Go to \(sala.nome)")
-                                }
+                NavigationView {
+                    VStack{
+                        Text("\(usuario.nome)'s Rooms")
+                            .font(.title)
+                            .fontWeight(.bold)
+                        Spacer()
+                        Text("Choose a Room")
+                            .font(.title)
+                        ForEach(/*usuario.*/salas) { sala in
+                            NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario)){
+                                Text("Go to \(sala.nome)")
                             }
-                        } //VStack
-                    } //NavigationView
-                } //VStack
+                        }
+                        Spacer()
+                    } //VStack
+                } //NavigationView
             } //else
-            Button(action: {self.novaSala(nome: "Room \(self.dao.salas.count+1)")}) {
+            Button(action: {self.novaSala(nome: "Room \(self.dao.salas.count+1)", criador: self.usuario)}) {
                 Text("Add new Room")
             }
         } //VStack
     } //body
     
-    func novaSala(nome: String) {
+    func novaSala(nome: String, criador: Usuario) {
         var id: Int = 1
         if let ultima_sala = self.dao.salas.last {
             id = ultima_sala.id + 1
         }
-        let sala = Sala(id: id, nome: nome, criador: Membro(usuario: usuario, is_admin: true))
-        self.usuario.addNovaSala(sala)
+        let sala = Sala(id: id, nome: nome, criador: criador)
         self.dao.addNovaSala(sala)
     }
     

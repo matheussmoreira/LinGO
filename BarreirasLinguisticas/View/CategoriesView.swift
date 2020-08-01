@@ -17,14 +17,25 @@ struct CategoriesView: View {
         
         NavigationView {
             VStack {
-                SearchBarView(mensagem: "Search for categories")
-                
                 if sala.categorias.count == 0 {
-                    Text("Add a new categorie by adding a new post!")
-                        .foregroundColor(Color.gray)
+                    VStack {
+                        HStack {
+                            Text("Categories")
+                                .font(.system(.title, design: .rounded))
+                                .fontWeight(.bold)
+                                .padding(.leading)
+                            Spacer()
+                        }
+                        SearchBarView(mensagem: "Search for categories")
+                        Spacer()
+                        Text("Add a new categorie by adding a new post!")
+                            .foregroundColor(Color.gray)
+                        Spacer()
+                    }
                     
                 }
                 else{
+                    SearchBarView(mensagem: "Search for categories")
                     List (sala.categorias){ categ in
                         HStack {
                             // ICON

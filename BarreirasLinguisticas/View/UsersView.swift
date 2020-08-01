@@ -20,20 +20,20 @@ struct UsersView: View {
                 Spacer()
             }
             else{
-                VStack {
-                    Text("Choose a User to Start")
-                        .font(.title)
-                        .fontWeight(.bold)
-                    NavigationView {
-                        VStack{
-                            ForEach(dao.usuarios) { usuario in
-                                NavigationLink(destination: RoomsView(usuario: usuario).environmentObject(self.dao)){
-                                    Text(usuario.nome)
-                                }
+                NavigationView {
+                    VStack{
+                        Text("Choose a User")
+                            .font(.title)
+                            .fontWeight(.bold)
+                        Spacer()
+                        ForEach(dao.usuarios) { usuario in
+                            NavigationLink(destination: RoomsView(usuario: usuario).environmentObject(self.dao)){
+                                Text(usuario.nome)
                             }
-                        } //VStack
-                    }//NavigationView
-                } //VStack
+                        }
+                        Spacer()
+                    } //VStack
+                }//NavigationView
             } //else
         } //VStack
     } //body

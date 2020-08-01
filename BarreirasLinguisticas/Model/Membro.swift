@@ -7,18 +7,20 @@
 //
 
 import Foundation
-import SwiftUI
 
-class Membro: Usuario {
+class Membro: Identifiable, ObservableObject {
+    var usuario: Usuario
+    var sala: Sala
     var is_admin: Bool
     //var comentarios: [Comentario] = []
     var assinaturas: [Categoria] = []
     var posts_salvos: [Post] = []
     var posts_publicados: [Post] = []
     
-    init (usuario: Usuario, is_admin: Bool) {
+    init (usuario: Usuario, sala: Sala, is_admin: Bool) {
+        self.usuario = usuario
+        self.sala = sala
         self.is_admin = is_admin
-        super.init(id: usuario.id, email: usuario.email, senha: usuario.senha, nome: usuario.nome, foto_perfil: usuario.foto_perfil, pais: usuario.pais, fluencia_ingles: usuario.fluencia_ingles)
     }
     
     func salvaPost(post: Post?) {

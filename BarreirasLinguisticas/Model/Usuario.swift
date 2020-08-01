@@ -26,7 +26,6 @@ class Usuario: Identifiable, ObservableObject {
         default: return .black
         }
     }
-    @Published var salas: [Sala] = []
     
     init(id: Int, email: String?, senha: String?, nome: String?, foto_perfil: String?, pais: String?, fluencia_ingles: String?) {
         self.id = id
@@ -36,9 +35,5 @@ class Usuario: Identifiable, ObservableObject {
         self.foto_perfil = foto_perfil ?? "user_icon"
         self.pais = pais ?? "<pais>"
         self.fluencia_ingles = fluencia_ingles ?? "<fluencia>"
-    }
-    
-    func addNovaSala(_ sala: Sala) {
-        self.salas.append(sala)
     }
 }
