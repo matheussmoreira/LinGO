@@ -51,7 +51,7 @@ class Post: Identifiable, ObservableObject {
             addLinkImage(from: link!)
             addLinkIcon(from: link!)
         }
-        else { print("Não deu pra adquirir o link, está inválido") }
+        else { print("Não deu pra adquirir o link pois está inválido") }
     }
     
     func addLinkImage(from link: Link) {

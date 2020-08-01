@@ -19,7 +19,7 @@ class LinkManager: ObservableObject {
                 switch result {
                 case .success(let metadata):
                     print("Case success")
-                    link = self.createLink(metadata: metadata)
+                    link = self.createLink(metadata)
                 case .failure(let error):
                     print("Case failure")
                     print(error.localizedDescription)
@@ -27,6 +27,7 @@ class LinkManager: ObservableObject {
                 }
             } // DispatchQueue
         } // fetch
+
         return link
     }
     
@@ -49,11 +50,10 @@ class LinkManager: ObservableObject {
            } // startFetchingMetadata
        }
     
-    func createLink(metadata: LPLinkMetadata) -> Link {
+    func createLink(_ metadata: LPLinkMetadata) -> Link {
         let link = Link()
         link.id = Int(Date.timeIntervalSinceReferenceDate)
         link.metadata = metadata
-        saved_link = link
         saveLink(link.id!)
         return link
     }
