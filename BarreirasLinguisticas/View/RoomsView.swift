@@ -10,8 +10,10 @@ import SwiftUI
 
 struct RoomsView: View {
     @EnvironmentObject var dao: DAO
-    @ObservedObject var usuario: Usuario
-    var salas: [Sala] { return dao.getSalasByUser(id: usuario.id) }
+    var usuario: Usuario { return dao.usuarios[3] }
+    var salas: [Sala] {
+        return dao.getSalasByUser(id: usuario.id)
+    }
     
     var body: some View {
         VStack{
@@ -61,6 +63,6 @@ struct RoomsView: View {
 
 struct RoomsView_Previews: PreviewProvider {
     static var previews: some View {
-        RoomsView(usuario: DAO().usuarios[0]).environmentObject(DAO())
+        RoomsView().environmentObject(DAO())
     }
 }

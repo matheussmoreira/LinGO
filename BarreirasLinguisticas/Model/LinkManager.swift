@@ -70,7 +70,10 @@ class LinkManager: ObservableObject {
     }
     
     /*fileprivate */func loadLink(_ id_link: Int) -> Link? {
-        if id_link == 0 { print("Received id as zero"); return nil }
+        if id_link == 0 {
+            print("\nReceived id as zero\n")
+            return nil
+        }
         
         guard let docDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
         let linksURL = docDirURL.appendingPathComponent("Link \(id_link)")

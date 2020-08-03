@@ -204,9 +204,9 @@ class Sala: Identifiable, ObservableObject {
                 self.membros.append(membro)
                 if is_admin { self.admins.append(membro) }
             }
-            else {
+            /*else {
                 print("Membro não adicionado à sala \(self.nome) pois ele já existe nela")
-            }
+            }*/
         }
         else {
             print("Membro não adicionado à sala \(self.nome) pois Usuário não existe")
