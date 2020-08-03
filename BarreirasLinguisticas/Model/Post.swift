@@ -46,6 +46,7 @@ class Post: Identifiable, ObservableObject {
     
     func addLink(link: Link?) {
         if (link != nil) {
+            print("Pegou o link não nil")
             self.link = link!
             //self.link_id = link!.id
             addLinkImage(from: link!)

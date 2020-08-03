@@ -59,7 +59,7 @@ class Sala: Identifiable, ObservableObject {
                      post: 1,
                      titulo: "Stop obsessing over user personas",
                      descricao: "People don’t need your product because they belong to a stupid persona",
-                     link: link_manager.getLink(url: "https://uxdesign.cc/stop-obsessing-over-user-personas-b2792ca00c7f"),
+                     link: Link(urlString: "https://uxdesign.cc/stop-obsessing-over-user-personas-b2792ca00c7f"),
                      categs: [1],
                      tags: [1,2])
             
@@ -67,7 +67,7 @@ class Sala: Identifiable, ObservableObject {
                      post: 2,
                      titulo: "Geometry in UI Design",
                      descricao: "Because automatic alignment sometimes just doesn’t work",
-                     link: link_manager.getLink(url: "https://medium.com/design-notes/geometry-in-ui-design-61ef4f88218a"),
+                     link: Link(urlString: "https://medium.com/design-notes/geometry-in-ui-design-61ef4f88218a"),
                      categs: [1],
                      tags: [1])
             
@@ -75,7 +75,7 @@ class Sala: Identifiable, ObservableObject {
                      post: 3,
                      titulo: "The Mistakes I Made As a Beginner Programmer",
                      descricao: "Learn to identify them, make habits to avoid them",
-                     link: link_manager.getLink(url: "https://medium.com/edge-coders/the-mistakes-i-made-as-a-beginner-programmer-ac8b3e54c312"),
+                     link: Link(urlString: "https://medium.com/edge-coders/the-mistakes-i-made-as-a-beginner-programmer-ac8b3e54c312"),
                      categs: [2],
                      tags: [])
             
@@ -83,7 +83,7 @@ class Sala: Identifiable, ObservableObject {
                      post: 4,
                      titulo: "SwiftUI: a new perception of developing",
                      descricao: "This article is not intended to be a simplifying way to say that programming is “easy”. Of course there are many notions and concepts to learn but with the right motivation and with the right tools nothing is impossible. However, it can be said that with SwiftUI, everyone can program in a easier way. It is not important what your background is but the goals you want to achieve and your motivation",
-                     link: link_manager.getLink(url: "https://medium.com/apple-developer-academy-federico-ii/swiftui-a-new-perception-of-developing-780906ee492a"),
+                     link: Link(urlString: "https://medium.com/apple-developer-academy-federico-ii/swiftui-a-new-perception-of-developing-780906ee492a"),
                      categs: [1,2],
                      tags: [4])
             
@@ -91,14 +91,14 @@ class Sala: Identifiable, ObservableObject {
                      post: 5,
                      titulo: "The 10 Qualities of an Emotionally Intelligent Person",
                      descricao: nil,
-                     link: link_manager.getLink(url: "https://medium.com/personal-growth/the-10-qualities-of-an-emotionally-intelligent-person-f595440af4fb"),
+                     link: Link(urlString: "https://medium.com/personal-growth/the-10-qualities-of-an-emotionally-intelligent-person-f595440af4fb"),
                      categs: [5],
                      tags: [11])
             
             novoPost(publicador: 3,
                      post: 6, titulo: "6 Principles Of Visual Accessibility Design",
                      descricao: "According to the World Health Organization, 285 million people in the world are visually impaired. These 285 million people still need access to the Internet, and deserve to have access to the same information that everybody else does. Many individuals believe that if someone is visually impaired, they do not use the Internet. This is untrue.",
-                     link: link_manager.getLink(url: "https://usabilitygeek.com/6-principles-visual-accessibility-design/"),
+                     link: Link(urlString: "https://usabilitygeek.com/6-principles-visual-accessibility-design/"),
                      categs: [1,3],
                      tags: [12])
             

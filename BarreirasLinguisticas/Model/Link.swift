@@ -9,7 +9,7 @@
 import Foundation
 import LinkPresentation
 
-class Link: NSObject, NSSecureCoding, Identifiable {
+class Link: NSObject, NSSecureCoding {
     var id: Int?
     var metadata: LPLinkMetadata?
     
@@ -26,7 +26,61 @@ class Link: NSObject, NSSecureCoding, Identifiable {
         metadata = coder.decodeObject(of: LPLinkMetadata.self, forKey: "metadata")
     }
     
+    func update(from metadata: LPLinkMetadata) {
+        //let link = Link()
+        self.id = Int(Date.timeIntervalSinceReferenceDate)
+        self.metadata = metadata
+        saveLink(self.id ?? 0)
+        //return link
+    }
+    
     override init() {
         super.init()
     }
+    
+    init (urlString: String) {
+        super.init()
+        LinkManager().getLink(url: urlString, to: self)
+    }
+    
+    fileprivate func saveLink(_ id_link: Int) {
+        //let saved_link = self
+        do {
+            let data = try NSKeyedArchiver.archivedData(withRootObject: self, requiringSecureCoding: true)
+            guard let docDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+            try data.write(to: docDirURL.appendingPathComponent("Link \(id_link)"))
+            print(docDirURL.appendingPathComponent("Link \(id_link)"))
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    /*fileprivate */ static func loadLink(_ id_link: Int?) -> Link? {
+        guard let id_link = id_link else {
+            print("\nReceived id as zero\n")
+            return nil
+        }
+        
+        guard let docDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
+        let linksURL = docDirURL.appendingPathComponent("Link \(id_link)")
+     
+        if FileManager.default.fileExists(atPath: linksURL.path) {
+            do {
+                let data = try Data(contentsOf: linksURL)
+                guard let unarchived = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? Link else { return nil }
+                //self.copy(from: unarchived)
+                return unarchived
+            } catch {
+                print(error.localizedDescription)
+                return nil
+            }
+        }
+        return nil
+        //return self
+    }
+    
+    /*func copy(from link: Link) {
+        self.id = link.id
+        self.metadata = link.metadata
+    }*/
 }

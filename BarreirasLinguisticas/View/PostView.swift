@@ -19,13 +19,9 @@ import LinkPresentation
 
 struct PostView: View {
     @ObservedObject var post: Post
-    var stored_link: Link? {
-        return LinkManager().loadLink(post.link?.id ?? 0)
-    }
-    //var link_manager = LinkManager(id_link: self.p)
+    @State var stored_link: Link?
 
     var body: some View {
-        //Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
         ScrollView(.vertical, showsIndicators: false) {
             VStack{
                 Text(post.titulo)
@@ -40,7 +36,7 @@ struct PostView: View {
                 
                 if stored_link != nil {
                     if stored_link?.metadata != nil {
-                        LinkView(metadata: stored_link?.metadata)
+                        LinkView(metadata: stored_link!.metadata!)
                     }
                     else {
                         Text("Metadata nil")
@@ -53,9 +49,15 @@ struct PostView: View {
                 }
                 
             } //VStack
+            .onAppear { self.pegaLink() }
         } //ScrollView
     } //body
     
+    func pegaLink(){
+        if let id = post.link?.id {
+            stored_link = Link.loadLink(id)
+        }
+    } //pegaLink
 }
 
 struct PostView_Previews: PreviewProvider {

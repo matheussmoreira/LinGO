@@ -15,7 +15,7 @@ struct CategoriesView: View {
     
     var body: some View {
         
-        NavigationView {
+        
             VStack {
                 if sala.categorias.count == 0 {
                     VStack {
@@ -50,7 +50,7 @@ struct CategoriesView: View {
                                     Text(categ.nome)
                                     .font(.headline)
                                     .multilineTextAlignment(.leading)
-                                }
+                                } //BOTAR O TITLE
                                 
                                 TagsView(tags: categ.tags)
                             }
@@ -59,7 +59,7 @@ struct CategoriesView: View {
                     .navigationBarTitle(Text("Categories"))
                 } //else
             } //VStack
-        } //NavigationView
+        
     } // body
 }
 
