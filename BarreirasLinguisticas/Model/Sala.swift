@@ -113,8 +113,10 @@ class Sala: Identifiable, ObservableObject {
             novaAssinatura(membro: 5, categoria: 3)
             novaAssinatura(membro: 5, categoria: 5)
             
-            /* ********************************** COMENTARIOS ************************************ */
-            
+            /* ********************************* COMENTARIOS ********************************** */
+            novoComentario(id: 1, publicador: 1, post: 2, conteudo: "Odiei, 5 estrelas", is_question: false)
+            novoComentario(id: 2, publicador: 2, post: 2, conteudo: "E daí? Ninguém te perguntou nada", is_question: false)
+            novoComentario(id: 3, publicador: 3, post: 2, conteudo: "Eu perguntei, mais respeito", is_question: false)
             
             /* ******************************** POSTS SALVOS ************************************ */
             
@@ -256,19 +258,29 @@ class Sala: Identifiable, ObservableObject {
         
     }
     
-    /* ********************************* RELACIONAMENTOS ****************************************** */
-    func novoComentarioOriginal(id: Int, publicador id_publicador: Int, post id_post: Int, conteudo: String, is_question: Bool) {
+    /* ******************************** RELACIONAMENTOS *************************************** */
+    func novoComentario(id: Int, publicador id_publicador: Int, post id_post: Int, conteudo: String, is_question: Bool) {
         if let publicador = getMembro(id: id_publicador), let post = getPost(id: id_post)  {
             let comentario = Comentario(id: id, post: post, publicador: publicador, conteudo: conteudo, is_question: is_question, original: nil)
             post.comentarios.append(comentario)
         }
+        else {
+            print("Comentário não adicionado por publicador não identificado")
+        }
     }
     
-    func novoComentarioReply(id: Int, publicador id_publicador: Int, post id_post: Int, conteudo: String, original id_original: Int) {
+    func novoComentario(id: Int, publicador id_publicador: Int, post id_post: Int, conteudo: String, original id_original: Int) {
         if let publicador = getMembro(id: id_publicador), let post = getPost(id: id_post) {
-            let original = post.getComentarioOriginal(id: id_original)
-            let comentario = Comentario(id: id, post: post, publicador: publicador, conteudo: conteudo, is_question: false, original: original)
-            original?.replies.append(original!)
+            if let original = post.getComentarioOriginal(id: id_original) {
+                let comentario = Comentario(id: id, post: post, publicador: publicador, conteudo: conteudo, is_question: false, original: original)
+                original.replies.append(comentario)
+            }
+            else {
+                print("Reply não adicionado por comentário original não identificado")
+            }
+        }
+        else {
+            print("Comentário não adicionado por publicador não identificado")
         }
     }
     

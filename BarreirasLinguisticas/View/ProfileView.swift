@@ -22,7 +22,7 @@ struct ProfileView: View {
                 .clipShape(Circle())
                 .overlay(
                     Circle().stroke(Color.white, lineWidth: 5)
-            )
+                )
             Text(membro.usuario.nome)
             .font(.title)
             .fontWeight(.bold)

@@ -12,6 +12,7 @@ import LinkPresentation
 struct PostView: View {
     @ObservedObject var post: Post
     @State var stored_link: Link?
+    @State var showComments = false
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -29,6 +30,20 @@ struct PostView: View {
                 if (stored_link != nil && stored_link?.metadata != nil) {
                     LinkView(metadata: stored_link!.metadata!)
                         .padding(.all)
+                }
+                Button(action: {self.showComments.toggle()}) {
+                    Text("Comentários")
+                    .font(.title)
+                    .fontWeight(.bold)
+                }
+                .sheet(isPresented: $showComments) {
+                    VStack {
+                        ScrollView(.vertical, showsIndicators: false) {
+                            ForEach(self.post.comentarios){ comentario in
+                                CommentView(comentario: comentario)
+                            }
+                        }
+                    }
                 }
             } //VStack
             .onAppear { self.carregaLink() }
