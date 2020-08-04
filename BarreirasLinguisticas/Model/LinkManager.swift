@@ -10,10 +10,8 @@ import Foundation
 import LinkPresentation
 
 class LinkManager: ObservableObject {
-    //var saved_link = Link()
     
     func getLink(url: String, to link: Link) {
-        //var link: Link?
         fetchMetadata(for: url) { (result) in
             DispatchQueue.main.sync {
                 switch result {
@@ -22,11 +20,9 @@ class LinkManager: ObservableObject {
                     link.update(from: metadata)
                 case .failure(let error):
                     print("Case failure: \(error.localizedDescription)")
-                    //link = nil
                 }
             } // DispatchQueue
         } // fetch
-        //return link
     }
     
     func fetchMetadata(for link: String, completion: @escaping (Result<LPLinkMetadata, Error>) -> Void) {

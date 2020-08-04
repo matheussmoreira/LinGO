@@ -22,7 +22,7 @@ struct PostCardView: View {
             VStack {
                 HStack {
                     //NOME DA CATEGORIA
-                    Text(post.categorias[0].nome) // vai ser so o primeiro mesmo ???
+                    Text(post.categorias[0].nome) // qual categoria das várias (???)
                         .fontWeight(.semibold)
                         .foregroundColor(Color.gray)
                         .lineLimit(1)

@@ -25,7 +25,7 @@ class Sala: Identifiable, ObservableObject {
         self.nome = nome
         novoMembro(id: criador.id, is_admin: true)
         
-        if (self.id < 3) { //so populando com dados as duas primeiras salas
+        if (self.id == 1) { //so populando com dados a primeira sala
             /* ************************************ MEMBROS ************************************* */
             novoMembro(id: 1, is_admin: true)
             novoMembro(id: 2, is_admin: false)
@@ -198,15 +198,12 @@ class Sala: Identifiable, ObservableObject {
     /* ******************************** NOVOS OBJETOS **************************************** */
     func novoMembro(id id_membro: Int, is_admin: Bool) {
         if let usuario = DAO().getUsuario(id: id_membro) {
-            if getMembro(id: usuario.id) == nil {
+            if getMembro(id: usuario.id) == nil { //para nao adicionar membro repetido
                 let membro = Membro(usuario: usuario, sala: self, is_admin: is_admin)
                 self.usuarios.append(usuario)
                 self.membros.append(membro)
                 if is_admin { self.admins.append(membro) }
             }
-            /*else {
-                print("Membro não adicionado à sala \(self.nome) pois ele já existe nela")
-            }*/
         }
         else {
             print("Membro não adicionado à sala \(self.nome) pois Usuário não existe")
@@ -271,11 +268,5 @@ class Sala: Identifiable, ObservableObject {
         
         membro?.salvaPost(post: post)
     }
-    
-    /*func addLink(url: String, post id_post: Int) {
-        let lk = link_manager.getLink(url: url)
-        let post = getPost(id: id_post)
-        post?.addLink(link: lk)
-    }*/
     
 }

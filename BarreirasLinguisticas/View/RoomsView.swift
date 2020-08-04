@@ -17,7 +17,7 @@ struct RoomsView: View {
     
     var body: some View {
         VStack{
-            if salas.count == 0 {//usuario.salas.count == 0 {
+            if salas.count == 0 {
                 Text("\(usuario.nome)'s Rooms")
                     .font(.title)
                     .fontWeight(.bold)
@@ -35,7 +35,7 @@ struct RoomsView: View {
                         Spacer()
                         Text("Choose a Room")
                             .font(.title)
-                        ForEach(/*usuario.*/salas) { sala in
+                        ForEach(salas) { sala in
                             NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario)){
                                 Text("Go to \(sala.nome)")
                             }
@@ -47,7 +47,7 @@ struct RoomsView: View {
             Button(action: {self.novaSala(nome: "Room \(self.dao.salas.count+1)", criador: self.usuario)}) {
                 Text("Add new Room")
             }
-        } //VStack
+        }//VStack
     } //body
     
     func novaSala(nome: String, criador: Usuario) {

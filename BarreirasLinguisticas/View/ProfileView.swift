@@ -14,8 +14,6 @@ struct ProfileView: View {
     @ObservedObject var membro: Membro
     
     var body: some View {
-        //Text("Profile View!")
-            //.fontWeight(.bold)
         VStack {
             Image(membro.usuario.foto_perfil)
                 .resizable()

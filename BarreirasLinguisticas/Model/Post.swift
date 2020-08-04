@@ -14,7 +14,6 @@ class Post: Identifiable, ObservableObject {
     var titulo: String
     var descricao: String?
     var link: Link?
-    //var link_id: Int?
     var link_image: UIImage?
     var link_icon: UIImage?
     //var date = Date()
@@ -28,7 +27,6 @@ class Post: Identifiable, ObservableObject {
         self.id = id
         self.titulo = titulo ?? "Post sem título"
         self.descricao = descricao ?? ""
-        //self.link = link
         self.categorias = categs
         self.publicador = publicador
         addLink(link: link)
@@ -46,9 +44,7 @@ class Post: Identifiable, ObservableObject {
     
     func addLink(link: Link?) {
         if (link != nil) {
-            print("Pegou o link não nil")
             self.link = link!
-            //self.link_id = link!.id
             addLinkImage(from: link!)
             addLinkIcon(from: link!)
         }

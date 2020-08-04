@@ -14,24 +14,22 @@ class Link: NSObject, NSSecureCoding {
     var metadata: LPLinkMetadata?
     
     static var supportsSecureCoding = true
-     
+    
     func encode(with coder: NSCoder) {
         guard let id = id, let metadata = metadata else { return }
         coder.encode(NSNumber(integerLiteral: id), forKey: "id")
         coder.encode(metadata as NSObject, forKey: "metadata")
     }
-     
+    
     required init?(coder: NSCoder) {
         id = coder.decodeObject(of: NSNumber.self, forKey: "id")?.intValue
         metadata = coder.decodeObject(of: LPLinkMetadata.self, forKey: "metadata")
     }
     
     func update(from metadata: LPLinkMetadata) {
-        //let link = Link()
         self.id = Int(Date.timeIntervalSinceReferenceDate)
         self.metadata = metadata
-        saveLink(self.id ?? 0)
-        //return link
+        //saveLink(self.id ?? 0) //para o cache
     }
     
     override init() {
@@ -43,8 +41,11 @@ class Link: NSObject, NSSecureCoding {
         LinkManager().getLink(url: urlString, to: self)
     }
     
+}
+
+extension Link { //para o cache
+    
     fileprivate func saveLink(_ id_link: Int) {
-        //let saved_link = self
         do {
             let data = try NSKeyedArchiver.archivedData(withRootObject: self, requiringSecureCoding: true)
             guard let docDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
@@ -55,7 +56,7 @@ class Link: NSObject, NSSecureCoding {
         }
     }
     
-    /*fileprivate */ static func loadLink(_ id_link: Int?) -> Link? {
+    static func loadLink(_ id_link: Int?) -> Link? {
         guard let id_link = id_link else {
             print("\nReceived id as zero\n")
             return nil
@@ -63,12 +64,11 @@ class Link: NSObject, NSSecureCoding {
         
         guard let docDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
         let linksURL = docDirURL.appendingPathComponent("Link \(id_link)")
-     
+        
         if FileManager.default.fileExists(atPath: linksURL.path) {
             do {
                 let data = try Data(contentsOf: linksURL)
                 guard let unarchived = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? Link else { return nil }
-                //self.copy(from: unarchived)
                 return unarchived
             } catch {
                 print(error.localizedDescription)
@@ -76,11 +76,5 @@ class Link: NSObject, NSSecureCoding {
             }
         }
         return nil
-        //return self
     }
-    
-    /*func copy(from link: Link) {
-        self.id = link.id
-        self.metadata = link.metadata
-    }*/
 }

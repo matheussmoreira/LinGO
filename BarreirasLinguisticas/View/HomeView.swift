@@ -11,7 +11,7 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var sala: Sala
     @ObservedObject var membro: Membro
-    var allPosts : [Post] { return sala.posts }
+    var fyPosts : [Post] { return sala.posts } // mudar para assinaturas
     var recentPosts: [Post] { return sala.posts } // mudar para base na data
     
     var body: some View {
@@ -30,7 +30,7 @@ struct HomeView: View {
             SearchBarView(mensagem: "Search for all posts")
             
             //POSTS FOR YOU
-            if allPosts.count == 0 {
+            if fyPosts.count == 0 {
                 VStack {
                     Spacer()
                     Text("No posts for you :(")
@@ -41,7 +41,7 @@ struct HomeView: View {
             else {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack (spacing: 20){
-                        ForEach(allPosts){ post in
+                        ForEach(fyPosts){ post in
                             NavigationLink(destination: PostView(post: post)) {
                                 PostCardView(post: post)
                             }
@@ -73,14 +73,12 @@ struct HomeView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 20){
                         ForEach(sala.posts){ post in
-//                            Button(action: { print("Clicou!") },label: { RecentsView(post: post)
-//                            })
                             NavigationLink(destination: PostView(post: post)) {
                                 PostCardView(post: post)
                             }
                         }
                     }
-                }
+                } //ScrollView
             } //else
             
             //TOPICO DAS NEW TAGS

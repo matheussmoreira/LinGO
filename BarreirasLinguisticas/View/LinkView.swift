@@ -15,8 +15,9 @@ struct LinkView: UIViewRepresentable {
     var metadata: LPLinkMetadata?
 
     func makeUIView(context: Context) -> LPLinkView {
-        guard let metadata = metadata
-            else { return LPLinkView() }
+        guard let metadata = metadata else {
+            return LPLinkView()
+        }
         return LPLinkView(metadata: metadata)
     }
      

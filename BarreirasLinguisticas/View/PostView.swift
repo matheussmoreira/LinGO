@@ -6,14 +6,6 @@
 //  Copyright © 2020 Matheus S. Moreira. All rights reserved.
 //
 
-/*
- titulo: String
- descricao: String?
- link: Link?
- publicador: Membro.Usuario.nome
- tags: [Tag]
- */
-
 import SwiftUI
 import LinkPresentation
 
@@ -34,21 +26,10 @@ struct PostView: View {
                     .multilineTextAlignment(.center)
                     .padding()
                 
-                if stored_link != nil {
-                    if stored_link?.metadata != nil {
-                        LinkView(metadata: stored_link!.metadata!)
-                            .padding(.all)
-                    }
-//                    else {
-//                        Text("Metadata nil")
-//                            .foregroundColor(Color.gray)
-//                    }
+                if (stored_link != nil && stored_link?.metadata != nil) {
+                    LinkView(metadata: stored_link!.metadata!)
+                        .padding(.all)
                 }
-//                else {
-//                    Text("Link nil")
-//                        .foregroundColor(Color.gray)
-//                }
-//
             } //VStack
             .onAppear { self.carregaLink() }
         } //ScrollView
@@ -59,7 +40,7 @@ struct PostView: View {
             stored_link = post.link
             //stored_link = Link.loadLink(id) // do cache
         }
-    } //pegaLink
+    }
 }
 
 struct PostView_Previews: PreviewProvider {

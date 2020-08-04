@@ -14,52 +14,47 @@ struct CategoriesView: View {
     @State private var textoPesq: String = ""
     
     var body: some View {
-        
-        
-            VStack {
-                if sala.categorias.count == 0 {
-                    VStack {
-                        HStack {
-                            Text("Categories")
-                                .font(.system(.title, design: .rounded))
-                                .fontWeight(.bold)
-                                .padding(.leading)
-                            Spacer()
-                        }
-                        SearchBarView(mensagem: "Search for categories")
-                        Spacer()
-                        Text("Add a new categorie by adding a new post!")
-                            .foregroundColor(Color.gray)
+        VStack {
+            if sala.categorias.count == 0 {
+                VStack {
+                    HStack {
+                        Text("Categories")
+                            .font(.system(.title, design: .rounded))
+                            .fontWeight(.bold)
+                            .padding(.leading)
                         Spacer()
                     }
-                    
-                }
-                else{
                     SearchBarView(mensagem: "Search for categories")
-                    List (sala.categorias){ categ in
-                        HStack {
-                            // ICON
-                            Image(systemName: "command")
-                                .imageScale(.large)
-                                .foregroundColor(.blue)
-                                .font(.system(size: 16, weight: .semibold))
-                            
-                            // CATEGORIAS E TAGS
-                            VStack(alignment: .leading) {
-                                NavigationLink(destination: PostsCategorieView(categoria: categ, sala: self.sala)) {
-                                    Text(categ.nome)
+                    Spacer()
+                    Text("Add a new categorie by adding a new post!")
+                        .foregroundColor(Color.gray)
+                    Spacer()
+                }
+            }
+            else {
+                SearchBarView(mensagem: "Search for categories")
+                List (sala.categorias){ categ in
+                    HStack {
+                        // ICON
+                        Image(systemName: "command")
+                            .imageScale(.large)
+                            .foregroundColor(.blue)
+                            .font(.system(size: 16, weight: .semibold))
+                        
+                        // CATEGORIAS E TAGS
+                        VStack(alignment: .leading) {
+                            NavigationLink(destination: PostsCategorieView(categoria: categ, sala: self.sala)) {
+                                Text(categ.nome)
                                     .font(.headline)
                                     .multilineTextAlignment(.leading)
-                                } //BOTAR O TITLE
-                                
-                                TagsView(tags: categ.tags)
-                            }
-                        } //HStack
-                    } //List
-                    .navigationBarTitle(Text("Categories"))
-                } //else
-            } //VStack
-        
+                            } //BOTAR O TITLE
+                            TagsView(tags: categ.tags)
+                        }
+                    } //HStack
+                } //List
+                .navigationBarTitle(Text("Categories"))
+            } //else
+        } //VStack
     } // body
 }
 
