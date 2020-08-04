@@ -44,7 +44,7 @@ class DAO: ObservableObject {
                                      nome: "Leonardo da Vinci",
                                      foto_perfil: "foto_leo",
                                      pais: "Italy",
-                                     fluencia_ingles: "Zero"))
+                                     fluencia_ingles: "Basic"))
         
         self.usuarios.append(Usuario(id: 5,
                                      email: "michelle@boladona.com",
