@@ -159,6 +159,7 @@
 				66D7AA8624CB80F0001CEA3A /* CategoriesView.swift */,
 				667D8BAA24D2FEE6005D51F4 /* PostsCategorieView.swift */,
 				668903A724D5B7F60062C8CA /* PostView.swift */,
+				662B018C24DA0C24008BF2D7 /* CommentView.swift */,
 				663C8ECF24CCB7F5000936FF /* LinkView.swift */,
 				66D7AA8424CB80B2001CEA3A /* HomeView.swift */,
 				EA6ADB8424D0EA5700832808 /* PostCardView.swift */,
@@ -166,7 +167,6 @@
 				6644ED3524D10AF60055749F /* NewTagsView.swift */,
 				66D7AA8824CB8121001CEA3A /* PublicationView.swift */,
 				66D7AA8A24CB8140001CEA3A /* ProfileView.swift */,
-				662B018C24DA0C24008BF2D7 /* CommentView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
