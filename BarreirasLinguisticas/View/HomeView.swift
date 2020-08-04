@@ -42,8 +42,9 @@ struct HomeView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack (spacing: 20){
                         ForEach(allPosts){ post in
-                            Button(action: { print("Clicou!") }, label: { PostCardView(post: post)
-                            })
+                            NavigationLink(destination: PostView(post: post)) {
+                                PostCardView(post: post)
+                            }
                         }
                     }
                 }
@@ -72,8 +73,11 @@ struct HomeView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 20){
                         ForEach(sala.posts){ post in
-                            Button(action: { print("Clicou!") },label: { RecentsView(post: post)
-                            })
+//                            Button(action: { print("Clicou!") },label: { RecentsView(post: post)
+//                            })
+                            NavigationLink(destination: PostView(post: post)) {
+                                PostCardView(post: post)
+                            }
                         }
                     }
                 }

@@ -37,25 +37,27 @@ struct PostView: View {
                 if stored_link != nil {
                     if stored_link?.metadata != nil {
                         LinkView(metadata: stored_link!.metadata!)
+                            .padding(.all)
                     }
-                    else {
-                        Text("Metadata nil")
-                            .foregroundColor(Color.gray)
-                    }
+//                    else {
+//                        Text("Metadata nil")
+//                            .foregroundColor(Color.gray)
+//                    }
                 }
-                else {
-                    Text("Link nil")
-                        .foregroundColor(Color.gray)
-                }
-                
+//                else {
+//                    Text("Link nil")
+//                        .foregroundColor(Color.gray)
+//                }
+//
             } //VStack
-            .onAppear { self.pegaLink() }
+            .onAppear { self.carregaLink() }
         } //ScrollView
     } //body
     
-    func pegaLink(){
-        if let id = post.link?.id {
-            stored_link = Link.loadLink(id)
+    func carregaLink(){
+        if let _ = post.link {
+            stored_link = post.link
+            //stored_link = Link.loadLink(id) // do cache
         }
     } //pegaLink
 }
