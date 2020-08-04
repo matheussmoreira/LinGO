@@ -25,6 +25,9 @@ struct RoomsView: View {
                 Text("There are no rooms :(")
                     .foregroundColor(Color.gray)
                 Spacer()
+                Button(action: { self.novaSala(nome: "Room \(self.dao.salas.count+1)", criador: self.usuario)}) {
+                    Text("Add new Room")
+                }
             }
             else{
                 NavigationView {
@@ -32,22 +35,26 @@ struct RoomsView: View {
                         Text("\(usuario.nome)'s Rooms")
                             .font(.title)
                             .fontWeight(.bold)
-                        Spacer()
                         Text("Choose a Room")
                             .font(.title)
+                        Spacer()
                         ForEach(salas) { sala in
                             NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario)){
                                 Text("Go to \(sala.nome)")
                             }
                         }
                         Spacer()
+                        Button(action: { self.novaSala(nome: "Room \(self.dao.salas.count+1)", criador: self.usuario)}) {
+                            Text("Add new Room")
+                        }
                     } //VStack
                 } //NavigationView
             } //else
-            Button(action: {self.novaSala(nome: "Room \(self.dao.salas.count+1)", criador: self.usuario)}) {
-                Text("Add new Room")
-            }
-        }//VStack
+//            Button(action: { self.novaSala(nome: "Room \(self.dao.salas.count+1)", criador: self.usuario)}) {
+//                Text("Add new Room")
+//            }
+        } //VStack
+        .onAppear { self.novaSala(nome: "Room \(self.dao.salas.count+1)", criador: self.usuario)}
     } //body
     
     func novaSala(nome: String, criador: Usuario) {

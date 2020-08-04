@@ -24,11 +24,11 @@ struct ContentView: View {
                 Image(systemName: "command")
                 Text("Home")
             }
-            PublicationView(sala: sala, membro: membro).tabItem{
+            PublicationView(sala: sala, membro: membro).tabItem {
                 Image(systemName: "command")
                 Text("Publish")
             }
-            ProfileView(sala: sala, membro: membro).tabItem{
+            ProfileView(sala: sala, membro: membro).tabItem {
                 Image(systemName: "command")
                 Text("Profile")
             }
@@ -38,6 +38,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(sala: DAO().salas[0], usuario: DAO().usuarios[0])/*.environmentObject(DAO())*/
+        ContentView(sala: DAO().salas[0], usuario: DAO().usuarios[0])
     }
 }

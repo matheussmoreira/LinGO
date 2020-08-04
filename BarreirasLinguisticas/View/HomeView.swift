@@ -11,6 +11,7 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var sala: Sala
     @ObservedObject var membro: Membro
+    var cardFrame: CGFloat = 410.0
     var fyPosts : [Post] { return sala.posts } // mudar para assinaturas
     var recentPosts: [Post] { return sala.posts } // mudar para base na data
     
@@ -44,6 +45,7 @@ struct HomeView: View {
                         ForEach(fyPosts){ post in
                             NavigationLink(destination: PostView(post: post)) {
                                 PostCardView(post: post)
+                                    .frame(width: self.cardFrame)
                             }
                         }
                     }
@@ -75,6 +77,7 @@ struct HomeView: View {
                         ForEach(sala.posts){ post in
                             NavigationLink(destination: PostView(post: post)) {
                                 PostCardView(post: post)
+                                    .frame(width: self.cardFrame)
                             }
                         }
                     }
