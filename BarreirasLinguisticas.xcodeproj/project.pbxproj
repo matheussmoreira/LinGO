@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		662B018924D9F3FC008BF2D7 /* Comentario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662B018824D9F3FC008BF2D7 /* Comentario.swift */; };
 		663C8ECC24CC6C2E000936FF /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663C8ECB24CC6C2E000936FF /* Link.swift */; };
 		663C8ED024CCB7F5000936FF /* LinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663C8ECF24CCB7F5000936FF /* LinkView.swift */; };
 		664137E024D1B29700816370 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664137DF24D1B29700816370 /* SearchBarView.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		662B018824D9F3FC008BF2D7 /* Comentario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comentario.swift; sourceTree = "<group>"; };
 		663C8ECB24CC6C2E000936FF /* Link.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
 		663C8ECF24CCB7F5000936FF /* LinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkView.swift; sourceTree = "<group>"; };
 		664137DF24D1B29700816370 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				66D7AA8124CB5A1D001CEA3A /* Sala.swift */,
 				66D7AA7924CB59C3001CEA3A /* Membro.swift */,
 				66D7AA7F24CB5A08001CEA3A /* Post.swift */,
+				662B018824D9F3FC008BF2D7 /* Comentario.swift */,
 				66D7AA7B24CB59E1001CEA3A /* Categoria.swift */,
 				66D7AA7D24CB59F5001CEA3A /* Tag.swift */,
 				663C8ECB24CC6C2E000936FF /* Link.swift */,
@@ -238,6 +241,7 @@
 			files = (
 				66D7AA8524CB80B2001CEA3A /* HomeView.swift in Sources */,
 				66D7AA8224CB5A1D001CEA3A /* Sala.swift in Sources */,
+				662B018924D9F3FC008BF2D7 /* Comentario.swift in Sources */,
 				667D8BAB24D2FEE6005D51F4 /* PostsCategorieView.swift in Sources */,
 				66D7AA7E24CB59F5001CEA3A /* Tag.swift in Sources */,
 				66D7AA7A24CB59C3001CEA3A /* Membro.swift in Sources */,

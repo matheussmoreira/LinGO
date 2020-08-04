@@ -10,7 +10,7 @@ import Foundation
 import LinkPresentation
 
 class Sala: Identifiable, ObservableObject {
-    let id: Int
+    let id: Int //UUID()
     var nome: String
     var admins: [Membro] = []
     var usuarios: [Usuario] = []
@@ -112,6 +112,9 @@ class Sala: Identifiable, ObservableObject {
             novaAssinatura(membro: 3, categoria: 3)
             novaAssinatura(membro: 5, categoria: 3)
             novaAssinatura(membro: 5, categoria: 5)
+            
+            /* ********************************** COMENTARIOS ************************************ */
+            
             
             /* ******************************** POSTS SALVOS ************************************ */
             
@@ -254,6 +257,21 @@ class Sala: Identifiable, ObservableObject {
     }
     
     /* ********************************* RELACIONAMENTOS ****************************************** */
+    func novoComentarioOriginal(id: Int, publicador id_publicador: Int, post id_post: Int, conteudo: String, is_question: Bool) {
+        if let publicador = getMembro(id: id_publicador), let post = getPost(id: id_post)  {
+            let comentario = Comentario(id: id, post: post, publicador: publicador, conteudo: conteudo, is_question: is_question, original: nil)
+            post.comentarios.append(comentario)
+        }
+    }
+    
+    func novoComentarioReply(id: Int, publicador id_publicador: Int, post id_post: Int, conteudo: String, original id_original: Int) {
+        if let publicador = getMembro(id: id_publicador), let post = getPost(id: id_post) {
+            let original = post.getComentarioOriginal(id: id_original)
+            let comentario = Comentario(id: id, post: post, publicador: publicador, conteudo: conteudo, is_question: false, original: original)
+            original?.replies.append(original!)
+        }
+    }
+    
     func novaAssinatura(membro id_membro: Int, categoria: Int) {
         let membro = getMembro(id: id_membro)
         let categ = getCategoria(id: categoria)

@@ -12,7 +12,6 @@ class Membro: Identifiable, ObservableObject {
     var usuario: Usuario
     var sala: Sala
     var is_admin: Bool
-    //var comentarios: [Comentario] = []
     var assinaturas: [Categoria] = []
     var posts_salvos: [Post] = []
     var posts_publicados: [Post] = []

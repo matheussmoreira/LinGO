@@ -19,7 +19,7 @@ class Post: Identifiable, ObservableObject {
     var date = Date()
     let publicador: Membro
     var improprio = false
-    //var comentarios: [Comentario] = []
+    var comentarios: [Comentario] = []
     var categorias: [Categoria] = []
     var tags: [Tag] = []
     
@@ -58,6 +58,13 @@ class Post: Identifiable, ObservableObject {
                 self.link_image = image as? UIImage
             }
         })
+    }
+    
+    func getComentarioOriginal(id: Int) -> Comentario? {
+        for coment in self.comentarios {
+            if (id == coment.id) { return coment }
+        }
+        return nil
     }
     
     /*func addLinkIcon(from link: Link) {
