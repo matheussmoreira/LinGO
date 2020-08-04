@@ -50,9 +50,6 @@ struct RoomsView: View {
                     } //VStack
                 } //NavigationView
             } //else
-//            Button(action: { self.novaSala(nome: "Room \(self.dao.salas.count+1)", criador: self.usuario)}) {
-//                Text("Add new Room")
-//            }
         } //VStack
         .onAppear { self.novaSala(nome: "Room \(self.dao.salas.count+1)", criador: self.usuario)}
     } //body

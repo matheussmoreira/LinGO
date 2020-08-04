@@ -15,8 +15,8 @@ class Post: Identifiable, ObservableObject {
     var descricao: String?
     var link: Link?
     var link_image: UIImage?
-    var link_icon: UIImage?
-    //var date = Date()
+    //var link_icon: UIImage?
+    var date = Date()
     let publicador: Membro
     var improprio = false
     //var comentarios: [Comentario] = []
@@ -46,7 +46,7 @@ class Post: Identifiable, ObservableObject {
         if (link != nil) {
             self.link = link!
             addLinkImage(from: link!)
-            addLinkIcon(from: link!)
+            //addLinkIcon(from: link!)
         }
         else { print("Não deu pra adquirir o link pois está inválido\n") }
     }
@@ -60,13 +60,13 @@ class Post: Identifiable, ObservableObject {
         })
     }
     
-    func addLinkIcon(from link: Link) {
+    /*func addLinkIcon(from link: Link) {
         let md = link.metadata
         let _ = md?.iconProvider?.loadObject(ofClass: UIImage.self, completionHandler: { (icon, err) in
             DispatchQueue.main.async {
                 self.link_icon = icon as? UIImage
             }
         })
-    }
+    }*/
     
 }
