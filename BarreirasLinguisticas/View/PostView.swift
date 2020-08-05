@@ -14,26 +14,53 @@ struct PostView: View {
     @State var stored_link: Link?
 
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack{
-                Text(post.titulo)
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.center)
-                    .padding()
+        
+        ZStack {
+        NavigationView {
+            
+            ScrollView(.vertical, showsIndicators: false) {
+
+            VStack(alignment: .leading){
+
+//                Text(post.titulo)
+//                    .fontWeight(.bold)
+//                    .lineLimit(2)
+//                    .font(.system(.title, design: .rounded))
+                
+                HStack {
+                    Text("Shared by \(post.publicador.usuario.nome)")
+                        .foregroundColor(Color.gray)
+                        .lineLimit(1)
+                    
+                    Spacer()
+                    
+                    Text("English Level:")
+                        .foregroundColor(Color.gray)
+                        .lineLimit(1)
+                    Image(systemName: "circle.fill")
+                        .imageScale(.small)
+                        .foregroundColor(post.publicador.usuario.cor_fluencia)
+                    
+                }
+                    Text("Tags")
+                    .foregroundColor(Color.blue)
+                    .lineLimit(1)
                 
                 Text(post.descricao!)
-                    .multilineTextAlignment(.center)
-                    .padding()
+                    .padding(.bottom)
                 
                 if (stored_link != nil && stored_link?.metadata != nil) {
                     LinkView(metadata: stored_link!.metadata!)
-                        .padding(.all)
+//                        .padding(.all)
                 }
             } //VStack
             .onAppear { self.carregaLink() }
         } //ScrollView
-    } //body
+                .navigationBarTitle(Text(post.titulo), displayMode: .automatic)
+                .padding(.horizontal)
+        }//body
+}
+    }
     
     func carregaLink(){
         if let _ = post.link {
@@ -42,6 +69,7 @@ struct PostView: View {
         }
     }
 }
+
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {

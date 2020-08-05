@@ -37,9 +37,8 @@ struct CategoriesView: View {
                     HStack {
                         // ICON
                         Image(systemName: "command")
-                            .imageScale(.large)
+                            .imageScale(.medium)
                             .foregroundColor(.blue)
-                            .font(.system(size: 16, weight: .semibold))
                         
                         // CATEGORIAS E TAGS
                         VStack(alignment: .leading) {
@@ -47,9 +46,14 @@ struct CategoriesView: View {
                                 Text(categ.nome)
                                     .font(.headline)
                                     .multilineTextAlignment(.leading)
+                                    .frame(height: 10.0)
+                                    .padding(.top, 5.0)
+                                
                             } //BOTAR O TITLE
                             TagsView(tags: categ.tags)
+                            .lineLimit(1)
                         }
+                        .padding(.vertical, 4)
                     } //HStack
                 } //List
                 .navigationBarTitle(Text("Categories"))
@@ -70,7 +74,7 @@ struct TagsView: View {
     var body: some View {
         HStack(){
             ForEach(tags){ tag in
-                Text(tag.nome)
+                Text("\(tag.nome) /")
                     .font(.subheadline)
                     .foregroundColor(Color.gray)
                     .multilineTextAlignment(.leading)
