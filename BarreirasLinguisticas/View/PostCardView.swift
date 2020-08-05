@@ -18,6 +18,7 @@ struct PostCardView: View {
                 .fill(Color.white)
                 .frame(height: 260)
                 .padding()
+                .shadow(radius: 8)
             
             VStack {
                 HStack {
@@ -77,7 +78,6 @@ struct PostCardView: View {
                 
             } // VStack
         } //ZStack
-        .shadow(radius: 15)
     } //body
 }
 
