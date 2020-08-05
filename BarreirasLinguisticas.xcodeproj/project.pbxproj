@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6603984B24DB31A100C5629B /* PostsCategorieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6603984A24DB31A100C5629B /* PostsCategorieView.swift */; };
+		6603984D24DB516800C5629B /* PostCardImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6603984C24DB516800C5629B /* PostCardImageView.swift */; };
 		662B018924D9F3FC008BF2D7 /* Comentario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662B018824D9F3FC008BF2D7 /* Comentario.swift */; };
 		662B018D24DA0C24008BF2D7 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662B018C24DA0C24008BF2D7 /* CommentView.swift */; };
 		663C8ECC24CC6C2E000936FF /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663C8ECB24CC6C2E000936FF /* Link.swift */; };
@@ -44,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		6603984A24DB31A100C5629B /* PostsCategorieView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsCategorieView.swift; sourceTree = "<group>"; };
+		6603984C24DB516800C5629B /* PostCardImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardImageView.swift; sourceTree = "<group>"; };
 		662B018824D9F3FC008BF2D7 /* Comentario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comentario.swift; sourceTree = "<group>"; };
 		662B018C24DA0C24008BF2D7 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		663C8ECB24CC6C2E000936FF /* Link.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				663C8ECF24CCB7F5000936FF /* LinkView.swift */,
 				66D7AA8424CB80B2001CEA3A /* HomeView.swift */,
 				EA6ADB8424D0EA5700832808 /* PostCardView.swift */,
+				6603984C24DB516800C5629B /* PostCardImageView.swift */,
 				6644ED3324D103620055749F /* RecentsView.swift */,
 				6644ED3524D10AF60055749F /* NewTagsView.swift */,
 				66D7AA8824CB8121001CEA3A /* PublicationView.swift */,
@@ -253,6 +256,7 @@
 			files = (
 				66D7AA8524CB80B2001CEA3A /* HomeView.swift in Sources */,
 				666732E824DAEDDD0069B02D /* Voto.swift in Sources */,
+				6603984D24DB516800C5629B /* PostCardImageView.swift in Sources */,
 				66D7AA8224CB5A1D001CEA3A /* Sala.swift in Sources */,
 				662B018924D9F3FC008BF2D7 /* Comentario.swift in Sources */,
 				66D7AA7E24CB59F5001CEA3A /* Tag.swift in Sources */,

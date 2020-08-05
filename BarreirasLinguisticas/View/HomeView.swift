@@ -44,7 +44,7 @@ struct HomeView: View {
                     HStack (spacing: 20){
                         ForEach(fyPosts){ post in
                             NavigationLink(destination: PostView(post: post)) {
-                                PostCardView(post: post)
+                                PostCardImageView(post: post)
                                     .frame(width: self.cardFrame)
                             }
                         }
