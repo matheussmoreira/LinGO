@@ -37,6 +37,7 @@
 		66D7AA8724CB80F0001CEA3A /* CategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7AA8624CB80F0001CEA3A /* CategoriesView.swift */; };
 		66D7AA8924CB8121001CEA3A /* PublicationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7AA8824CB8121001CEA3A /* PublicationView.swift */; };
 		66D7AA8B24CB8140001CEA3A /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7AA8A24CB8140001CEA3A /* ProfileView.swift */; };
+		EA62ABAC24DB62810026C1BE /* CommentRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA62ABAB24DB62810026C1BE /* CommentRow.swift */; };
 		EA6ADB8524D0EA5800832808 /* PostCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6ADB8424D0EA5700832808 /* PostCardView.swift */; };
 		EA6CA39D24DA006600FAD6F6 /* MultilineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6CA39C24DA006600FAD6F6 /* MultilineTextField.swift */; };
 		EA6CA39F24DA00C000FAD6F6 /* PostEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6CA39E24DA00C000FAD6F6 /* PostEditorView.swift */; };
@@ -75,6 +76,7 @@
 		66D7AA8624CB80F0001CEA3A /* CategoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesView.swift; sourceTree = "<group>"; };
 		66D7AA8824CB8121001CEA3A /* PublicationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationView.swift; sourceTree = "<group>"; };
 		66D7AA8A24CB8140001CEA3A /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		EA62ABAB24DB62810026C1BE /* CommentRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRow.swift; sourceTree = "<group>"; };
 		EA6ADB8424D0EA5700832808 /* PostCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardView.swift; sourceTree = "<group>"; };
 		EA6CA39C24DA006600FAD6F6 /* MultilineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultilineTextField.swift; sourceTree = "<group>"; };
 		EA6CA39E24DA00C000FAD6F6 /* PostEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostEditorView.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 				6603984A24DB31A100C5629B /* PostsCategorieView.swift */,
 				668903A724D5B7F60062C8CA /* PostView.swift */,
 				662B018C24DA0C24008BF2D7 /* CommentView.swift */,
+				EA62ABAB24DB62810026C1BE /* CommentRow.swift */,
 				663C8ECF24CCB7F5000936FF /* LinkView.swift */,
 				66D7AA8424CB80B2001CEA3A /* HomeView.swift */,
 				EA6ADB8424D0EA5700832808 /* PostCardView.swift */,
@@ -275,6 +278,7 @@
 				664137E024D1B29700816370 /* SearchBarView.swift in Sources */,
 				66D7AA6924CB5135001CEA3A /* ContentView.swift in Sources */,
 				EA6CA39F24DA00C000FAD6F6 /* PostEditorView.swift in Sources */,
+				EA62ABAC24DB62810026C1BE /* CommentRow.swift in Sources */,
 				66D7AA8024CB5A08001CEA3A /* Post.swift in Sources */,
 				66D7AA8724CB80F0001CEA3A /* CategoriesView.swift in Sources */,
 				667D8BAD24D302B4005D51F4 /* RoomsView.swift in Sources */,

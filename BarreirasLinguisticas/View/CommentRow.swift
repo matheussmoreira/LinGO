@@ -1,50 +1,51 @@
 //
-//  CommentView.swift
+//  CommentRow.swift
 //  BarreirasLinguisticas
 //
-//  Created by Matheus S. Moreira on 04/08/20.
+//  Created by Victor S. Duarte on 05/08/20.
 //  Copyright © 2020 Matheus S. Moreira. All rights reserved.
 //
 
 import SwiftUI
 
-struct CommentView: View {
-    @ObservedObject var comentario: Comentario
+struct CommentRow: View {
     var body: some View {
+        
+        
         ZStack {
             
-            
             RoundedRectangle(cornerRadius: 15, style: .continuous)
-                .fill(Color.secondary)
+                .fill(Color.white)
                 .frame(height: 80)
                 .shadow(radius: 8)
                 .padding()
             
             VStack {
                 HStack {
-                    Image(comentario.publicador.usuario.foto_perfil)
+                    Image("foto_leo")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 30.0, height: 30.0)
                         .clipShape(Circle())
                         .padding(.leading)
                     
-                    Text(comentario.publicador.usuario.nome).fontWeight(.bold)
+                    Text("Leonardo da Vinci")
+                        .fontWeight(.bold)
                     
                     Spacer()
                     HStack {
-                        Text(comentario.publicador.usuario.fluencia_ingles)
+                        Text("Fluencia")
                             .foregroundColor(.gray)
                             .font(.footnote)
                         Circle()
-                            .fill(comentario.publicador.usuario.cor_fluencia)
+//                          .fill(comentario.publicador.usuario.cor_fluencia)
                             .frame(width: 10.0, height: 10.0)
                             .padding(.trailing)
                     }
                     
                 } //HStack
                 HStack {
-                    Text(comentario.conteudo)
+                    Text("usahusha")
                         .padding(.horizontal)
                         
                     Spacer()
@@ -52,14 +53,11 @@ struct CommentView: View {
             } //VStack
             .padding(.horizontal)
         } //ZStack
-    } //body
-}
-
-
-
-struct CommentView_Previews: PreviewProvider {
-    static var previews: some View {
-        CommentView(comentario: DAO().salas[0].posts[1].comentarios[0])
     }
 }
 
+struct CommentRow_Previews: PreviewProvider {
+    static var previews: some View {
+        CommentRow()
+    }
+}
