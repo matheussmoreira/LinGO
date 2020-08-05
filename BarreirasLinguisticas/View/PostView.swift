@@ -54,20 +54,20 @@ struct PostView: View {
                     LinkView(metadata: stored_link!.metadata!)
 //                        .padding(.all)
                 }
-                Button(action: {self.showComments.toggle()}) {
-                    Text("Comentários")
-                    .font(.title)
-                    .fontWeight(.bold)
-                }
-                .sheet(isPresented: $showComments) {
-                    VStack {
-                        ScrollView(.vertical, showsIndicators: false) {
-                            ForEach(self.post.comentarios){ comentario in
-                                CommentView(comentario: comentario)
-                            }
-                        }
-                    }
-                } //sheet
+                                Button(action: {self.showComments.toggle()}) {
+                                    Text("Comentários")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                }
+                                .sheet(isPresented: $showComments) {
+                                    VStack {
+                                        ScrollView(.vertical, showsIndicators: false) {
+                                            ForEach(self.post.comentarios){ comentario in
+                                                CommentView(comentario: comentario)
+                                            }
+                                        }
+                                    }
+                                } //sheet
             } //VStack
             .onAppear { self.carregaLink() }
         } //ScrollView
