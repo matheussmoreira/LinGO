@@ -28,7 +28,8 @@ struct ProfileView: View {
                 .fontWeight(.bold)
                 .foregroundColor(Color.black)
             HStack {
-                Text(membro.usuario.fluencia_ingles).foregroundColor(Color.gray)
+                Text(membro.usuario.fluencia_ingles)
+                    .foregroundColor(Color.gray)
                 Circle()
                     .fill(membro.usuario.cor_fluencia)
                     .frame(width: 15.0, height: 15.0)

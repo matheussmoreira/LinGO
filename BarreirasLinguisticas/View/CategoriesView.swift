@@ -32,7 +32,16 @@ struct CategoriesView: View {
                 }
             }
             else {
+                HStack {
+                    Text("Categories")
+                        .font(.system(.title, design: .rounded))
+                        .fontWeight(.bold)
+                        .padding(.leading)
+                    Spacer()
+                }
+                
                 SearchBarView(mensagem: "Search for categories")
+                
                 List (sala.categorias){ categ in
                     HStack {
                         // ICON
@@ -55,8 +64,8 @@ struct CategoriesView: View {
                         }
                         .padding(.vertical, 4)
                     } //HStack
-                } //List
-                .navigationBarTitle(Text("Categories"))
+                }//List
+                //.navigationBarTitle(Text("Categories"))
             } //else
         } //VStack
     } // body

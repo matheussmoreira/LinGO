@@ -234,7 +234,7 @@ class Sala: Identifiable, ObservableObject {
         
         if membro != nil {
             if categorias.count != 0{
-                let post = Post(id: id_post, titulo: titulo, descricao: descricao, link: link, categs: categorias, publicador: membro!)
+                let post = Post(id: id_post, titulo: titulo, descricao: descricao, link: link, categs: categorias, tags: tags, publicador: membro!)
                 
                 self.posts.append(post)
                 membro?.publicaPost(post: post)

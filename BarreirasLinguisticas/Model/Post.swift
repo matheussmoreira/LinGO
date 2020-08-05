@@ -23,11 +23,12 @@ class Post: Identifiable, ObservableObject {
     var categorias: [Categoria] = []
     var tags: [Tag] = []
     
-    init(id: Int, titulo: String?, descricao: String?, link: Link?, categs: [Categoria], publicador: Membro) {
+    init(id: Int, titulo: String?, descricao: String?, link: Link?, categs: [Categoria], tags: [Tag], publicador: Membro) {
         self.id = id
         self.titulo = titulo ?? "Post sem título"
         self.descricao = descricao ?? ""
         self.categorias = categs
+        self.tags = tags
         self.publicador = publicador
         addLink(link: link)
     }

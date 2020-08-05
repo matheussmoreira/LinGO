@@ -69,7 +69,7 @@ struct PostCardView: View {
                 //TAGS DO POST
                 HStack {
                     ForEach(post.tags) { tag in
-                        Text(tag.nome)
+                        Text("#\(tag.nome)")
                         .foregroundColor(Color.blue)
                         .lineLimit(1)
                     }

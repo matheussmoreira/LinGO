@@ -26,7 +26,9 @@ struct CommentView: View {
                         .frame(width: 30.0, height: 30.0)
                         .clipShape(Circle())
                         .padding(.leading)
+                    
                     Text(comentario.publicador.usuario.nome).fontWeight(.bold)
+                    
                     Spacer()
                     HStack {
                         Text(comentario.publicador.usuario.fluencia_ingles)
@@ -34,9 +36,10 @@ struct CommentView: View {
                             .font(.footnote)
                         Circle()
                             .fill(comentario.publicador.usuario.cor_fluencia)
-                            .frame(width: 15.0, height: 15.0)
+                            .frame(width: 10.0, height: 10.0)
                             .padding(.trailing)
                     }
+                    
                 } //HStack
                 HStack {
                     Text(comentario.conteudo)
