@@ -13,10 +13,11 @@ struct CommentView: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 15, style: .continuous)
-                .fill(Color.yellow)
+                .fill(Color.white)
                 .frame(height: 80)
+                .shadow(radius: 8)
                 .padding()
-        
+            
             VStack {
                 HStack {
                     Image(comentario.publicador.usuario.foto_perfil)
@@ -24,14 +25,26 @@ struct CommentView: View {
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 30.0, height: 30.0)
                         .clipShape(Circle())
+                        .padding(.leading)
                     Text(comentario.publicador.usuario.nome).fontWeight(.bold)
                     Spacer()
-                }
+                    HStack {
+                        Text(comentario.publicador.usuario.fluencia_ingles)
+                            .foregroundColor(.gray)
+                            .font(.footnote)
+                        Circle()
+                            .fill(comentario.publicador.usuario.cor_fluencia)
+                            .frame(width: 15.0, height: 15.0)
+                            .padding(.trailing)
+                    }
+                } //HStack
                 HStack {
-                   Text(comentario.conteudo)
+                    Text(comentario.conteudo)
+                        .padding(.horizontal)
+                        
                     Spacer()
                 }
-            }
+            } //VStack
             .padding(.horizontal)
         } //ZStack
     } //body

@@ -20,7 +20,7 @@ class DAO: ObservableObject {
                                      nome: "Matheus Moreira",
                                      foto_perfil: "foto_matheus",
                                      pais: "USA",
-                                     fluencia_ingles: "Intermediate"))
+                                     fluencia_ingles: "Intermediate English"))
         
         self.usuarios.append(Usuario(id: 2,
                                      email: "victor@boladao.com",
@@ -28,7 +28,7 @@ class DAO: ObservableObject {
                                      nome: "Victor Duarte",
                                      foto_perfil: "foto_victor",
                                      pais: "Spain",
-                                     fluencia_ingles: "Advanced"))
+                                     fluencia_ingles: "Advanced English"))
         
         self.usuarios.append(Usuario(id: 3,
                                      email: "evelyn@boladona.com",
@@ -36,7 +36,7 @@ class DAO: ObservableObject {
                                      nome: "Evelyn de Jesus",
                                      foto_perfil: "foto_evelyn",
                                      pais: "Brazil",
-                                     fluencia_ingles: "Basic"))
+                                     fluencia_ingles: "Basic English"))
         
         self.usuarios.append(Usuario(id: 4,
                                      email: "leonardo@boladao.com",
@@ -44,7 +44,7 @@ class DAO: ObservableObject {
                                      nome: "Leonardo da Vinci",
                                      foto_perfil: "foto_leo",
                                      pais: "Italy",
-                                     fluencia_ingles: "Basic"))
+                                     fluencia_ingles: "Basic English"))
         
         self.usuarios.append(Usuario(id: 5,
                                      email: "michelle@boladona.com",
@@ -52,7 +52,7 @@ class DAO: ObservableObject {
                                      nome: "Michelle Obama",
                                      foto_perfil: "foto_michelle",
                                      pais: "USA",
-                                     fluencia_ingles: "Advanced"))
+                                     fluencia_ingles: "Advanced English"))
     }
     
     func getSala(id: Int) -> Sala? {

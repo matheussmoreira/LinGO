@@ -13,8 +13,9 @@ struct PublicationView: View {
     @ObservedObject var membro: Membro
     
     var body: some View {
-        Text("Publication View!")
-            .fontWeight(.bold)
+//        Text("Publication View!")
+//            .fontWeight(.bold)
+        PostEditorView()
     } //body
 }
 

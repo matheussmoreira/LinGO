@@ -19,10 +19,9 @@ class Usuario: Identifiable, ObservableObject {
     var fluencia_ingles: String
     var cor_fluencia: Color {
         switch fluencia_ingles {
-        case "Advanced": return .blue
-        case "Intermediate": return .yellow
-        case "Basic": return .green
-        case "Zero": return .gray
+        case "Advanced English": return .blue
+        case "Intermediate English": return .yellow
+        case "Basic English": return .green
         default: return .black
         }
     }
