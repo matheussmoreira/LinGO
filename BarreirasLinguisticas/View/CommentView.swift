@@ -39,6 +39,6 @@ struct CommentView: View {
 
 struct CommentView_Previews: PreviewProvider {
     static var previews: some View {
-        CommentView(comentario: DAO().salas[0].posts[0].comentarios[0])
+        CommentView(comentario: DAO().salas[0].posts[1].comentarios[0])
     }
 }

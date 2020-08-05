@@ -13,7 +13,6 @@ class Sala: Identifiable, ObservableObject {
     let id: Int //UUID()
     var nome: String
     var admins: [Membro] = []
-    var usuarios: [Usuario] = []
     var membros: [Membro] = []
     var posts: [Post] = []
     var categorias: [Categoria] = []
@@ -205,7 +204,6 @@ class Sala: Identifiable, ObservableObject {
         if let usuario = DAO().getUsuario(id: id_membro) {
             if getMembro(id: usuario.id) == nil { //para nao adicionar membro repetido
                 let membro = Membro(usuario: usuario, sala: self, is_admin: is_admin)
-                self.usuarios.append(usuario)
                 self.membros.append(membro)
                 if is_admin { self.admins.append(membro) }
             }

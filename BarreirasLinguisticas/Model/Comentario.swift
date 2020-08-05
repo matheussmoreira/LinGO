@@ -15,7 +15,7 @@ class Comentario: Identifiable, ObservableObject {
     var conteudo: String
     var data = Date()
     var is_question: Bool
-    var voters: [Membro] = []
+    var votos: [Voto] = []
     var original: Comentario?
     var replies: [Comentario] = []
     var improprio = false

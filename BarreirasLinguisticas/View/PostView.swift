@@ -44,7 +44,7 @@ struct PostView: View {
                             }
                         }
                     }
-                }
+                } //sheet
             } //VStack
             .onAppear { self.carregaLink() }
         } //ScrollView
