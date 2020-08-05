@@ -142,7 +142,6 @@
 			isa = PBXGroup;
 			children = (
 				667D8BAE24D30469005D51F4 /* DAO.swift */,
-				EA6CA39C24DA006600FAD6F6 /* MultilineTextField.swift */,
 				6675881524D3667400C9B805 /* Usuario.swift */,
 				66D7AA8124CB5A1D001CEA3A /* Sala.swift */,
 				66D7AA7924CB59C3001CEA3A /* Membro.swift */,
@@ -160,6 +159,7 @@
 		66D7AA8324CB5A3C001CEA3A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				EA6CA39C24DA006600FAD6F6 /* MultilineTextField.swift */,
 				6675881724D3789B00C9B805 /* UsersView.swift */,
 				667D8BAC24D302B4005D51F4 /* RoomsView.swift */,
 				66D7AA6824CB5135001CEA3A /* ContentView.swift */,
