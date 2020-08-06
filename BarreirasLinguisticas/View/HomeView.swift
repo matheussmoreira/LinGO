@@ -45,7 +45,7 @@ struct HomeView: View {
                             NavigationLink(destination: PostView(post: post)) {
                                 PostCardImageView(post: post)
                                     .frame(width: UIScreen.width)
-                            }
+                            } // a imagem esta azul por conta desse NavigationLink
                         }
                     }
                 }
