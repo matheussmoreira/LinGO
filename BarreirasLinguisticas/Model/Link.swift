@@ -31,7 +31,7 @@ class Link: NSObject, NSSecureCoding {
         self.id = Int(Date.timeIntervalSinceReferenceDate)
         self.metadata = metadata
         getImage(metadata)
-        //saveLink(self.id ?? 0) //para o cache
+        saveLink(self.id) //para o cache
     }
     
     func getImage(_ metadata: LPLinkMetadata){
@@ -58,7 +58,12 @@ class Link: NSObject, NSSecureCoding {
 
 extension Link { //para o cache
     
-    fileprivate func saveLink(_ id_link: Int) {
+    fileprivate func saveLink(_ id_link: Int?) {
+        guard let id_link = id_link else {
+            print("\nSaveLink: Received id as nil\n")
+            return
+        }
+        
         do {
             let data = try NSKeyedArchiver.archivedData(withRootObject: self, requiringSecureCoding: true)
             guard let docDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
@@ -71,7 +76,7 @@ extension Link { //para o cache
     
     static func loadLink(_ id_link: Int?) -> Link? {
         guard let id_link = id_link else {
-            print("\nReceived id as zero\n")
+            print("\nLoadLink: Received id as nil\n")
             return nil
         }
         

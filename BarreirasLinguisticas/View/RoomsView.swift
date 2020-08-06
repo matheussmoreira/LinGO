@@ -10,7 +10,7 @@ import SwiftUI
 
 struct RoomsView: View {
     @EnvironmentObject var dao: DAO
-    var usuario: Usuario { return dao.usuarios[1] }
+    var usuario: Usuario { return dao.usuarios[2] }
     var salas: [Sala] {
         return dao.getSalasByUser(id: usuario.id)
     }
