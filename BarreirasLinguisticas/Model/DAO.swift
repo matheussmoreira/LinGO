@@ -42,7 +42,7 @@ class DAO: ObservableObject {
                                      email: "leonardo@boladao.com",
                                      senha: "monalisa",
                                      nome: "Leonardo da Vinci",
-                                     foto_perfil: "foto_leo",
+                                     foto_perfil: nil,
                                      pais: "Italy",
                                      fluencia_ingles: "Basic English"))
         
@@ -50,7 +50,7 @@ class DAO: ObservableObject {
                                      email: "michelle@boladona.com",
                                      senha: "democracia",
                                      nome: "Michelle Obama",
-                                     foto_perfil: "foto_michelle",
+                                     foto_perfil: nil,
                                      pais: "USA",
                                      fluencia_ingles: "Advanced English"))
     }

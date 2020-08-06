@@ -91,6 +91,7 @@ struct PostView: View {
     func carregaLink(){
         if let link = post.link {
             stored_link = post.link
+            //print("\n\(String(describing: link.metadata?.title!))\n")
             //stored_link = Link.loadLink(link.id) // do cache
         }
     }

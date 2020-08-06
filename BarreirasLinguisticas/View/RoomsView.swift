@@ -47,7 +47,7 @@ struct RoomsView: View {
                             .frame(width: 200)
                             .overlay(
                                 NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario)){
-                                    Text("Go to \(sala.nome)")
+                                    Text(sala.nome)
                                         .foregroundColor(.white)
                                 }
                             )
@@ -60,7 +60,7 @@ struct RoomsView: View {
                 } //NavigationView
             } //else
         } //VStack
-        .onAppear { self.novaSala(nome: "Room \(self.dao.salas.count+1)", criador: self.usuario)}
+        .onAppear {self.novaSala(nome: "Academy BR", criador: self.usuario)}
     } //body
     
     func novaSala(nome: String, criador: Usuario) {
