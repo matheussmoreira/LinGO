@@ -48,7 +48,7 @@ struct PostCardImageView: View {
                         if link_image != nil {
                             Image(uiImage: link_image!)
                                 .resizable()
-                                .frame(width: 360, height: 100)
+                                .frame(width: UIScreen.width*0.85, height: 100)
                                 .cornerRadius(10)
                         }
                         

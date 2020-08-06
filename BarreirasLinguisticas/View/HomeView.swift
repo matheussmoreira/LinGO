@@ -45,7 +45,7 @@ struct HomeView: View {
                         ForEach(fyPosts){ post in
                             NavigationLink(destination: PostView(post: post)) {
                                 PostCardImageView(post: post)
-                                    .frame(width: self.cardFrame)
+                                    .frame(width: UIScreen.width)
                             }
                         }
                     }
@@ -55,7 +55,7 @@ struct HomeView: View {
             //TOPICO DOS RECENT POSTS
             HStack {
                 Text("Recent posts")
-                    .font(.title)
+                    .font(.system(.title, design: .rounded))
                     .fontWeight(.bold)
                     .multilineTextAlignment(.leading)
                     .padding(.leading)
@@ -77,7 +77,7 @@ struct HomeView: View {
                         ForEach(sala.posts){ post in
                             NavigationLink(destination: PostView(post: post)) {
                                 PostCardView(post: post)
-                                    .frame(width: self.cardFrame)
+                                    .frame(width: UIScreen.width)
                             }
                         }
                     }

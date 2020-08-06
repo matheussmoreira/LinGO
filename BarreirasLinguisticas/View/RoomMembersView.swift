@@ -13,7 +13,6 @@ struct RoomMembersView: View {
     
     var body: some View {
         VStack {
-            
             Text("Members in this room")
                 .font(.system(.largeTitle, design: .rounded))
                 .fontWeight(.bold)
@@ -26,7 +25,7 @@ struct RoomMembersView: View {
                         RoundedRectangle(cornerRadius: 45)
                             .fill(Color.blue)
                         .frame(height: 40)
-                        .frame(width: 340)
+                            .frame(width: UIScreen.width*0.85)
                         .overlay(
                             HStack{
                                  Image(membro.usuario.foto_perfil)
