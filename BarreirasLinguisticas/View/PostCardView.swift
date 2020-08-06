@@ -15,7 +15,7 @@ struct PostCardView: View {
         ZStack {
             //CARD
             RoundedRectangle(cornerRadius: 15, style: .continuous)
-                .fill(Color.white)
+                .fill(Color.primary)
                 .frame(height: 260)
                 .padding()
                 .shadow(radius: 8)

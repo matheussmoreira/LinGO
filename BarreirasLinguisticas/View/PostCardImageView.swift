@@ -19,7 +19,7 @@ struct PostCardImageView: View {
         ZStack {
             //CARD
             RoundedRectangle(cornerRadius: 15, style: .continuous)
-                .fill(Color.white)
+                .fill(Color.primary)
                 .frame(height: 260)
                 .padding()
                 .shadow(radius: 8)
@@ -59,7 +59,7 @@ struct PostCardImageView: View {
                     //TITULO DO POST
                     Text(post.titulo)
                         .fontWeight(.bold)
-                        .foregroundColor(Color.black)
+                        .foregroundColor(Color.primary)
                         .multilineTextAlignment(.leading)
                         .padding(.bottom, 5)
                         .font(.system(font_size_title, design: .rounded))
@@ -69,7 +69,7 @@ struct PostCardImageView: View {
                         //DESCRICAO DO POST
                         Text(verbatim: post.descricao!)
                             .font(.body)
-                            .foregroundColor(Color.black)
+                            .foregroundColor(Color.primary)
                             .multilineTextAlignment(.leading)
                             .lineLimit(line_limit_desc)
                         
