@@ -124,8 +124,12 @@ struct HomeView: View {
     
     func loadFY() {
         for categ in membro.assinaturas {
-            fyPosts.append(contentsOf: sala.getPostsByCategorie(categ: categ.id))
-        } // se um post esta em mais de uma categoria, ele carrega 2+ vezes
+            for post in sala.getPostsByCategorie(categ: categ.id) {
+                if !fyPosts.contains(post) {
+                    fyPosts.append(post)
+                }
+            }
+        }
     }
 }
 

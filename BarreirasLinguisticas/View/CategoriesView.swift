@@ -48,7 +48,7 @@ struct CategoriesView: View {
                         // ICON
                         Image(systemName: "lightbulb")
                             .imageScale(.medium)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.yellow)
                         
                         // CATEGORIAS E TAGS
                         VStack(alignment: .leading) {

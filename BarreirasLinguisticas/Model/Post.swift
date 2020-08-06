@@ -9,7 +9,11 @@
 import Foundation
 import LinkPresentation
 
-class Post: Identifiable, ObservableObject {
+class Post: Equatable, Identifiable, ObservableObject {
+    static func == (lhs: Post, rhs: Post) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
     let id: Int // = UUID()
     var titulo: String
     var descricao: String?

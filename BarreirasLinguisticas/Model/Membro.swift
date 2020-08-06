@@ -33,7 +33,7 @@ class Membro: Identifiable, ObservableObject {
     }
     
     func assinaCategoria(categoria categ: Categoria?) {
-        if (categ != nil) { self.assinaturas.append(categ!)}
+        if (categ != nil) { self.assinaturas.append(categ!) }
         else { print("Categoria a ser assinada inválida") }
     }
 }
