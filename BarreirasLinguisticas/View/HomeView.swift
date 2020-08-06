@@ -11,8 +11,7 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var sala: Sala
     @ObservedObject var membro: Membro
-    var cardFrame: CGFloat = 410.0
-    var fyPosts : [Post] { return sala.posts } // mudar para assinaturas
+    @State var fyPosts: [Post] = []//{ return sala.posts } // mudar para assinaturas
     var recentPosts: [Post] { return sala.posts } // mudar para base na data
     
     var body: some View {
@@ -109,8 +108,15 @@ struct HomeView: View {
                     }
                 }
             } //else
-        } //VStack
+        } //ScrollView
+        .onAppear { self.loadFY() }
     } //body
+    
+    func loadFY() {
+        for categ in membro.assinaturas {
+            fyPosts.append(contentsOf: sala.getPostsByCategorie(categ: categ.id))
+        } // se um post esta em mais de uma categoria, ele carrega 2+ vezes
+    }
 }
 
 struct HomeView_Previews: PreviewProvider {

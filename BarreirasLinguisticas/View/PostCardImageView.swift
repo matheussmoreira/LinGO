@@ -45,12 +45,14 @@ struct PostCardImageView: View {
                             
                         } .padding(.horizontal, 32)
                         
-                        if link_image != nil {
-                            Image(uiImage: link_image!)
-                                .resizable()
-                                .frame(width: UIScreen.width*0.85, height: 100)
-                                .cornerRadius(10)
-                        }
+//                        if link_image != nil {
+//                            Image(uiImage: link_image!)
+//                                .resizable()
+//                                .frame(width: UIScreen.width*0.85, height: 100)
+//                                .cornerRadius(10)
+//                        }
+                        
+                        Image("foto_matheus")
                         
                         VStack {
                             //TITULO DO POST

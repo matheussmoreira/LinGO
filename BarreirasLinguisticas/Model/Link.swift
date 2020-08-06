@@ -29,7 +29,7 @@ class Link: NSObject, NSSecureCoding {
     }
     
     func update(from metadata: LPLinkMetadata) {
-        self.id = Int(Date.timeIntervalSinceReferenceDate)
+        self.id = UUID().hashValue //Int(Date.timeIntervalSinceReferenceDate)
         self.metadata = metadata
         getImage(metadata)
         saveLink(self.id) //para o cache

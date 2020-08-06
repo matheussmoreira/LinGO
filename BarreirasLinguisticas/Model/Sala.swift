@@ -25,19 +25,28 @@ class Sala: Identifiable, ObservableObject {
         novoMembro(id: criador.id, is_admin: true)
         
         if (self.id == 1) { //so populando com dados a primeira sala
-            /* ************************************ MEMBROS ************************************* */
+            /* *********************************** MEMBROS ************************************ */
             novoMembro(id: 1, is_admin: true)
             novoMembro(id: 2, is_admin: false)
             novoMembro(id: 3, is_admin: true)
             novoMembro(id: 4, is_admin: false)
             novoMembro(id: 5, is_admin: false)
+            novoMembro(id: 6, is_admin: true)
+            novoMembro(id: 7, is_admin: false)
+            novoMembro(id: 8, is_admin: false)
+            novoMembro(id: 9, is_admin: false)
+            novoMembro(id: 10, is_admin: false)
             
-            /* ********************************** CATEGORIAS ************************************* */
+            /* ********************************* CATEGORIAS *********************************** */
             novaCategoria(id: 1, nome: "Design")
             novaCategoria(id: 2, nome: "Programming")
             novaCategoria(id: 3, nome: "Accessibility")
             novaCategoria(id: 4, nome: "Games")
             novaCategoria(id: 5, nome: "Business")
+            novaCategoria(id: 6, nome: "WWDC")
+            novaCategoria(id: 7, nome: "Data Science")
+            novaCategoria(id: 8, nome: "Entrepeneurship")
+            novaCategoria(id: 9, nome: "English Language")
             
             /* ************************************* TAGS *************************************** */
             novaTag(id: 1,  nome: "UX",                   categs: [1])
@@ -52,6 +61,8 @@ class Sala: Identifiable, ObservableObject {
             novaTag(id: 10, nome: "In-App Purchases",     categs: [5])
             novaTag(id: 11, nome: "Self-Knowledge",       categs:  [5])
             novaTag(id: 12, nome: "Visual Accessibility", categs: [1,3])
+            novaTag(id: 13, nome: "Swift Playgrounds",    categs: [4,6])
+            novaTag(id: 14, nome: "Grammar",              categs: [9])
             
             /* ************************************ POSTS *************************************** */
             novoPost(publicador: 2,
@@ -101,7 +112,15 @@ class Sala: Identifiable, ObservableObject {
                      categs: [1,3],
                      tags: [12])
             
-            /* ********************************** ASSINATURAS ************************************ */
+            
+            /* ********************************* COMENTARIOS ********************************** */
+            
+            //POST 2
+            novoComentario(id: 1, publicador: 1, post: 2, conteudo: "Eu jurava que 'radius' significava rádio, mas significa raio!", is_question: false)
+            novoComentario(id: 2, publicador: 2, post: 2, conteudo: "Sim sim, é um falso cognato.", is_question: false)
+            novoComentario(id: 3, publicador: 3, post: 2, conteudo: "Interassante saber. Vou ficar ligada nesses falsos cognatos", is_question: false)
+            
+            /* ******************************** ASSINATURAS ********************************** */
             novaAssinatura(membro: 1, categoria: 1)
             novaAssinatura(membro: 1, categoria: 2)
             novaAssinatura(membro: 1, categoria: 4)
@@ -112,12 +131,9 @@ class Sala: Identifiable, ObservableObject {
             novaAssinatura(membro: 5, categoria: 3)
             novaAssinatura(membro: 5, categoria: 5)
             
-            /* ********************************* COMENTARIOS ********************************** */
-            novoComentario(id: 1, publicador: 1, post: 2, conteudo: "Odiei, 5 estrelas", is_question: false)
-            novoComentario(id: 2, publicador: 2, post: 2, conteudo: "E daí? Ninguém te perguntou nada", is_question: false)
-            novoComentario(id: 3, publicador: 3, post: 2, conteudo: "Eu perguntei, mais respeito", is_question: false)
-            
             /* ******************************** POSTS SALVOS ************************************ */
+            salvaPost(membro: 3, post: 6)
+            salvaPost(membro: 3, post: 5)
             
         } // if self.id
     } // init()
