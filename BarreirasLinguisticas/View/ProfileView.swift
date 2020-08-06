@@ -23,10 +23,12 @@ struct ProfileView: View {
                 .overlay(
                     Circle().stroke(Color.black, lineWidth: 3)
                 )
+            
             Text(membro.usuario.nome)
                 .font(.system(.title, design: .rounded))
                 .fontWeight(.bold)
-                .foregroundColor(Color.black)
+                .foregroundColor(Color.primary)
+            
             HStack {
                 Text(membro.usuario.fluencia_ingles)
                     .foregroundColor(Color.gray)
