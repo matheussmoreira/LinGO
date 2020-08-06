@@ -59,8 +59,16 @@ struct CategoriesView: View {
                                     .padding(.top, 5.0)
                                 
                             } //BOTAR O TITLE
-                            TagsView(tags: categ.tags)
-                            .lineLimit(1)
+                            if categ.tags.count == 0 {
+                                Text("No tags")
+                                    .font(.subheadline)
+                                    .foregroundColor(Color.gray)
+                                    .multilineTextAlignment(.leading)
+                            }
+                            else {
+                                TagsView(tags: categ.tags)
+                                .lineLimit(1)
+                            }
                         }
                         .padding(.vertical, 4)
                     } //HStack

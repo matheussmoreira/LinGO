@@ -82,7 +82,7 @@ struct PostView: View {
                 } //ScrollView
                     .navigationBarTitle(
                         Text(post.titulo)
-                    .font(.system(.title, design: .rounded)),displayMode: .automatic)
+                            .font(.system(.title, design: .rounded)),displayMode: .automatic)
                     .padding(.horizontal)
             }//body
         }

@@ -63,6 +63,17 @@ struct ProfileView: View {
                 )
             }
             
+            NavigationLink(destination: SubscriptionsView(assinaturas: membro.assinaturas)) {
+                RoundedRectangle(cornerRadius: 45)
+                .fill(Color.blue)
+                .frame(height: 40)
+                .frame(width: 200)
+                .overlay(
+                    Text("My subscriptions")
+                        .foregroundColor(.white)
+                )
+            }
+            
             NavigationLink(destination:
             RoomMembersView(membros: sala.membros)) {
                 RoundedRectangle(cornerRadius: 45)
