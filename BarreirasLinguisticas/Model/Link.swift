@@ -12,6 +12,7 @@ import LinkPresentation
 class Link: NSObject, NSSecureCoding {
     var id: Int?
     var metadata: LPLinkMetadata?
+    var image_provider: UIImage?
     
     static var supportsSecureCoding = true
     
@@ -29,7 +30,18 @@ class Link: NSObject, NSSecureCoding {
     func update(from metadata: LPLinkMetadata) {
         self.id = Int(Date.timeIntervalSinceReferenceDate)
         self.metadata = metadata
+        getImage(metadata)
         //saveLink(self.id ?? 0) //para o cache
+    }
+    
+    func getImage(_ metadata: LPLinkMetadata){
+        let md = metadata
+        let _ = md.imageProvider?.loadObject(ofClass: UIImage.self, completionHandler: { (image, err) in
+            DispatchQueue.main.async {
+                self.image_provider = image as? UIImage
+                print(#function)
+            }
+        })
     }
     
     override init() {
@@ -40,6 +52,7 @@ class Link: NSObject, NSSecureCoding {
         super.init()
         LinkManager().getLink(url: urlString, to: self)
     }
+    
     
 }
 

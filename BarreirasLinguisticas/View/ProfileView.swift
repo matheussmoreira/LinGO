@@ -34,23 +34,61 @@ struct ProfileView: View {
                     .fill(membro.usuario.cor_fluencia)
                     .frame(width: 15.0, height: 15.0)
             }
+            
             Text(sala.nome)
                 .font(.subheadline)
                 .foregroundColor(Color.gray)
-            Divider()
-            Text("Members in this room")
-                .font(.subheadline)
-                .fontWeight(.bold)
-                .padding(.top)
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack{
-                    ForEach(sala.membros) { membro in
-                        Text(membro.usuario.nome)
-                            .padding(.leading)
-                    }
-                }
+            
+            NavigationLink(destination:
+            MyPublishedPosts(published: membro.posts_publicados)) {
+                RoundedRectangle(cornerRadius: 45)
+                .fill(Color.blue)
+                .frame(height: 40)
+                .frame(width: 200)
+                .overlay(
+                    Text("My published posts")
+                        .foregroundColor(.white)
+                )
             }
-        }
+            
+            NavigationLink(destination:
+            MySavedPosts(saved: membro.posts_salvos)) {
+                RoundedRectangle(cornerRadius: 45)
+                .fill(Color.blue)
+                .frame(height: 40)
+                .frame(width: 200)
+                .overlay(
+                    Text("My saved posts")
+                        .foregroundColor(.white)
+                )
+            }
+            
+            NavigationLink(destination:
+            RoomMembersView(membros: sala.membros)) {
+                RoundedRectangle(cornerRadius: 45)
+                .fill(Color.blue)
+                .frame(height: 40)
+                .frame(width: 200)
+                .overlay(
+                    Text("Members in this room")
+                        .foregroundColor(.white)
+                )
+            }
+            
+//            Divider()
+//            Text("Members in this room")
+//                .font(.subheadline)
+//                .fontWeight(.bold)
+//                .padding(.top)
+//            ScrollView(.vertical, showsIndicators: false) {
+//                VStack{
+//                    ForEach(sala.membros) { membro in
+//                        Text(membro.usuario.nome)
+//                            .padding(.leading)
+//                    }
+//                }
+//            }
+        } //VStack
     } //body
 }
 

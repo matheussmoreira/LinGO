@@ -10,7 +10,7 @@ import SwiftUI
 
 struct RoomsView: View {
     @EnvironmentObject var dao: DAO
-    var usuario: Usuario { return dao.usuarios[3] }
+    var usuario: Usuario { return dao.usuarios[1] }
     var salas: [Sala] {
         return dao.getSalasByUser(id: usuario.id)
     }
@@ -39,9 +39,22 @@ struct RoomsView: View {
                             .font(.title)
                         Spacer()
                         ForEach(salas) { sala in
-                            NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario)){
-                                Text("Go to \(sala.nome)")
-                            }
+//                            NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario)){
+//                                Text("Go to \(sala.nome)")
+//                            }
+                            
+                            RoundedRectangle(cornerRadius: 45)
+                            .fill(Color.blue)
+                            .frame(height: 40)
+                            .frame(width: 200)
+                            .overlay(
+                                NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario)){
+                                    Text("Go to \(sala.nome)")
+                                        .foregroundColor(.white)
+                                }
+//                                Text(nome)
+//                                    .foregroundColor(.white)
+                            )
                         }
                         Spacer()
                         Button(action: { self.novaSala(nome: "Room \(self.dao.salas.count+1)", criador: self.usuario)}) {

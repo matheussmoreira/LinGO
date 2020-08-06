@@ -80,7 +80,9 @@ struct PostView: View {
                     } //VStack
                         .onAppear { self.carregaLink() }
                 } //ScrollView
-                    .navigationBarTitle(Text(post.titulo).font(.system(.title, design: .rounded)), displayMode: .automatic)
+                    .navigationBarTitle(
+                        Text(post.titulo)
+                    .font(.system(.title, design: .rounded)),displayMode: .automatic)
                     .padding(.horizontal)
             }//body
         }

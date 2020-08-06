@@ -12,6 +12,7 @@ struct PostCardImageView: View {
     @ObservedObject var post: Post
     @State var link_image: UIImage?
     @State var line_limit_title = 2
+    @State var font_size_title = Font.TextStyle.title
     @State var line_limit_desc = 4
     
     var body: some View {
@@ -47,7 +48,6 @@ struct PostCardImageView: View {
                         if link_image != nil {
                             Image(uiImage: link_image!)
                                 .resizable()
-                                //.aspectRatio(contentMode: .fit)
                                 .frame(width: 360, height: 100)
                                 .cornerRadius(10)
                         }
@@ -59,7 +59,7 @@ struct PostCardImageView: View {
                                 .foregroundColor(Color.black)
                                 .multilineTextAlignment(.leading)
                                 .padding(.bottom, 5)
-                                .font(.system(.body, design: .rounded))
+                                .font(.system(font_size_title, design: .rounded))
                                 .lineLimit(line_limit_title)
                             
                             HStack {
@@ -77,6 +77,10 @@ struct PostCardImageView: View {
                         .padding(.horizontal, 32)
                         //.frame(height: 190.0)
                         
+//                        if link_image == nil{
+//                            Spacer()
+//                        }
+                        
                         //TAGS DO POST
                         HStack {
                             ForEach(post.tags) { tag in
@@ -88,21 +92,17 @@ struct PostCardImageView: View {
                         } .padding(.horizontal, 32)
                         
                     } // VStack
-                        .onAppear {self.addLinkImage(from: self.post.link)}
+                    .onAppear {self.getLinkImage(from: self.post.link)}
             ) //overlay
         } //ZStack
     }
     
-    func addLinkImage(from link: Link?) {
-        if link != nil {
-            let md = link!.metadata
-            let _ = md?.imageProvider?.loadObject(ofClass: UIImage.self, completionHandler: { (image, err) in
-                DispatchQueue.main.async {
-                    self.link_image = image as? UIImage
-                    self.line_limit_title = 1
-                    self.line_limit_desc = 2
-                }
-            })
+    func getLinkImage(from link: Link?) {
+        if let image = post.link?.image_provider {
+            self.link_image = image
+            self.line_limit_title = 1
+            self.line_limit_desc = 2
+            self.font_size_title = Font.TextStyle.body
         }
     } //addLinkImage
 }
