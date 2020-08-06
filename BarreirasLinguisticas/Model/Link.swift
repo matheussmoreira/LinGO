@@ -29,7 +29,7 @@ class Link: NSObject, NSSecureCoding {
     }
     
     func update(from metadata: LPLinkMetadata) {
-        self.id = UUID().hashValue //Int(Date.timeIntervalSinceReferenceDate)
+        self.id = UUID().hashValue
         self.metadata = metadata
         getImage(metadata)
         saveLink(self.id) //para o cache
@@ -40,7 +40,6 @@ class Link: NSObject, NSSecureCoding {
         let _ = md.imageProvider?.loadObject(ofClass: UIImage.self, completionHandler: { (image, err) in
             DispatchQueue.main.async {
                 self.image_provider = image as? UIImage
-                print(#function)
             }
         })
     }

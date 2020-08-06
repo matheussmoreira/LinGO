@@ -87,20 +87,7 @@ struct ProfileView: View {
                         .foregroundColor(.white)
                 )
             }
-            
-//            Divider()
-//            Text("Members in this room")
-//                .font(.subheadline)
-//                .fontWeight(.bold)
-//                .padding(.top)
-//            ScrollView(.vertical, showsIndicators: false) {
-//                VStack{
-//                    ForEach(sala.membros) { membro in
-//                        Text(membro.usuario.nome)
-//                            .padding(.leading)
-//                    }
-//                }
-//            }
+
         } //VStack
     } //body
 }
