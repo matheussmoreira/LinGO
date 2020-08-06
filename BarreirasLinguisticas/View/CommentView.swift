@@ -100,6 +100,7 @@ struct CommentView: View {
                     Text(comentario.publicador.usuario.nome).fontWeight(.bold)
                     
                     Spacer()
+                    
                     HStack {
                         Text(comentario.publicador.usuario.fluencia_ingles)
                             .foregroundColor(.gray)
@@ -109,14 +110,15 @@ struct CommentView: View {
                             .frame(width: 10.0, height: 10.0)
                             .padding(.trailing)
                     }
-                    
                 } //HStack
+                
                 HStack {
                     Text(comentario.conteudo)
                         .padding(.horizontal)
                         
                     Spacer()
                 }
+                
             } //VStack
             .padding(.horizontal)
         } //ZStack

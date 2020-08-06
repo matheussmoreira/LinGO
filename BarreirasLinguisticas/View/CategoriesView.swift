@@ -19,7 +19,7 @@ struct CategoriesView: View {
                 VStack {
                     HStack {
                         Text("Categories")
-                            .font(.system(.title, design: .rounded))
+                            .font(.system(.largeTitle, design: .rounded))
                             .fontWeight(.bold)
                             .padding(.leading)
                         Spacer()
@@ -42,6 +42,7 @@ struct CategoriesView: View {
                 
                 SearchBarView(mensagem: "Search for categories")
                 
+                //MARK: - LIST
                 List (sala.categorias){ categ in
                     HStack {
                         // ICON
@@ -59,13 +60,23 @@ struct CategoriesView: View {
                                     .padding(.top, 5.0)
                                 
                             } //BOTAR O TITLE
-                            TagsView(tags: categ.tags)
-                            .lineLimit(1)
+                            if categ.tags.count == 0 {
+                                Text("No tags")
+                                    .font(.subheadline)
+                                    .foregroundColor(Color.gray)
+                                    .multilineTextAlignment(.leading)
+                            }
+                            else {
+                                TagsView(tags: categ.tags)
+                                .lineLimit(1)
+                            }
                         }
                         .padding(.vertical, 4)
                     } //HStack
+                    
                 }//List
                 //.navigationBarTitle(Text("Categories"))
+                
             } //else
         } //VStack
     } // body

@@ -16,80 +16,82 @@ struct PostView: View {
     
     var body: some View {
         
-        ZStack {
-            NavigationView {
+        ScrollView(.vertical, showsIndicators: false) {
+            
+            VStack(alignment: .leading){
                 
-                ScrollView(.vertical, showsIndicators: false) {
+                //AUTOR E NIVEL DE FLUENCIA
+                HStack {
+                    Text("Shared by \(post.publicador.usuario.nome)")
+                        .foregroundColor(Color.gray)
+                        .lineLimit(1)
                     
-                    VStack(alignment: .leading){
-                        
-//                        Text(post.titulo)
-//                            .fontWeight(.bold)
-//                            .lineLimit(2)
-//                            .font(.system(.title, design: .rounded))
-                        
-                        HStack {
-                            Text("Shared by \(post.publicador.usuario.nome)")
-                                .foregroundColor(Color.gray)
-                                .lineLimit(1)
-                            
-                            Spacer()
-                            
-                            Text("English Level:")
-                                .foregroundColor(Color.gray)
-                                .lineLimit(1)
-                            Image(systemName: "circle.fill")
-                                .imageScale(.small)
-                                .foregroundColor(post.publicador.usuario.cor_fluencia)
-                            
-                        }
-                        HStack{
-                            ForEach(post.tags) { tag in
-                                Text("#\(tag.nome)")
-                                    .foregroundColor(Color.blue)
-                            }
-                            Spacer()
-                        }
-                        Text(post.descricao!)
-                            .padding(.bottom)
-                        
-                        if (stored_link != nil && stored_link?.metadata != nil) {
-                            LinkView(metadata: stored_link!.metadata!)
-                        }
-                        Button(action: {self.showComments.toggle()}) {
-                            Text("Comentários")
-                                .font(.system(.title, design: .rounded))
-                                .fontWeight(.bold)
-                        }
-                        .sheet(isPresented: $showComments) {
-                            
-                            if (self.post.comentarios.count == 0) {
-                                Text("No comments for this post :(")
-                                    .foregroundColor(.gray)
-                            }
-                            else {
-                                VStack {
-                                    ScrollView(.vertical, showsIndicators: false) {
-                                        ForEach(self.post.comentarios){ comentario in
-                                            CommentView(comentario: comentario)
-                                        }
-                                    }
+                    Spacer()
+                    
+                    Text("English Level:")
+                        .foregroundColor(Color.gray)
+                        .lineLimit(1)
+                    Image(systemName: "circle.fill")
+                        .imageScale(.small)
+                        .foregroundColor(post.publicador.usuario.cor_fluencia)
+                    
+                }
+                
+                //TAGS
+                HStack{
+                    ForEach(post.tags) { tag in
+                        Text("#\(tag.nome)")
+                            .foregroundColor(Color.blue)
+                    }
+                    Spacer()
+                }
+                
+                //DESCRICAO
+                Text(post.descricao!)
+                    .padding(.bottom)
+                
+                //LINK PREVIEW
+                if (stored_link != nil && stored_link?.metadata != nil) {
+                    LinkView(metadata: stored_link!.metadata!)
+                }
+                
+                //IR PARA OS COMENTARIOS
+                Button(action: {self.showComments.toggle()}) {
+                    Text("Comentários")
+                        .font(.system(.title, design: .rounded))
+                        .fontWeight(.bold)
+                }
+                .sheet(isPresented: $showComments) {
+                    //COMENTARIOS OU MENSAGEM
+                    if (self.post.comentarios.count == 0) {
+                        Text("No comments for this post :(")
+                            .foregroundColor(.gray)
+                    }
+                    else {
+                        VStack {
+                            ScrollView(.vertical, showsIndicators: false) {
+                                ForEach(self.post.comentarios){ comentario in
+                                    CommentView(comentario: comentario)
                                 }
-                            } //else
-                        } //sheet
-                    } //VStack
-                        .onAppear { self.carregaLink() }
-                } //ScrollView
-                    .navigationBarTitle(Text(post.titulo).font(.system(.title, design: .rounded)), displayMode: .automatic)
-                    .padding(.horizontal)
-            }//body
-        }
-    }
+                            }
+                        }
+                    } //else
+                } //sheet
+                
+            } //VStack
+                .onAppear { self.carregaLink() }
+        } //ScrollView
+            .navigationBarTitle(
+                Text(post.titulo)
+                    .font(.system(.title, design: .rounded)),displayMode: .automatic)
+            .padding(.horizontal)
+        
+    } //body
     
     func carregaLink(){
-        if let _ = post.link {
-            stored_link = post.link
-            //stored_link = Link.loadLink(id) // do cache
+        if let link = post.link {
+            //stored_link = post.link
+            stored_link = Link.loadLink(link.id) // do cache
         }
     }
 }

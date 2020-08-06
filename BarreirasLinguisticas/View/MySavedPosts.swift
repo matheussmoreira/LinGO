@@ -1,26 +1,20 @@
 //
-//  PostsCategorieView.swift
+//  MySavedPosts.swift
 //  BarreirasLinguisticas
 //
-//  Created by Matheus S. Moreira on 30/07/20.
+//  Created by Matheus S. Moreira on 06/08/20.
 //  Copyright © 2020 Matheus S. Moreira. All rights reserved.
 //
 
 import SwiftUI
 
-struct PostsCategorieView: View {
-    @ObservedObject var categoria: Categoria
-    @ObservedObject var sala: Sala
-    @State private var postSelectionado: Post?
-    
-    var posts: [Post] {
-        return sala.getPostsByCategorie(categ: categoria.id)
-    }
+struct MySavedPosts: View {
+    @State var saved: [Post]
     
     var body: some View {
         VStack {
             HStack {
-                Text(categoria.nome)
+                Text("Your saved posts")
                     .font(.system(.largeTitle, design: .rounded))
                     .fontWeight(.bold)
                     .multilineTextAlignment(.leading)
@@ -28,17 +22,17 @@ struct PostsCategorieView: View {
                 Spacer()
             }
             
-            SearchBarView(mensagem: "Search for posts in \(categoria.nome)")
+            SearchBarView(mensagem: "Search for your saved posts")
             
-            if posts.count == 0 {
+            if saved.count == 0 {
                 Spacer()
-                Text("No posts in \(categoria.nome) :(")
+                Text("You haven't saved any post yet :(")
                     .foregroundColor(Color.gray)
                 Spacer()
             }
             else {
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(posts) { post in
+                    ForEach(saved) { post in
                         NavigationLink(destination: PostView(post: post)) {
                             PostCardView(post: post)
                         }
@@ -46,12 +40,11 @@ struct PostsCategorieView: View {
                 }
             } //else
         } //VStack
-        
     } //body
 }
 
-struct PostsCategorieView_Previews: PreviewProvider {
+struct MySavedPosts_Previews: PreviewProvider {
     static var previews: some View {
-        PostsCategorieView(categoria: DAO().salas[0].categorias[0], sala: DAO().salas[0])
+        MySavedPosts(saved: DAO().salas[0].posts)
     }
 }

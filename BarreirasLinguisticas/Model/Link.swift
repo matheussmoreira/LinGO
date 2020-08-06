@@ -7,11 +7,13 @@
 //
 
 import Foundation
+//import UIKit
 import LinkPresentation
 
 class Link: NSObject, NSSecureCoding {
     var id: Int?
     var metadata: LPLinkMetadata?
+    var image_provider: UIImage?
     
     static var supportsSecureCoding = true
     
@@ -27,9 +29,20 @@ class Link: NSObject, NSSecureCoding {
     }
     
     func update(from metadata: LPLinkMetadata) {
-        self.id = Int(Date.timeIntervalSinceReferenceDate)
+        self.id = UUID().hashValue //Int(Date.timeIntervalSinceReferenceDate)
         self.metadata = metadata
-        //saveLink(self.id ?? 0) //para o cache
+        getImage(metadata)
+        saveLink(self.id) //para o cache
+    }
+    
+    func getImage(_ metadata: LPLinkMetadata){
+        let md = metadata
+        let _ = md.imageProvider?.loadObject(ofClass: UIImage.self, completionHandler: { (image, err) in
+            DispatchQueue.main.async {
+                self.image_provider = image as? UIImage
+                print(#function)
+            }
+        })
     }
     
     override init() {
@@ -41,11 +54,18 @@ class Link: NSObject, NSSecureCoding {
         LinkManager().getLink(url: urlString, to: self)
     }
     
+    
 }
 
-extension Link { //para o cache
+//MARK: - Cache Management
+extension Link {
     
-    fileprivate func saveLink(_ id_link: Int) {
+    fileprivate func saveLink(_ id_link: Int?) {
+        guard let id_link = id_link else {
+            print("\nSaveLink: Received id as nil\n")
+            return
+        }
+        
         do {
             let data = try NSKeyedArchiver.archivedData(withRootObject: self, requiringSecureCoding: true)
             guard let docDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
@@ -58,7 +78,7 @@ extension Link { //para o cache
     
     static func loadLink(_ id_link: Int?) -> Link? {
         guard let id_link = id_link else {
-            print("\nReceived id as zero\n")
+            print("\nLoadLink: Received id as nil\n")
             return nil
         }
         
@@ -77,4 +97,42 @@ extension Link { //para o cache
         }
         return nil
     }
+    
+    /*fileprivate func saveImage(_ id_link: Int?) {
+        guard let id_link = id_link else {
+            print("\nSaveImage: Received id as nil\n")
+            return
+        }
+        
+        do {
+            let data = try NSKeyedArchiver.archivedData(withRootObject: UIImage.self, requiringSecureCoding: true)
+            guard let docDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+            try data.write(to: docDirURL.appendingPathComponent("Image \(id_link)"))
+            print(docDirURL.appendingPathComponent("Image \(id_link)"))
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    static func loadImage(_ id_link: Int?) -> UImage? {
+        guard let id_link = id_link else {
+            print("\nLoadImage: Received id as nil\n")
+            return nil
+        }
+        
+        guard let docDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
+        let linksURL = docDirURL.appendingPathComponent("Image \(id_link)")
+        
+        if FileManager.default.fileExists(atPath: linksURL.path) {
+            do {
+                let data = try Data(contentsOf: linksURL)
+                guard let unarchived = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? UIImage else { return nil }
+                return unarchived
+            } catch {
+                print(error.localizedDescription)
+                return nil
+            }
+        }
+        return nil
+    }*/
 }

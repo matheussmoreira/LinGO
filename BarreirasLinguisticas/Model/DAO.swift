@@ -15,44 +15,85 @@ class DAO: ObservableObject {
     
     init(){
         self.usuarios.append(Usuario(id: 1,
-                                     email: "matheus@boladao.com",
+                                     email: "matheus@icloud.com",
                                      senha: "sucoDeAbacaxi",
                                      nome: "Matheus Moreira",
                                      foto_perfil: "foto_matheus",
-                                     pais: "USA",
+                                     pais: "Brasil",
                                      fluencia_ingles: "Intermediate English"))
         
         self.usuarios.append(Usuario(id: 2,
-                                     email: "victor@boladao.com",
+                                     email: "victor@icloud.com",
                                      senha: "niteroiAmorzinho",
                                      nome: "Victor Duarte",
                                      foto_perfil: "foto_victor",
-                                     pais: "Spain",
+                                     pais: "Brasil",
                                      fluencia_ingles: "Advanced English"))
         
         self.usuarios.append(Usuario(id: 3,
-                                     email: "evelyn@boladona.com",
+                                     email: "evelyn@icloud.com",
                                      senha: "roxoComAmarelo",
                                      nome: "Evelyn de Jesus",
                                      foto_perfil: "foto_evelyn",
-                                     pais: "Brazil",
+                                     pais: "Brasil",
                                      fluencia_ingles: "Basic English"))
+        
         
         self.usuarios.append(Usuario(id: 4,
-                                     email: "leonardo@boladao.com",
-                                     senha: "monalisa",
-                                     nome: "Leonardo da Vinci",
-                                     foto_perfil: "foto_leo",
-                                     pais: "Italy",
-                                     fluencia_ingles: "Basic English"))
+                                     email: "lidiane@icloud.com",
+                                     senha: "chinaInBox",
+                                     nome: "Lidiane Chen",
+                                     foto_perfil: "foto_lidiane",
+                                     pais: "Brasil",
+                                     fluencia_ingles: "Advanced English"))
         
         self.usuarios.append(Usuario(id: 5,
-                                     email: "michelle@boladona.com",
-                                     senha: "democracia",
-                                     nome: "Michelle Obama",
-                                     foto_perfil: "foto_michelle",
-                                     pais: "USA",
+                                     email: "bruna@icloud.com",
+                                     senha: "moranguinho",
+                                     nome: "Bruna Costa",
+                                     foto_perfil: "foto_bruna",
+                                     pais: "Brasil",
                                      fluencia_ingles: "Advanced English"))
+        
+        self.usuarios.append(Usuario(id: 6,
+                                     email: "larissa@icloud.com",
+                                     senha: "maezona",
+                                     nome: "Larissa Diniz",
+                                     foto_perfil: "foto_larissa",
+                                     pais: "Brasil",
+                                     fluencia_ingles: "Basic English"))
+        
+        self.usuarios.append(Usuario(id: 7,
+                                     email: "jefferson@icloud.com",
+                                     senha: "engenharia",
+                                     nome: "Jefferson Silva",
+                                     foto_perfil: "foto_jefferson",
+                                     pais: "Brasil",
+                                     fluencia_ingles: "Intermediate English"))
+        
+        self.usuarios.append(Usuario(id: 8, email: "juliana@icloud.com",
+                                     senha: "sistemas",
+                                     nome: "Juliana Prado",
+                                     foto_perfil: "foto_juliana",
+                                     pais: "Brasil",
+                                     fluencia_ingles: "Intermediate English"))
+        
+        self.usuarios.append(Usuario(id: 9,
+                                     email: "theo@icloud.com",
+                                     senha: "violao",
+                                     nome: "Theo Caldas",
+                                     foto_perfil: "foto_theo",
+                                     pais: "Brasil",
+                                     fluencia_ingles: "Advanced English"))
+        
+        self.usuarios.append(Usuario(id: 10,
+                                     email: "ana@icloud.com",
+                                     senha: "artenapraia",
+                                     nome: "Ana Ierusalimschy",
+                                     foto_perfil: "foto_ana",
+                                     pais: "Brasil",
+                                     fluencia_ingles: "Intermediate English"))
+        
     }
     
     func getSala(id: Int) -> Sala? {
