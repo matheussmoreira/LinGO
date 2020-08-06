@@ -57,7 +57,8 @@ class Link: NSObject, NSSecureCoding {
     
 }
 
-extension Link { //para o cache
+//MARK: - Cache Management
+extension Link {
     
     fileprivate func saveLink(_ id_link: Int?) {
         guard let id_link = id_link else {
@@ -88,7 +89,6 @@ extension Link { //para o cache
             do {
                 let data = try Data(contentsOf: linksURL)
                 guard let unarchived = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? Link else { return nil }
-                print("\n\(String(describing: unarchived.metadata?.title!))\n")
                 return unarchived
             } catch {
                 print(error.localizedDescription)

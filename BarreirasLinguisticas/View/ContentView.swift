@@ -22,19 +22,19 @@ struct ContentView: View {
     var body: some View {
         TabView(/*selection: $selection*/) {
             CategoriesView(sala: sala, membro: membro).tabItem {
-                Image(systemName: "command")
+                Image(systemName: "circle.grid.2x2")
                 Text("Categories")
             }
             HomeView(sala: sala, membro: membro).tabItem {
-                Image(systemName: "command")
+                Image(systemName: "house")
                 Text("Home")
             }
             PublicationView(sala: sala, membro: membro).tabItem {
-                Image(systemName: "command")
+                Image(systemName: "pencil")
                 Text("Publish")
             }
             ProfileView(sala: sala, membro: membro).tabItem {
-                Image(systemName: "command")
+                Image(systemName: "person")
                 Text("Profile")
             }
         } //TabView

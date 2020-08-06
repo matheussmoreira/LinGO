@@ -42,6 +42,7 @@ struct CategoriesView: View {
                 
                 SearchBarView(mensagem: "Search for categories")
                 
+                //MARK: - LIST
                 List (sala.categorias){ categ in
                     HStack {
                         // ICON
@@ -72,8 +73,10 @@ struct CategoriesView: View {
                         }
                         .padding(.vertical, 4)
                     } //HStack
+                    
                 }//List
                 //.navigationBarTitle(Text("Categories"))
+                
             } //else
         } //VStack
     } // body

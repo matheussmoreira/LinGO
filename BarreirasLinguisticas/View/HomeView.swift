@@ -16,7 +16,7 @@ struct HomeView: View {
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            //TOPICO DOS FOR YOU
+            //MARK: - TOPICO DOS FOR YOU
             HStack {
                 Text("For you")
                     .font(.system(.largeTitle, design: .rounded))
@@ -29,7 +29,7 @@ struct HomeView: View {
             
             SearchBarView(mensagem: "Search for all posts")
             
-            //POSTS FOR YOU
+            //FOR YOU CARDS
             if fyPosts.count == 0 {
                 VStack {
                     Spacer()
@@ -49,10 +49,10 @@ struct HomeView: View {
                             .buttonStyle(PlainButtonStyle())
                         }
                     }
-                }
+                } //ScrollView
             } //else
             
-            //TOPICO DOS RECENT POSTS
+            //MARK: - TOPICO DOS RECENT POSTS
             HStack {
                 Text("Recent posts")
                     .font(.system(.title, design: .rounded))
@@ -62,7 +62,7 @@ struct HomeView: View {
                 Spacer()
             }
             
-            //RECENT POSTS
+            //RECENT POSTS CARDS
             if recentPosts.count == 0 {
                 VStack {
                     Spacer()
@@ -84,7 +84,7 @@ struct HomeView: View {
                 } //ScrollView
             } //else
             
-            //TOPICO DAS NEW TAGS
+            //MARK: - TOPICO DAS NEW TAGS
             HStack {
                 Text("New tags")
                     .font(.callout)
@@ -103,12 +103,21 @@ struct HomeView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(sala.tags) { tag in
-                            NewTags(nome: tag.nome)
-                                .padding(.leading)
+                            RoundedRectangle(cornerRadius: 45)
+                            .fill(Color.blue)
+                            .frame(height: 40)
+                            .frame(width: 200)
+                            .padding(.all)
+                            .overlay(
+                                Text(tag.nome)
+                                    .foregroundColor(.white)
+                                    .padding(.all)
+                            )
                         }
                     }
-                }
+                } //ScrollView
             } //else
+            
         } //ScrollView
         .onAppear { self.loadFY() }
     } //body
@@ -120,6 +129,7 @@ struct HomeView: View {
     }
 }
 
+//MARK: - PREVIEW
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView(sala: DAO().salas[0], membro: DAO().salas[0].membros[0])

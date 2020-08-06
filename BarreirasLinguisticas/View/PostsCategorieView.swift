@@ -46,6 +46,7 @@ struct PostsCategorieView: View {
                 }
             } //else
         } //VStack
+        
     } //body
 }
 

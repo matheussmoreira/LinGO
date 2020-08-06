@@ -19,12 +19,13 @@ struct PostCardImageView: View {
         ZStack {
             //CARD
             RoundedRectangle(cornerRadius: 15, style: .continuous)
-            .fill(Color.white)
-            .frame(height: 260)
-            .padding()
-            .shadow(radius: 8)
+                .fill(Color.white)
+                .frame(height: 260)
+                .padding()
+                .shadow(radius: 8)
 
             VStack {
+                //CATEGORIA, AUTOR E FLUENCIA NO INGLES
                 HStack {
                     //NOME DA CATEGORIA
                     Text(post.categorias[0].nome) // qual categoria das várias (???)
@@ -45,6 +46,7 @@ struct PostCardImageView: View {
                     
                 } .padding(.horizontal, 32)
                 
+                //IMAGEM DO CARD
                 if link_image != nil {
                     Image(uiImage: link_image!)
                         .aspectRatio(contentMode: .fill)
@@ -52,8 +54,7 @@ struct PostCardImageView: View {
                         .cornerRadius(10)
                 }
                 
-                //Image("foto_matheus")
-                
+                //TITULO E DESCRICAO DO POST
                 VStack {
                     //TITULO DO POST
                     Text(post.titulo)
@@ -74,10 +75,8 @@ struct PostCardImageView: View {
                         
                         Spacer()
                     }
-                    //Spacer()
                 }
                 .padding(.horizontal, 32)
-                //.frame(height: 190.0)
                 
                 //TAGS DO POST
                 HStack {
