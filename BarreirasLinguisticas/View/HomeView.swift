@@ -103,7 +103,7 @@ struct HomeView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(sala.tags) { tag in
-                            NewTagsView(nome: tag.nome)
+                            NewTags(nome: tag.nome)
                                 .padding(.leading)
                         }
                     }

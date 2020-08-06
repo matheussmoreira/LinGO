@@ -19,7 +19,7 @@ struct CategoriesView: View {
                 VStack {
                     HStack {
                         Text("Categories")
-                            .font(.system(.title, design: .rounded))
+                            .font(.system(.largeTitle, design: .rounded))
                             .fontWeight(.bold)
                             .padding(.leading)
                         Spacer()

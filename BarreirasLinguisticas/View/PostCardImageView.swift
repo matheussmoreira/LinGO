@@ -77,10 +77,6 @@ struct PostCardImageView: View {
                         .padding(.horizontal, 32)
                         //.frame(height: 190.0)
                         
-//                        if link_image == nil{
-//                            Spacer()
-//                        }
-                        
                         //TAGS DO POST
                         HStack {
                             ForEach(post.tags) { tag in

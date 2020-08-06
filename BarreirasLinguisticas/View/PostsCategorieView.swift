@@ -21,7 +21,7 @@ struct PostsCategorieView: View {
         VStack {
             HStack {
                 Text(categoria.nome)
-                    .font(.largeTitle)
+                    .font(.system(.largeTitle, design: .rounded))
                     .fontWeight(.bold)
                     .multilineTextAlignment(.leading)
                     .padding(.leading)

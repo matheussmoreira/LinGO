@@ -33,15 +33,13 @@ struct RoomsView: View {
                 NavigationView {
                     VStack{
                         Text("\(usuario.nome)'s Rooms")
-                            .font(.title)
+                            .font(.system(.largeTitle, design: .rounded))
                             .fontWeight(.bold)
                         Text("Choose a Room")
                             .font(.title)
+                            .foregroundColor(.gray)
                         Spacer()
                         ForEach(salas) { sala in
-//                            NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario)){
-//                                Text("Go to \(sala.nome)")
-//                            }
                             
                             RoundedRectangle(cornerRadius: 45)
                             .fill(Color.blue)
@@ -52,8 +50,6 @@ struct RoomsView: View {
                                     Text("Go to \(sala.nome)")
                                         .foregroundColor(.white)
                                 }
-//                                Text(nome)
-//                                    .foregroundColor(.white)
                             )
                         }
                         Spacer()
