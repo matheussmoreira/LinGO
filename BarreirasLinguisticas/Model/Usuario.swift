@@ -17,7 +17,7 @@ enum fluencia: String {
 }
 
 class Usuario: Identifiable, ObservableObject {
-    let id: Int // = UUID()
+    let id: Int
     var email: String
     var senha: String
     var nome: String

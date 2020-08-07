@@ -9,7 +9,7 @@
 import Foundation
 
 class Comentario: Identifiable, ObservableObject {
-    let id: Int //UUID()
+    let id: Int
     var post: Post
     var publicador: Membro
     var conteudo: String

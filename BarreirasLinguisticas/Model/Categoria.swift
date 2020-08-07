@@ -9,7 +9,7 @@
 import Foundation
 
 class Categoria: Identifiable, ObservableObject {
-    let id: Int // = UUID()
+    let id: Int
     var nome: String
     var tags: [Tag] = []
     var posts: [Post] = []

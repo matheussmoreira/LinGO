@@ -32,7 +32,7 @@ class Link: NSObject, NSSecureCoding {
         self.id = UUID().hashValue
         self.metadata = metadata
         getImage(metadata)
-        saveLink(self.id) //para o cache
+        saveLink(self.id) //para o Cache Management
     }
     
     func getImage(_ metadata: LPLinkMetadata){

@@ -10,11 +10,8 @@ import Foundation
 import LinkPresentation
 
 class Post: Equatable, Identifiable, ObservableObject {
-    static func == (lhs: Post, rhs: Post) -> Bool {
-        return lhs.id == rhs.id
-    }
     
-    let id: Int // = UUID()
+    let id: Int
     var titulo: String
     var descricao: String?
     var link: Link?
@@ -34,6 +31,10 @@ class Post: Equatable, Identifiable, ObservableObject {
         self.tags = tags
         self.publicador = publicador
         addLink(link: link)
+    }
+    
+    static func == (lhs: Post, rhs: Post) -> Bool {
+        return lhs.id == rhs.id
     }
     
     func addCategoria(categoria: Categoria?) {
