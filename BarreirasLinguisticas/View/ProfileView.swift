@@ -91,17 +91,14 @@ struct ProfileView: View {
                 )
             }
             
-            NavigationLink(destination:
-            UsersView()) {
-                RoundedRectangle(cornerRadius: corner)
-                .fill(Color.red)
-                .frame(height: btn_height)
-                .frame(width: btn_width)
-                .overlay(
-                    Text("Leave Room")
-                        .foregroundColor(.white)
-                )
-            }
+            RoundedRectangle(cornerRadius: corner)
+            .fill(Color.red)
+            .frame(height: btn_height)
+            .frame(width: btn_width)
+            .overlay(
+                Text("Leave")
+                    .foregroundColor(.white)
+            )
 
         } //VStack
     } //body
