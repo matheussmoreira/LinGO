@@ -15,6 +15,7 @@ struct HomeView: View {
     var recentPosts: [Post] { return sala.posts } // mudar para base na data
     
     var body: some View {
+        NavigationView {
         ScrollView(.vertical, showsIndicators: false) {
             //MARK: - TOPICO DOS FOR YOU
             HStack {
@@ -119,7 +120,8 @@ struct HomeView: View {
             
         } //ScrollView
         .onAppear { self.loadFY() }
-    } //body
+    } //Navigation View
+} //body
     
     func loadFY() {
         for categ in membro.assinaturas {

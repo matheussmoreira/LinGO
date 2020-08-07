@@ -12,7 +12,17 @@ struct SearchBarView: View {
     @State var textoPesq: String = ""
     var mensagem: String
     var body: some View {
-        TextField(mensagem, text: $textoPesq)
+        
+        
+            SearchBar(text: $textoPesq)
+            
+            /*ForEach(self.names.filter{
+                self.textoPesq.isEmpty ? true : $0.localizedStandardContains(self.textoPesq)
+            }, id: \.self) { name in
+                Text(name)
+            }*/
+        
+        /*TextField(mensagem, text: $textoPesq)
             .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6))
             .foregroundColor(.secondary)
             .background(Color(.secondarySystemBackground))
@@ -20,7 +30,7 @@ struct SearchBarView: View {
             .padding(.leading)
             .padding(.bottom)
             .padding(.trailing)
-            .animation(.default)
+            .animation(.default)*/
     } //body
 }
 
