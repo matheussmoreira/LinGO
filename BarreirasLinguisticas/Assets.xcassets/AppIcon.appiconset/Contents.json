@@ -11,11 +11,13 @@
       "size" : "20x20"
     },
     {
+      "filename" : "Logo58.jpg",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
+      "filename" : "Logo87.jpg",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
@@ -86,6 +88,7 @@
       "size" : "83.5x83.5"
     },
     {
+      "filename" : "Logo1024.jpg",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
