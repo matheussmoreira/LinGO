@@ -11,7 +11,12 @@ import SwiftUI
 struct CommentView: View {
     @ObservedObject var comentario: Comentario
     var body: some View {
+    
+        VStack {
+            CommentsQuestionsToggle()
+            
         ZStack {
+            
             VStack {
                 VStack {
                     HStack(alignment: .top) {
@@ -52,10 +57,11 @@ struct CommentView: View {
                     
                     HStack {
                         Text(comentario.conteudo)
-                            .font(.footnote)
+                            .font(.body)
                             .multilineTextAlignment(.leading)
-                            .padding(.horizontal)
-                            .frame(height: 40)
+                            .padding(.all)
+//                            .frame(height: 40)
+                        .lineLimit(10)
                             .background(Color.gray.opacity(0.1))
                             .clipShape(RoundedRectangle(cornerRadius: 15))
                         
@@ -72,7 +78,6 @@ struct CommentView: View {
                         .padding(.leading)
                     
                     TextField("Answer here", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
-                        .font(.footnote)
                     
                 } //HStack
                     .padding(.horizontal)
@@ -80,7 +85,8 @@ struct CommentView: View {
         }//ZStack
             .padding()
     }
-    
+    }
+}
         /*ZStack {
             RoundedRectangle(cornerRadius: 15, style: .continuous)
                 .fill(Color.secondary)
@@ -124,8 +130,7 @@ struct CommentView: View {
         } //ZStack
     } //body
 }*/
-    
-}
+
 
 struct CommentView_Previews: PreviewProvider {
     static var previews: some View {
@@ -133,7 +138,7 @@ struct CommentView_Previews: PreviewProvider {
     }
 }
 
-struct Topbar : View {
+/*struct Topbar : View {
     
     @Binding var selected : Int
     
@@ -173,3 +178,4 @@ struct Topbar : View {
             .animation(.default)
     }
 }
+*/

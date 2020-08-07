@@ -9,11 +9,11 @@
 import SwiftUI
 
 struct CommentRow: View {
+    @ObservedObject var comentario: Comentario
+    
     var body: some View {
-        
-        Text("Hello")
-        /*ZStack {
-                     
+                
+        ZStack {                    
                     VStack {
                         VStack {
                             HStack(alignment: .top) {
@@ -33,10 +33,12 @@ struct CommentRow: View {
                                             .frame(height: 20.0)
                                         
                                         Spacer()
+                                        
                                         Text(comentario.publicador.usuario.fluencia_ingles)
                                             .foregroundColor(.gray)
                                             .font(.footnote)
                                             .lineLimit(1)
+                                        
                                         Circle()
                                             .fill(comentario.publicador.usuario.cor_fluencia)
                                             .frame(width: 10.0, height: 10.0)
@@ -50,48 +52,40 @@ struct CommentRow: View {
                                 } //VStack
                             } //HStack
                             
-                            
-                                
                             HStack {
                                 Text(comentario.conteudo)
-                                    .font(.footnote)
+                                    .font(.body)
                                     .multilineTextAlignment(.leading)
-                                    .padding(.horizontal)
-                                    .frame(height: 40)
-                                    .background(Color.gray.opacity(0.15))
+                                    .padding(.all)
+        //                            .frame(height: 40)
+                                .lineLimit(10)
+                                    .background(Color.gray.opacity(0.1))
                                     .clipShape(RoundedRectangle(cornerRadius: 15))
                                 
                                 Spacer()
                             }
-                                
-                            
-                            
-                            
                         } //VStack
                         
-                        
-                            HStack {
-                                Image("foto_victor")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 20.0, height: 20.0)
-                                    .clipShape(Circle())
-                                    .padding(.leading)
-                                
-                                TextField("Answer here", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
-                                    .font(.footnote)
-                                
-                            } //HStack
+                        HStack {
+                            Image("foto_victor")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 20.0, height: 20.0)
+                                .clipShape(Circle())
+                                .padding(.leading)
+                            
+                            TextField("Answer here", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+                            
+                        } //HStack
                             .padding(.horizontal)
                     }
                 }//ZStack
-        .padding()
-            }*/
+                    .padding()
 }
 }
 
 struct CommentRow_Previews: PreviewProvider {
     static var previews: some View {
-        CommentRow()
+        CommentRow(comentario: DAO().salas[0].posts[1].comentarios[0])
     }
 }

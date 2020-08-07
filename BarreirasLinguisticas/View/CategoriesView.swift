@@ -46,7 +46,7 @@ struct CategoriesView: View {
                 List (sala.categorias){ categ in
                     HStack {
                         // ICON
-                        Image(systemName: "command")
+                        Image(systemName: "arrow.turn.down.right")
                             .imageScale(.medium)
                             .foregroundColor(.blue)
                         
