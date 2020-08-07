@@ -67,7 +67,7 @@ struct CommentRow: View {
                 } //VStack
                 
                 HStack {
-                    Image("foto_victor")
+                    Image("foto_evelyn")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 20.0, height: 20.0)

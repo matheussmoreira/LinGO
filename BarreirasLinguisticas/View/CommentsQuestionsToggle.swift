@@ -10,17 +10,10 @@ import SwiftUI
 
 struct CommentsQuestionsToggle: View {
     var comentarios: [Comentario]
-    var questions: [Comentario] {
-        return comentarios.filter{$0.is_question == true}
-    }
-    var not_questions: [Comentario] {
-        return comentarios.filter{$0.is_question == false}
-    }
+    @State var questions: [Comentario] = []
+    @State var not_questions: [Comentario] = []
     
     @State var questions_on = true
-//    @State var comments_on = false
-//    @State var questions_color = Color.blue
-//    @State var comments_color = Color.black
     
     var body: some View {
         VStack {
@@ -43,19 +36,25 @@ struct CommentsQuestionsToggle: View {
                 }
             }
         } //VStack
+            .onAppear { self.getQuestions() }
         
     } //body
     
+    func getQuestions(){
+        questions = comentarios.filter{$0.is_question == true}
+        not_questions = comentarios.filter{$0.is_question == false}
+    }
+    
     func countCommentQuestions(isQuestion: Bool) -> Int {
-        var comments: [Comentario]
-        comments = comentarios.filter{$0.is_question == isQuestion}
+        let comments = comentarios.filter{$0.is_question == isQuestion}
         return comments.count
     }
 }
 
 struct CommentsQuestionsToggle_Previews: PreviewProvider {
     static var previews: some View {
-        CommentsQuestionsToggle(comentarios: DAO().salas[0].posts[0].comentarios)
+        CommentsQuestionsToggle(
+            comentarios: DAO().salas[0].posts[0].comentarios)
     }
 }
 

@@ -119,6 +119,7 @@ class Sala: Identifiable, ObservableObject {
             novoComentario(id: 1, publicador: 1, post: 2, conteudo: "Eu jurava que 'radius' significava rádio, mas significa raio!", is_question: false)
             novoComentario(id: 2, publicador: 2, post: 2, conteudo: "Sim sim, é um falso cognato.", is_question: false)
             novoComentario(id: 3, publicador: 3, post: 2, conteudo: "Interassante saber. Vou ficar ligada nesses falsos cognatos", is_question: false)
+            novoComentario(id: 4, publicador: 4, post: 2, conteudo: "Não entendi o que alignement significa", is_question: true)
             
             /* ******************************** ASSINATURAS ********************************** */
             novaAssinatura(membro: 1, categoria: 1)
@@ -131,7 +132,7 @@ class Sala: Identifiable, ObservableObject {
             novaAssinatura(membro: 5, categoria: 3)
             novaAssinatura(membro: 5, categoria: 5)
             
-            /* ******************************** POSTS SALVOS ************************************ */
+            /* ****************************** POSTS SALVOS ********************************** */
             salvaPost(membro: 3, post: 6)
             salvaPost(membro: 3, post: 5)
             
