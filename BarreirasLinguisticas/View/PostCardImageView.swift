@@ -79,6 +79,7 @@ struct PostCardImageView: View {
                 }
                 .padding(.horizontal, 32)
                 
+                Spacer()
                 //TAGS DO POST
                 HStack {
                     ForEach(post.tags) { tag in
@@ -90,6 +91,7 @@ struct PostCardImageView: View {
                 } .padding(.horizontal, 32)
                 
             } // VStack
+            .frame(height: 244.0)
             .onAppear {self.getLinkImage(from: self.post.link)}
         } //ZStack
     }

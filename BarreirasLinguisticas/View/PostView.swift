@@ -68,13 +68,7 @@ struct PostView: View {
                             .foregroundColor(.gray)
                     }
                     else {
-                        VStack {
-                            ScrollView(.vertical, showsIndicators: false) {
-                                ForEach(self.post.comentarios){ comentario in
-                                    CommentView(comentario: comentario)
-                                }
-                            }
-                        }
+                        CommentsQuestionsToggle(comentarios: self.post.comentarios)
                     } //else
                 } //sheet
                 

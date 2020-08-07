@@ -9,13 +9,14 @@
 import SwiftUI
 
 struct QuestionRow: View {
+    @ObservedObject var comentario: Comentario
+    
     var body: some View {
-        
         VStack {
             ZStack {
                 VStack {
                     HStack(alignment: .top) {
-                        Image("foto_leo")
+                        Image(comentario.publicador.usuario.foto_perfil)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 40.0, height: 40.0)
@@ -24,17 +25,18 @@ struct QuestionRow: View {
                         
                         VStack(alignment: .leading) {
                             HStack {
-                                Text("Leonardo da Vinci")
+                                Text(comentario.publicador.usuario.nome)
                                     .font(.subheadline)
                                     .fontWeight(.bold)
                                     .lineLimit(1)
                                     .frame(height: 20.0)
                                 
                                 Spacer()
-                                Text("English Level")
+                                Text(comentario.publicador.usuario.fluencia_ingles.rawValue)
                                     .foregroundColor(.gray)
                                     .font(.footnote)
                                 Circle()
+                                    .fill(comentario.publicador.usuario.cor_fluencia)
                                     .frame(width: 10.0, height: 10.0)
                                     .padding(.trailing)
                             }
@@ -47,16 +49,13 @@ struct QuestionRow: View {
                     } //HStack
                     
                     HStack {
-                        Text("We are the world, we are the children... we are the ones who make a brighter day, so lets got given. That's a choice we're making, to be saving our own lives?")
+                        Text(comentario.conteudo)
                             .font(.footnote)
                             .multilineTextAlignment(.leading)
                             .padding(.horizontal)
                             .frame(height: 100.0)
                             .background(Color.gray.opacity(0.15))
                             .clipShape(RoundedRectangle(cornerRadius: 15))
-                        
-                       
-                           
                         
                         Button(action: vote) {
                             Image(systemName: "hand.raised")
@@ -99,6 +98,6 @@ func vote() {
 
 struct QuestionRow_Previews: PreviewProvider {
     static var previews: some View {
-        QuestionRow()
+        QuestionRow(comentario: DAO().salas[0].posts[1].comentarios[0])
     }
 }

@@ -11,13 +11,11 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var sala: Sala
     @ObservedObject var membro: Membro
-    @State var fyPosts: [Post] = []//{ return sala.posts } // mudar para assinaturas
-    var recentPosts: [Post] { return sala.posts } // mudar para base na data
+    @State var fyPosts: [Post] = []
+    var recentPosts: [Post] { return sala.posts }
     
     var body: some View {
-        NavigationView {
-        ScrollView(.vertical, showsIndicators: false) {
-            //MARK: - TOPICO DOS FOR YOU
+        VStack {
             HStack {
                 Text("For you")
                     .font(.system(.largeTitle, design: .rounded))
@@ -30,98 +28,101 @@ struct HomeView: View {
             
             SearchBarView(mensagem: "Search for all posts")
             
-            //FOR YOU CARDS
-            if fyPosts.count == 0 {
-                VStack {
-                    Spacer()
-                    Text("No posts for you :(")
-                        .foregroundColor(Color.gray)
+            ScrollView(.vertical, showsIndicators: false) {
+                //MARK: - TOPICO DOS FOR YOU
+                
+                //FOR YOU CARDS
+                if fyPosts.count == 0 {
+                    VStack {
+                        Spacer()
+                        Text("No posts for you :(")
+                            .foregroundColor(Color.gray)
+                        Spacer()
+                    }
+                }
+                else {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack (spacing: 20){
+                            ForEach(fyPosts){ post in
+                                NavigationLink(destination: PostView(post: post)) {
+                                    PostCardImageView(post: post)
+                                        .frame(width: UIScreen.width)
+                                }.buttonStyle(PlainButtonStyle())
+                            }
+                        }
+                    } //ScrollView
+                } //else
+                
+                //MARK: - TOPICO DOS RECENT POSTS
+                HStack {
+                    Text("Recent posts")
+                        .font(.system(.title, design: .rounded))
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.leading)
+                        .padding(.leading)
                     Spacer()
                 }
-            }
-            else {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack (spacing: 20){
-                        ForEach(fyPosts){ post in
-                            NavigationLink(destination: PostView(post: post)) {
-                                PostCardImageView(post: post)
-                                    .frame(width: UIScreen.width)
-                            }.buttonStyle(PlainButtonStyle())
-                        }
+                
+                //RECENT POSTS CARDS
+                if recentPosts.count == 0 {
+                    VStack {
+                        Spacer()
+                        Text("No recent posts :(")
+                            .foregroundColor(Color.gray)
+                        Spacer()
                     }
-                } //ScrollView
-            } //else
-            
-            //MARK: - TOPICO DOS RECENT POSTS
-            HStack {
-                Text("Recent posts")
-                    .font(.system(.title, design: .rounded))
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.leading)
-                    .padding(.leading)
-                Spacer()
-            }
-            
-            //RECENT POSTS CARDS
-            if recentPosts.count == 0 {
-                VStack {
-                    Spacer()
-                    Text("No recent posts :(")
-                        .foregroundColor(Color.gray)
+                }
+                else {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 20){
+                            ForEach(sala.posts.reversed()){ post in
+                                NavigationLink(destination: PostView(post: post)) {
+                                    PostCardImageView(post: post)
+                                        .frame(width: UIScreen.width)
+                                }.buttonStyle(PlainButtonStyle())
+                            }
+                        }
+                    } //ScrollView
+                } //else
+                
+                //MARK: - TOPICO DAS NEW TAGS
+                HStack {
+                    Text("New tags")
+                        .font(.callout)
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.leading)
+                        .padding(.leading)
                     Spacer()
                 }
-            }
-            else {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 20){
-                        ForEach(sala.posts.reversed()){ post in
-                            NavigationLink(destination: PostView(post: post)) {
-                                PostCardImageView(post: post)
-                                    .frame(width: UIScreen.width)
-                            }.buttonStyle(PlainButtonStyle())
-                        }
-                    }
-                } //ScrollView
-            } //else
-            
-            //MARK: - TOPICO DAS NEW TAGS
-            HStack {
-                Text("New tags")
-                    .font(.callout)
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.leading)
-                    .padding(.leading)
-                Spacer()
-            }
-            
-            //NEW TAGS
-            if sala.tags.count == 0 {
-                Text("No new tags :(")
-                    .foregroundColor(Color.gray)
-            }
-            else {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
-                        ForEach(sala.tags) { tag in
-                            RoundedRectangle(cornerRadius: 45)
-                            .fill(Color.blue)
-                            .frame(height: 40)
-                            .frame(width: 200)
-                            .padding(.all)
-                            .overlay(
-                                Text(tag.nome)
-                                    .foregroundColor(.white)
+                
+                //NEW TAGS
+                if sala.tags.count == 0 {
+                    Text("No new tags :(")
+                        .foregroundColor(Color.gray)
+                }
+                else {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(sala.tags) { tag in
+                                RoundedRectangle(cornerRadius: 45)
+                                    .fill(Color.blue)
+                                    .frame(height: 40)
+                                    .frame(width: 200)
                                     .padding(.all)
-                            )
+                                    .overlay(
+                                        Text(tag.nome)
+                                            .foregroundColor(.white)
+                                            .padding(.all)
+                                )
+                            }
                         }
-                    }
-                } //ScrollView
-            } //else
-            
-        } //ScrollView
-        .onAppear { self.loadFY() }
-    } //Navigation View
-} //body
+                    } //ScrollView
+                } //else
+                
+            } //ScrollView
+                .onAppear { self.loadFY() }
+        }
+    } //body
     
     func loadFY() {
         for categ in membro.assinaturas {
@@ -131,7 +132,7 @@ struct HomeView: View {
                 }
             }
         }
-    }
+    } //loadFY
 }
 
 //MARK: - PREVIEW
