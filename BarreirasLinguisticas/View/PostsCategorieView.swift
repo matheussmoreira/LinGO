@@ -12,6 +12,8 @@ struct PostsCategorieView: View {
     @ObservedObject var categoria: Categoria
     @ObservedObject var sala: Sala
     @State private var postSelectionado: Post?
+    @State var subscribed = false
+    @State var subscribedImage = "checkmark.circle"
     
     var posts: [Post] {
         return sala.getPostsByCategorie(categ: categoria.id)
@@ -26,6 +28,12 @@ struct PostsCategorieView: View {
                     .multilineTextAlignment(.leading)
                     .padding(.leading)
                 Spacer()
+                Button(action:{self.changeSubscription()}){
+                    Image(systemName: subscribedImage)
+                    .padding(.trailing)
+                    .imageScale(.large)
+                    .foregroundColor(.primary)
+                }
             }
             
             SearchBarView(mensagem: "Search for posts in \(categoria.nome)")
@@ -48,6 +56,16 @@ struct PostsCategorieView: View {
         } //VStack
         
     } //body
+    
+    func changeSubscription(){
+        subscribed.toggle()
+        if subscribed {
+            subscribedImage = "checkmark.circle"
+        }
+        else {
+            subscribedImage = "checkmark.circle.fill"
+        }
+    }
 }
 
 struct PostsCategorieView_Previews: PreviewProvider {

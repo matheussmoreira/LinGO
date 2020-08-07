@@ -13,6 +13,8 @@ struct PostView: View {
     @ObservedObject var post: Post
     @State var stored_link: Link?
     @State var showComments = false
+    @State var bookmarked = false
+    @State var bookmarkImage = "bookmark"
     
     var body: some View {
         
@@ -79,6 +81,13 @@ struct PostView: View {
                 Text(post.titulo)
                     .font(.system(.title, design: .rounded)),displayMode: .automatic)
             .padding(.horizontal)
+        .navigationBarItems(trailing:
+            Button(action: {self.changeBookmark()}){
+                Image(systemName: bookmarkImage)
+                .imageScale(.large)
+                .foregroundColor(.primary)
+            }
+        )
         
     } //body
     
@@ -86,6 +95,16 @@ struct PostView: View {
         if let link = post.link {
             //stored_link = post.link
             stored_link = Link.loadLink(link.id) // do cache
+        }
+    }
+    
+    func changeBookmark(){
+        bookmarked.toggle()
+        if bookmarked {
+            bookmarkImage = "bookmark"
+        }
+        else {
+            bookmarkImage = "bookmark.fill"
         }
     }
 }
