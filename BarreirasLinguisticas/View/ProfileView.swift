@@ -12,6 +12,9 @@ struct ProfileView: View {
     //@EnvironmentObject var dao: DAO
     @ObservedObject var sala: Sala
     @ObservedObject var membro: Membro
+    let btn_height: CGFloat = 40
+    let btn_width: CGFloat = 200
+    let corner: CGFloat = 45
     
     var body: some View {
         VStack {
@@ -30,7 +33,7 @@ struct ProfileView: View {
                 .foregroundColor(Color.primary)
             
             HStack {
-                Text(membro.usuario.fluencia_ingles)
+                Text(membro.usuario.fluencia_ingles.rawValue)
                     .foregroundColor(Color.gray)
                 Circle()
                     .fill(membro.usuario.cor_fluencia)
@@ -43,10 +46,10 @@ struct ProfileView: View {
             
             NavigationLink(destination:
             MyPublishedPosts(published: membro.posts_publicados)) {
-                RoundedRectangle(cornerRadius: 45)
+                RoundedRectangle(cornerRadius: corner)
                 .fill(Color.blue)
-                .frame(height: 40)
-                .frame(width: 200)
+                .frame(height: btn_height)
+                .frame(width: btn_width)
                 .overlay(
                     Text("My published posts")
                         .foregroundColor(.white)
@@ -55,10 +58,10 @@ struct ProfileView: View {
             
             NavigationLink(destination:
             MySavedPosts(saved: membro.posts_salvos)) {
-                RoundedRectangle(cornerRadius: 45)
+                RoundedRectangle(cornerRadius: corner)
                 .fill(Color.blue)
-                .frame(height: 40)
-                .frame(width: 200)
+                .frame(height: btn_height)
+                .frame(width: btn_width)
                 .overlay(
                     Text("My saved posts")
                         .foregroundColor(.white)
@@ -66,10 +69,10 @@ struct ProfileView: View {
             }
             
             NavigationLink(destination: SubscriptionsView(assinaturas: membro.assinaturas)) {
-                RoundedRectangle(cornerRadius: 45)
+                RoundedRectangle(cornerRadius: corner)
                 .fill(Color.blue)
-                .frame(height: 40)
-                .frame(width: 200)
+                .frame(height: btn_height)
+                .frame(width: btn_width)
                 .overlay(
                     Text("My subscriptions")
                         .foregroundColor(.white)
@@ -78,12 +81,24 @@ struct ProfileView: View {
             
             NavigationLink(destination:
             RoomMembersView(membros: sala.membros)) {
-                RoundedRectangle(cornerRadius: 45)
+                RoundedRectangle(cornerRadius: corner)
                 .fill(Color.blue)
-                .frame(height: 40)
-                .frame(width: 200)
+                .frame(height: btn_height)
+                .frame(width: btn_width)
                 .overlay(
                     Text("Members in this room")
+                        .foregroundColor(.white)
+                )
+            }
+            
+            NavigationLink(destination:
+            UsersView()) {
+                RoundedRectangle(cornerRadius: corner)
+                .fill(Color.red)
+                .frame(height: btn_height)
+                .frame(width: btn_width)
+                .overlay(
+                    Text("Leave Room")
                         .foregroundColor(.white)
                 )
             }

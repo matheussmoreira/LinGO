@@ -21,7 +21,7 @@ struct RoomMembersView: View {
             
             ScrollView(.vertical, showsIndicators: false) {
                 VStack{
-                    ForEach(membros) { membro in
+                    ForEach(membros.sorted(by: { $0.usuario.nome < $1.usuario.nome })) { membro in
                         RoundedRectangle(cornerRadius: 45)
                             .fill(Color.blue)
                         .frame(height: 40)

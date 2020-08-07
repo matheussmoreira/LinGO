@@ -27,7 +27,7 @@ struct UsersView: View {
                             .fontWeight(.bold)
                         Spacer()
                         ForEach(dao.usuarios) { usuario in
-                            NavigationLink(destination: RoomsView().environmentObject(self.dao)){
+                            NavigationLink(destination: RoomsView(usuario: usuario).environmentObject(self.dao)){
                                 Text(usuario.nome)
                             }
                         }

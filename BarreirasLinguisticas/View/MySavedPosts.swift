@@ -34,8 +34,8 @@ struct MySavedPosts: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(saved) { post in
                         NavigationLink(destination: PostView(post: post)) {
-                            PostCardView(post: post)
-                        }
+                            PostCardImageView(post: post)
+                        }.buttonStyle(PlainButtonStyle())
                     }
                 }
             } //else

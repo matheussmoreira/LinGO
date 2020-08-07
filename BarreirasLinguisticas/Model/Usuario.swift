@@ -9,6 +9,13 @@
 import Foundation
 import SwiftUI
 
+enum fluencia: String {
+    case advanced = "Advanced English"
+    case intermed = "Intermediate English"
+    case basic = "Basic English"
+    case unknown = "<fluencia>"
+}
+
 class Usuario: Identifiable, ObservableObject {
     let id: Int // = UUID()
     var email: String
@@ -16,23 +23,23 @@ class Usuario: Identifiable, ObservableObject {
     var nome: String
     var foto_perfil: String
     var pais: String
-    var fluencia_ingles: String
+    var fluencia_ingles: fluencia
     var cor_fluencia: Color {
         switch fluencia_ingles {
-        case "Advanced English": return .blue
-        case "Intermediate English": return .yellow
-        case "Basic English": return .green
+        case .advanced: return .blue
+        case .intermed: return .yellow
+        case .basic: return .green
         default: return .black
         }
     }
     
-    init(id: Int, email: String?, senha: String?, nome: String?, foto_perfil: String?, pais: String?, fluencia_ingles: String?) {
+    init(id: Int, email: String?, senha: String?, nome: String?, foto_perfil: String?, pais: String?, fluencia_ingles: fluencia?) {
         self.id = id
         self.email = email ?? "<membro@email.com>"
         self.senha = senha ?? "<senha>"
         self.nome = nome ?? "<nome>"
         self.foto_perfil = foto_perfil ?? "user_icon"
         self.pais = pais ?? "<pais>"
-        self.fluencia_ingles = fluencia_ingles ?? "<fluencia>"
+        self.fluencia_ingles = fluencia_ingles ?? fluencia.unknown
     }
 }

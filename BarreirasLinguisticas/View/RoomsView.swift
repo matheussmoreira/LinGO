@@ -10,7 +10,7 @@ import SwiftUI
 
 struct RoomsView: View {
     @EnvironmentObject var dao: DAO
-    var usuario: Usuario { return dao.usuarios[2] }
+    var usuario: Usuario // { return dao.usuarios[2] }
     var salas: [Sala] {
         return dao.getSalasByUser(id: usuario.id)
     }
@@ -60,7 +60,7 @@ struct RoomsView: View {
                 } //NavigationView
             } //else
         } //VStack
-        .onAppear {self.novaSala(nome: "Academy BR", criador: self.usuario)}
+        .onAppear {self.novaSala(nome: "Clube de Estudos BR", criador: self.usuario)}
     } //body
     
     func novaSala(nome: String, criador: Usuario) {
@@ -76,6 +76,6 @@ struct RoomsView: View {
 
 struct RoomsView_Previews: PreviewProvider {
     static var previews: some View {
-        RoomsView().environmentObject(DAO())
+        RoomsView(usuario: DAO().usuarios[2]).environmentObject(DAO())
     }
 }

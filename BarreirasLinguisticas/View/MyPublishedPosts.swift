@@ -34,8 +34,8 @@ struct MyPublishedPosts: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(published) { post in
                         NavigationLink(destination: PostView(post: post)) {
-                            PostCardView(post: post)
-                        }
+                            PostCardImageView(post: post)
+                        }.buttonStyle(PlainButtonStyle())
                     }
                 }
             } //else

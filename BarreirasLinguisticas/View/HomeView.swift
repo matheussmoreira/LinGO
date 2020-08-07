@@ -45,8 +45,7 @@ struct HomeView: View {
                             NavigationLink(destination: PostView(post: post)) {
                                 PostCardImageView(post: post)
                                     .frame(width: UIScreen.width)
-                            }
-                            .buttonStyle(PlainButtonStyle())
+                            }.buttonStyle(PlainButtonStyle())
                         }
                     }
                 } //ScrollView
@@ -74,11 +73,11 @@ struct HomeView: View {
             else {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 20){
-                        ForEach(sala.posts){ post in
+                        ForEach(sala.posts.reversed()){ post in
                             NavigationLink(destination: PostView(post: post)) {
-                                PostCardView(post: post)
+                                PostCardImageView(post: post)
                                     .frame(width: UIScreen.width)
-                            }
+                            }.buttonStyle(PlainButtonStyle())
                         }
                     }
                 } //ScrollView

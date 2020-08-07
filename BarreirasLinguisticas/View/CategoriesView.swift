@@ -43,7 +43,7 @@ struct CategoriesView: View {
                 SearchBarView(mensagem: "Search for categories")
                 
                 //MARK: - LIST
-                List (sala.categorias){ categ in
+                List (sala.categorias.sorted(by: { $0.nome < $1.nome })){ categ in
                     HStack {
                         // ICON
                         Image(systemName: "lightbulb")

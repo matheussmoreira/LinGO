@@ -32,7 +32,7 @@ struct CommentView: View {
                     Spacer()
                     
                     HStack {
-                        Text(comentario.publicador.usuario.fluencia_ingles)
+                        Text(comentario.publicador.usuario.fluencia_ingles.rawValue)
                             .foregroundColor(.gray)
                             .font(.footnote)
                         Circle()
