@@ -69,7 +69,7 @@
 		668903A724D5B7F60062C8CA /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		668D55FF24D43ED900EBDD15 /* LinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkManager.swift; sourceTree = "<group>"; };
 		66B339BC24DDCAE3009821DA /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchBar.swift; path = ../../../../Downloads/SearchBar.swift; sourceTree = "<group>"; };
-		66D7AA6124CB5135001CEA3A /* LinGO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LinGO.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		66D7AA6124CB5135001CEA3A /* BarreirasLinguisticas.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BarreirasLinguisticas.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66D7AA6424CB5135001CEA3A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66D7AA6624CB5135001CEA3A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		66D7AA6824CB5135001CEA3A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -125,7 +125,7 @@
 		66D7AA6224CB5135001CEA3A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				66D7AA6124CB5135001CEA3A /* LinGO.app */,
+				66D7AA6124CB5135001CEA3A /* BarreirasLinguisticas.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -218,7 +218,7 @@
 			);
 			name = BarreirasLinguisticas;
 			productName = BarreirasLinguisticas;
-			productReference = 66D7AA6124CB5135001CEA3A /* LinGO.app */;
+			productReference = 66D7AA6124CB5135001CEA3A /* BarreirasLinguisticas.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -446,15 +446,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"BarreirasLinguisticas/Preview Content\"";
-				DEVELOPMENT_TEAM = NUT56P54Y6;
+				DEVELOPMENT_TEAM = P27VQVDFNQ;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = BarreirasLinguisticas/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.matheussmoreira.LinGO;
-				PRODUCT_NAME = LinGO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.matheussmoreira.BarreirasLinguisticas;
+				PRODUCT_NAME = BarreirasLinguisticas;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -466,15 +466,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"BarreirasLinguisticas/Preview Content\"";
-				DEVELOPMENT_TEAM = NUT56P54Y6;
+				DEVELOPMENT_TEAM = P27VQVDFNQ;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = BarreirasLinguisticas/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.matheussmoreira.LinGO;
-				PRODUCT_NAME = LinGO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.matheussmoreira.BarreirasLinguisticas;
+				PRODUCT_NAME = BarreirasLinguisticas;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
