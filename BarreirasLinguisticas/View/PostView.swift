@@ -60,7 +60,7 @@ struct PostView: View {
                 
                 //IR PARA OS COMENTARIOS
                 Button(action: {self.showComments.toggle()}) {
-                    Text("Ver Comentários")
+                    Text("Read the comments")
                         .font(.system(.title, design: .rounded))
                         .fontWeight(.bold)
                 }

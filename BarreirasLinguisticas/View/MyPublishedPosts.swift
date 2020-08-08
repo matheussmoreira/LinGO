@@ -11,6 +11,7 @@ import SwiftUI
 struct MyPublishedPosts: View {
     @State var published: [Post]
     @ObservedObject var membro: Membro
+    @State var mensagem = ""//Search for your published posts"
     
     var body: some View {
         VStack {
@@ -23,7 +24,7 @@ struct MyPublishedPosts: View {
                 Spacer()
             }
             
-            SearchBarView(mensagem: "Search for your published posts")
+            SearchBar(text: $mensagem)
             
             if published.count == 0 {
                 Spacer()

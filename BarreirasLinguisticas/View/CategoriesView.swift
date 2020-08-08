@@ -11,7 +11,7 @@ import SwiftUI
 struct CategoriesView: View {
     @ObservedObject var sala: Sala
     @ObservedObject var membro: Membro
-    @State private var textoPesq: String = ""
+    @State private var mensagem = ""//Search for categories"
     
     var body: some View {
         VStack {
@@ -24,7 +24,7 @@ struct CategoriesView: View {
                             .padding(.leading)
                         Spacer()
                     }
-                    SearchBarView(mensagem: "Search for categories")
+                    SearchBar(text: $mensagem)
                     Spacer()
                     Text("Add a new categorie by adding a new post!")
                         .foregroundColor(Color.gray)

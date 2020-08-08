@@ -46,7 +46,7 @@ struct CommentRow: View {
                                     .frame(width: 10.0, height: 10.0)
                                     .padding(.trailing)
                             }
-                            Text("Apple Developer Academy | PUC-Rio | Brazil")
+                            Text(membro.sala.nome)
                                 .frame(height: 6.0)
                                 .font(.caption)
                                 .foregroundColor(Color.gray)
@@ -56,7 +56,7 @@ struct CommentRow: View {
                     
                     HStack {
                         Text(comentario.conteudo)
-                            .font(.footnote)
+                            .font(.body)
                             .multilineTextAlignment(.leading)
                             .padding(.all)
                             .lineLimit(10)

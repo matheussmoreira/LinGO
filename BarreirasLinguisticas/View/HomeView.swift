@@ -12,6 +12,7 @@ struct HomeView: View {
     @ObservedObject var sala: Sala
     @ObservedObject var membro: Membro
     @State var fyPosts: [Post] = []
+    @State var mensagem = ""//Search for all posts"
     var recentPosts: [Post] { return sala.posts }
     
     var body: some View {
@@ -26,7 +27,7 @@ struct HomeView: View {
                 Spacer()
             }
             
-            SearchBarView(mensagem: "Search for all posts")
+            SearchBar(text: $mensagem)
             
             ScrollView(.vertical, showsIndicators: false) {
                 //MARK: - TOPICO DOS FOR YOU

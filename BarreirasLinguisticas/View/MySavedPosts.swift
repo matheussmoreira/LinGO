@@ -11,6 +11,7 @@ import SwiftUI
 struct MySavedPosts: View {
     @State var saved: [Post]
     @ObservedObject var membro: Membro
+    @State var mensagem = ""//Search for your saved posts"
     
     var body: some View {
         VStack {
@@ -23,7 +24,7 @@ struct MySavedPosts: View {
                 Spacer()
             }
             
-            SearchBarView(mensagem: "Search for your saved posts")
+            SearchBar(text: $mensagem)
             
             if saved.count == 0 {
                 Spacer()

@@ -60,7 +60,7 @@ struct RoomsView: View {
                 } //NavigationView
             } //else
         } //VStack
-        .onAppear {self.novaSala(nome: "Clube de Estudos BR", criador: self.usuario)}
+        .onAppear {self.novaSala(nome: "Apple Dev Academy", criador: self.usuario)}
     } //body
     
     func novaSala(nome: String, criador: Usuario) {

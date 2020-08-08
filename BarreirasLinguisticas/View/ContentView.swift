@@ -26,7 +26,7 @@ struct ContentView: View {
                 Text("Categories")
             }
             HomeView(sala: sala, membro: membro).tabItem {
-                Image(systemName: "lightbulb")
+                Image(systemName: "magnifyingglass")
                 Text("Discover")
             }
             PublicationView(sala: sala, membro: membro).tabItem {
