@@ -28,10 +28,17 @@ struct PostCardImageView: View {
                 //CATEGORIA, AUTOR E FLUENCIA NO INGLES
                 HStack {
                     //NOME DA CATEGORIA
-                    Text(post.categorias[0].nome) // qual categoria das várias (???)
-                        .fontWeight(.semibold)
-                        .foregroundColor(Color.gray)
-                        .lineLimit(1)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack{
+                            ForEach(post.categorias) { categ in
+                                Text(categ.nome)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(Color.gray)
+                                    .lineLimit(1)
+                            }
+                        }
+                    }
+                    .frame(width: 120.0)
                     
                     Spacer()
                     //SHARED BY \(SOMEONE)
@@ -48,7 +55,9 @@ struct PostCardImageView: View {
                 
                 //IMAGEM DO CARD
                 if link_image != nil {
+                    
                     Image(uiImage: link_image!)
+                        .renderingMode(.original)
                         .aspectRatio(contentMode: .fill)
                         .frame(width: UIScreen.width*0.85, height: 100)
                         .cornerRadius(10)

@@ -9,7 +9,10 @@
 import SwiftUI
 
 struct QuestionRow: View {
+    @ObservedObject var membro: Membro
     @ObservedObject var comentario: Comentario
+    @State var voted = false
+    @State var votedImage = "hand.raised"
     
     var body: some View {
         VStack {
@@ -53,12 +56,12 @@ struct QuestionRow: View {
                             .font(.footnote)
                             .multilineTextAlignment(.leading)
                             .padding(.horizontal)
-                            .frame(height: 100.0)
+                            .frame(height: 70.0)
                             .background(Color.gray.opacity(0.15))
                             .clipShape(RoundedRectangle(cornerRadius: 15))
                         
-                        Button(action: vote) {
-                            Image(systemName: "hand.raised")
+                        Button(action: {self.changeVoted()}) {
+                            Image(systemName: votedImage)
                                 .resizable()
                                 .frame(width: 30.0, height: 40.0)
                                 .overlay(
@@ -75,7 +78,7 @@ struct QuestionRow: View {
                     .padding(.horizontal)
             }
             HStack {
-                Image("foto_evelyn")
+                Image(membro.usuario.foto_perfil)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 20.0, height: 20.0)
@@ -86,18 +89,23 @@ struct QuestionRow: View {
                     .font(.footnote)
                 
             } //HStack
-            .padding(.horizontal)
+                .padding(.horizontal)
         }//VStack
     } //body
-} //struct
-
-func vote() {
     
+    func changeVoted(){
+        voted.toggle()
+        if voted {
+            votedImage = "hand.raised"
+        }
+        else {
+            votedImage = "hand.raised.fill"
+        }
+    }
 }
-
 
 struct QuestionRow_Previews: PreviewProvider {
     static var previews: some View {
-        QuestionRow(comentario: DAO().salas[0].posts[1].comentarios[0])
+        QuestionRow(membro: DAO().salas[0].membros[0], comentario: DAO().salas[0].posts[1].comentarios[0])
     }
 }

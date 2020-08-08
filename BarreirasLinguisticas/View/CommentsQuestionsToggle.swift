@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct CommentsQuestionsToggle: View {
+    @ObservedObject var membro: Membro
     var comentarios: [Comentario]
     @State var questions: [Comentario] = []
     @State var not_questions: [Comentario] = []
@@ -24,7 +25,7 @@ struct CommentsQuestionsToggle: View {
                     EmptyView(message: "No questions for this post :(")
                 }
                 else {
-                    CallQuestions(comments: questions)
+                    CallQuestions(membro: membro, comments: questions)
                 }
             }
             else {
@@ -32,7 +33,7 @@ struct CommentsQuestionsToggle: View {
                     EmptyView(message: "No comments for this post :(")
                 }
                 else {
-                    CallComments(comments: not_questions)
+                    CallComments(membro: membro, comments: not_questions)
                 }
             }
         } //VStack
@@ -54,18 +55,19 @@ struct CommentsQuestionsToggle: View {
 struct CommentsQuestionsToggle_Previews: PreviewProvider {
     static var previews: some View {
         CommentsQuestionsToggle(
-            comentarios: DAO().salas[0].posts[0].comentarios)
+            membro: DAO().salas[0].membros[0], comentarios: DAO().salas[0].posts[0].comentarios)
     }
 }
 
 struct CallComments: View {
+    @ObservedObject var membro: Membro
     var comments: [Comentario]
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             ForEach(comments) { comment in
                 if !comment.is_question {
-                    CommentRow(comentario: comment)
+                    CommentRow(membro: self.membro, comentario: comment)
                     Divider()
                 }
             }
@@ -74,13 +76,14 @@ struct CallComments: View {
 }
 
 struct CallQuestions: View {
+    @ObservedObject var membro: Membro
     var comments: [Comentario]
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             ForEach(comments) { comment in
                 if comment.is_question {
-                    QuestionRow(comentario: comment)
+                    QuestionRow(membro: self.membro, comentario: comment)
                     Divider()
                 }
             }
@@ -143,7 +146,7 @@ struct Toggle: View {
                 .padding(.horizontal, 32)
             } //HStack
         } //ZStack
-            .frame(height: 50.0)
+            .frame(height: 40.0)
             .padding()
     } //body
     

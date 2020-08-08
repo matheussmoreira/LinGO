@@ -44,10 +44,10 @@ struct HomeView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack (spacing: 20){
                             ForEach(fyPosts){ post in
-                                NavigationLink(destination: PostView(post: post)) {
+                                NavigationLink(destination: PostView(post: post, membro: self.membro)) {
                                     PostCardImageView(post: post)
                                         .frame(width: UIScreen.width)
-                                }.buttonStyle(PlainButtonStyle())
+                                }
                             }
                         }
                     } //ScrollView
@@ -76,10 +76,10 @@ struct HomeView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 20){
                             ForEach(sala.posts.reversed()){ post in
-                                NavigationLink(destination: PostView(post: post)) {
+                                NavigationLink(destination: PostView(post: post, membro: self.membro)) {
                                     PostCardImageView(post: post)
                                         .frame(width: UIScreen.width)
-                                }.buttonStyle(PlainButtonStyle())
+                                }
                             }
                         }
                     } //ScrollView

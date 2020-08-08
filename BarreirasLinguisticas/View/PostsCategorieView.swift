@@ -10,6 +10,7 @@ import SwiftUI
 
 struct PostsCategorieView: View {
     @ObservedObject var categoria: Categoria
+    @ObservedObject var membro: Membro
     @ObservedObject var sala: Sala
     @State private var postSelectionado: Post?
     @State var subscribed = false
@@ -47,9 +48,9 @@ struct PostsCategorieView: View {
             else {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(posts) { post in
-                        NavigationLink(destination: PostView(post: post)) {
+                        NavigationLink(destination: PostView(post: post, membro: self.membro)) {
                             PostCardImageView(post: post)
-                        }.buttonStyle(PlainButtonStyle())
+                        }
                     }
                 }
             } //else
@@ -70,6 +71,6 @@ struct PostsCategorieView: View {
 
 struct PostsCategorieView_Previews: PreviewProvider {
     static var previews: some View {
-        PostsCategorieView(categoria: DAO().salas[0].categorias[0], sala: DAO().salas[0])
+        PostsCategorieView(categoria: DAO().salas[0].categorias[0], membro: DAO().salas[0].membros[0], sala: DAO().salas[0])
     }
 }

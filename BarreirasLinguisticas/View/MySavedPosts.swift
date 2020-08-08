@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MySavedPosts: View {
     @State var saved: [Post]
+    @ObservedObject var membro: Membro
     
     var body: some View {
         VStack {
@@ -33,9 +34,9 @@ struct MySavedPosts: View {
             else {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(saved) { post in
-                        NavigationLink(destination: PostView(post: post)) {
+                        NavigationLink(destination: PostView(post: post, membro: self.membro)) {
                             PostCardImageView(post: post)
-                        }.buttonStyle(PlainButtonStyle())
+                        }
                     }
                 }
             } //else
@@ -45,6 +46,6 @@ struct MySavedPosts: View {
 
 struct MySavedPosts_Previews: PreviewProvider {
     static var previews: some View {
-        MySavedPosts(saved: DAO().salas[0].posts)
+        MySavedPosts(saved: DAO().salas[0].posts, membro: DAO().salas[0].membros[0])
     }
 }

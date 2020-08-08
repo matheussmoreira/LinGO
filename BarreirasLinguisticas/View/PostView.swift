@@ -11,6 +11,7 @@ import LinkPresentation
 
 struct PostView: View {
     @ObservedObject var post: Post
+    @ObservedObject var membro: Membro
     @State var stored_link: Link?
     @State var showComments = false
     @State var bookmarked = false
@@ -59,7 +60,7 @@ struct PostView: View {
                 
                 //IR PARA OS COMENTARIOS
                 Button(action: {self.showComments.toggle()}) {
-                    Text("Comentários")
+                    Text("Ver Comentários")
                         .font(.system(.title, design: .rounded))
                         .fontWeight(.bold)
                 }
@@ -70,7 +71,7 @@ struct PostView: View {
                             .foregroundColor(.gray)
                     }
                     else {
-                        CommentsQuestionsToggle(comentarios: self.post.comentarios)
+                        CommentsQuestionsToggle(membro: self.membro, comentarios: self.post.comentarios)
                     } //else
                 } //sheet
                 
@@ -81,12 +82,12 @@ struct PostView: View {
                 Text(post.titulo)
                     .font(.system(.title, design: .rounded)),displayMode: .automatic)
             .padding(.horizontal)
-        .navigationBarItems(trailing:
-            Button(action: {self.changeBookmark()}){
-                Image(systemName: bookmarkImage)
-                .imageScale(.large)
-                .foregroundColor(.primary)
-            }
+            .navigationBarItems(trailing:
+                Button(action: {self.changeBookmark()}){
+                    Image(systemName: bookmarkImage)
+                        .imageScale(.large)
+                        .foregroundColor(.primary)
+                }
         )
         
     } //body
@@ -112,6 +113,6 @@ struct PostView: View {
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
-        PostView(post:DAO().salas[0].posts[0])
+        PostView(post:DAO().salas[0].posts[0], membro: DAO().salas[0].membros[0])
     }
 }

@@ -45,7 +45,7 @@ struct ProfileView: View {
                 .foregroundColor(Color.gray)
             
             NavigationLink(destination:
-            MyPublishedPosts(published: membro.posts_publicados)) {
+            MyPublishedPosts(published: membro.posts_publicados, membro: membro)) {
                 RoundedRectangle(cornerRadius: corner)
                 .fill(Color.blue)
                 .frame(height: btn_height)
@@ -57,7 +57,7 @@ struct ProfileView: View {
             }
             
             NavigationLink(destination:
-            MySavedPosts(saved: membro.posts_salvos)) {
+            MySavedPosts(saved: membro.posts_salvos, membro: membro)) {
                 RoundedRectangle(cornerRadius: corner)
                 .fill(Color.blue)
                 .frame(height: btn_height)
