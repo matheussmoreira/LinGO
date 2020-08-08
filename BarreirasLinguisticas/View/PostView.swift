@@ -88,7 +88,7 @@ struct PostView: View {
                         .imageScale(.large)
                         .foregroundColor(.primary)
                 }
-        )
+            )
         
     } //body
     
