@@ -17,7 +17,7 @@ struct ContentView: View {
     @ObservedObject var sala: Sala
     @ObservedObject var usuario: Usuario
     var membro: Membro { return sala.getMembro(id: usuario.id)!}
-    //@State private var selection = 2
+    //@State var selection = 4
     
     var body: some View {
         TabView(/*selection: $selection*/) {
