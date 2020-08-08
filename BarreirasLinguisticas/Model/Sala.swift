@@ -59,7 +59,7 @@ class Sala: Identifiable, ObservableObject {
             novaTag(id: 8,  nome: "Characters",           categs: [4])
             novaTag(id: 9,  nome: "App Store",            categs: [5])
             novaTag(id: 10, nome: "In-App Purchases",     categs: [5])
-            novaTag(id: 11, nome: "Self-Knowledge",       categs:  [5])
+            novaTag(id: 11, nome: "Self-Knowledge",       categs: [8])
             novaTag(id: 12, nome: "Visual Accessibility", categs: [1,3])
             novaTag(id: 13, nome: "Swift Playgrounds",    categs: [4,6])
             novaTag(id: 14, nome: "Grammar",              categs: [9])
@@ -89,7 +89,7 @@ class Sala: Identifiable, ObservableObject {
                      categs: [2],
                      tags: [])
             
-            novoPost(publicador: 3,
+            novoPost(publicador: 4,
                      post: 4,
                      titulo: "SwiftUI: a new perception of developing",
                      descricao: "This article is not intended to be a simplifying way to say that programming is “easy”. Of course there are many notions and concepts to learn but with the right motivation and with the right tools nothing is impossible. However, it can be said that with SwiftUI, everyone can program in a easier way. It is not important what your background is but the goals you want to achieve and your motivation",
@@ -102,15 +102,24 @@ class Sala: Identifiable, ObservableObject {
                      titulo: "The 10 Qualities of an Emotionally Intelligent Person",
                      descricao: nil,
                      link: Link(urlString: "https://medium.com/personal-growth/the-10-qualities-of-an-emotionally-intelligent-person-f595440af4fb"),
-                     categs: [5],
+                     categs: [8],
                      tags: [11])
             
-            novoPost(publicador: 3,
+            novoPost(publicador: 6,
                      post: 6, titulo: "6 Principles Of Visual Accessibility Design",
                      descricao: "According to the World Health Organization, 285 million people in the world are visually impaired. These 285 million people still need access to the Internet, and deserve to have access to the same information that everybody else does. Many individuals believe that if someone is visually impaired, they do not use the Internet. This is untrue.",
                      link: Link(urlString: "https://usabilitygeek.com/6-principles-visual-accessibility-design/"),
-                     categs: [1,3],
+                     categs: [3],
                      tags: [12])
+            
+            novoPost(publicador: 3,
+            post: 7, titulo: "The Day I First Met a Foreign",
+            descricao: "It was an exchange fair. First, I met a man from San Francisco... he sells hamburguers and hotdogs and he's very kind and he likes talking about his country and culture. I also met a female teacher from France who speaks English... and she was too distant and cold, I didn't feel like she enjoyed meeting me. I also met a woman from Florida who was a true christian and was always talking about Jesus... which I liked because wherever we used to go she was always finding something good in things. I love the fact that I have met, worked with and become friends from so many foreign countries. I have had some experiences which have caused me to form opinions about certain countries. But I really try not to do this if possible. People are just people after all... we all have our good points and our bad points. What about you?",
+            link: nil,
+            categs: [9],
+            tags: [11])
+            
+            novoPost(publicador: 10, post: 8, titulo: "The Keys to a Successful WWDC Scholarship Submission", descricao: "I found this article for us having succes in this week's competition. I hope it is helpful!", link: Link(urlString: "https://medium.com/better-programming/the-keys-to-a-successful-wwdc-scholarship-submission-8cbbf5eb2281"), categs: [6], tags: [13])
             
             
             /* ********************************* COMENTARIOS ********************************** */
@@ -121,6 +130,12 @@ class Sala: Identifiable, ObservableObject {
             novoComentario(id: 3, publicador: 3, post: 2, conteudo: "Interesting, I will keep in touch with this subject. I have to learn more about it.", is_question: false)
             novoComentario(id: 4, publicador: 4, post: 2, conteudo: "I didn't understand what aligment means", is_question: true)
             
+            //POST 8
+            novoComentario(id: 5, publicador: 1, post: 8, conteudo: "Lesson of the week: creativity > complexity!", is_question: false)
+            novoComentario(id: 6, publicador: 2, post: 8, conteudo: "Interesting, i was going through the work path", is_question: false)
+            novoComentario(id: 7, publicador: 3, post: 8, conteudo: "Thank you for sharing it, I was having issues!", is_question: false)
+            novoComentario(id: 8, publicador: 6, post: 8, conteudo: "I'm not using SpriteKit as he. Is it bad?", is_question: true)
+            
             /* ******************************** ASSINATURAS ********************************** */
             novaAssinatura(membro: 1, categoria: 1)
             novaAssinatura(membro: 1, categoria: 2)
@@ -129,12 +144,16 @@ class Sala: Identifiable, ObservableObject {
             novaAssinatura(membro: 2, categoria: 3)
             novaAssinatura(membro: 3, categoria: 2)
             novaAssinatura(membro: 3, categoria: 3)
-            novaAssinatura(membro: 5, categoria: 3)
+            novaAssinatura(membro: 3, categoria: 6)
+            novaAssinatura(membro: 3, categoria: 7)
+            novaAssinatura(membro: 3, categoria: 5)
             novaAssinatura(membro: 5, categoria: 5)
             
             /* ****************************** POSTS SALVOS ********************************** */
+            salvaPost(membro: 3, post: 8)
+            salvaPost(membro: 3, post: 3)
             salvaPost(membro: 3, post: 6)
-            salvaPost(membro: 3, post: 5)
+            
             
         } // if self.id
     } // init()

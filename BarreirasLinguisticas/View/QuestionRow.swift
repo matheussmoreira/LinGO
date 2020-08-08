@@ -13,6 +13,7 @@ struct QuestionRow: View {
     @ObservedObject var comentario: Comentario
     @State var voted = false
     @State var votedImage = "hand.raised"
+    @State var num_votes = 5
     
     var body: some View {
         VStack {
@@ -68,7 +69,19 @@ struct QuestionRow: View {
                                     RoundedRectangle(cornerRadius: 10)
                                         .stroke(lineWidth: 2)
                                         .frame(width: 60.0, height: 80.0)
-                            )
+                                )
+                            VStack {
+                                ZStack{
+                                    Image(systemName: "circle.fill")
+                                        .imageScale(.medium)
+                                        .foregroundColor(.red)
+                                    Text("\(num_votes)")
+                                        .font(.subheadline)
+                                        .foregroundColor(.white)
+                                }
+                                
+                                Spacer()
+                            }
                         } //Button
                             .padding(.leading)
                     } //HStack
@@ -96,10 +109,12 @@ struct QuestionRow: View {
     func changeVoted(){
         voted.toggle()
         if voted {
-            votedImage = "hand.raised"
+            votedImage = "hand.raised.fill"
+            num_votes += 1
         }
         else {
-            votedImage = "hand.raised.fill"
+            votedImage = "hand.raised"
+            num_votes -= 1
         }
     }
 }
