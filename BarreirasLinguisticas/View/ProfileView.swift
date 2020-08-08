@@ -18,14 +18,25 @@ struct ProfileView: View {
     
     var body: some View {
         VStack {
-            Image(membro.usuario.foto_perfil)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 150.0, height: 150.0)
-                .clipShape(Circle())
-                .overlay(
-                    Circle().stroke(Color.black, lineWidth: 3)
+            
+            Circle()
+                .padding(.bottom, -100.0)
+                .padding(.top, -1000)
+                .frame(width: 600.0, height: 600.0)
+                .foregroundColor(.blue)
+        
+            
+            VStack {
+                Image(membro.usuario.foto_perfil)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 150.0, height: 150.0)
+                    .clipShape(Circle())
+//                    .shadow(radius: 15)
+                    .overlay(
+                        Circle().stroke(Color.white, lineWidth: 8)
                 )
+            
             
             Text(membro.usuario.nome)
                 .font(.system(.title, design: .rounded))
@@ -99,7 +110,8 @@ struct ProfileView: View {
                 Text("Leave")
                     .foregroundColor(.white)
             )
-
+            } //VStack
+                .padding(.top, -550)
         } //VStack
     } //body
 }
