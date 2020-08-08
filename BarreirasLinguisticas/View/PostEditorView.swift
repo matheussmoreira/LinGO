@@ -84,6 +84,7 @@ struct PostEditorView: View {
                         .font(.largeTitle)
                         .foregroundColor(.blue))
                 
+                
             }
         }
     }
