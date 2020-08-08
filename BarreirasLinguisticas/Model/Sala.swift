@@ -116,10 +116,10 @@ class Sala: Identifiable, ObservableObject {
             /* ********************************* COMENTARIOS ********************************** */
             
             //POST 2
-            novoComentario(id: 1, publicador: 1, post: 2, conteudo: "Eu jurava que 'radius' significava rádio, mas significa raio!", is_question: false)
-            novoComentario(id: 2, publicador: 2, post: 2, conteudo: "Sim sim, é um falso cognato.", is_question: false)
-            novoComentario(id: 3, publicador: 3, post: 2, conteudo: "Interassante saber. Vou ficar ligada nesses falsos cognatos", is_question: false)
-            novoComentario(id: 4, publicador: 4, post: 2, conteudo: "Não entendi o que alignement significa", is_question: true)
+            novoComentario(id: 1, publicador: 1, post: 2, conteudo: "I thought that radius meant radio in portuguese", is_question: false)
+            novoComentario(id: 2, publicador: 2, post: 2, conteudo: "It is a false cognate!", is_question: false)
+            novoComentario(id: 3, publicador: 3, post: 2, conteudo: "Interesting, I will keep in touch with this subject. I have to learn more about it.", is_question: false)
+            novoComentario(id: 4, publicador: 4, post: 2, conteudo: "I didn't understand what aligment means", is_question: true)
             
             /* ******************************** ASSINATURAS ********************************** */
             novaAssinatura(membro: 1, categoria: 1)
