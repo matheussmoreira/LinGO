@@ -61,10 +61,10 @@ struct PostsCategorieView: View {
     func changeSubscription(){
         subscribed.toggle()
         if subscribed {
-            subscribedImage = "checkmark.circle"
+            subscribedImage = "checkmark.circle.fill"
         }
         else {
-            subscribedImage = "checkmark.circle.fill"
+            subscribedImage = "checkmark.circle"
         }
     }
 }

@@ -102,10 +102,10 @@ struct PostView: View {
     func changeBookmark(){
         bookmarked.toggle()
         if bookmarked {
-            bookmarkImage = "bookmark"
+            bookmarkImage = "bookmark.fill"
         }
         else {
-            bookmarkImage = "bookmark.fill"
+            bookmarkImage = "bookmark"
         }
     }
 }

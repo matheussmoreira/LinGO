@@ -134,7 +134,7 @@ class Sala: Identifiable, ObservableObject {
             novoComentario(id: 5, publicador: 1, post: 8, conteudo: "Lesson of the week: creativity > complexity!", is_question: false)
             novoComentario(id: 6, publicador: 2, post: 8, conteudo: "Interesting, i was going through the work path", is_question: false)
             novoComentario(id: 7, publicador: 3, post: 8, conteudo: "Thank you for sharing it, I was having issues!", is_question: false)
-            novoComentario(id: 8, publicador: 6, post: 8, conteudo: "I'm not using SpriteKit as he. Is it bad?", is_question: true)
+            novoComentario(id: 8, publicador: 1, post: 8, conteudo: "I'm not using SpriteKit as he. Is it bad?", is_question: true)
             
             /* ******************************** ASSINATURAS ********************************** */
             novaAssinatura(membro: 1, categoria: 1)
