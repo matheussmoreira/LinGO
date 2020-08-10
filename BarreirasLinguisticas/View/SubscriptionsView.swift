@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct SubscriptionsView: View {
+    @ObservedObject var sala: Sala
     @EnvironmentObject var membro: Membro
     
     var body: some View {
@@ -19,29 +20,40 @@ struct SubscriptionsView: View {
                 .multilineTextAlignment(.leading)
                 .padding(.leading)
             
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack{
-                    ForEach(membro.assinaturas) { categ in
-                        RoundedRectangle(cornerRadius: 45)
-                            .fill(Color.blue)
-                        .frame(height: 40)
-                            .frame(width: UIScreen.width*0.85)
-                        .overlay(
-                            Text(categ.nome)
-                                .padding(.leading)
-                                .foregroundColor(.white)
-                            //Spacer()
-                        )
-                    } //ForEach
-                } //VStack
-            } //ScrollView
+            if (membro.assinaturas.count == 0) {
+                VStack {
+                    Spacer()
+                    Text("You have no subscriptions :(")
+                        .foregroundColor(Color.gray)
+                    Spacer()
+                }
+            }
+            else {
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack{
+                        ForEach(membro.assinaturas) { asst in
+                            NavigationLink(destination: PostsCategorieView(categoria: asst, sala: self.sala).environmentObject(self.membro)) {
+                                RoundedRectangle(cornerRadius: 45)
+                                    .fill(Color.blue)
+                                    .frame(height: 40)
+                                    .frame(width: UIScreen.width*0.85)
+                                    .overlay(
+                                        Text(asst.nome)
+                                            .padding(.leading)
+                                            .foregroundColor(.white)
+                                    )
+                            }
+                        } //ForEach
+                    } //VStack
+                } //ScrollView
+            } //else
         } //VStack
     }
 }
 
 struct SubscriptionsView_Previews: PreviewProvider {
     static var previews: some View {
-        SubscriptionsView()
+        SubscriptionsView(sala: DAO().salas[0])
             .environmentObject(DAO().salas[0].membros[0])
     }
 }

@@ -78,7 +78,7 @@ struct ProfileView: View {
             }
             
             //MARK: - ASSINATURAS
-                NavigationLink(destination: SubscriptionsView().environmentObject(membro)) {
+                NavigationLink(destination: SubscriptionsView(sala: sala).environmentObject(membro)) {
                 RoundedRectangle(cornerRadius: corner)
                 .fill(Color.blue)
                 .frame(height: btn_height)
