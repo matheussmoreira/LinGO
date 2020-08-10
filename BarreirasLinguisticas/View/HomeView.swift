@@ -89,8 +89,7 @@ struct HomeView: View {
                 //MARK: - TOPICO DAS NEW TAGS
                 HStack {
                     Text("New tags")
-                        .font(.callout)
-                        .fontWeight(.bold)
+                        .font(.system(.title, design: .rounded))                .fontWeight(.bold)
                         .multilineTextAlignment(.leading)
                         .padding(.leading)
                     Spacer()

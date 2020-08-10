@@ -64,7 +64,7 @@ struct PostCardImageView: View {
                 }
                 
                 //TITULO E DESCRICAO DO POST
-                VStack {
+                VStack(alignment: .leading) {
                     //TITULO DO POST
                     Text(post.titulo)
                         .fontWeight(.bold)
