@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct CommentsQuestionsToggle: View {
-    @ObservedObject var membro: Membro
+    @EnvironmentObject var membro: Membro
     var comentarios: [Comentario]
     @State var questions: [Comentario] = []
     @State var not_questions: [Comentario] = []
@@ -25,7 +25,7 @@ struct CommentsQuestionsToggle: View {
                     EmptyView(message: "No questions for this post :(")
                 }
                 else {
-                    CallQuestions(membro: membro, comments: questions)
+                    CallQuestions(comments: questions).environmentObject(membro)
                 }
             }
             else {
@@ -33,7 +33,7 @@ struct CommentsQuestionsToggle: View {
                     EmptyView(message: "No comments for this post :(")
                 }
                 else {
-                    CallComments(membro: membro, comments: not_questions)
+                    CallComments(comments: not_questions).environmentObject(membro)
                 }
             }
         } //VStack
@@ -54,20 +54,20 @@ struct CommentsQuestionsToggle: View {
 
 struct CommentsQuestionsToggle_Previews: PreviewProvider {
     static var previews: some View {
-        CommentsQuestionsToggle(
-            membro: DAO().salas[0].membros[0], comentarios: DAO().salas[0].posts[0].comentarios)
+        CommentsQuestionsToggle(comentarios: DAO().salas[0].posts[0].comentarios)
+            .environmentObject(DAO().salas[0].membros[0])
     }
 }
 
 struct CallComments: View {
-    @ObservedObject var membro: Membro
+    @EnvironmentObject var membro: Membro
     var comments: [Comentario]
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             ForEach(comments) { comment in
                 if !comment.is_question {
-                    CommentRow(membro: self.membro, comentario: comment)
+                    CommentRow(comentario: comment).environmentObject(self.membro)
                     Divider()
                 }
             }
@@ -76,14 +76,14 @@ struct CallComments: View {
 }
 
 struct CallQuestions: View {
-    @ObservedObject var membro: Membro
+    @EnvironmentObject var membro: Membro
     var comments: [Comentario]
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             ForEach(comments) { comment in
                 if comment.is_question {
-                    QuestionRow(membro: self.membro, comentario: comment)
+                    QuestionRow(comentario: comment).environmentObject(self.membro)
                     Divider()
                 }
             }

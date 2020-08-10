@@ -71,7 +71,7 @@ struct PostView: View {
                             .foregroundColor(.gray)
                     }
                     else {
-                        CommentsQuestionsToggle(membro: self.membro, comentarios: self.post.comentarios)
+                        CommentsQuestionsToggle(comentarios: self.post.comentarios).environmentObject(self.membro)
                     } //else
                 } //sheet
                 
@@ -81,7 +81,8 @@ struct PostView: View {
             .onAppear { self.loadBookmark() }
             .navigationBarTitle(
                 Text(post.titulo)
-                    .font(.system(.title, design: .rounded)),displayMode: .automatic)
+                    .font(.system(.title, design: .rounded)),displayMode: .automatic
+            )
             .padding(.horizontal)
             .navigationBarItems(trailing:
                 Button(action: {self.changeBookmark()}){

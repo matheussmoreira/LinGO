@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct QuestionRow: View {
-    @ObservedObject var membro: Membro
+    @EnvironmentObject var membro: Membro
     @ObservedObject var comentario: Comentario
     @State var voted = false
     @State var votedImage = "hand.raised"
@@ -121,6 +121,7 @@ struct QuestionRow: View {
 
 struct QuestionRow_Previews: PreviewProvider {
     static var previews: some View {
-        QuestionRow(membro: DAO().salas[0].membros[0], comentario: DAO().salas[0].posts[1].comentarios[0])
+        QuestionRow(comentario: DAO().salas[0].posts[1].comentarios[0])
+            .environmentObject(DAO().salas[0].membros[0])
     }
 }

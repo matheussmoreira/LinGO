@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct CommentRow: View {
-    @ObservedObject var membro: Membro
+    @EnvironmentObject var membro: Membro
     @ObservedObject var comentario: Comentario
     @State var answer: String = ""
     
@@ -87,6 +87,7 @@ struct CommentRow: View {
 
 struct CommentRow_Previews: PreviewProvider {
     static var previews: some View {
-        CommentRow(membro: DAO().salas[0].membros[0], comentario: DAO().salas[0].posts[1].comentarios[0])
+        CommentRow(comentario: DAO().salas[0].posts[1].comentarios[0])
+            .environmentObject(DAO().salas[0].membros[0])
     }
 }
