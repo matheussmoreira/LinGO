@@ -34,7 +34,7 @@ struct PostsCategorieView: View {
                     Image(systemName: subscribedImage)
                     .padding(.trailing)
                     .imageScale(.large)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.green)
                 }
             }
             

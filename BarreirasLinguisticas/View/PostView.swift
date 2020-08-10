@@ -18,7 +18,7 @@ struct PostView: View {
     @State var showComments = false
     
     var body: some View {
-        
+                
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .leading){
@@ -46,7 +46,14 @@ struct PostView: View {
                                 .foregroundColor(Color.blue)
                         }
                         Spacer()
+                        
+                        Button("Report") {
+                            report()
+                        }
+                        .foregroundColor(.red)
+                        
                     }
+                    .padding(.bottom)
                     
                     //DESCRICAO
                     Text(post.descricao!)
@@ -72,7 +79,7 @@ struct PostView: View {
                     Button(action: {self.changeBookmark()}){
                         Image(systemName: bookmarkedImage)
                             .imageScale(.large)
-                            .foregroundColor(.primary)
+                            .foregroundColor(.red)
                     }
             )
             
@@ -101,6 +108,7 @@ struct PostView: View {
         bookmarked = membro.posts_salvos.contains(post)
         if bookmarked {
             bookmarkedImage = "bookmark.fill"
+
         }
         else {
             bookmarkedImage = "bookmark"
@@ -120,6 +128,9 @@ struct PostView: View {
     }
 }
 
+func report() {
+    
+}
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
