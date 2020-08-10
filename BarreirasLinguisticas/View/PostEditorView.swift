@@ -37,13 +37,9 @@ struct PostEditorView: View {
                     .font(.system(size: 28, weight: .bold, design: .rounded))
                     .padding(.bottom)
                 
-                
-                
-                
                 ScrollView {
                     TextView(placeholder: "", text: self.$text, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
                         .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
-                    
                 }
                 
                 HStack {
@@ -72,16 +68,16 @@ struct PostEditorView: View {
                 
                 Spacer()
             } //VStack
-            .padding()
-            .navigationBarTitle(Text("Create a post!"))
-            .font(.system(.largeTitle, design: .rounded))
-            .navigationBarItems(trailing:
-                Button(action: {print("Clicou")}){
-                    Text("Go!")
-                        .bold()
-                        .font(.title)
-                        .foregroundColor(.blue)
-                }
+                .padding()
+                .navigationBarTitle(Text("Create a post!"))
+                .font(.system(.largeTitle, design: .rounded))
+                .navigationBarItems(trailing:
+                    Button(action: {print("Clicou")}){
+                        Text("Go!")
+                            .bold()
+                            .font(.title)
+                            .foregroundColor(.blue)
+                    }
             )
         } //NavigationView
     } //body

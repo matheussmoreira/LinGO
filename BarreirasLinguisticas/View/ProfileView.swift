@@ -91,7 +91,7 @@ struct ProfileView: View {
             
                 //MARK: - MEMBROS DA SALA
             NavigationLink(destination:
-            RoomMembersView(membros: sala.membros)) {
+            RoomMembersView(membro: membro, sala: sala)) {
                 RoundedRectangle(cornerRadius: corner)
                 .fill(Color.blue)
                 .frame(height: btn_height)

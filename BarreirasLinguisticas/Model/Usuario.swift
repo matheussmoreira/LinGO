@@ -16,7 +16,8 @@ enum fluencia: String {
     case unknown = "<fluencia>"
 }
 
-class Usuario: Identifiable, ObservableObject {
+class Usuario: Equatable, Identifiable, ObservableObject {
+    
     let id: Int
     var email: String
     var senha: String
@@ -41,5 +42,9 @@ class Usuario: Identifiable, ObservableObject {
         self.foto_perfil = foto_perfil ?? "user_icon"
         self.pais = pais ?? "<pais>"
         self.fluencia_ingles = fluencia_ingles ?? fluencia.unknown
+    }
+    
+    static func == (lhs: Usuario, rhs: Usuario) -> Bool {
+        return lhs.id == rhs.id
     }
 }
