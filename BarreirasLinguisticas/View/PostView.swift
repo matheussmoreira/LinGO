@@ -12,10 +12,10 @@ import LinkPresentation
 struct PostView: View {
     @ObservedObject var post: Post
     @EnvironmentObject var membro: Membro
-    @State var stored_link: Link?
+    @State private var stored_link: Link?
+    @State private var bookmarked = false
+    @State private var bookmarkedImage = "bookmark"
     @State var showComments = false
-    @State var bookmarked = false
-    @State var bookmarkedImage = "bookmark"
     
     var body: some View {
         

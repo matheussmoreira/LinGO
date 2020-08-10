@@ -25,7 +25,7 @@ class Sala: Identifiable, ObservableObject {
         novoMembro(id: criador.id, is_admin: true)
         
         if (self.id == 1) { //so populando com dados a primeira sala
-            /* *********************************** MEMBROS ************************************ */
+            //MARK: - MEMBROS
             novoMembro(id: 1, is_admin: true)
             novoMembro(id: 2, is_admin: false)
             novoMembro(id: 3, is_admin: true)
@@ -37,7 +37,7 @@ class Sala: Identifiable, ObservableObject {
             novoMembro(id: 9, is_admin: false)
             novoMembro(id: 10, is_admin: false)
             
-            /* ********************************* CATEGORIAS *********************************** */
+            //MARK: - CATEGORIAS
             novaCategoria(id: 1, nome: "Design")
             novaCategoria(id: 2, nome: "Programming")
             novaCategoria(id: 3, nome: "Accessibility")
@@ -48,7 +48,7 @@ class Sala: Identifiable, ObservableObject {
             novaCategoria(id: 8, nome: "Entrepeneurship")
             novaCategoria(id: 9, nome: "English Language")
             
-            /* ************************************* TAGS *************************************** */
+            //MARK: - TAGSS
             novaTag(id: 1,  nome: "UX",                   categs: [1])
             novaTag(id: 2,  nome: "Personas",             categs: [1])
             novaTag(id: 3,  nome: "Git",                  categs: [2])
@@ -64,7 +64,7 @@ class Sala: Identifiable, ObservableObject {
             novaTag(id: 13, nome: "Swift Playgrounds",    categs: [4,6])
             novaTag(id: 14, nome: "Grammar",              categs: [9])
             
-            /* ************************************ POSTS *************************************** */
+            //MARK: - POSTS
             novoPost(publicador: 2,
                      post: 1,
                      titulo: "Stop obsessing over user personas",
@@ -121,9 +121,7 @@ class Sala: Identifiable, ObservableObject {
             
             novoPost(publicador: 10, post: 8, titulo: "The Keys to a Successful WWDC Scholarship Submission", descricao: "I found this article for us having succes in this week's competition. I hope it is helpful!", link: Link(urlString: "https://medium.com/better-programming/the-keys-to-a-successful-wwdc-scholarship-submission-8cbbf5eb2281"), categs: [6], tags: [13])
             
-            
-            /* ********************************* COMENTARIOS ********************************** */
-            
+            //MARK: - COMENTARIOS ORIGINAIS
             //POST 2
             novoComentario(id: 1, publicador: 1, post: 2, conteudo: "I thought that radius meant radio in portuguese", is_question: false)
             novoComentario(id: 2, publicador: 2, post: 2, conteudo: "It is a false cognate!", is_question: false)
@@ -136,7 +134,7 @@ class Sala: Identifiable, ObservableObject {
             novoComentario(id: 7, publicador: 3, post: 8, conteudo: "Thank you for sharing it, I was having issues!", is_question: false)
             novoComentario(id: 8, publicador: 1, post: 8, conteudo: "I'm not using SpriteKit as he. Is it bad?", is_question: true)
             
-            /* ******************************** ASSINATURAS ********************************** */
+            //MARK: - ASSINATURAS
             novaAssinatura(membro: 1, categoria: 1)
             novaAssinatura(membro: 1, categoria: 2)
             novaAssinatura(membro: 1, categoria: 4)
@@ -149,7 +147,7 @@ class Sala: Identifiable, ObservableObject {
             novaAssinatura(membro: 3, categoria: 5)
             novaAssinatura(membro: 5, categoria: 5)
             
-            /* ****************************** POSTS SALVOS ********************************** */
+            //MARK: - POSTS SALVOS
             salvaPost(membro: 3, post: 8)
             salvaPost(membro: 3, post: 3)
             salvaPost(membro: 3, post: 6)
@@ -158,7 +156,7 @@ class Sala: Identifiable, ObservableObject {
         } // if self.id
     } // init()
     
-    /* ********************************** FUNCOES GET **************************************** */
+    //MARK: - FUNCOES GET
     func getMembro(id: Int) -> Membro? {
         for membro in self.membros {
             if (id == membro.usuario.id) { return membro }
@@ -235,7 +233,7 @@ class Sala: Identifiable, ObservableObject {
         return posts
     }
     
-    /* ******************************** NOVOS OBJETOS **************************************** */
+    //MARK: - NOVOS OBJETOS
     func novoMembro(id id_membro: Int, is_admin: Bool) {
         if let usuario = DAO().getUsuario(id: id_membro) {
             if getMembro(id: usuario.id) == nil { //para nao adicionar membro repetido
@@ -292,7 +290,7 @@ class Sala: Identifiable, ObservableObject {
         
     }
     
-    /* ******************************** RELACIONAMENTOS *************************************** */
+    //MARK: - RELACIONAMENTOS
     func novoComentario(id: Int, publicador id_publicador: Int, post id_post: Int, conteudo: String, is_question: Bool) {
         if let publicador = getMembro(id: id_publicador), let post = getPost(id: id_post)  {
             let comentario = Comentario(id: id, post: post, publicador: publicador, conteudo: conteudo, is_question: is_question, original: nil)
@@ -303,7 +301,7 @@ class Sala: Identifiable, ObservableObject {
         }
     }
     
-    func novoComentario(id: Int, publicador id_publicador: Int, post id_post: Int, conteudo: String, original id_original: Int) {
+    func novoReply(id: Int, publicador id_publicador: Int, post id_post: Int, conteudo: String, original id_original: Int) {
         if let publicador = getMembro(id: id_publicador), let post = getPost(id: id_post) {
             if let original = post.getComentarioOriginal(id: id_original) {
                 let comentario = Comentario(id: id, post: post, publicador: publicador, conteudo: conteudo, is_question: false, original: original)

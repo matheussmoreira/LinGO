@@ -13,8 +13,8 @@ struct PostsCategorieView: View {
     @EnvironmentObject var membro: Membro
     @ObservedObject var sala: Sala
     @State private var postSelectionado: Post?
-    @State var subscribed = false
-    @State var subscribedImage = "checkmark.circle"
+    @State private var subscribed = false
+    @State private var subscribedImage = "checkmark.circle"
     @State var mensagem = ""
     
     var posts: [Post] {

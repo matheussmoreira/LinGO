@@ -122,7 +122,7 @@ struct HomeView: View {
                 
             } //ScrollView
                 .onAppear { self.loadFY() }
-        }
+        } //VStack
     } //body
     
     func loadFY() {
