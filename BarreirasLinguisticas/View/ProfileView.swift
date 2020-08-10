@@ -25,18 +25,15 @@ struct ProfileView: View {
                 .frame(width: 600.0, height: 600.0)
                 .foregroundColor(.blue)
         
-            
             VStack {
                 Image(membro.usuario.foto_perfil)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 150.0, height: 150.0)
                     .clipShape(Circle())
-//                    .shadow(radius: 15)
                     .overlay(
                         Circle().stroke(Color.white, lineWidth: 8)
                 )
-            
             
             Text(membro.usuario.nome)
                 .font(.system(.title, design: .rounded))
@@ -55,6 +52,7 @@ struct ProfileView: View {
                 .font(.subheadline)
                 .foregroundColor(Color.gray)
             
+            //MARK: - POSTS PUBLICADOS
             NavigationLink(destination:
             MyPublishedPosts(published: membro.posts_publicados, membro: membro)) {
                 RoundedRectangle(cornerRadius: corner)
@@ -67,6 +65,7 @@ struct ProfileView: View {
                 )
             }
             
+            //MARK: - POSTAS SALVOS
             NavigationLink(destination:
             MySavedPosts(saved: membro.posts_salvos, membro: membro)) {
                 RoundedRectangle(cornerRadius: corner)
@@ -79,6 +78,7 @@ struct ProfileView: View {
                 )
             }
             
+            //MARK: - ASSINATURAS
             NavigationLink(destination: SubscriptionsView(assinaturas: membro.assinaturas)) {
                 RoundedRectangle(cornerRadius: corner)
                 .fill(Color.blue)
@@ -90,6 +90,7 @@ struct ProfileView: View {
                 )
             }
             
+                //MARK: - MEMBROS DA SALA
             NavigationLink(destination:
             RoomMembersView(membros: sala.membros)) {
                 RoundedRectangle(cornerRadius: corner)
@@ -102,6 +103,7 @@ struct ProfileView: View {
                 )
             }
             
+            //MARK: - LEAVE
             RoundedRectangle(cornerRadius: corner)
             .fill(Color.red)
             .frame(height: btn_height)

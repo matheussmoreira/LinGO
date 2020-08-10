@@ -36,4 +36,58 @@ class Membro: Identifiable, ObservableObject {
         if (categ != nil) { self.assinaturas.append(categ!) }
         else { print("Categoria a ser assinada inválida") }
     }
+    
+    func getAssinaturaIndex(id: Int) -> Int? {
+        var idx = 0
+        for asst in assinaturas {
+            if asst.id == id {
+                return idx
+            }
+            else {
+              idx += 1
+            }
+        }
+        return nil
+    }
+    
+    func removeAssinatura(categoria categ: Categoria?) {
+        if (categ != nil) {
+            if let idx = getAssinaturaIndex(id: categ!.id) {
+                self.assinaturas.remove(at: idx)
+            }
+            else {
+                print("Assinatura não encontrada")
+            }
+        }
+        else {
+            print("Categoria a ser removida inválida")
+        }
+    }
+    
+    func getPostSalvoIndex(id: Int) -> Int? {
+        var idx = 0
+        for salvo in posts_salvos {
+            if salvo.id == id {
+                return idx
+            }
+            else {
+              idx += 1
+            }
+        }
+        return nil
+    }
+    
+    func removePostSalvo(post: Post?) {
+        if (post != nil) {
+            if let idx = getPostSalvoIndex(id: post!.id) {
+                self.posts_salvos.remove(at: idx)
+            }
+            else {
+                print("Post salvo não encontrado")
+            }
+        }
+        else {
+            print("Posts salvo a ser removido inválido")
+        }
+    }
 }

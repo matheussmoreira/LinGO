@@ -40,7 +40,7 @@ struct CategoriesView: View {
                     Spacer()
                 }
                 
-                SearchBarView(mensagem: "Search for categories")
+                SearchBar(text: $mensagem)
                 
                 //MARK: - LIST
                 List (sala.categorias.sorted(by: { $0.nome < $1.nome })){ categ in
@@ -84,7 +84,7 @@ struct CategoriesView: View {
 
 struct CategoriesView_Previews: PreviewProvider {
     static var previews: some View {
-        CategoriesView(sala: DAO().salas[0],  membro: DAO().salas[0].membros[0])
+        CategoriesView(sala: DAO().salas[0], membro: DAO().salas[0].membros[0])
     }
 }
 

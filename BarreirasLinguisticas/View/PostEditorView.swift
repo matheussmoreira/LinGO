@@ -10,6 +10,8 @@ import SwiftUI
 import UIKit
 
 struct PostEditorView: View {
+    @ObservedObject var sala: Sala
+    @ObservedObject var membro: Membro
     @State var text: String = ""
     @State var textHeight: CGFloat = 150
     @State var title: String = ""
@@ -87,6 +89,6 @@ struct PostEditorView: View {
 
 struct PostEditorView_Previews: PreviewProvider {
     static var previews: some View {
-        PostEditorView()
+        PostEditorView(sala: DAO().salas[0], membro: DAO().salas[0].membros[0])
     }
 }

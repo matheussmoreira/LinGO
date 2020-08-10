@@ -15,7 +15,7 @@ struct PostView: View {
     @State var stored_link: Link?
     @State var showComments = false
     @State var bookmarked = false
-    @State var bookmarkImage = "bookmark"
+    @State var bookmarkedImage = "bookmark"
     
     var body: some View {
         
@@ -78,18 +78,18 @@ struct PostView: View {
             } //VStack
                 .onAppear { self.carregaLink() }
         } //ScrollView
+            .onAppear { self.loadBookmark() }
             .navigationBarTitle(
                 Text(post.titulo)
                     .font(.system(.title, design: .rounded)),displayMode: .automatic)
             .padding(.horizontal)
             .navigationBarItems(trailing:
                 Button(action: {self.changeBookmark()}){
-                    Image(systemName: bookmarkImage)
+                    Image(systemName: bookmarkedImage)
                         .imageScale(.large)
                         .foregroundColor(.primary)
                 }
             )
-        
     } //body
     
     func carregaLink(){
@@ -99,13 +99,24 @@ struct PostView: View {
         }
     }
     
+    func loadBookmark() {
+        bookmarked = membro.posts_salvos.contains(post)
+        if bookmarked {
+            bookmarkedImage = "bookmark.fill"
+        }
+        else {
+            bookmarkedImage = "bookmark"
+        }
+    }
+    
     func changeBookmark(){
         bookmarked.toggle()
         if bookmarked {
-            bookmarkImage = "bookmark.fill"
+            bookmarkedImage = "bookmark.fill"
+            membro.salvaPost(post: post)
         }
         else {
-            bookmarkImage = "bookmark"
+            bookmarkedImage = "bookmark"
         }
     }
 }

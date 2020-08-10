@@ -15,6 +15,7 @@ struct PostsCategorieView: View {
     @State private var postSelectionado: Post?
     @State var subscribed = false
     @State var subscribedImage = "checkmark.circle"
+    @State var mensagem = ""
     
     var posts: [Post] {
         return sala.getPostsByCategorie(categ: categoria.id)
@@ -37,7 +38,7 @@ struct PostsCategorieView: View {
                 }
             }
             
-            SearchBarView(mensagem: "Search for posts in \(categoria.nome)")
+            SearchBar(text: $mensagem)
             
             if posts.count == 0 {
                 Spacer()
@@ -55,16 +56,28 @@ struct PostsCategorieView: View {
                 }
             } //else
         } //VStack
-        
+        .onAppear { self.loadSubscription() }
     } //body
     
-    func changeSubscription(){
-        subscribed.toggle()
+    func loadSubscription() {
+        subscribed = membro.assinaturas.contains(categoria)
         if subscribed {
             subscribedImage = "checkmark.circle.fill"
         }
         else {
             subscribedImage = "checkmark.circle"
+        }
+    }
+    
+    func changeSubscription(){
+        subscribed.toggle()
+        if subscribed {
+            subscribedImage = "checkmark.circle.fill"
+            membro.assinaCategoria(categoria: categoria)
+        }
+        else {
+            subscribedImage = "checkmark.circle"
+            membro.removeAssinatura(categoria: categoria)
         }
     }
 }

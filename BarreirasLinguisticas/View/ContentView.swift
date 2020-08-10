@@ -16,7 +16,7 @@ extension UIScreen {
 struct ContentView: View {
     @ObservedObject var sala: Sala
     @ObservedObject var usuario: Usuario
-    var membro: Membro { return sala.getMembro(id: usuario.id)!}
+    var membro: Membro {return sala.getMembro(id: usuario.id)!}
     //@State var selection = 4
     
     var body: some View {
@@ -29,7 +29,7 @@ struct ContentView: View {
                 Image(systemName: "magnifyingglass")
                 Text("Discover")
             }
-            PublicationView(sala: sala, membro: membro).tabItem {
+            PostEditorView(sala: sala, membro: membro).tabItem {
                 Image(systemName: "pencil")
                 Text("Publish")
             }
