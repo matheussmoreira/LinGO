@@ -10,7 +10,7 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var sala: Sala
-    @ObservedObject var membro: Membro
+    @EnvironmentObject var membro: Membro
     @State var fyPosts: [Post] = []
     @State var mensagem = ""//Search for all posts"
     var recentPosts: [Post] { return sala.posts }
@@ -45,7 +45,7 @@ struct HomeView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack (spacing: 20){
                             ForEach(fyPosts){ post in
-                                NavigationLink(destination: PostView(post: post, membro: self.membro)) {
+                                NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
                                     PostCardImageView(post: post)
                                         .frame(width: UIScreen.width)
                                 }
@@ -77,7 +77,7 @@ struct HomeView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 20){
                             ForEach(sala.posts/*.reversed()*/){ post in
-                                NavigationLink(destination: PostView(post: post, membro: self.membro)) {
+                                NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
                                     PostCardImageView(post: post)
                                         .frame(width: UIScreen.width)
                                 }
@@ -139,6 +139,6 @@ struct HomeView: View {
 //MARK: - PREVIEW
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(sala: DAO().salas[0], membro: DAO().salas[0].membros[0])
+        HomeView(sala: DAO().salas[0]).environmentObject(DAO().salas[0].membros[0])
     }
 }

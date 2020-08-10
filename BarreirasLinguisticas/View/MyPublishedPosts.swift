@@ -9,8 +9,7 @@
 import SwiftUI
 
 struct MyPublishedPosts: View {
-    @State var published: [Post]
-    @ObservedObject var membro: Membro
+    @EnvironmentObject var membro: Membro
     @State var mensagem = ""//Search for your published posts"
     
     var body: some View {
@@ -26,7 +25,7 @@ struct MyPublishedPosts: View {
             
             SearchBar(text: $mensagem)
             
-            if published.count == 0 {
+            if membro.posts_publicados.count == 0 {
                 Spacer()
                 Text("You haven't published any post yet :(")
                     .foregroundColor(Color.gray)
@@ -34,8 +33,8 @@ struct MyPublishedPosts: View {
             }
             else {
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(published) { post in
-                        NavigationLink(destination: PostView(post: post, membro: self.membro)) {
+                    ForEach(membro.posts_publicados.reversed()) { post in
+                        NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
                             PostCardImageView(post: post)
                         }
                     }
@@ -47,6 +46,6 @@ struct MyPublishedPosts: View {
 
 struct MyPublishedPosts_Previews: PreviewProvider {
     static var previews: some View {
-        MyPublishedPosts(published: DAO().salas[0].posts, membro: DAO().salas[0].membros[0])
+        MyPublishedPosts().environmentObject(DAO().salas[0].membros[0])
     }
 }

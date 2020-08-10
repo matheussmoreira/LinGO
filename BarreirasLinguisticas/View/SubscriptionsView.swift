@@ -10,7 +10,6 @@ import SwiftUI
 
 struct SubscriptionsView: View {
     @EnvironmentObject var membro: Membro
-    //var assinaturas: [Categoria]
     
     var body: some View {
         VStack {
@@ -42,6 +41,7 @@ struct SubscriptionsView: View {
 
 struct SubscriptionsView_Previews: PreviewProvider {
     static var previews: some View {
-        SubscriptionsView().environmentObject(DAO().salas[0].membros[0])
+        SubscriptionsView()
+            .environmentObject(DAO().salas[0].membros[0])
     }
 }

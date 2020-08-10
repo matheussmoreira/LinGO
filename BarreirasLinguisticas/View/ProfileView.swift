@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct ProfileView: View {
-    //@EnvironmentObject var dao: DAO
     @ObservedObject var sala: Sala
     @EnvironmentObject var membro: Membro
     let btn_height: CGFloat = 40
@@ -54,7 +53,7 @@ struct ProfileView: View {
             
             //MARK: - POSTS PUBLICADOS
             NavigationLink(destination:
-            MyPublishedPosts(published: membro.posts_publicados, membro: membro)) {
+            MyPublishedPosts().environmentObject(membro)) {
                 RoundedRectangle(cornerRadius: corner)
                 .fill(Color.blue)
                 .frame(height: btn_height)
@@ -67,7 +66,7 @@ struct ProfileView: View {
             
             //MARK: - POSTAS SALVOS
             NavigationLink(destination:
-            MySavedPosts(saved: membro.posts_salvos, membro: membro)) {
+            MySavedPosts().environmentObject(membro)) {
                 RoundedRectangle(cornerRadius: corner)
                 .fill(Color.blue)
                 .frame(height: btn_height)

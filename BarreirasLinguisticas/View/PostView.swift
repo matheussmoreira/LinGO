@@ -11,7 +11,7 @@ import LinkPresentation
 
 struct PostView: View {
     @ObservedObject var post: Post
-    @ObservedObject var membro: Membro
+    @EnvironmentObject var membro: Membro
     @State var stored_link: Link?
     @State var showComments = false
     @State var bookmarked = false
@@ -117,6 +117,7 @@ struct PostView: View {
         }
         else {
             bookmarkedImage = "bookmark"
+            membro.removePostSalvo(post: post)
         }
     }
 }
@@ -124,6 +125,6 @@ struct PostView: View {
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
-        PostView(post:DAO().salas[0].posts[0], membro: DAO().salas[0].membros[0])
+        PostView(post:DAO().salas[0].posts[0]).environmentObject(DAO().salas[0].membros[0])
     }
 }

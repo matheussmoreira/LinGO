@@ -21,19 +21,23 @@ struct ContentView: View {
     
     var body: some View {
         TabView(/*selection: $selection*/) {
-            CategoriesView(sala: sala).environmentObject(membro).tabItem {
+            CategoriesView(sala: sala)
+                .environmentObject(membro).tabItem {
                 Image(systemName: "circle.grid.2x2")
                 Text("Categories")
             }
-            HomeView(sala: sala, membro: membro).tabItem {
+            HomeView(sala: sala)
+                .environmentObject(membro).tabItem {
                 Image(systemName: "magnifyingglass")
                 Text("Discover")
             }
-            PostEditorView(sala: sala, membro: membro).tabItem {
+            PostEditorView(sala: sala)
+                .environmentObject(membro).tabItem{
                 Image(systemName: "pencil")
                 Text("Publish")
             }
-            ProfileView(sala: sala).environmentObject(membro).tabItem {
+            ProfileView(sala: sala)
+                .environmentObject(membro).tabItem {
                 Image(systemName: "person")
                 Text("Profile")
             }
