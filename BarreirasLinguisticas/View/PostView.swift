@@ -46,12 +46,6 @@ struct PostView: View {
                                 .foregroundColor(Color.blue)
                         }
                         Spacer()
-                        
-                        Button("Report") {
-                            report()
-                        }
-                        .foregroundColor(.red)
-                        
                     }
                     .padding(.bottom)
                     
@@ -85,14 +79,32 @@ struct PostView: View {
             
             
             //IR PARA OS COMENTARIOS
-            Button(action: {self.showComments.toggle()}) {
-                Text("Read the comments")
-                    .font(.system(.title, design: .rounded))
-                    .fontWeight(.bold)
-            }
-            .sheet(isPresented: $showComments) {
-                //COMENTARIOS OU MENSAGEM
-                CommentsQuestionsToggle(comentarios: self.post.comentarios).environmentObject(self.membro)
+            HStack {
+                Button("Report") {
+                    report()
+                }
+                    .padding(.all)
+                .foregroundColor(.red)
+                Spacer()
+                Button(action: {self.showComments.toggle()}) {
+                    Text("Ask or Comment")
+                    Image(systemName: "pencil.circle.fill")
+                        .font(.system(size: 32, weight: .regular))
+    //                Text("Read the comments")
+    //                    .font(.system(.title, design: .rounded))
+    //                    .fontWeight(.bold)
+                }
+                .padding(.all)
+                .sheet(isPresented: $showComments) {
+                    //COMENTARIOS OU MENSAGEM
+                    if (self.post.comentarios.count == 0) {
+                        Text("No comments for this post :(")
+                            .foregroundColor(.gray)
+                    }
+                    else {
+                        CommentsQuestionsToggle(comentarios: self.post.comentarios).environmentObject(self.membro)
+                    } //else
+                }
             } //sheet
         } //VStack
     } //body
