@@ -13,7 +13,6 @@ struct CommentsQuestionsToggle: View {
     var comentarios: [Comentario]
     @State var questions: [Comentario] = []
     @State var not_questions: [Comentario] = []
-    
     @State var questions_on = true
     
     var body: some View {
@@ -21,27 +20,17 @@ struct CommentsQuestionsToggle: View {
             Toggle(questions_on: $questions_on)
             
             if questions_on {
-                if countCommentQuestions(isQuestion: true) == 0 {
-                    EmptyView(message: "No questions for this post :(")
-                }
-                else {
-                    CallQuestions(comments: questions).environmentObject(membro)
-                }
+                CallQuestions(comments: questions).environmentObject(membro)
             }
             else {
-                if countCommentQuestions(isQuestion: false) == 0 {
-                    EmptyView(message: "No comments for this post :(")
-                }
-                else {
-                    CallComments(comments: not_questions).environmentObject(membro)
-                }
+                CallComments(comments: not_questions).environmentObject(membro)
             }
         } //VStack
-            .onAppear { self.getQuestions() }
+            .onAppear { self.getComments() }
         
     } //body
     
-    func getQuestions(){
+    func getComments(){
         questions = comentarios.filter{$0.is_question == true}
         not_questions = comentarios.filter{$0.is_question == false}
     }
@@ -64,13 +53,20 @@ struct CallComments: View {
     var comments: [Comentario]
     
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            ForEach(comments) { comment in
-                if !comment.is_question {
-                    CommentRow(comentario: comment).environmentObject(self.membro)
-                    Divider()
-                }
+        VStack {
+            if comments.count == 0 {
+                EmptyView(message: "No comments for this post :(")
             }
+            else {
+                ScrollView(.vertical, showsIndicators: false) {
+                    ForEach(comments) { comment in
+                        if !comment.is_question {
+                            CommentRow(comentario: comment).environmentObject(self.membro)
+                            Divider()
+                        }
+                    }
+                }
+            } //else
         }
     } //body
 }
@@ -80,13 +76,21 @@ struct CallQuestions: View {
     var comments: [Comentario]
     
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            ForEach(comments) { comment in
-                if comment.is_question {
-                    QuestionRow(comentario: comment).environmentObject(self.membro)
-                    Divider()
-                }
+        
+        VStack{
+            if comments.count == 0 {
+                EmptyView(message: "No questions for this post :(")
             }
+            else {
+                ScrollView(.vertical, showsIndicators: false) {
+                    ForEach(comments) { comment in
+                        if comment.is_question {
+                            QuestionRow(comentario: comment).environmentObject(self.membro)
+                            Divider()
+                        }
+                    }
+                }
+            } //else
         }
     } //body
 }
@@ -101,8 +105,9 @@ struct EmptyView: View {
                 .foregroundColor(.gray)
             Spacer()
         }
-    } //bpdy
+    } //body
 }
+
 
 struct Toggle: View {
     @Binding var questions_on: Bool
