@@ -12,7 +12,6 @@ struct RoomMembersView: View {
     @ObservedObject var membro: Membro
     @ObservedObject var sala: Sala
     @State var showAddMembers = false
-    //@State var membros: [Membro]
     
     var body: some View {
         VStack {
@@ -22,38 +21,7 @@ struct RoomMembersView: View {
                 .multilineTextAlignment(.leading)
                 .padding(.leading)
             
-            if (membro.is_admin) {
-                Button(action: { self.showAddMembers.toggle() }){
-                    RoundedRectangle(cornerRadius: 45)
-                        .fill(Color.green)
-                        .frame(height: 40)
-                        .frame(width: UIScreen.width*0.85)
-                    .overlay(
-                        HStack{
-                             Image(systemName: "plus.app")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 30.0, height: 30.0)
-                                .padding(.leading)
-                                .foregroundColor(.white)
-                                
-                            Text("Add new members")
-                                .padding(.leading)
-                                .foregroundColor(.white)
-                            Spacer()
-                        }
-                    )
-                }
-                .sheet(isPresented: $showAddMembers) {
-                    VStack {
-                        Spacer()
-                        Text("Members to be added will appear here")
-                            .foregroundColor(.gray)
-                        Spacer()
-                    }
-                }
-            } //if is_admin
-            
+            //MARK: - MEMBROS NA SALA
             ScrollView(.vertical, showsIndicators: false) {
                 VStack{
                     ForEach(sala.membros.sorted(by: { $0.usuario.nome < $1.usuario.nome })) { membro in

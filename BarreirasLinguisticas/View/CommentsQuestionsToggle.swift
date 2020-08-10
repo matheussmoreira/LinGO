@@ -111,43 +111,50 @@ struct Toggle: View {
     @State var comments_color = Color.blue
     
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 10)
-                .foregroundColor(.clear)
-                .background(Color.gray.opacity(0.1))
-                .clipShape(RoundedRectangle(cornerRadius: 15))
+        VStack {
+            Rectangle()
+                .frame(width: 60, height: 6)
+                .cornerRadius(3.0)
+                .opacity(0.1)
+                .padding(.top,10)
             
-            
-            HStack {
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .foregroundColor(.clear)
+                    .background(Color.gray.opacity(0.1))
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                
                 HStack {
-                    Button(action: {
-                        self.switchValue(state: self.questions_on)
-                    }) {
-                        Image(systemName: "questionmark.circle")
-                            .foregroundColor(questions_color)
-                        Text("Questions")
-                            .font(.headline)
-                            .foregroundColor(questions_color)
+                    HStack {
+                        Button(action: {
+                            self.switchValue(state: self.questions_on)
+                        }) {
+                            Image(systemName: "questionmark.circle")
+                                .foregroundColor(questions_color)
+                            Text("Questions")
+                                .font(.headline)
+                                .foregroundColor(questions_color)
+                        }
                     }
-                }
-                .padding(.horizontal, 32)
-                Divider()
-                HStack {
-                    Button(action: {
-                        self.switchValue(state: self.comments_on)
-                    }) {
-                        Image(systemName: "bubble.left")
-                            .foregroundColor(comments_color)
-                        Text("Comments")
-                            .font(.headline)
-                            .foregroundColor(comments_color)
+                    .padding(.horizontal, 32)
+                    Divider()
+                    HStack {
+                        Button(action: {
+                            self.switchValue(state: self.comments_on)
+                        }) {
+                            Image(systemName: "bubble.left")
+                                .foregroundColor(comments_color)
+                            Text("Comments")
+                                .font(.headline)
+                                .foregroundColor(comments_color)
+                        }
                     }
-                }
-                .padding(.horizontal, 32)
-            } //HStack
-        } //ZStack
-            .frame(height: 40.0)
-            .padding()
+                    .padding(.horizontal, 32)
+                } //HStack
+            } //ZStack
+                .frame(height: 40.0)
+                .padding()
+        }
     } //body
     
     func switchValue(state isOn: Bool) {

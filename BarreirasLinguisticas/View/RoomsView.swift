@@ -35,18 +35,20 @@ struct RoomsView: View {
                         Text("\(usuario.nome)'s Rooms")
                             .font(.system(.largeTitle, design: .rounded))
                             .fontWeight(.bold)
+                        
                         Text("Choose a Room")
                             .font(.title)
                             .foregroundColor(.gray)
+                        
                         Spacer()
+                        
                         ForEach(salas) { sala in
-                            
                             RoundedRectangle(cornerRadius: 45)
                             .fill(Color.blue)
                             .frame(height: 40)
                             .frame(width: 200)
                             .overlay(
-                                NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario)){
+                                NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario).environmentObject(self.dao)){
                                     Text(sala.nome)
                                         .foregroundColor(.white)
                                 }

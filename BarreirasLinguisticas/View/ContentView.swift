@@ -32,7 +32,7 @@ struct ContentView: View {
                 Text("Discover")
             }
             PostEditorView(sala: sala)
-                .environmentObject(membro).tabItem{
+                .environmentObject(membro).tabItem {
                 Image(systemName: "pencil")
                 Text("Publish")
             }

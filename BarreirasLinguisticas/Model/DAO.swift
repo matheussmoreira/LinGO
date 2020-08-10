@@ -127,18 +127,4 @@ class DAO: ObservableObject {
     func addNovoUsuario(_ usuario: Usuario){
         self.usuarios.append(usuario)
     }
-    
-    func getUsuariosForaSala (id_sala: Int) -> [Usuario] {
-        var usuarios: [Usuario] = []
-        
-        if let sala = getSala(id: id_sala) {
-            for membro in sala.membros {
-                if !usuarios.contains(membro.usuario){
-                    usuarios.append(membro.usuario)
-                }
-            }
-        }
-        
-        return usuarios
-    }
 }
