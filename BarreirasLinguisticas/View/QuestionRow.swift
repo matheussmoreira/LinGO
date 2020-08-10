@@ -11,9 +11,9 @@ import SwiftUI
 struct QuestionRow: View {
     @EnvironmentObject var membro: Membro
     @ObservedObject var comentario: Comentario
-    @State var voted = false
-    @State var votedImage = "hand.raised"
-    @State var num_votes = 5
+    @State private var voted = false
+    @State private var votedImage = "hand.raised"
+    //@State private var num_votes = 5
     
     var body: some View {
         VStack {
@@ -75,7 +75,7 @@ struct QuestionRow: View {
                                     Image(systemName: "circle.fill")
                                         .imageScale(.medium)
                                         .foregroundColor(.red)
-                                    Text("\(num_votes)")
+                                    Text("\(comentario.votos.count)")
                                         .font(.subheadline)
                                         .foregroundColor(.white)
                                 }
@@ -90,6 +90,7 @@ struct QuestionRow: View {
                 } //VStack
                     .padding(.horizontal)
             }
+            //MARK: - REPLY
             HStack {
                 Image(membro.usuario.foto_perfil)
                     .resizable()
@@ -110,11 +111,13 @@ struct QuestionRow: View {
         voted.toggle()
         if voted {
             votedImage = "hand.raised.fill"
-            num_votes += 1
+            comentario.ganhaVoto(membro: membro)
+            //num_votes += 1
         }
         else {
             votedImage = "hand.raised"
-            num_votes -= 1
+            comentario.perdeVoto(membro: membro)
+            //num_votes -= 1
         }
     }
 }
