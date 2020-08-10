@@ -19,76 +19,81 @@ struct PostView: View {
     
     var body: some View {
         
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack(alignment: .leading){
-                
-                //AUTOR E NIVEL DE FLUENCIA
-                HStack {
-                    Text("Shared by \(post.publicador.usuario.nome)")
-                        .foregroundColor(Color.gray)
-                        .lineLimit(1)
+        VStack {
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(alignment: .leading){
                     
-                    Spacer()
+                    //AUTOR E NIVEL DE FLUENCIA
+                    HStack {
+                        Text("Shared by \(post.publicador.usuario.nome)")
+                            .foregroundColor(Color.gray)
+                            .lineLimit(1)
+                        
+                        Spacer()
+                        
+                        Text("English Level:")
+                            .foregroundColor(Color.gray)
+                            .lineLimit(1)
+                        Image(systemName: "circle.fill")
+                            .imageScale(.small)
+                            .foregroundColor(post.publicador.usuario.cor_fluencia)
+                    }
                     
-                    Text("English Level:")
-                        .foregroundColor(Color.gray)
-                        .lineLimit(1)
-                    Image(systemName: "circle.fill")
-                        .imageScale(.small)
-                        .foregroundColor(post.publicador.usuario.cor_fluencia)
-                }
-                
-                //TAGS
-                HStack{
-                    ForEach(post.tags) { tag in
-                        Text("#\(tag.nome)")
-                            .foregroundColor(Color.blue)
+                    //TAGS
+                    HStack{
+                        ForEach(post.tags) { tag in
+                            Text("#\(tag.nome)")
+                                .foregroundColor(Color.blue)
+                        }
+                        Spacer()
                     }
-                    Spacer()
-                }
-                
-                //DESCRICAO
-                Text(post.descricao!)
-                    .padding(.bottom)
-                
-                //LINK PREVIEW
-                if (stored_link != nil && stored_link?.metadata != nil) {
-                    LinkView(metadata: stored_link!.metadata!)
-                }
-                
-                //IR PARA OS COMENTARIOS
-                Button(action: {self.showComments.toggle()}) {
-                    Text("Read the comments")
-                        .font(.system(.title, design: .rounded))
-                        .fontWeight(.bold)
-                }
-                .sheet(isPresented: $showComments) {
-                    //COMENTARIOS OU MENSAGEM
-                    if (self.post.comentarios.count == 0) {
-                        Text("No comments for this post :(")
-                            .foregroundColor(.gray)
+                    
+                    //DESCRICAO
+                    Text(post.descricao!)
+                        .padding(.bottom)
+                    
+                    //LINK PREVIEW
+                    if (stored_link != nil && stored_link?.metadata != nil) {
+                        LinkView(metadata: stored_link!.metadata!)
                     }
-                    else {
-                        CommentsQuestionsToggle(comentarios: self.post.comentarios).environmentObject(self.membro)
-                    } //else
-                } //sheet
-                
-            } //VStack
-                .onAppear { self.carregaLink() }
-        } //ScrollView
-            .onAppear { self.loadBookmark() }
-            .navigationBarTitle(
-                Text(post.titulo)
-                    .font(.system(.title, design: .rounded)),displayMode: .automatic
+                    
+                    
+                    
+                } //VStack
+                    .onAppear { self.carregaLink() }
+            } //ScrollView
+                .onAppear { self.loadBookmark() }
+                .navigationBarTitle(
+                    Text(post.titulo)
+                        .font(.system(.title, design: .rounded)),displayMode: .automatic
+                )
+                .padding(.horizontal)
+                .navigationBarItems(trailing:
+                    Button(action: {self.changeBookmark()}){
+                        Image(systemName: bookmarkedImage)
+                            .imageScale(.large)
+                            .foregroundColor(.primary)
+                    }
             )
-            .padding(.horizontal)
-            .navigationBarItems(trailing:
-                Button(action: {self.changeBookmark()}){
-                    Image(systemName: bookmarkedImage)
-                        .imageScale(.large)
-                        .foregroundColor(.primary)
+            
+            
+            //IR PARA OS COMENTARIOS
+            Button(action: {self.showComments.toggle()}) {
+                Text("Read the comments")
+                    .font(.system(.title, design: .rounded))
+                    .fontWeight(.bold)
+            }
+            .sheet(isPresented: $showComments) {
+                //COMENTARIOS OU MENSAGEM
+                if (self.post.comentarios.count == 0) {
+                    Text("No comments for this post :(")
+                        .foregroundColor(.gray)
                 }
-            )
+                else {
+                    CommentsQuestionsToggle(comentarios: self.post.comentarios).environmentObject(self.membro)
+                } //else
+            } //sheet
+        } //VStack
     } //body
     
     func carregaLink(){

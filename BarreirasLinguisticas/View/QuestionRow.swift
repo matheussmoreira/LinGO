@@ -89,7 +89,7 @@ struct QuestionRow: View {
                     
                 } //VStack
                     .padding(.horizontal)
-            }
+            } //ZStack
             //MARK: - REPLY
             HStack {
                 Image(membro.usuario.foto_perfil)
