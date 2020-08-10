@@ -20,7 +20,6 @@ struct PostView: View {
     var body: some View {
         
         ScrollView(.vertical, showsIndicators: false) {
-            
             VStack(alignment: .leading){
                 
                 //AUTOR E NIVEL DE FLUENCIA
@@ -37,7 +36,6 @@ struct PostView: View {
                     Image(systemName: "circle.fill")
                         .imageScale(.small)
                         .foregroundColor(post.publicador.usuario.cor_fluencia)
-                    
                 }
                 
                 //TAGS
