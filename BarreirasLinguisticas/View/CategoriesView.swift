@@ -10,7 +10,7 @@ import SwiftUI
 
 struct CategoriesView: View {
     @ObservedObject var sala: Sala
-    @ObservedObject var membro: Membro
+    @EnvironmentObject var membro: Membro
     @State private var mensagem = ""//Search for categories"
     
     var body: some View {
@@ -52,7 +52,7 @@ struct CategoriesView: View {
                         
                         // CATEGORIAS E TAGS
                         VStack(alignment: .leading) {
-                            NavigationLink(destination: PostsCategorieView(categoria: categ, membro: self.membro, sala: self.sala)) {
+                            NavigationLink(destination: PostsCategorieView(categoria: categ, sala: self.sala).environmentObject(self.membro)) {
                                 Text(categ.nome)
                                     .font(.headline)
                                     .multilineTextAlignment(.leading)
@@ -84,7 +84,7 @@ struct CategoriesView: View {
 
 struct CategoriesView_Previews: PreviewProvider {
     static var previews: some View {
-        CategoriesView(sala: DAO().salas[0], membro: DAO().salas[0].membros[0])
+        CategoriesView(sala: DAO().salas[0]).environmentObject(DAO().salas[0].membros[0])
     }
 }
 

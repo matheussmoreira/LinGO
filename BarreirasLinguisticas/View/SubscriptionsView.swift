@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct SubscriptionsView: View {
-    var assinaturas: [Categoria]
+    @EnvironmentObject var membro: Membro
+    //var assinaturas: [Categoria]
     
     var body: some View {
         VStack {
@@ -21,7 +22,7 @@ struct SubscriptionsView: View {
             
             ScrollView(.vertical, showsIndicators: false) {
                 VStack{
-                    ForEach(assinaturas) { categ in
+                    ForEach(membro.assinaturas) { categ in
                         RoundedRectangle(cornerRadius: 45)
                             .fill(Color.blue)
                         .frame(height: 40)
@@ -41,6 +42,6 @@ struct SubscriptionsView: View {
 
 struct SubscriptionsView_Previews: PreviewProvider {
     static var previews: some View {
-        SubscriptionsView(assinaturas: DAO().salas[0].membros[0].assinaturas)
+        SubscriptionsView().environmentObject(DAO().salas[0].membros[0])
     }
 }

@@ -21,7 +21,7 @@ struct ContentView: View {
     
     var body: some View {
         TabView(/*selection: $selection*/) {
-            CategoriesView(sala: sala, membro: membro).tabItem {
+            CategoriesView(sala: sala).environmentObject(membro).tabItem {
                 Image(systemName: "circle.grid.2x2")
                 Text("Categories")
             }
@@ -33,7 +33,7 @@ struct ContentView: View {
                 Image(systemName: "pencil")
                 Text("Publish")
             }
-            ProfileView(sala: sala, membro: membro).tabItem {
+            ProfileView(sala: sala).environmentObject(membro).tabItem {
                 Image(systemName: "person")
                 Text("Profile")
             }

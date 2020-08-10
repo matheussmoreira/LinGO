@@ -11,7 +11,7 @@ import SwiftUI
 struct ProfileView: View {
     //@EnvironmentObject var dao: DAO
     @ObservedObject var sala: Sala
-    @ObservedObject var membro: Membro
+    @EnvironmentObject var membro: Membro
     let btn_height: CGFloat = 40
     let btn_width: CGFloat = 200
     let corner: CGFloat = 45
@@ -79,7 +79,7 @@ struct ProfileView: View {
             }
             
             //MARK: - ASSINATURAS
-            NavigationLink(destination: SubscriptionsView(assinaturas: membro.assinaturas)) {
+                NavigationLink(destination: SubscriptionsView().environmentObject(membro)) {
                 RoundedRectangle(cornerRadius: corner)
                 .fill(Color.blue)
                 .frame(height: btn_height)
@@ -120,6 +120,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(sala: DAO().salas[0], membro: DAO().salas[0].membros[0])
+        ProfileView(sala: DAO().salas[0]).environmentObject(DAO().salas[0].membros[0])
     }
 }

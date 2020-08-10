@@ -10,7 +10,7 @@ import SwiftUI
 
 struct PostsCategorieView: View {
     @ObservedObject var categoria: Categoria
-    @ObservedObject var membro: Membro
+    @EnvironmentObject var membro: Membro
     @ObservedObject var sala: Sala
     @State private var postSelectionado: Post?
     @State var subscribed = false
@@ -84,6 +84,8 @@ struct PostsCategorieView: View {
 
 struct PostsCategorieView_Previews: PreviewProvider {
     static var previews: some View {
-        PostsCategorieView(categoria: DAO().salas[0].categorias[0], membro: DAO().salas[0].membros[0], sala: DAO().salas[0])
+        PostsCategorieView(
+            categoria: DAO().salas[0].categorias[0],
+            sala:DAO().salas[0]).environmentObject(DAO().salas[0].membros[0])
     }
 }
