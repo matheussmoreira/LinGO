@@ -23,7 +23,6 @@ struct HomeView: View {
                     .fontWeight(.bold)
                     .multilineTextAlignment(.leading)
                     .padding(.leading)
-                    .padding(.top, 50)
                 Spacer()
             }
             
