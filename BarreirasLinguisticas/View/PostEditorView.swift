@@ -12,8 +12,8 @@ import UIKit
 struct PostEditorView: View {
     @ObservedObject var sala: Sala
     @EnvironmentObject var membro: Membro
-    @State var description: String = ""
     @State var textHeight: CGFloat = 150
+    @State var description: String = ""
     @State var title: String = ""
     @State var link: String = ""
     @State var tag: String = ""
