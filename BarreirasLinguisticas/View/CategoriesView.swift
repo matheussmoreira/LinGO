@@ -14,72 +14,89 @@ struct CategoriesView: View {
     @State private var mensagem = ""//Search for categories"
     
     var body: some View {
-        VStack {
-            if sala.categorias.count == 0 {
-                VStack {
-                    HStack {
-                        Text("Categories")
-                            .font(.system(.largeTitle, design: .rounded))
-                            .fontWeight(.bold)
-                            .padding(.leading)
+        NavigationView {
+            VStack {
+                if sala.categorias.count == 0 {
+                    VStack {
+                        //                    HStack {
+                        //                        Text("Categories")
+                        //                            .font(.system(.largeTitle, design: .rounded))
+                        //                            .fontWeight(.bold)
+                        //                            .padding(.leading)
+                        //                        Spacer()
+                        //                    }
+                        //                    SearchBar(text: $mensagem)
+                        Spacer()
+                        Text("Add a new categorie by adding a new post!")
+                            .foregroundColor(Color.gray)
                         Spacer()
                     }
-                    SearchBar(text: $mensagem)
-                    Spacer()
-                    Text("Add a new categorie by adding a new post!")
-                        .foregroundColor(Color.gray)
-                    Spacer()
                 }
-            }
-            else {
-                HStack {
-                    Text("Categories")
-                        .font(.system(.title, design: .rounded))
-                        .fontWeight(.bold)
-                        .padding(.leading)
-                    Spacer()
-                }
-                
-                SearchBar(text: $mensagem)
-                
-                //MARK: - LIST
-                List (sala.categorias.sorted(by: { $0.nome < $1.nome })){ categ in
-                    HStack {
-                        // ICON
-                        Image(systemName: "lightbulb")
-                            .imageScale(.medium)
-                            .foregroundColor(.yellow)
-                        
-                        // CATEGORIAS E TAGS
-                        VStack(alignment: .leading) {
-                            NavigationLink(destination: PostsCategorieView(categoria: categ, sala: self.sala).environmentObject(self.membro)) {
-                                Text(categ.nome)
-                                    .font(.headline)
-                                    .multilineTextAlignment(.leading)
-                                    .frame(height: 10.0)
-                                    .padding(.top, 5.0)
-                                
-                            }
-                            if categ.tags.count == 0 {
-                                Text("No tags")
-                                    .font(.subheadline)
-                                    .foregroundColor(Color.gray)
-                                    .multilineTextAlignment(.leading)
-                            }
-                            else {
-                                TagsView(tags: categ.tags)
-                                    .lineLimit(1)
-                            }
-                        }
-                        .padding(.vertical, 4)
-                    } //HStack
+                else {
+                    //                HStack {
+                    //                    Text("Categories")
+                    //                        .font(.system(.title, design: .rounded))
+                    //                        .fontWeight(.bold)
+                    //                        .padding(.leading)
+                    //                    Spacer()
+                    //                }
+                    //
+                    //                SearchBar(text: $mensagem)
                     
-                }//List
-                //.navigationBarTitle(Text("Categories"))
-                
-            } //else
-        } //VStack
-    } // body
+                    //MARK: - LIST
+                    List (sala.categorias.sorted(by: { $0.nome < $1.nome })){ categ in
+                        HStack {
+                            // ICON
+                            Image(systemName: "lightbulb")
+                                .imageScale(.medium)
+                                .foregroundColor(.yellow)
+                            
+                            // CATEGORIAS E TAGS
+                            VStack(alignment: .leading) {
+                                NavigationLink(destination: PostsCategorieView(categoria: categ, sala: self.sala).environmentObject(self.membro)) {
+                                    Text(categ.nome)
+                                        .font(.headline)
+                                        .multilineTextAlignment(.leading)
+                                        .frame(height: 10.0)
+                                        .padding(.top, 5.0)
+                                    
+                                }
+                                if categ.tags.count == 0 {
+                                    Text("No tags")
+                                        .font(.subheadline)
+                                        .foregroundColor(Color.gray)
+                                        .multilineTextAlignment(.leading)
+                                }
+                                else {
+                                    TagsView(tags: categ.tags)
+                                        .lineLimit(1)
+                                }
+                            }
+                            .padding(.vertical, 4)
+                        } //HStack
+                        
+                    }//List
+                    //.navigationBarTitle(Text("Categories"))
+                    
+                } //else
+            } //VStack
+                .navigationBarTitle("Categories")
+                .navigationBarItems(leading: NavigationLink(destination: RoomsView( usuario: DAO().usuarios[2]).environmentObject(DAO())) {
+                    HStack {
+                    Image(systemName: "arrow.right.arrow.left.square")
+                        .imageScale(.large)
+                    }}, trailing:
+                    HStack {
+                        Spacer()
+                        Image(systemName: "magnifyingglass")
+                            .imageScale(.large)
+                        Image(systemName: "plus")
+                            .imageScale(.large)
+                            .padding(.leading)
+
+                })
+        } // NavigationView
+    }// body
 }
 
 struct CategoriesView_Previews: PreviewProvider {
