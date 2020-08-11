@@ -32,7 +32,7 @@ struct ContentView: View {
             }
             DiscoverView(sala: sala)
                 .environmentObject(membro).tabItem {
-                Image(systemName: "magnifyingglass")
+                Image(systemName: "rectangle.on.rectangle.angled")
                 Text("Discover")
             }
             PostEditorView(sala: sala)

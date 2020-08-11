@@ -53,14 +53,16 @@ struct RoomsView: View {
                                 .foregroundColor(.white)
                                 .padding(.bottom, 50)
                             
-                            ForEach(salas) { sala in
-                                ZStack {
-                                    Capsule()
-                                        .frame(width: 300.0, height: 50.0)
-                                        .foregroundColor(.white)
-                                    NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario).environmentObject(self.dao)){
-                                        Text(sala.nome)
-                                            .foregroundColor(LingoColors.lingoBlue)
+                            ScrollView(.vertical, showsIndicators: false) {
+                                ForEach(salas) { sala in
+                                    ZStack {
+                                        Capsule()
+                                            .frame(width: 300.0, height: 50.0)
+                                            .foregroundColor(.white)
+                                        NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario).environmentObject(self.dao)){
+                                            Text(sala.nome)
+                                                .foregroundColor(LingoColors.lingoBlue)
+                                        }
                                     }
                                 }
                             }
