@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct CategoriesView: View {
+    @EnvironmentObject var dao: DAO
     @ObservedObject var sala: Sala
     @EnvironmentObject var membro: Membro
     @State private var mensagem = ""//Search for categories"
@@ -81,10 +82,10 @@ struct CategoriesView: View {
                 } //else
             } //VStack
                 .navigationBarTitle("Categories")
-                .navigationBarItems(leading: NavigationLink(destination: RoomsView( usuario: DAO().usuarios[2]).environmentObject(DAO())) {
+                .navigationBarItems(leading: NavigationLink(destination: RoomsView( usuario: membro.usuario).environmentObject(dao)) {
                     HStack {
-                    Image(systemName: "arrow.right.arrow.left.square")
-                        .imageScale(.large)
+                        Image(systemName: "arrow.right.arrow.left.square")
+                            .imageScale(.large)
                     }}, trailing:
                     HStack {
                         Spacer()
@@ -93,7 +94,7 @@ struct CategoriesView: View {
                         Image(systemName: "plus")
                             .imageScale(.large)
                             .padding(.leading)
-
+                        
                 })
         } // NavigationView
     }// body

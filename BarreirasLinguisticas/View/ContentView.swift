@@ -18,6 +18,7 @@ struct LingoColors {
 }
 
 struct ContentView: View {
+    @EnvironmentObject var dao: DAO
     @ObservedObject var sala: Sala
     @ObservedObject var usuario: Usuario
     var membro: Membro { return sala.getMembro(id: usuario.id)! }
@@ -26,7 +27,9 @@ struct ContentView: View {
     var body: some View {
         TabView(/*selection: $selection*/) {
             CategoriesView(sala: sala)
-                .environmentObject(membro).tabItem {
+                .environmentObject(membro)
+                .environmentObject(dao)
+                .tabItem {
                 Image(systemName: "circle.grid.2x2")
                 Text("Categories")
             }
