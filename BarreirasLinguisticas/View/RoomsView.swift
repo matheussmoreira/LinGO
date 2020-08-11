@@ -17,7 +17,7 @@ struct RoomsView: View {
     
     var body: some View {
         VStack {
-                NavigationView {
+                //NavigationView {
                     ZStack {
                         LingoColors.lingoBlue
                             .edgesIgnoringSafeArea(.all)
@@ -91,7 +91,7 @@ struct RoomsView: View {
                             .padding()
                         } //VStack
                     }//ZStack
-                } //NavigationView
+                //} //NavigationView
         } //VStack
             //.onAppear {self.novaSala(nome: "Apple Developer Academy", criador: self.usuario)}
     } //body
