@@ -47,8 +47,9 @@ struct SubscriptionsView: View {
                     } //VStack
                 } //ScrollView
             } //else
-        } //VStack
-    }
+        }//VStack
+    } //body
+    
 }
 
 struct SubscriptionsView_Previews: PreviewProvider {

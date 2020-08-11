@@ -13,7 +13,7 @@ struct QuestionRow: View {
     @ObservedObject var comentario: Comentario
     @State private var voted = false
     @State private var votedImage = "hand.raised"
-    //@State private var num_votes = 5
+    @State var answer: String = ""
     
     var body: some View {
         VStack {
@@ -99,8 +99,7 @@ struct QuestionRow: View {
                     .clipShape(Circle())
                     .padding(.leading)
                 
-                TextField("Answer here", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
-                    .font(.footnote)
+                TextField("Answer here", text: $answer)
                 
             } //HStack
                 .padding(.horizontal)

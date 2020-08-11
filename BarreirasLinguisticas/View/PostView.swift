@@ -111,13 +111,13 @@ struct PostView: View {
                 .padding(.all)
                 .sheet(isPresented: $showComments) {
                     //COMENTARIOS OU MENSAGEM
-                    if (self.post.comentarios.count == 0) {
-                        Text("No comments for this post :(")
-                            .foregroundColor(.gray)
-                    }
-                    else {
+//                    if (self.post.comentarios.count == 0) {
+//                        Text("No comments for this post :(")
+//                            .foregroundColor(.gray)
+//                    }
+//                    else {
                         CommentsQuestionsToggle(comentarios: self.post.comentarios).environmentObject(self.membro)
-                    } //else
+//                    } //else
                 }
             } //sheet
         } //VStack
