@@ -21,8 +21,9 @@ struct PostCardImageView: View {
             RoundedRectangle(cornerRadius: 15, style: .continuous)
                 .fill(Color(UIColor.systemBackground))
                 .frame(height: 260)
-                .padding()
                 .shadow(radius: 8)
+                .padding()
+
 
             VStack {
                 //CATEGORIA, AUTOR E FLUENCIA NO INGLES

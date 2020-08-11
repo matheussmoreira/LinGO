@@ -21,7 +21,6 @@ struct HomeView: View {
                 Text("For you")
                     .font(.system(.largeTitle, design: .rounded))
                     .fontWeight(.bold)
-                    .multilineTextAlignment(.leading)
                     .padding(.leading)
                 Spacer()
             }
@@ -88,7 +87,7 @@ struct HomeView: View {
                 //MARK: - TOPICO DAS NEW TAGS
                 HStack {
                     Text("New tags")
-                        .font(.system(.title, design: .rounded))                .fontWeight(.bold)
+                        .font(.system(.title, design: .rounded))                        .fontWeight(.bold)
                         .multilineTextAlignment(.leading)
                         .padding(.leading)
                     Spacer()

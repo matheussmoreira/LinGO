@@ -80,19 +80,30 @@ struct PostView: View {
             
             //IR PARA OS COMENTARIOS
             HStack {
+                ZStack {
+                Capsule()
+                    .frame(width: 100.0, height: 50.0)
+                    .foregroundColor(.orange)
                 Button("Report") {
                     report()
                 }
-                    .padding(.all)
+                .foregroundColor(.white)
+                }
+                .padding(.all)
                 .foregroundColor(.red)
                 Spacer()
+                
+                ZStack {
+                    Capsule()
+                        .frame(height: 50.0)
+                        .foregroundColor(.blue)
                 Button(action: {self.showComments.toggle()}) {
                     Text("Ask or Comment")
+                        .foregroundColor(.white)
                     Image(systemName: "pencil.circle.fill")
                         .font(.system(size: 32, weight: .regular))
-    //                Text("Read the comments")
-    //                    .font(.system(.title, design: .rounded))
-    //                    .fontWeight(.bold)
+                        .foregroundColor(.white)
+                    }
                 }
                 .padding(.all)
                 .sheet(isPresented: $showComments) {
