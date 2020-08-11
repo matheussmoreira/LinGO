@@ -34,7 +34,7 @@ struct SubscriptionsView: View {
                         ForEach(membro.assinaturas) { asst in
                             NavigationLink(destination: PostsCategorieView(categoria: asst, sala: self.sala).environmentObject(self.membro)) {
                                 RoundedRectangle(cornerRadius: 45)
-                                    .fill(Color.blue)
+                                    .fill(Color(red: 0/255, green: 162/255, blue: 255/255))
                                     .frame(height: 40)
                                     .frame(width: UIScreen.width*0.85)
                                     .overlay(

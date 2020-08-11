@@ -26,7 +26,7 @@ struct ContentView: View {
                 Image(systemName: "circle.grid.2x2")
                 Text("Categories")
             }
-            HomeView(sala: sala)
+            DiscoverView(sala: sala)
                 .environmentObject(membro).tabItem {
                 Image(systemName: "magnifyingglass")
                 Text("Discover")

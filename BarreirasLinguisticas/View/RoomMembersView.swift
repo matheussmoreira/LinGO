@@ -26,7 +26,7 @@ struct RoomMembersView: View {
                 VStack{
                     ForEach(sala.membros.sorted(by: { $0.usuario.nome < $1.usuario.nome })) { membro in
                         RoundedRectangle(cornerRadius: 45)
-                            .fill(Color.blue)
+                            .fill(Color(red: 0/255, green: 162/255, blue: 255/255))
                         .frame(height: 40)
                             .frame(width: UIScreen.width*0.85)
                         .overlay(
