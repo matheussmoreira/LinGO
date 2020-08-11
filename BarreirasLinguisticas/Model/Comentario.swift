@@ -46,17 +46,21 @@ class Comentario: Identifiable, ObservableObject {
         return nil
     }
     
-    func perdeVoto(membro: Membro?){
-        if (membro != nil) {
-            if let idx = getVotoIndex(id: membro!.usuario.id) {
-                self.votos.remove(at: idx)
-            }
-            else {
-                print("Autor do voto não encontrado")
-            }
+    func perdeVoto(membro: Membro){
+        if let idx = getVotoIndex(id: membro.usuario.id) {
+            self.votos.remove(at: idx)
         }
         else {
-            print("Voto a ser removido inválido")
+            print("Autor do voto não encontrado")
         }
+    }
+    
+    func checkVotoExists(membro: Membro) -> Bool {
+        for voto in votos {
+            if voto.membro.usuario.id == membro.usuario.id {
+                return true
+            }
+        }
+        return false
     }
 }

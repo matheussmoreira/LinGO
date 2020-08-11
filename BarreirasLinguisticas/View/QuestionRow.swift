@@ -104,20 +104,25 @@ struct QuestionRow: View {
                 
             } //HStack
                 .padding(.horizontal)
-        }//VStack
+        }.onAppear { self.loadVoto() }//VStack
     } //body
+    
+    func loadVoto(){
+        if comentario.checkVotoExists(membro: membro) {
+            voted = true
+            votedImage = "hand.raised.fill"
+        }
+    }
     
     func changeVoted(){
         voted.toggle()
         if voted {
             votedImage = "hand.raised.fill"
             comentario.ganhaVoto(membro: membro)
-            //num_votes += 1
         }
         else {
             votedImage = "hand.raised"
             comentario.perdeVoto(membro: membro)
-            //num_votes -= 1
         }
     }
 }
