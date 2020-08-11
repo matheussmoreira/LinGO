@@ -38,7 +38,7 @@ struct MultilineTextField: UIViewRepresentable {
 
         // Set the placeholder
         textView.text = placeholder
-        textView.textColor = UIColor.gray
+        textView.textColor = UIColor.black
         textView.font = UIFont(name: "helvetica", size: 16)
         
         return textView
