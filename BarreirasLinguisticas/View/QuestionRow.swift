@@ -105,7 +105,8 @@ struct QuestionRow: View {
                 
             } //HStack
                 .padding(.horizontal)
-        }.onAppear { self.loadVoto() }//VStack
+        } //VStack
+            .onAppear { self.loadVoto() }
     } //body
     
     func loadVoto(){

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct CommentsQuestionsToggle: View {
     @EnvironmentObject var membro: Membro
-    var comentarios: [Comentario]
+    @ObservedObject var post: Post
     @State var questions: [Comentario] = []
     @State var not_questions: [Comentario] = []
     @State var questions_selected = true
@@ -20,31 +20,77 @@ struct CommentsQuestionsToggle: View {
             Toggle(questions_selected: $questions_selected)
             
             if questions_selected {
-                CallQuestions(comments: questions).environmentObject(membro)
+                CallQuestions(post: post, questions: questions).environmentObject(membro)
             }
             else {
                 CallComments(comments: not_questions).environmentObject(membro)
             }
         } //VStack
-            .onAppear { self.splitComments() }
+            .onAppear { self.getComments() }
         
     } //body
     
-    func splitComments(){
-        questions = comentarios.filter{$0.is_question == true}
-        not_questions = comentarios.filter{$0.is_question == false}
+    func getComments(){
+        questions = post.comentarios.filter{$0.is_question == true}
+        not_questions = post.comentarios.filter{$0.is_question == false}
     }
-    
-    //    func countCommentQuestions(isQuestion: Bool) -> Int {
-    //        let comments = comentarios.filter{$0.is_question == isQuestion}
-    //        return comments.count
-    //    }
 }
 
 struct CommentsQuestionsToggle_Previews: PreviewProvider {
     static var previews: some View {
-        CommentsQuestionsToggle(comentarios: DAO().salas[0].posts[0].comentarios)
+        CommentsQuestionsToggle(post: DAO().salas[0].posts[0])
             .environmentObject(DAO().salas[0].membros[0])
+    }
+}
+
+struct CallQuestions: View {
+    @ObservedObject var post: Post
+    @EnvironmentObject var membro: Membro
+    var questions: [Comentario]
+    @State var textHeight: CGFloat = 20
+    @State var newComment: String = ""
+    
+    var body: some View {
+        VStack{
+            if questions.count == 0 {
+                EmptyView(message: "No questions for this post :(")
+            }
+            else {
+                HStack {
+                    Text("Write a comment")
+                        .font(.headline)
+                        .padding(.leading, 15)
+                    Spacer()
+                    ZStack {
+                        Capsule()
+                            .frame(width: 50.0, height: 40.0)
+                            .foregroundColor(LingoColors.lingoBlue)
+                        Button("Go!") {
+                            self.comenta()
+                        }
+                        .foregroundColor(.white)
+                    }.padding(.trailing, 15)
+                }
+                
+                MultilineTextField(placeholder: "Call me baby", text: self.$newComment, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
+                    .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
+                    .frame(width: UIScreen.width - 20)
+                    .shadow(radius: 5)
+                
+                ScrollView(.vertical, showsIndicators: false) {
+                    ForEach(questions) { comment in
+                        if comment.is_question {
+                            QuestionRow(comentario: comment).environmentObject(self.membro)
+                            Divider()
+                        }
+                    }
+                }
+            } //else
+        }
+    } //body
+    
+    func comenta() {
+        newComment = ""
     }
 }
 
@@ -58,33 +104,11 @@ struct CallComments: View {
                 EmptyView(message: "No comments for this post :(")
             }
             else {
+                
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(comments) { comment in
                         if !comment.is_question {
                             CommentRow(comentario: comment).environmentObject(self.membro)
-                            Divider()
-                        }
-                    }
-                }
-            } //else
-        }
-    } //body
-}
-
-struct CallQuestions: View {
-    @EnvironmentObject var membro: Membro
-    var comments: [Comentario]
-    
-    var body: some View {
-        VStack{
-            if comments.count == 0 {
-                EmptyView(message: "No questions for this post :(")
-            }
-            else {
-                ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(comments) { comment in
-                        if comment.is_question {
-                            QuestionRow(comentario: comment).environmentObject(self.membro)
                             Divider()
                         }
                     }
