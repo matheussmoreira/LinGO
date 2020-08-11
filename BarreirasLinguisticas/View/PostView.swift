@@ -18,7 +18,7 @@ struct PostView: View {
     @State var showComments = false
     
     var body: some View {
-                
+        
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .leading){
@@ -58,12 +58,12 @@ struct PostView: View {
                         LinkView(metadata: stored_link!.metadata!)
                     }
                     
-                    
-                    
                 } //VStack
-                    .onAppear { self.carregaLink() }
             } //ScrollView
-                .onAppear { self.loadBookmark() }
+                .onAppear {
+                    self.carregaLink()
+                    self.loadBookmark()
+                }
                 .navigationBarTitle(
                     Text(post.titulo)
                         .font(.system(.title, design: .rounded)),displayMode: .automatic
@@ -75,36 +75,36 @@ struct PostView: View {
                             .imageScale(.large)
                             .foregroundColor(.red)
                     }
-            )
+                )
             
-            
-            //IR PARA OS COMENTARIOS
+            //MARK: - IR PARA OS COMENTARIOS
             HStack {
                 ZStack {
-                Capsule()
-                    .frame(width: 100.0, height: 50.0)
-                    .foregroundColor(.orange)
-                Button("Report") {
-                    report()
-                }
-                .foregroundColor(.white)
+                    Capsule()
+                        .frame(width: 100.0, height: 50.0)
+                        .foregroundColor(.orange)
+                    Button("Report") {
+                        self.report()
+                    }
+                    .foregroundColor(.white)
                 }
                 .padding(.all)
                 .foregroundColor(.red)
                 Spacer()
                 
-                
                 Button(action: {self.showComments.toggle()}) {
                     ZStack {
-                    Capsule()
-                        .frame(height: 50.0)
-                        .foregroundColor(.blue)
+                        Capsule()
+                            .frame(height: 50.0)
+                            .foregroundColor(.blue)
                         HStack {
-                    Text("Ask or Comment")
-                        .foregroundColor(.white)
-                    Image(systemName: "pencil.circle.fill")
-                        .font(.system(size: 32, weight: .regular))
-                        .foregroundColor(.white)
+                            Spacer()
+                            Text("Ask or Comment")
+                                .foregroundColor(.white)
+                            Image(systemName: "pencil.circle.fill")
+                                .font(.system(size: 32, weight: .regular))
+                                .foregroundColor(.white)
+                            Spacer()
                         }
                     }
                 }
@@ -134,7 +134,7 @@ struct PostView: View {
         bookmarked = membro.posts_salvos.contains(post)
         if bookmarked {
             bookmarkedImage = "bookmark.fill"
-
+            
         }
         else {
             bookmarkedImage = "bookmark"
@@ -152,11 +152,12 @@ struct PostView: View {
             membro.removePostSalvo(post: post)
         }
     }
+    
+    func report() {
+        
+    }
 }
 
-func report() {
-    
-}
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
