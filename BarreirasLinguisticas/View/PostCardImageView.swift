@@ -26,9 +26,8 @@ struct PostCardImageView: View {
 
 
             VStack {
-                //CATEGORIA, AUTOR E FLUENCIA NO INGLES
                 HStack {
-                    //NOME DA CATEGORIA
+                    //NOME DAS CATEGORIAS
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack{
                             ForEach(post.categorias) { categ in
@@ -42,7 +41,8 @@ struct PostCardImageView: View {
                     .frame(width: 120.0)
                     
                     Spacer()
-                    //SHARED BY \(SOMEONE)
+                    
+                    //SHARED BY
                     Text("Shared by \(post.publicador.usuario.nome)")
                         .foregroundColor(Color.gray)
                         .lineLimit(1)
@@ -54,9 +54,8 @@ struct PostCardImageView: View {
                     
                 } .padding(.horizontal, 32)
                 
-                //IMAGEM DO CARD
+                //IMAGEM DO LINK
                 if link_image != nil {
-                    
                     Image(uiImage: link_image!)
                         .renderingMode(.original)
                         .aspectRatio(contentMode: .fill)
@@ -64,7 +63,6 @@ struct PostCardImageView: View {
                         .cornerRadius(10)
                 }
                 
-                //TITULO E DESCRICAO DO POST
                 VStack(alignment: .leading) {
                     //TITULO DO POST
                     Text(post.titulo)
@@ -89,6 +87,7 @@ struct PostCardImageView: View {
                 .padding(.horizontal, 32)
                 
                 Spacer()
+                
                 //TAGS DO POST
                 HStack {
                     ForEach(post.tags) { tag in

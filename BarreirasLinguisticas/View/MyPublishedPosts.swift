@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MyPublishedPosts: View {
     @EnvironmentObject var membro: Membro
-    @State var mensagem = ""//Search for your published posts"
+    @State var mensagem = ""
     
     var body: some View {
         VStack {

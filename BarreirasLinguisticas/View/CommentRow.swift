@@ -14,7 +14,6 @@ struct CommentRow: View {
     @State var answer: String = ""
     
     var body: some View {
-        
         ZStack {                    
             VStack {
                 VStack {

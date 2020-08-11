@@ -13,6 +13,10 @@ extension UIScreen {
    static let height = UIScreen.main.bounds.size.height
 }
 
+struct LingoColors {
+    static let lingoBlue = Color(red: 0, green: 162/255, blue: 1)
+}
+
 struct ContentView: View {
     @ObservedObject var sala: Sala
     @ObservedObject var usuario: Usuario

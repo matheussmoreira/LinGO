@@ -59,7 +59,7 @@ struct CategoriesView: View {
                                     .frame(height: 10.0)
                                     .padding(.top, 5.0)
                                 
-                            } //BOTAR O TITLE
+                            }
                             if categ.tags.count == 0 {
                                 Text("No tags")
                                     .font(.subheadline)
@@ -68,7 +68,7 @@ struct CategoriesView: View {
                             }
                             else {
                                 TagsView(tags: categ.tags)
-                                .lineLimit(1)
+                                    .lineLimit(1)
                             }
                         }
                         .padding(.vertical, 4)

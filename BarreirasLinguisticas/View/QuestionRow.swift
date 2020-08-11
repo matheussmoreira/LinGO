@@ -36,9 +36,11 @@ struct QuestionRow: View {
                                     .frame(height: 20.0)
                                 
                                 Spacer()
+                                
                                 Text(comentario.publicador.usuario.fluencia_ingles.rawValue)
                                     .foregroundColor(.gray)
                                     .font(.footnote)
+                                
                                 Circle()
                                     .fill(comentario.publicador.usuario.cor_fluencia)
                                     .frame(width: 10.0, height: 10.0)
@@ -86,11 +88,11 @@ struct QuestionRow: View {
                             .padding(.leading)
                     } //HStack
                         .padding(.trailing)
-                    
                 } //VStack
                     .padding(.horizontal)
             } //ZStack
-            //MARK: - REPLY
+            
+            //MARK: - ANSWER HERE
             HStack {
                 Image(membro.usuario.foto_perfil)
                     .resizable()

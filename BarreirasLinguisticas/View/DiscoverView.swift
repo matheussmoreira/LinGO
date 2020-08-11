@@ -12,8 +12,7 @@ struct DiscoverView: View {
     @ObservedObject var sala: Sala
     @EnvironmentObject var membro: Membro
     @State var fyPosts: [Post] = []
-    @State var mensagem = ""//Search for all posts"
-    var recentPosts: [Post] { return sala.posts }
+    @State var mensagem = ""
     
     var body: some View {
         VStack {
@@ -28,7 +27,7 @@ struct DiscoverView: View {
             SearchBar(text: $mensagem)
             
             ScrollView(.vertical, showsIndicators: false) {
-                //MARK: - TOPICO DOS FOR YOU
+                //MARK: - SUBSCRIPTION POSTS
                 
                 //FOR YOU CARDS
                 if fyPosts.count == 0 {
@@ -52,7 +51,7 @@ struct DiscoverView: View {
                     } //ScrollView
                 } //else
                 
-                //MARK: - TOPICO DOS RECENT POSTS
+                //MARK: - RECENT POSTS
                 HStack {
                     Text("Recent posts")
                         .font(.system(.title, design: .rounded))
@@ -62,8 +61,7 @@ struct DiscoverView: View {
                     Spacer()
                 }
                 
-                //RECENT POSTS CARDS
-                if recentPosts.count == 0 {
+                if sala.posts.count == 0 {
                     VStack {
                         Spacer()
                         Text("No recent posts :(")
@@ -84,7 +82,7 @@ struct DiscoverView: View {
                     } //ScrollView
                 } //else
                 
-                //MARK: - TOPICO DAS NEW TAGS
+                //MARK: - NEW TAGS
                 HStack {
                     Text("New tags")
                         .font(.system(.title, design: .rounded))                        .fontWeight(.bold)
@@ -93,7 +91,6 @@ struct DiscoverView: View {
                     Spacer()
                 }
                 
-                //NEW TAGS
                 if sala.tags.count == 0 {
                     Text("No new tags :(")
                         .foregroundColor(Color.gray)
@@ -103,9 +100,8 @@ struct DiscoverView: View {
                         HStack {
                             ForEach(sala.tags) { tag in
                                 RoundedRectangle(cornerRadius: 45)
-                                    .fill(Color(red: 0/255, green: 162/255, blue: 255/255))
-                                    .frame(height: 40)
-                                    .frame(width: 200)
+                                    .fill(LingoColors.lingoBlue)
+                                    .frame(width: 200, height: 40)
                                     .padding(.all)
                                     .overlay(
                                         Text(tag.nome)
@@ -116,7 +112,6 @@ struct DiscoverView: View {
                         }
                     } //ScrollView
                 } //else
-                
             } //ScrollView
                 .onAppear { self.loadFY() }
         } //VStack
@@ -131,6 +126,7 @@ struct DiscoverView: View {
             }
         }
     } //loadFY
+
 }
 
 //MARK: - PREVIEW

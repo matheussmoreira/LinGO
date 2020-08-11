@@ -13,32 +13,32 @@ struct CommentsQuestionsToggle: View {
     var comentarios: [Comentario]
     @State var questions: [Comentario] = []
     @State var not_questions: [Comentario] = []
-    @State var questions_on = true
+    @State var questions_selected = true
     
     var body: some View {
         VStack {
-            Toggle(questions_on: $questions_on)
+            Toggle(questions_selected: $questions_selected)
             
-            if questions_on {
+            if questions_selected {
                 CallQuestions(comments: questions).environmentObject(membro)
             }
             else {
                 CallComments(comments: not_questions).environmentObject(membro)
             }
         } //VStack
-            .onAppear { self.getComments() }
+            .onAppear { self.splitComments() }
         
     } //body
     
-    func getComments(){
+    func splitComments(){
         questions = comentarios.filter{$0.is_question == true}
         not_questions = comentarios.filter{$0.is_question == false}
     }
     
-    func countCommentQuestions(isQuestion: Bool) -> Int {
-        let comments = comentarios.filter{$0.is_question == isQuestion}
-        return comments.count
-    }
+    //    func countCommentQuestions(isQuestion: Bool) -> Int {
+    //        let comments = comentarios.filter{$0.is_question == isQuestion}
+    //        return comments.count
+    //    }
 }
 
 struct CommentsQuestionsToggle_Previews: PreviewProvider {
@@ -76,7 +76,6 @@ struct CallQuestions: View {
     var comments: [Comentario]
     
     var body: some View {
-        
         VStack{
             if comments.count == 0 {
                 EmptyView(message: "No questions for this post :(")
@@ -108,15 +107,15 @@ struct EmptyView: View {
     } //body
 }
 
-
 struct Toggle: View {
-    @Binding var questions_on: Bool
-    @State var comments_on = false
+    @Binding var questions_selected: Bool
+    @State var comments_selected = false
     @State var questions_color = Color.black
     @State var comments_color = Color.blue
     
     var body: some View {
         VStack {
+            //TRACINHO DO SHEET
             Rectangle()
                 .frame(width: 60, height: 6)
                 .cornerRadius(3.0)
@@ -132,7 +131,7 @@ struct Toggle: View {
                 HStack {
                     HStack {
                         Button(action: {
-                            self.switchValue(state: self.questions_on)
+                            self.switchValue(state: self.questions_selected)
                         }) {
                             Image(systemName: "questionmark.circle")
                                 .foregroundColor(questions_color)
@@ -142,10 +141,12 @@ struct Toggle: View {
                         }
                     }
                     .padding(.horizontal, 32)
+                    
                     Divider()
+                    
                     HStack {
                         Button(action: {
-                            self.switchValue(state: self.comments_on)
+                            self.switchValue(state: self.comments_selected)
                         }) {
                             Image(systemName: "bubble.left")
                                 .foregroundColor(comments_color)
@@ -164,9 +165,9 @@ struct Toggle: View {
     
     func switchValue(state isOn: Bool) {
         if !isOn {
-            questions_on.toggle()
-            comments_on.toggle()
-            if questions_on {
+            questions_selected.toggle()
+            comments_selected.toggle()
+            if questions_selected {
                 questions_color = Color.black
                 comments_color = Color.blue
             }

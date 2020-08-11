@@ -29,7 +29,9 @@ struct PostsCategorieView: View {
                     .fontWeight(.bold)
                     .multilineTextAlignment(.leading)
                     .padding(.leading)
+                
                 Spacer()
+                
                 Button(action:{self.changeSubscription()}){
                     Image(systemName: subscribedImage)
                     .padding(.trailing)

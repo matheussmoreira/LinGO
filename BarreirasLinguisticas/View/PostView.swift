@@ -18,7 +18,6 @@ struct PostView: View {
     @State var showComments = false
     
     var body: some View {
-        
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .leading){
@@ -63,11 +62,11 @@ struct PostView: View {
                 .onAppear {
                     self.carregaLink()
                     self.loadBookmark()
-                }
-                .navigationBarTitle(
-                    Text(post.titulo)
-                        .font(.system(.title, design: .rounded)),displayMode: .automatic
-                )
+            }
+            .navigationBarTitle(
+                Text(post.titulo)
+                    .font(.system(.title, design: .rounded)),displayMode: .automatic
+            )
                 .padding(.horizontal)
                 .navigationBarItems(trailing:
                     Button(action: {self.changeBookmark()}){
@@ -75,9 +74,9 @@ struct PostView: View {
                             .imageScale(.large)
                             .foregroundColor(.red)
                     }
-                )
+            )
             
-            //MARK: - IR PARA OS COMENTARIOS
+            //MARK: - REPORT E COMENTARIOS
             HStack {
                 ZStack {
                     Capsule()
@@ -110,14 +109,7 @@ struct PostView: View {
                 }
                 .padding(.all)
                 .sheet(isPresented: $showComments) {
-                    //COMENTARIOS OU MENSAGEM
-//                    if (self.post.comentarios.count == 0) {
-//                        Text("No comments for this post :(")
-//                            .foregroundColor(.gray)
-//                    }
-//                    else {
-                        CommentsQuestionsToggle(comentarios: self.post.comentarios).environmentObject(self.membro)
-//                    } //else
+                    CommentsQuestionsToggle(comentarios: self.post.comentarios).environmentObject(self.membro)
                 }
             } //sheet
         } //VStack
@@ -134,7 +126,6 @@ struct PostView: View {
         bookmarked = membro.posts_salvos.contains(post)
         if bookmarked {
             bookmarkedImage = "bookmark.fill"
-            
         }
         else {
             bookmarkedImage = "bookmark"
