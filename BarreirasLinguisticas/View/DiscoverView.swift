@@ -41,7 +41,7 @@ struct DiscoverView: View {
                 else {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack (spacing: 20){
-                            ForEach(fyPosts){ post in
+                            ForEach(fyPosts.reversed()){ post in
                                 NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
                                     PostCardImageView(post: post)
                                         .frame(width: UIScreen.width)
