@@ -47,6 +47,15 @@ struct DiscoverView: View {
                                         .frame(width: UIScreen.width)
                                 }
                             }
+                            /* EFEITO 3D
+                             GeometryReader { geometry in
+                                 NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
+                                     PostCardImageView(post: post)
+                                         .frame(width: UIScreen.width)
+                                         .rotation3DEffect(Angle(degrees: Double(geometry.frame(in:.global).minX)-40) / -20, axis: (x: 0, y: 10.0, z: 0))
+                                 }
+                             }.frame(width: UIScreen.width, height: 270)
+                             */
                         }
                     } //ScrollView
                 } //else

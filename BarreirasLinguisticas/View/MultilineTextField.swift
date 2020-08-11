@@ -9,11 +9,10 @@
 import Foundation
 import SwiftUI
 
-struct TextView: UIViewRepresentable {
+struct MultilineTextField: UIViewRepresentable {
     var placeholder: String
-    @Binding var text: String
-
     var minHeight: CGFloat
+    @Binding var text: String
     @Binding var calculatedHeight: CGFloat
 
     init(placeholder: String, text: Binding<String>, minHeight: CGFloat, calculatedHeight: Binding<CGFloat>) {
@@ -33,11 +32,9 @@ struct TextView: UIViewRepresentable {
 
         // Decrease priority of content resistance, so content would not push external layout set in SwiftUI
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-
         textView.isScrollEnabled = false
         textView.isEditable = true
         textView.isUserInteractionEnabled = true
-        
 
         // Set the placeholder
         textView.text = placeholder
@@ -49,7 +46,6 @@ struct TextView: UIViewRepresentable {
 
     func updateUIView(_ textView: UITextView, context: Context) {
         textView.text = self.text
-
         recalculateHeight(view: textView)
     }
 
@@ -66,11 +62,10 @@ struct TextView: UIViewRepresentable {
         }
     }
 
-    class Coordinator : NSObject, UITextViewDelegate {
+    class Coordinator: NSObject, UITextViewDelegate {
+        var parent: MultilineTextField
 
-        var parent: TextView
-
-        init(_ uiTextView: TextView) {
+        init(_ uiTextView: MultilineTextField) {
             self.parent = uiTextView
         }
 

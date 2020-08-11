@@ -12,7 +12,7 @@ import UIKit
 struct PostEditorView: View {
     @ObservedObject var sala: Sala
     @EnvironmentObject var membro: Membro
-    @State var text: String = ""
+    @State var description: String = ""
     @State var textHeight: CGFloat = 150
     @State var title: String = ""
     @State var link: String = ""
@@ -38,7 +38,7 @@ struct PostEditorView: View {
                     .padding(.bottom)
                 
                 ScrollView {
-                    TextView(placeholder: "", text: self.$text, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
+                    MultilineTextField(placeholder: "", text: self.$description, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
                         .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
                 }
                 
@@ -72,7 +72,9 @@ struct PostEditorView: View {
                 .navigationBarTitle(Text("Create a post!"))
                 .font(.system(.largeTitle, design: .rounded))
                 .navigationBarItems(trailing:
-                    Button(action: {print("Clicou")}){
+                    Button(action: {
+                        self.publicar(id_membro: self.membro.usuario.id, titulo: self.title, descricao: self.description, linkString: self.link, categs: [4], tags: [])
+                    }){
                         Text("Go!")
                             .bold()
                             .font(.title)
@@ -81,6 +83,25 @@ struct PostEditorView: View {
             )
         } //NavigationView
     } //body
+    
+    func publicar(id_membro: Int, titulo: String, descricao: String?, linkString: String, categs: [Int], tags: [Int]){
+        
+        if (titulo == "") {
+            print("The post needs a title!")
+        }
+        else {
+            if (descricao == "" && linkString == "") {
+                print("The post need a description text or an embeded link!")
+            }
+            else {
+                sala.novoPost(publicador: id_membro, post: UUID().hashValue, titulo: titulo, descricao: descricao, link: Link(urlString: linkString), categs: categs, tags: tags)
+                
+                title = ""; description = ""; link = ""
+                
+                //print("Created the post!")
+            }
+        }
+    }
 }
 
 struct PostEditorView_Previews: PreviewProvider {
