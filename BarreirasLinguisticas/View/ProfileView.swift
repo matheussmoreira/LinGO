@@ -16,13 +16,14 @@ struct ProfileView: View {
     let corner: CGFloat = 45
     
     var body: some View {
+        
         VStack {
             
             Circle()
                 .padding(.bottom, -100.0)
                 .padding(.top, -1000)
                 .frame(width: 600.0, height: 600.0)
-                .foregroundColor(.blue)
+                .foregroundColor(Color(red: 0/255, green: 162/255, blue: 255/255))
         
             VStack {
                 Image(membro.usuario.foto_perfil)
@@ -55,7 +56,7 @@ struct ProfileView: View {
             NavigationLink(destination:
             MyPublishedPosts().environmentObject(membro)) {
                 RoundedRectangle(cornerRadius: corner)
-                .fill(Color.blue)
+                .foregroundColor(Color(red: 0/255, green: 162/255, blue: 255/255))
                 .frame(height: btn_height)
                 .frame(width: btn_width)
                 .overlay(
@@ -68,7 +69,7 @@ struct ProfileView: View {
             NavigationLink(destination:
             MySavedPosts().environmentObject(membro)) {
                 RoundedRectangle(cornerRadius: corner)
-                .fill(Color.blue)
+                .foregroundColor(Color(red: 0/255, green: 162/255, blue: 255/255))
                 .frame(height: btn_height)
                 .frame(width: btn_width)
                 .overlay(
@@ -80,7 +81,7 @@ struct ProfileView: View {
             //MARK: - ASSINATURAS
                 NavigationLink(destination: SubscriptionsView(sala: sala).environmentObject(membro)) {
                 RoundedRectangle(cornerRadius: corner)
-                .fill(Color.blue)
+                .foregroundColor(Color(red: 0/255, green: 162/255, blue: 255/255))
                 .frame(height: btn_height)
                 .frame(width: btn_width)
                 .overlay(
@@ -93,7 +94,7 @@ struct ProfileView: View {
             NavigationLink(destination:
             RoomMembersView(membro: membro, sala: sala)) {
                 RoundedRectangle(cornerRadius: corner)
-                .fill(Color.blue)
+                .foregroundColor(Color(red: 0/255, green: 162/255, blue: 255/255))
                 .frame(height: btn_height)
                 .frame(width: btn_width)
                 .overlay(
@@ -104,12 +105,12 @@ struct ProfileView: View {
             
             //MARK: - LEAVE
             RoundedRectangle(cornerRadius: corner)
-            .fill(Color.red)
-            .frame(height: btn_height)
-            .frame(width: btn_width)
-            .overlay(
-                Text("Leave")
-                    .foregroundColor(.white)
+                .foregroundColor((Color(UIColor.systemGray5)))
+                .frame(height: btn_height)
+                .frame(width: btn_width)
+                .overlay(
+                    Text("Leave")
+                        .foregroundColor(.red)
             )
             } //VStack
                 .padding(.top, -550)

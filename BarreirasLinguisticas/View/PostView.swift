@@ -93,16 +93,19 @@ struct PostView: View {
                 .foregroundColor(.red)
                 Spacer()
                 
-                ZStack {
+                
+                Button(action: {self.showComments.toggle()}) {
+                    ZStack {
                     Capsule()
                         .frame(height: 50.0)
                         .foregroundColor(.blue)
-                Button(action: {self.showComments.toggle()}) {
+                        HStack {
                     Text("Ask or Comment")
                         .foregroundColor(.white)
                     Image(systemName: "pencil.circle.fill")
                         .font(.system(size: 32, weight: .regular))
                         .foregroundColor(.white)
+                        }
                     }
                 }
                 .padding(.all)
