@@ -20,8 +20,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Create the SwiftUI view that provides the window contents.
         let dao = DAO()
-        let content = RoomsView(usuario: dao.usuarios[2]).environmentObject(dao)
-
+        
+//        if dao.salas.count == 0 {
+//            let content =
+//        }
+        //else {
+            let content = RoomsView(usuario: dao.usuarios[2]).environmentObject(dao)
+        //}
+        
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)

@@ -98,7 +98,7 @@ struct PostEditorView: View {
                 
                 title = ""; description = ""; link = ""
                 
-                //print("Created the post!")
+                print("Created the post!")
             }
         }
     }
