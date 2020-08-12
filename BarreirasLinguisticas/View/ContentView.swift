@@ -25,7 +25,7 @@ struct ContentView: View {
     //@State var selection = 4
     
     var body: some View {
-        //NavigationView {
+        NavigationView {
             TabView(/*selection: $selection*/) {
                 CategoriesView(sala: sala)
                     .environmentObject(membro)
@@ -50,7 +50,7 @@ struct ContentView: View {
                     Text("Profile")
                 }
             } //TabView
-        //}
+        }
         
     } //body
 }
