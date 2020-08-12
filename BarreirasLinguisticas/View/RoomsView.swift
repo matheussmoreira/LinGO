@@ -11,7 +11,7 @@ import SwiftUI
 struct RoomsView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var dao: DAO
-    //@EnvironmentObject var sala_atual: Sala
+    //@Binding var sala_atual: Sala
     var usuario: Usuario
     var salas: [Sala] {
         return dao.getSalasByUser(id: usuario.id)
@@ -116,8 +116,8 @@ struct RoomsView: View {
     
 }
 
-struct RoomsView_Previews: PreviewProvider {
-    static var previews: some View {
-        RoomsView(usuario: DAO().usuarios[2]).environmentObject(DAO())
-    }
-}
+//struct RoomsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RoomsView(usuario: DAO().usuarios[2], sala_atual: <#Binding<Sala>#>).environmentObject(DAO())
+//    }
+//}
