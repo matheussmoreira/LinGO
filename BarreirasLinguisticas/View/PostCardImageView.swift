@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct PostCardImageView: View {
+    //@Environment(\.colorScheme) var colorScheme
     @ObservedObject var post: Post
     @State var link_image: UIImage?
     @State var line_limit_title = 2
