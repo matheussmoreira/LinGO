@@ -109,7 +109,7 @@ struct ProfileView: View {
                     .frame(height: btn_height)
                     .frame(width: btn_width)
                     .overlay(
-                        Text("Leave")
+                        Text("Leave Room")
                             .foregroundColor(.red)
                 )
             } //VStack

@@ -92,7 +92,7 @@ struct DiscoverView: View {
                 } //else
                 
                 //MARK: - NEW TAGS
-                HStack {
+                /*HStack {
                     Text("New tags")
                         .font(.system(.title, design: .rounded))                        .fontWeight(.bold)
                         .multilineTextAlignment(.leading)
@@ -120,7 +120,7 @@ struct DiscoverView: View {
                             }
                         }
                     } //ScrollView
-                } //else
+                } //else*/
             } //ScrollView
                 .onAppear { self.loadFY() }
         } //VStack
