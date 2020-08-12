@@ -60,4 +60,21 @@ class Post: Equatable, Identifiable, ObservableObject {
         return nil
     }
     
+    func novoComentario(id: Int, publicador: Membro, conteudo: String, is_question: Bool) {
+        let comentario = Comentario(id: id, post: self, publicador: publicador, conteudo: conteudo, is_question: is_question, original: nil)
+        self.comentarios.append(comentario)
+    }
+    
+//    func novoReply(id: Int, publicador id_publicador: Int, post id_post: Int, conteudo: String, original id_original: Int) {
+//
+//            //if let original = post.getComentarioOriginal(id: id_original) {
+//                let comentario = Comentario(id: id, post: self, publicador: publicador, conteudo: conteudo, is_question: false, original: original)
+//                //original.replies.append(comentario)
+//            //}
+////            else {
+////                print("Reply não adicionado por comentário original não identificado")
+////            }
+//
+//    }
+    
 }
