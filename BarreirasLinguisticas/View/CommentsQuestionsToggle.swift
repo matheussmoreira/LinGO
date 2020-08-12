@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+
 struct CommentsQuestionsToggle: View {
     @EnvironmentObject var membro: Membro
     @ObservedObject var post: Post
@@ -63,6 +64,7 @@ struct CallQuestions: View {
                         .foregroundColor(LingoColors.lingoBlue)
                     Button("Go!") {
                         self.comenta()
+                        self.hideKeyboard()
                     }
                     .foregroundColor(.white)
                 }.padding(.trailing, 15)
@@ -87,7 +89,7 @@ struct CallQuestions: View {
                 }
             } //else
         }//VStack
-        .onAppear {self.loadQuestions()}
+            .onAppear {self.loadQuestions()}
     } //body
     
     func loadQuestions() {
@@ -123,6 +125,7 @@ struct CallComments: View {
                         .foregroundColor(LingoColors.lingoBlue)
                     Button("Go!") {
                         self.comenta()
+                        self.hideKeyboard()
                     }
                     .foregroundColor(.white)
                 }.padding(.trailing, 15)
