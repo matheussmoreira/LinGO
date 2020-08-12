@@ -19,6 +19,7 @@ struct PostCardImageView: View {
         ZStack {
             //CARD
             RoundedRectangle(cornerRadius: 15, style: .continuous)
+                //.fill(colorScheme == .dark ? Color.gray : Color.white)
                 .fill(Color(UIColor.systemBackground))
                 .frame(height: 260)
                 .shadow(radius: 8)
