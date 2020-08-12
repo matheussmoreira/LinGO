@@ -109,7 +109,8 @@ struct PostView: View {
                 }
                 .padding(.all)
                 .sheet(isPresented: $showComments) {
-                    CommentsQuestionsToggle(comentarios: self.post.comentarios).environmentObject(self.membro)
+                    CommentsQuestionsToggle(post: self.post)
+                        .environmentObject(self.membro)
                 }
             } //sheet
         } //VStack

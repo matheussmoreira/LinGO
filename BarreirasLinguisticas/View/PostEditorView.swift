@@ -12,8 +12,8 @@ import UIKit
 struct PostEditorView: View {
     @ObservedObject var sala: Sala
     @EnvironmentObject var membro: Membro
-    @State var description: String = ""
     @State var textHeight: CGFloat = 150
+    @State var description: String = ""
     @State var title: String = ""
     @State var link: String = ""
     @State var tag: String = ""
@@ -73,7 +73,7 @@ struct PostEditorView: View {
                 .font(.system(.largeTitle, design: .rounded))
                 .navigationBarItems(trailing:
                     Button(action: {
-                        self.publicar(id_membro: self.membro.usuario.id, titulo: self.title, descricao: self.description, linkString: self.link, categs: [4], tags: [])
+                        self.publica(id_membro: self.membro.usuario.id, titulo: self.title, descricao: self.description, linkString: self.link, categs: [4], tags: [])
                     }){
                         Text("Go!")
                             .bold()
@@ -84,7 +84,7 @@ struct PostEditorView: View {
         } //NavigationView
     } //body
     
-    func publicar(id_membro: Int, titulo: String, descricao: String?, linkString: String, categs: [Int], tags: [Int]){
+    func publica(id_membro: Int, titulo: String, descricao: String?, linkString: String, categs: [Int], tags: [Int]){
         
         if (titulo == "") {
             print("The post needs a title!")
@@ -98,7 +98,7 @@ struct PostEditorView: View {
                 
                 title = ""; description = ""; link = ""
                 
-                //print("Created the post!")
+                print("Created the post!")
             }
         }
     }
