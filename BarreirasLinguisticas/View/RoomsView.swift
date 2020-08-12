@@ -11,6 +11,7 @@ import SwiftUI
 struct RoomsView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var dao: DAO
+    //@EnvironmentObject var sala_atual: Sala
     var usuario: Usuario
     var salas: [Sala] {
         return dao.getSalasByUser(id: usuario.id)
