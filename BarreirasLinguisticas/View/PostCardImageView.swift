@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct PostCardImageView: View {
+    @Environment(\.colorScheme) var colorScheme
     @ObservedObject var post: Post
     @State var link_image: UIImage?
     @State var line_limit_title = 2
@@ -19,11 +20,10 @@ struct PostCardImageView: View {
         ZStack {
             //CARD
             RoundedRectangle(cornerRadius: 15, style: .continuous)
-                .fill(Color(UIColor.systemBackground))
+                .fill(colorScheme == .dark ? Color.gray : Color.white)
                 .frame(height: 260)
                 .shadow(radius: 8)
                 .padding()
-
 
             VStack {
                 HStack {
