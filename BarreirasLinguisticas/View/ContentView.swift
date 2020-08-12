@@ -25,30 +25,33 @@ struct ContentView: View {
     //@State var selection = 4
     
     var body: some View {
-        TabView(/*selection: $selection*/) {
-            CategoriesView(sala: sala)
-                .environmentObject(membro)
-                .environmentObject(dao)
-                .tabItem {
-                Image(systemName: "circle.grid.2x2")
-                Text("Categories")
-            }
-            DiscoverView(sala: sala)
-                .environmentObject(membro).tabItem {
-                Image(systemName: "rectangle.on.rectangle.angled")
-                Text("Discover")
-            }
-            PostEditorView(sala: sala)
-                .environmentObject(membro).tabItem {
-                Image(systemName: "pencil")
-                Text("Publish")
-            }
-            ProfileView(sala: sala)
-                .environmentObject(membro).tabItem {
-                Image(systemName: "person")
-                Text("Profile")
-            }
-        } //TabView
+        //NavigationView {
+            TabView(/*selection: $selection*/) {
+                CategoriesView(sala: sala)
+                    .environmentObject(membro)
+                    .environmentObject(dao)
+                    .tabItem {
+                    Image(systemName: "circle.grid.2x2")
+                    Text("Categories")
+                }
+                DiscoverView(sala: sala)
+                    .environmentObject(membro).tabItem {
+                    Image(systemName: "rectangle.on.rectangle.angled")
+                    Text("Discover")
+                }
+                PostEditorView(sala: sala)
+                    .environmentObject(membro).tabItem {
+                    Image(systemName: "pencil")
+                    Text("Publish")
+                }
+                ProfileView(sala: sala)
+                    .environmentObject(membro).tabItem {
+                    Image(systemName: "person")
+                    Text("Profile")
+                }
+            } //TabView
+        //}
+        
     } //body
 }
 
