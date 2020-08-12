@@ -14,6 +14,7 @@ struct ProfileView: View {
     let btn_height: CGFloat = 40
     let btn_width: CGFloat = 200
     let corner: CGFloat = 45
+    let lingoBlue = LingoColors.lingoBlue
     
     var body: some View {
         VStack {
@@ -55,7 +56,7 @@ struct ProfileView: View {
                 NavigationLink(destination:
                 MyPublishedPosts().environmentObject(membro)) {
                     RoundedRectangle(cornerRadius: corner)
-                        .foregroundColor(Color(red: 0/255, green: 162/255, blue: 255/255))
+                        .foregroundColor(lingoBlue)
                         .frame(height: btn_height)
                         .frame(width: btn_width)
                         .overlay(
@@ -68,7 +69,7 @@ struct ProfileView: View {
                 NavigationLink(destination:
                 MySavedPosts().environmentObject(membro)) {
                     RoundedRectangle(cornerRadius: corner)
-                        .foregroundColor(Color(red: 0/255, green: 162/255, blue: 255/255))
+                        .foregroundColor(lingoBlue)
                         .frame(height: btn_height)
                         .frame(width: btn_width)
                         .overlay(
@@ -80,7 +81,7 @@ struct ProfileView: View {
                 //MARK: - ASSINATURAS
                 NavigationLink(destination: SubscriptionsView(sala: sala).environmentObject(membro)) {
                     RoundedRectangle(cornerRadius: corner)
-                        .foregroundColor(Color(red: 0/255, green: 162/255, blue: 255/255))
+                        .foregroundColor(lingoBlue)
                         .frame(height: btn_height)
                         .frame(width: btn_width)
                         .overlay(
@@ -93,7 +94,7 @@ struct ProfileView: View {
                 NavigationLink(destination:
                 RoomMembersView(membro: membro, sala: sala)) {
                     RoundedRectangle(cornerRadius: corner)
-                        .foregroundColor(Color(red: 0/255, green: 162/255, blue: 255/255))
+                        .foregroundColor(lingoBlue)
                         .frame(height: btn_height)
                         .frame(width: btn_width)
                         .overlay(
