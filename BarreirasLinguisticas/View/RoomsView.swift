@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct RoomsView: View {
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var dao: DAO
     var usuario: Usuario
     var salas: [Sala] {
@@ -51,10 +52,17 @@ struct RoomsView: View {
                                             Capsule()
                                                 .frame(width: 300.0, height: 50.0)
                                                 .foregroundColor(.white)
-                                            NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario).environmentObject(self.dao)){
+                                            
+                                            Button(action:
+                                            {self.presentationMode.wrappedValue.dismiss()}) {
                                                 Text(sala.nome)
-                                                    .foregroundColor(LingoColors.lingoBlue)
+                                                .foregroundColor(LingoColors.lingoBlue)
                                             }
+                                            
+//                                            NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario).environmentObject(self.dao)){
+//                                                Text(sala.nome)
+//                                                    .foregroundColor(LingoColors.lingoBlue)
+//                                            }
                                         }
                                     }
                                 }

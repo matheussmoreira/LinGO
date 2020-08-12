@@ -33,7 +33,8 @@ struct PostCardImageView: View {
                             ForEach(post.categorias) { categ in
                                 Text(categ.nome)
                                     .fontWeight(.semibold)
-                                    .foregroundColor(Color.gray)
+                                    .foregroundColor(self.colorScheme == .dark ? Color.white : Color.gray)
+                                    //.foregroundColor(Color.gray)
                                     .lineLimit(1)
                             }
                         }
@@ -44,7 +45,8 @@ struct PostCardImageView: View {
                     
                     //SHARED BY
                     Text("Shared by \(post.publicador.usuario.nome)")
-                        .foregroundColor(Color.gray)
+                        //.foregroundColor(Color.gray)
+                        .foregroundColor(self.colorScheme == .dark ? Color.white : Color.gray)
                         .lineLimit(1)
                     
                     //ENGLISH FLUENCY COLOR

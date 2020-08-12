@@ -13,6 +13,7 @@ struct CategoriesView: View {
     @ObservedObject var sala: Sala
     @EnvironmentObject var membro: Membro
     @State private var mensagem = ""//Search for categories"
+    @State var showRooms = false
     
     var body: some View {
         NavigationView {
@@ -82,11 +83,22 @@ struct CategoriesView: View {
                 } //else
             } //VStack
                 .navigationBarTitle("Categories")
-                .navigationBarItems(leading: NavigationLink(destination: RoomsView( usuario: membro.usuario).environmentObject(dao)) {
-                    HStack {
+                .navigationBarItems(
+                    leading:
+                    Button(action: {self.showRooms.toggle()}) {
                         Image(systemName: "arrow.right.arrow.left.square")
                             .imageScale(.large)
-                    }}, trailing:
+                    }
+                    .sheet(isPresented: $showRooms) {
+                        RoomsView(usuario: self.membro.usuario)
+                            .environmentObject(self.dao)
+                    },
+                    
+//                    NavigationLink(destination: RoomsView( usuario: membro.usuario).environmentObject(dao)) {
+//                        Image(systemName: "arrow.right.arrow.left.square")
+//                            .imageScale(.large)
+//                    },
+                    trailing:
                     HStack {
                         Spacer()
                         Image(systemName: "magnifyingglass")
