@@ -18,6 +18,7 @@ struct PostEditorView: View {
     @State private var title: String = ""
     @State private var link: String = ""
     @State private var tag: String = ""
+    @State private var value: CGFloat = 0
     
     var body: some View {
         NavigationView {
@@ -43,32 +44,37 @@ struct PostEditorView: View {
                         .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
                 }
                 
-                HStack {
-                    Image(systemName: "link")
-                        .foregroundColor(.blue)
-                        .font(.headline)
+                VStack {
+                    HStack {
+                        Image(systemName: "link")
+                            .foregroundColor(.blue)
+                            .font(.headline)
+                        
+                        TextField("You can paste a related link here", text: $link)
+                            .font(.headline)
+                            .foregroundColor(.blue)
+                        
+                    }
+                    .padding(.bottom)
                     
-                    TextField("You can paste a related link here", text: $link)
-                        .font(.headline)
-                        .foregroundColor(.blue)
-                    
+                    HStack {
+                        Image(systemName: "tag")
+                            .foregroundColor(.blue)
+                            .font(.headline)
+                        
+                        TextField("Add tags! Eg.: ''SwiftUI, UX, English'' etc. ", text: $tag)
+                            .font(.headline)
+                            .foregroundColor(.blue)
+                        
+                    }
+                    .padding(.bottom)
                 }
-                .padding(.bottom)
-                
-                HStack {
-                    Image(systemName: "tag")
-                        .foregroundColor(.blue)
-                        .font(.headline)
-                    
-                    TextField("Add tags! Eg.: ''SwiftUI, UX, English'' etc. ", text: $tag)
-                        .font(.headline)
-                        .foregroundColor(.blue)
-                    
+                .animation(.spring())
+                .offset(y: -self.value)
+                .onAppear {
+                    self.ajustaAltura()
                 }
-                .padding(.bottom)
-                
-                Spacer()
-            } //VStack
+            }//VStack
                 .padding()
                 .navigationBarTitle(Text("Create a post!"))
                 .onTapGesture {
@@ -105,6 +111,19 @@ struct PostEditorView: View {
                 
                 print("Created the post!")
             }
+        }
+    }
+    
+    func ajustaAltura() {
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main){ (noti) in
+            
+            let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+            let height = value.height
+            self.value = height-100
+        }
+        
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { (noti) in
+            self.value = 0
         }
     }
 }
