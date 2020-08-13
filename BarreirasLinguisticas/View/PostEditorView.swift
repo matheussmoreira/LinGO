@@ -71,6 +71,9 @@ struct PostEditorView: View {
             } //VStack
                 .padding()
                 .navigationBarTitle(Text("Create a post!"))
+                .onTapGesture {
+                    self.hideKeyboard()
+                }
                 .font(.system(.largeTitle, design: .rounded))
                 .navigationBarItems(trailing:
                     Button(action: {
