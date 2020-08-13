@@ -9,10 +9,8 @@
 import Foundation
 
 class DAO: ObservableObject {
-    //static var unicaInstancia = DAO()
     @Published var salas: [Sala] = []
     @Published var usuarios: [Usuario] = []
-    //@Published var sala_atual: Sala?
     
     init(){
         self.usuarios.append(Usuario(id: 1,
