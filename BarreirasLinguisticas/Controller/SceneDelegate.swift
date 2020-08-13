@@ -29,7 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            if dao.salas.count == 0 {
+            if dao.getSalasByUser(id: usuario.id).count == 0 {
                 window.rootViewController = UIHostingController(rootView: RoomsView(usuario: usuario).environmentObject(dao))
             }
             else {
