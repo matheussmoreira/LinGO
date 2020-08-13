@@ -8,11 +8,10 @@
 
 import SwiftUI
 
+
 struct CommentsQuestionsToggle: View {
     @EnvironmentObject var membro: Membro
     @ObservedObject var post: Post
-    @State var questions: [Comentario] = []
-    @State var not_questions: [Comentario] = []
     @State var questions_selected = true
     
     var body: some View {
@@ -20,20 +19,15 @@ struct CommentsQuestionsToggle: View {
             Toggle(questions_selected: $questions_selected)
             
             if questions_selected {
-                CallQuestions(post: post, questions: questions).environmentObject(membro)
+                CallQuestions(post: post).environmentObject(membro)
             }
             else {
-                CallComments(comments: not_questions).environmentObject(membro)
+                CallComments(post: post).environmentObject(membro)
             }
         } //VStack
-            .onAppear { self.getComments() }
         
     } //body
     
-    func getComments(){
-        questions = post.comentarios.filter{$0.is_question == true}
-        not_questions = post.comentarios.filter{$0.is_question == false}
-    }
 }
 
 struct CommentsQuestionsToggle_Previews: PreviewProvider {
@@ -44,41 +38,46 @@ struct CommentsQuestionsToggle_Previews: PreviewProvider {
 }
 
 struct CallQuestions: View {
-    @ObservedObject var post: Post
     @EnvironmentObject var membro: Membro
-    var questions: [Comentario]
-    @State var textHeight: CGFloat = 20
-    @State var newComment: String = ""
+    @ObservedObject var post: Post
+    @State private var questions: [Comentario] = []
+    @State private var textHeight: CGFloat = 20
+    @State private var newComment: String = ""
     
     var body: some View {
         VStack{
+            HStack {
+                Text("Write a comment")
+                    .font(.headline)
+                    .padding(.leading, 20)
+                Spacer()
+                ZStack {
+                    Capsule()
+                        .frame(width: 50.0, height: 40.0)
+                        .foregroundColor(Color.blue)
+                    Button("Go!") {
+                        self.comenta()
+                        self.hideKeyboard()
+                    }
+                    .foregroundColor(.white)
+                }
+                    .padding(.trailing, 20)
+            }
+            
+            MultilineTextField(placeholder: "", text: self.$newComment, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
+                .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
+                .frame(width: UIScreen.width - 20)
+                .shadow(radius: 5)
+            
+            Divider()
+                .padding(.vertical)
+            
             if questions.count == 0 {
                 EmptyView(message: "No questions for this post :(")
             }
             else {
-                HStack {
-                    Text("Write a comment")
-                        .font(.headline)
-                        .padding(.leading, 15)
-                    Spacer()
-                    ZStack {
-                        Capsule()
-                            .frame(width: 50.0, height: 40.0)
-                            .foregroundColor(LingoColors.lingoBlue)
-                        Button("Go!") {
-                            self.comenta()
-                        }
-                        .foregroundColor(.white)
-                    }.padding(.trailing, 15)
-                }
-                
-                MultilineTextField(placeholder: "Call me baby", text: self.$newComment, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
-                    .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
-                    .frame(width: UIScreen.width - 20)
-                    .shadow(radius: 5)
-                
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(questions) { comment in
+                    ForEach(questions.reversed()) { comment in
                         if comment.is_question {
                             QuestionRow(comentario: comment).environmentObject(self.membro)
                             Divider()
@@ -86,27 +85,62 @@ struct CallQuestions: View {
                     }
                 }
             } //else
-        }
+        }//VStack
+            .onAppear {self.loadQuestions()}
     } //body
     
+    func loadQuestions() {
+        questions = post.perguntas
+    }
+    
     func comenta() {
-        newComment = ""
+        if newComment != "" {
+            post.novoComentario(id: UUID().hashValue, publicador: membro, conteudo: newComment, is_question: true)
+                loadQuestions()
+                newComment = ""
+        }
     }
 }
 
 struct CallComments: View {
     @EnvironmentObject var membro: Membro
-    var comments: [Comentario]
+    @ObservedObject var post: Post
+    @State private var comments: [Comentario] = []
+    @State private var newComment: String = ""
+    @State private var textHeight: CGFloat = 20
     
     var body: some View {
         VStack {
+            HStack {
+                Text("Write a comment")
+                    .font(.headline)
+                    .padding(.leading, 20)
+                Spacer()
+                ZStack {
+                    Capsule()
+                        .frame(width: 50.0, height: 40.0)
+                        .foregroundColor(Color.blue)
+                    Button("Go!") {
+                        self.comenta()
+                        self.hideKeyboard()
+                    }
+                    .foregroundColor(.white)
+                }
+                    .padding(.trailing, 20)
+            }
+            
+            MultilineTextField(placeholder: "", text: self.$newComment, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
+                .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
+                .frame(width: UIScreen.width - 20)
+                .shadow(radius: 5)
+            
             if comments.count == 0 {
                 EmptyView(message: "No comments for this post :(")
             }
             else {
                 
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(comments) { comment in
+                    ForEach(comments.reversed()) { comment in
                         if !comment.is_question {
                             CommentRow(comentario: comment).environmentObject(self.membro)
                             Divider()
@@ -114,8 +148,21 @@ struct CallComments: View {
                     }
                 }
             } //else
-        }
+        } //VStack
+        .onAppear {self.loadComments()}
     } //body
+    
+    func loadComments() {
+        comments = post.comentarios
+    }
+    
+    func comenta() {
+        if newComment != "" {
+            post.novoComentario(id: UUID().hashValue, publicador: membro, conteudo: newComment, is_question: false)
+                loadComments()
+                newComment = ""
+        }
+    }
 }
 
 struct EmptyView: View {
@@ -133,9 +180,9 @@ struct EmptyView: View {
 
 struct Toggle: View {
     @Binding var questions_selected: Bool
-    @State var comments_selected = false
-    @State var questions_color = Color.black
-    @State var comments_color = Color.blue
+    @State private var comments_selected = false
+    @State private var questions_color = Color.primary
+    @State private var comments_color = Color.blue
     
     var body: some View {
         VStack {
@@ -192,12 +239,12 @@ struct Toggle: View {
             questions_selected.toggle()
             comments_selected.toggle()
             if questions_selected {
-                questions_color = Color.black
+                questions_color = Color.primary
                 comments_color = Color.blue
             }
             else {
                 questions_color = Color.blue
-                comments_color = Color.black
+                comments_color = Color.primary
             }
         }
     } //switchValue

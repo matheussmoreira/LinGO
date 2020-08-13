@@ -11,12 +11,12 @@ import LinkPresentation
 
 class Sala: Identifiable, ObservableObject {
     let id: Int
-    var nome: String
-    var admins: [Membro] = []
-    var membros: [Membro] = []
-    var posts: [Post] = []
-    var categorias: [Categoria] = []
-    var tags: [Tag] = []
+    @Published var nome: String
+    @Published var admins: [Membro] = []
+    @Published var membros: [Membro] = []
+    @Published var posts: [Post] = []
+    @Published var categorias: [Categoria] = []
+    @Published var tags: [Tag] = []
     var link_manager = LinkManager()
     
     init(id: Int, nome: String, criador: Usuario) {
@@ -293,8 +293,7 @@ class Sala: Identifiable, ObservableObject {
     //MARK: - RELACIONAMENTOS
     func novoComentario(id: Int, publicador id_publicador: Int, post id_post: Int, conteudo: String, is_question: Bool) {
         if let publicador = getMembro(id: id_publicador), let post = getPost(id: id_post)  {
-            let comentario = Comentario(id: id, post: post, publicador: publicador, conteudo: conteudo, is_question: is_question, original: nil)
-            post.comentarios.append(comentario)
+            post.novoComentario(id: id, publicador: publicador, conteudo: conteudo, is_question: is_question)
         }
         else {
             print("Comentário não adicionado por publicador não identificado")
@@ -303,16 +302,10 @@ class Sala: Identifiable, ObservableObject {
     
     func novoReply(id: Int, publicador id_publicador: Int, post id_post: Int, conteudo: String, original id_original: Int) {
         if let publicador = getMembro(id: id_publicador), let post = getPost(id: id_post) {
-            if let original = post.getComentarioOriginal(id: id_original) {
-                let comentario = Comentario(id: id, post: post, publicador: publicador, conteudo: conteudo, is_question: false, original: original)
-                original.replies.append(comentario)
-            }
-            else {
-                print("Reply não adicionado por comentário original não identificado")
-            }
+            post.novoReply(id: id, publicador: publicador, conteudo: conteudo, original: id_original)
         }
         else {
-            print("Comentário não adicionado por publicador não identificado")
+            print("Comentário não adicionado por publicador ou post não identificado")
         }
     }
     

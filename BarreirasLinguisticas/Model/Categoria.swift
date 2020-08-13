@@ -10,9 +10,9 @@ import Foundation
 
 class Categoria: Equatable, Identifiable, ObservableObject {
     let id: Int
-    var nome: String
-    var tags: [Tag] = []
-    var posts: [Post] = []
+    @Published var nome: String
+    @Published var tags: [Tag] = []
+    @Published var posts: [Post] = []
     var assinantes: [Membro] = []
     
     init(id: Int, nome: String?) {

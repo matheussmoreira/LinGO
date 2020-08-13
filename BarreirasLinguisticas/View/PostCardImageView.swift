@@ -9,23 +9,21 @@
 import SwiftUI
 
 struct PostCardImageView: View {
-    //@Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) var colorScheme
     @ObservedObject var post: Post
-    @State var link_image: UIImage?
-    @State var line_limit_title = 2
-    @State var font_size_title = Font.TextStyle.title
-    @State var line_limit_desc = 4
+    @State private var link_image: UIImage?
+    @State private var line_limit_title = 2
+    @State private var font_size_title = Font.TextStyle.title
+    @State private var line_limit_desc = 4
     
     var body: some View {
         ZStack {
             //CARD
             RoundedRectangle(cornerRadius: 15, style: .continuous)
-                //.fill(colorScheme == .dark ? Color.gray : Color.white)
-                .fill(Color(UIColor.systemBackground))
+                .fill(colorScheme == .dark ? Color.gray : Color.white)
                 .frame(height: 260)
                 .shadow(radius: 8)
                 .padding()
-
 
             VStack {
                 HStack {
@@ -35,7 +33,8 @@ struct PostCardImageView: View {
                             ForEach(post.categorias) { categ in
                                 Text(categ.nome)
                                     .fontWeight(.semibold)
-                                    .foregroundColor(Color.gray)
+                                    .foregroundColor(self.colorScheme == .dark ? Color.white : Color.gray)
+                                    //.foregroundColor(Color.gray)
                                     .lineLimit(1)
                             }
                         }
@@ -46,7 +45,8 @@ struct PostCardImageView: View {
                     
                     //SHARED BY
                     Text("Shared by \(post.publicador.usuario.nome)")
-                        .foregroundColor(Color.gray)
+                        //.foregroundColor(Color.gray)
+                        .foregroundColor(self.colorScheme == .dark ? Color.white : Color.gray)
                         .lineLimit(1)
                     
                     //ENGLISH FLUENCY COLOR

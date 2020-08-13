@@ -11,13 +11,13 @@ import Foundation
 class Comentario: Identifiable, ObservableObject {
     let id: Int
     var post: Post
-    var publicador: Membro
-    var conteudo: String
-    var data = Date()
+    @Published var publicador: Membro
+    @Published var conteudo: String
+    //var data = Date()
     var is_question: Bool
-    var votos: [Voto] = []
-    var original: Comentario?
-    var replies: [Comentario] = []
+    @Published var votos: [Voto] = []
+    @Published var original: Comentario?
+    @Published var replies: [Comentario] = []
     var improprio = false
     
     init(id: Int, post: Post, publicador: Membro, conteudo: String, is_question: Bool, original: Comentario?) {

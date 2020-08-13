@@ -10,21 +10,10 @@ import SwiftUI
 
 struct MyPublishedPosts: View {
     @EnvironmentObject var membro: Membro
-    @State var mensagem = ""
+    @State private var mensagem = ""
     
     var body: some View {
         VStack {
-            HStack {
-                Text("Your published posts")
-                    .font(.system(.largeTitle, design: .rounded))
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.leading)
-                    .padding(.leading)
-                Spacer()
-            }
-            
-            SearchBar(text: $mensagem)
-            
             if membro.posts_publicados.count == 0 {
                 Spacer()
                 Text("You haven't published any post yet :(")
@@ -41,6 +30,12 @@ struct MyPublishedPosts: View {
                 }
             } //else
         } //VStack
+        .navigationBarTitle("Your published posts")
+        .navigationBarItems(trailing:
+            HStack {
+                Image(systemName: "magnifyingglass")
+                    .imageScale(.large)
+        })
     } //body
 }
 

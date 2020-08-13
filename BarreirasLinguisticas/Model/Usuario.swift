@@ -17,14 +17,13 @@ enum fluencia: String {
 }
 
 class Usuario: Equatable, Identifiable, ObservableObject {
-    
     let id: Int
     var email: String
     var senha: String
-    var nome: String
-    var foto_perfil: String
-    var pais: String
-    var fluencia_ingles: fluencia
+    @Published var nome: String
+    @Published var foto_perfil: String
+    @Published var pais: String
+    @Published var fluencia_ingles: fluencia
     var cor_fluencia: Color {
         switch fluencia_ingles {
         case .advanced: return .blue

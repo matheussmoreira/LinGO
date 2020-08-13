@@ -10,12 +10,12 @@ import SwiftUI
 import LinkPresentation
 
 struct PostView: View {
-    @ObservedObject var post: Post
     @EnvironmentObject var membro: Membro
+    @ObservedObject var post: Post
     @State private var stored_link: Link?
     @State private var bookmarked = false
     @State private var bookmarkedImage = "bookmark"
-    @State var showComments = false
+    @State private var showComments = false
     
     var body: some View {
         VStack {
@@ -30,7 +30,7 @@ struct PostView: View {
                         
                         Spacer()
                         
-                        Text("English Level:")
+                        Text(post.publicador.usuario.fluencia_ingles.rawValue)
                             .foregroundColor(Color.gray)
                             .lineLimit(1)
                         Image(systemName: "circle.fill")
@@ -59,6 +59,7 @@ struct PostView: View {
                     
                 } //VStack
             } //ScrollView
+                .frame(width: UIScreen.width*0.95)
                 .onAppear {
                     self.carregaLink()
                     self.loadBookmark()
@@ -76,7 +77,7 @@ struct PostView: View {
                     }
             )
             
-            //MARK: - REPORT E COMENTARIOS
+            //MARK: - REPORT
             HStack {
                 ZStack {
                     Capsule()
@@ -89,8 +90,9 @@ struct PostView: View {
                 }
                 .padding(.all)
                 .foregroundColor(.red)
-                Spacer()
                 
+                Spacer()
+                //MARK: - COMENTARIOS
                 Button(action: {self.showComments.toggle()}) {
                     ZStack {
                         Capsule()
@@ -146,7 +148,6 @@ struct PostView: View {
     }
     
     func report() {
-        
     }
 }
 
