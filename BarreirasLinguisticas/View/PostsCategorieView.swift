@@ -9,40 +9,20 @@
 import SwiftUI
 
 struct PostsCategorieView: View {
-    @ObservedObject var categoria: Categoria
+    @EnvironmentObject var dao: DAO
     @EnvironmentObject var membro: Membro
-    @ObservedObject var sala: Sala
+    @ObservedObject var categoria: Categoria
+    @ObservedObject var sala: Sala //{ return dao.sala_atual! }
     @State private var postSelectionado: Post?
     @State private var subscribed = false
     @State private var subscribedImage = "checkmark.circle"
-    @State var mensagem = ""
-    
-    var posts: [Post] {
-        return sala.getPostsByCategorie(categ: categoria.id)
-    }
+    @State private var loaded_posts: [Post] = []
+    @State private var mensagem = ""
     
     var body: some View {
         VStack {
-            HStack {
-                Text(categoria.nome)
-                    .font(.system(.largeTitle, design: .rounded))
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.leading)
-                    .padding(.leading)
-                
-                Spacer()
-                
-                Button(action:{self.changeSubscription()}){
-                    Image(systemName: subscribedImage)
-                    .padding(.trailing)
-                    .imageScale(.large)
-                    .foregroundColor(.green)
-                }
-            }
             
-            SearchBar(text: $mensagem)
-            
-            if posts.count == 0 {
+            if loaded_posts.count == 0 {
                 Spacer()
                 Text("No posts in \(categoria.nome) :(")
                     .foregroundColor(Color.gray)
@@ -50,18 +30,31 @@ struct PostsCategorieView: View {
             }
             else {
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(posts) { post in
+                    ForEach(loaded_posts) { post in
                         NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
                             PostCardImageView(post: post)
                         }
                     }
                 }
             } //else
-        } //VStack
-        .onAppear { self.loadSubscription() }
+        }//VStack
+            .navigationBarTitle(categoria.nome)
+            .navigationBarItems(trailing:
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .imageScale(.large)
+                    Button(action:{self.changeSubscription()}){
+                        Image(systemName: subscribedImage)
+                            .padding(.leading)
+                            .imageScale(.large)
+                            .foregroundColor(.green)
+                    }
+            })
+            .onAppear { self.load() }
     } //body
     
-    func loadSubscription() {
+    func load() {
+        loaded_posts = sala.getPostsByCategorie(categ: categoria.id)
         subscribed = membro.assinaturas.contains(categoria)
         if subscribed {
             subscribedImage = "checkmark.circle.fill"
@@ -87,7 +80,6 @@ struct PostsCategorieView: View {
 struct PostsCategorieView_Previews: PreviewProvider {
     static var previews: some View {
         PostsCategorieView(
-            categoria: DAO().salas[0].categorias[0],
-            sala:DAO().salas[0]).environmentObject(DAO().salas[0].membros[0])
+            categoria: DAO().salas[0].categorias[0], sala: DAO().salas[0]).environmentObject(DAO().salas[0].membros[0])
     }
 }

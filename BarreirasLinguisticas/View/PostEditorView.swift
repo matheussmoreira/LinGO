@@ -10,13 +10,14 @@ import SwiftUI
 import UIKit
 
 struct PostEditorView: View {
-    @ObservedObject var sala: Sala
+    @EnvironmentObject var dao: DAO
     @EnvironmentObject var membro: Membro
-    @State var textHeight: CGFloat = 150
-    @State var description: String = ""
-    @State var title: String = ""
-    @State var link: String = ""
-    @State var tag: String = ""
+    var sala: Sala { return dao.sala_atual! }
+    @State private var textHeight: CGFloat = 150
+    @State private var description: String = ""
+    @State private var title: String = ""
+    @State private var link: String = ""
+    @State private var tag: String = ""
     
     var body: some View {
         NavigationView {
@@ -74,6 +75,7 @@ struct PostEditorView: View {
                 .navigationBarItems(trailing:
                     Button(action: {
                         self.publica(id_membro: self.membro.usuario.id, titulo: self.title, descricao: self.description, linkString: self.link, categs: [4], tags: [])
+                        self.hideKeyboard()
                     }){
                         Text("Go!")
                             .bold()
@@ -106,6 +108,6 @@ struct PostEditorView: View {
 
 struct PostEditorView_Previews: PreviewProvider {
     static var previews: some View {
-        PostEditorView(sala: DAO().salas[0]).environmentObject(DAO().salas[0].membros[0])
+        PostEditorView().environmentObject(DAO().salas[0].membros[0])
     }
 }

@@ -8,49 +8,45 @@
 
 import SwiftUI
 
-extension UIScreen {
-   static let width = UIScreen.main.bounds.size.width
-   static let height = UIScreen.main.bounds.size.height
-}
-
-struct LingoColors {
-    static let lingoBlue = Color(red: 0, green: 162/255, blue: 1)
-}
-
 struct ContentView: View {
-    @ObservedObject var sala: Sala
-    @ObservedObject var usuario: Usuario
+    @EnvironmentObject var dao: DAO
+    var sala: Sala { return dao.sala_atual! }
+    var usuario: Usuario { return dao.usuario_atual! }
     var membro: Membro { return sala.getMembro(id: usuario.id)! }
-    //@State var selection = 4
+    //@State var selection = 2
     
     var body: some View {
-        TabView(/*selection: $selection*/) {
-            CategoriesView(sala: sala)
-                .environmentObject(membro).tabItem {
-                Image(systemName: "circle.grid.2x2")
-                Text("Categories")
-            }
-            DiscoverView(sala: sala)
-                .environmentObject(membro).tabItem {
-                Image(systemName: "rectangle.on.rectangle.angled")
-                Text("Discover")
-            }
-            PostEditorView(sala: sala)
-                .environmentObject(membro).tabItem {
-                Image(systemName: "pencil")
-                Text("Publish")
-            }
-            ProfileView(sala: sala)
-                .environmentObject(membro).tabItem {
-                Image(systemName: "person")
-                Text("Profile")
-            }
+        //NavigationView {
+            TabView(/*selection: $selection*/) {
+                CategoriesView()
+                    .environmentObject(membro)
+                    .environmentObject(dao)
+                    .tabItem {
+                    Image(systemName: "circle.grid.2x2")
+                    Text("Categories")
+                }
+                DiscoverView()
+                    .environmentObject(membro).tabItem {
+                    Image(systemName: "rectangle.on.rectangle.angled")
+                    Text("Discover")
+                }
+                PostEditorView()
+                    .environmentObject(membro).tabItem {
+                    Image(systemName: "pencil")
+                    Text("Publish")
+                }
+                ProfileView()
+                    .environmentObject(membro).tabItem {
+                    Image(systemName: "person")
+                    Text("Profile")
+                }
         } //TabView
+        //} //ContentView
     } //body
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(sala: DAO().salas[0], usuario: DAO().usuarios[0])
+        ContentView()
     }
 }

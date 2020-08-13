@@ -10,18 +10,18 @@ import Foundation
 import LinkPresentation
 
 class Post: Equatable, Identifiable, ObservableObject {
-    
     let id: Int
-    var titulo: String
-    var descricao: String?
-    var link: Link?
-    var link_image: UIImage?
-    var date = Date()
-    let publicador: Membro
+    @Published var titulo: String
+    @Published var descricao: String?
+    @Published var link: Link?
+    @Published var link_image: UIImage?
+    @Published var publicador: Membro
+    @Published var perguntas: [Comentario] = []
+    @Published var comentarios: [Comentario] = []
+    @Published var categorias: [Categoria] = []
+    @Published var tags: [Tag] = []
+    //var date = Date()
     var improprio = false
-    var comentarios: [Comentario] = []
-    var categorias: [Categoria] = []
-    var tags: [Tag] = []
     
     init(id: Int, titulo: String?, descricao: String?, link: Link?, categs: [Categoria], tags: [Tag], publicador: Membro) {
         self.id = id
@@ -52,12 +52,36 @@ class Post: Equatable, Identifiable, ObservableObject {
         else { print("Não deu pra adquirir o link pois está inválido\n") }
     }
 
-    
     func getComentarioOriginal(id: Int) -> Comentario? {
+        for pergunta in self.perguntas {
+            if (id == pergunta.id) { return pergunta }
+        }
         for coment in self.comentarios {
             if (id == coment.id) { return coment }
         }
         return nil
+    }
+    
+    func novoComentario(id: Int, publicador: Membro, conteudo: String, is_question: Bool) {
+        let comentario = Comentario(id: id, post: self, publicador: publicador, conteudo: conteudo, is_question: is_question, original: nil)
+        
+        if is_question {
+            self.perguntas.append(comentario)
+        }
+        else {
+            self.comentarios.append(comentario)
+        }
+    }
+    
+    func novoReply(id: Int, publicador id_publicador: Membro, conteudo: String, original id_original: Int) {
+        
+        if let original = self.getComentarioOriginal(id: id_original) {
+            let comentario = Comentario(id: id, post: self, publicador: publicador, conteudo: conteudo, is_question: false, original: original)
+            original.replies.append(comentario)
+        }
+        else {
+            print("Reply não adicionado por comentário original não identificado")
+        }
     }
     
 }

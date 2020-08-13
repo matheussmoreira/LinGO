@@ -11,7 +11,7 @@ import SwiftUI
 struct CommentRow: View {
     @EnvironmentObject var membro: Membro
     @ObservedObject var comentario: Comentario
-    @State var answer: String = ""
+    @State private var answer: String = ""
     
     var body: some View {
         ZStack {                    
@@ -54,11 +54,13 @@ struct CommentRow: View {
                     } //HStack
                     
                     HStack {
+                        
                         Text(comentario.conteudo)
                             .font(.body)
                             .multilineTextAlignment(.leading)
                             .padding(.all)
                             .lineLimit(10)
+                            .frame(width: UIScreen.width*0.95)
                             .background(Color.gray.opacity(0.1))
                             .clipShape(RoundedRectangle(cornerRadius: 15))
                         

@@ -12,9 +12,9 @@ class Membro: Identifiable, ObservableObject {
     var usuario: Usuario
     var sala: Sala
     var is_admin: Bool
-    var assinaturas: [Categoria] = []
-    var posts_salvos: [Post] = []
-    var posts_publicados: [Post] = []
+    @Published var assinaturas: [Categoria] = []
+    @Published var posts_salvos: [Post] = []
+    @Published var posts_publicados: [Post] = []
     
     init (usuario: Usuario, sala: Sala, is_admin: Bool) {
         self.usuario = usuario
