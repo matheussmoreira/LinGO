@@ -30,7 +30,7 @@ struct RoomsView: View {
                             .padding(.all, 32)
                             .frame(width: 300, height: 128)
                         
-                        Text("Welcome, \(usuario.nome)!")
+                        Text("Welcome back, \(usuario.nome)!")
                             .font(.system(.largeTitle, design: .rounded))
                             .fontWeight(.bold)
                             .foregroundColor(.white)
