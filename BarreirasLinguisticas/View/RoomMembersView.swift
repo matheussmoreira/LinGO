@@ -18,7 +18,7 @@ struct RoomMembersView: View {
                 ForEach(sala.membros.sorted(by: { $0.usuario.nome < $1.usuario.nome })) { membro in
                     RoundedRectangle(cornerRadius: 45)
                         .fill(LingoColors.lingoBlue)
-                        .frame(width: UIScreen.width*0.85, height: 40)
+                        .frame(width: UIScreen.width*0.85, height: 50)
                         .overlay(
                             HStack{
                                 Image(membro.usuario.foto_perfil)
@@ -33,11 +33,16 @@ struct RoomMembersView: View {
                                     .foregroundColor(.white)
                                 Spacer()
                                 if membro.is_admin {
-                                    Text("admin")
-                                        .foregroundColor(.white)
-                                        .padding(.trailing,20)
+                                    ZStack {
+                                        Capsule()
+                                            .frame(width: 65.0, height: 30.0)
+                                            .padding(.trailing,20)
+                                            .foregroundColor(Color.green)
+                                        Text("admin")
+                                            .foregroundColor(.white)
+                                            .padding(.trailing,20)
+                                    }
                                 }
-                                
                             }
                     ) //overlay
                 } //ForEach

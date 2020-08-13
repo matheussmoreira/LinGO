@@ -184,7 +184,7 @@ struct EmptyView: View {
 struct Toggle: View {
     @Binding var questions_selected: Bool
     @State var comments_selected = false
-    @State var questions_color = Color.black
+    @State var questions_color = Color.primary
     @State var comments_color = Color.blue
     
     var body: some View {
@@ -242,12 +242,12 @@ struct Toggle: View {
             questions_selected.toggle()
             comments_selected.toggle()
             if questions_selected {
-                questions_color = Color.black
+                questions_color = Color.primary
                 comments_color = Color.blue
             }
             else {
                 questions_color = Color.blue
-                comments_color = Color.black
+                comments_color = Color.primary
             }
         }
     } //switchValue

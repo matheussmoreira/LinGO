@@ -13,7 +13,7 @@ struct ContentView: View {
     @ObservedObject var sala: Sala
     @ObservedObject var usuario: Usuario
     var membro: Membro { return sala.getMembro(id: usuario.id)! }
-    //@State var selection = 4
+    //@State var selection = 2
     
     var body: some View {
         //NavigationView {
@@ -40,7 +40,7 @@ struct ContentView: View {
                     Image(systemName: "person")
                     Text("Profile")
                 }
-            } //TabView
+        } //TabView
         //} //ContentView
     } //body
 }

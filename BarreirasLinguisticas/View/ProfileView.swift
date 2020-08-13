@@ -11,7 +11,7 @@ import SwiftUI
 struct ProfileView: View {
     @ObservedObject var sala: Sala
     @EnvironmentObject var membro: Membro
-    let btn_height: CGFloat = 40
+    let btn_height: CGFloat = 50
     let btn_width: CGFloat = 200
     let corner: CGFloat = 45
     let lingoBlue = LingoColors.lingoBlue
@@ -114,7 +114,7 @@ struct ProfileView: View {
                                 .foregroundColor(.red)
                     )
                 } //VStack
-                    .padding(.top, -550)
+                    .padding(.top, -575)
             } //VStack
         } //NavigationView
     } //body

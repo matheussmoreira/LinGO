@@ -30,7 +30,7 @@ struct SubscriptionsView: View {
                             NavigationLink(destination: PostsCategorieView(categoria: asst, sala: self.sala).environmentObject(self.membro)) {
                                 RoundedRectangle(cornerRadius: 45)
                                     .fill(LingoColors.lingoBlue)
-                                    .frame(height: 40)
+                                    .frame(height: 50)
                                     .frame(width: UIScreen.width*0.85)
                                     .overlay(
                                         Text(asst.nome)
