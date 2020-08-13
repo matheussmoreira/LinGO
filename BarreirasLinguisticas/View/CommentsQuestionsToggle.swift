@@ -21,20 +21,15 @@ struct CommentsQuestionsToggle: View {
             Toggle(questions_selected: $questions_selected)
             
             if questions_selected {
-                CallQuestions(post: post, questions: questions).environmentObject(membro)
+                CallQuestions(post: post).environmentObject(membro)
             }
             else {
-                CallComments(post: post, comments: not_questions).environmentObject(membro)
+                CallComments(post: post).environmentObject(membro)
             }
         } //VStack
-            .onAppear { self.getComments() }
         
     } //body
     
-    func getComments(){
-        questions = post.comentarios.filter{$0.is_question == true}
-        not_questions = post.comentarios.filter{$0.is_question == false}
-    }
 }
 
 struct CommentsQuestionsToggle_Previews: PreviewProvider {
@@ -47,7 +42,7 @@ struct CommentsQuestionsToggle_Previews: PreviewProvider {
 struct CallQuestions: View {
     @ObservedObject var post: Post
     @EnvironmentObject var membro: Membro
-    @State var questions: [Comentario]
+    @State var questions: [Comentario] = []
     @State var textHeight: CGFloat = 20
     @State var newComment: String = ""
     
@@ -93,7 +88,8 @@ struct CallQuestions: View {
     } //body
     
     func loadQuestions() {
-        questions = post.comentarios.filter{$0.is_question == true}
+        questions = post.perguntas
+        //questions = post.comentarios.filter{$0.is_question == true}
     }
     
     func comenta() {
@@ -108,7 +104,7 @@ struct CallQuestions: View {
 struct CallComments: View {
     @ObservedObject var post: Post
     @EnvironmentObject var membro: Membro
-    @State var comments: [Comentario]
+    @State var comments: [Comentario] = []
     @State var newComment: String = ""
     @State var textHeight: CGFloat = 20
     
@@ -151,17 +147,17 @@ struct CallComments: View {
                 }
             } //else
         } //VStack
-        .onAppear {self.loadQuestions()}
+        .onAppear {self.loadComments()}
     } //body
     
-    func loadQuestions() {
-        comments = post.comentarios.filter{$0.is_question == false}
+    func loadComments() {
+        comments = post.comentarios
     }
     
     func comenta() {
         if newComment != "" {
             post.novoComentario(id: UUID().hashValue, publicador: membro, conteudo: newComment, is_question: false)
-                loadQuestions()
+                loadComments()
                 newComment = ""
         }
     }

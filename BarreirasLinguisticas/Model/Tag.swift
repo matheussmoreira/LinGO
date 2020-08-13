@@ -10,7 +10,7 @@ import Foundation
 
 class Tag: Identifiable, ObservableObject {
     let id: Int
-    var nome: String
+    @Published var nome: String
     var categorias: [Categoria] = []
     var posts: [Post] = []
     
