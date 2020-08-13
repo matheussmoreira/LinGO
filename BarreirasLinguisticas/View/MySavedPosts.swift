@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MySavedPosts: View {
     @EnvironmentObject var membro: Membro
+    @State var salvos: [Post] = []
     @State var mensagem = ""
     
     var body: some View {
@@ -25,7 +26,7 @@ struct MySavedPosts: View {
             
             SearchBar(text: $mensagem)
             
-            if membro.posts_salvos.count == 0 {
+            if self.salvos.count == 0 {
                 Spacer()
                 Text("You haven't saved any post yet :(")
                     .foregroundColor(Color.gray)
@@ -33,7 +34,7 @@ struct MySavedPosts: View {
             }
             else {
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(membro.posts_salvos.reversed()) { post in
+                    ForEach(self.salvos.reversed()) { post in
                         NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
                             PostCardImageView(post: post)
                         }
@@ -41,6 +42,9 @@ struct MySavedPosts: View {
                 }
             } //else
         } //VStack
+        .onAppear {
+            self.salvos = self.membro.posts_salvos
+        }
     } //body
 }
 

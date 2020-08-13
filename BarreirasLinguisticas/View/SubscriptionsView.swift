@@ -11,6 +11,7 @@ import SwiftUI
 struct SubscriptionsView: View {
     @ObservedObject var sala: Sala
     @EnvironmentObject var membro: Membro
+    @State var assinaturas: [Categoria] = []
     
     var body: some View {
         VStack {
@@ -20,7 +21,7 @@ struct SubscriptionsView: View {
                 .multilineTextAlignment(.leading)
                 .padding(.leading)
             
-            if (membro.assinaturas.count == 0) {
+            if (self.assinaturas.count == 0) {
                 VStack {
                     Spacer()
                     Text("You have no subscriptions :(")
@@ -31,7 +32,7 @@ struct SubscriptionsView: View {
             else {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack{
-                        ForEach(membro.assinaturas) { asst in
+                        ForEach(self.assinaturas) { asst in
                             NavigationLink(destination: PostsCategorieView(categoria: asst, sala: self.sala).environmentObject(self.membro)) {
                                 RoundedRectangle(cornerRadius: 45)
                                     .fill(LingoColors.lingoBlue)
@@ -48,6 +49,9 @@ struct SubscriptionsView: View {
                 } //ScrollView
             } //else
         }//VStack
+            .onAppear {
+                self.assinaturas = self.membro.assinaturas
+            }
     } //body
     
 }
