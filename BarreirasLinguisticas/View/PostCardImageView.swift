@@ -11,10 +11,10 @@ import SwiftUI
 struct PostCardImageView: View {
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var post: Post
-    @State var link_image: UIImage?
-    @State var line_limit_title = 2
-    @State var font_size_title = Font.TextStyle.title
-    @State var line_limit_desc = 4
+    @State private var link_image: UIImage?
+    @State private var line_limit_title = 2
+    @State private var font_size_title = Font.TextStyle.title
+    @State private var line_limit_desc = 4
     
     var body: some View {
         ZStack {

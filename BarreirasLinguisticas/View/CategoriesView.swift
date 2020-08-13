@@ -13,7 +13,7 @@ struct CategoriesView: View {
     @ObservedObject var sala: Sala
     @EnvironmentObject var membro: Membro
     @State private var mensagem = ""//Search for categories"
-    @State var showRooms = false
+    @State private var showRooms = false
     
     var body: some View {
         NavigationView {
@@ -88,7 +88,7 @@ struct CategoriesView: View {
                     Button(action: {self.showRooms.toggle()}) {
                         Image(systemName: "arrow.right.arrow.left.square")
                             .imageScale(.large)
-                    }
+                        }
                     .sheet(isPresented: $showRooms) {
                         RoomsView(usuario: self.membro.usuario)
                             .environmentObject(self.dao)
@@ -110,6 +110,7 @@ struct CategoriesView: View {
                 })
         } // NavigationView
     }// body
+    
 }
 
 struct CategoriesView_Previews: PreviewProvider {

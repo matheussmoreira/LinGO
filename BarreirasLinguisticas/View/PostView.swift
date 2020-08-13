@@ -15,7 +15,7 @@ struct PostView: View {
     @State private var stored_link: Link?
     @State private var bookmarked = false
     @State private var bookmarkedImage = "bookmark"
-    @State var showComments = false
+    @State private var showComments = false
     
     var body: some View {
         VStack {

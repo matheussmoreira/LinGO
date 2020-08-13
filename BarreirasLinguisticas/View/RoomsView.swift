@@ -19,90 +19,89 @@ struct RoomsView: View {
     
     var body: some View {
         VStack {
-                NavigationView {
-                    ZStack {
-                        LingoColors.lingoBlue
-                            .edgesIgnoringSafeArea(.all)
+            NavigationView {
+                ZStack {
+                    LingoColors.lingoBlue
+                        .edgesIgnoringSafeArea(.all)
+                    
+                    VStack {
+                        Image("lingologo")
+                            .resizable()
+                            .padding(.all, 32)
+                            .frame(width: 300, height: 128)
                         
-                        VStack {
-                            Image("lingologo")
-                                .resizable()
-                                .padding(.all, 32)
-                                .frame(width: 300, height: 128)
-                            
-                            Text("Welcome, \(usuario.nome)!")
-                                .font(.system(.largeTitle, design: .rounded))
-                                .fontWeight(.bold)
+                        Text("Welcome, \(usuario.nome)!")
+                            .font(.system(.largeTitle, design: .rounded))
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
+                            .padding(.bottom, 50)
+                        
+                        Text("Select a room or create a new one!")
+                            .font(.body)
+                            .foregroundColor(.white)
+                            .padding(.bottom, 50)
+                        
+                        if salas.count == 0 {
+                            Text("Sem salas")
                                 .foregroundColor(.white)
-                                .multilineTextAlignment(.center)
-                                .padding(.bottom, 50)
-                            
-                            Text("Select a room or create a new one!")
-                                .font(.body)
-                                .foregroundColor(.white)
-                                .padding(.bottom, 50)
-                            
-                            if salas.count == 0 {
-                                Text("Sem salas")
-                                    .foregroundColor(.white)
-                            }
-                            else{
-                                ScrollView(.vertical, showsIndicators: false) {
-                                    ForEach(salas) { sala in
-                                        ZStack {
-                                            Capsule()
-                                                .frame(width: 300.0, height: 50.0)
-                                                .foregroundColor(.white)
-                                            
-                                            Button(action:
-                                            {self.presentationMode.wrappedValue.dismiss()}) {
-                                                Text(sala.nome)
+                        }
+                        else {
+                            ScrollView(.vertical, showsIndicators: false) {
+                                ForEach(salas) { sala in
+                                    ZStack {
+                                        Capsule()
+                                            .frame(width: 300.0, height: 50.0)
+                                            .foregroundColor(.white)
+                                        
+                                        Button(action:
+                                        {self.presentationMode.wrappedValue.dismiss()}) {
+                                            Text(sala.nome)
                                                 .foregroundColor(LingoColors.lingoBlue)
-                                            }
-                                            
-//                                            NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario).environmentObject(self.dao)){
-//                                                Text(sala.nome)
-//                                                    .foregroundColor(LingoColors.lingoBlue)
-//                                            }
                                         }
+                                        
+                                        //                                            NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario).environmentObject(self.dao)){
+                                        //                                                Text(sala.nome)
+                                        //                                                    .foregroundColor(LingoColors.lingoBlue)
+                                        //                                            }
                                     }
                                 }
-                            }
-                            
-                            Spacer()
-                            
-                            Button(action: { self.novaSala(nome: "Room \(self.dao.salas.count+1)", criador: self.usuario)}) {
-                                ZStack {
-                                    Capsule()
-                                        .frame(width: 300.0, height: 50.0)
-                                        .foregroundColor(.green)
-                                    HStack {
-                                        Image(systemName: "plus.circle")
-                                            .foregroundColor(.white)
-                                        Text("Add new Room")
-                                            .foregroundColor(.white)
-                                    }
-                                }
-                            }
-                            .padding()
-                            
-                            Divider()
-                            
+                            } //ScrollView
+                        } //else
+                        
+                        Spacer()
+                        
+                        Button(action: { self.novaSala(nome: "Room \(self.dao.salas.count+1)", criador: self.usuario)}) {
                             ZStack {
                                 Capsule()
-                                    .frame(width: 200.0, height: 50.0)
-                                    .foregroundColor((Color(UIColor.systemGray5)))
-                                
-                                Text("Logout")
-                                    .foregroundColor(.red)
-                                
+                                    .frame(width: 300.0, height: 50.0)
+                                    .foregroundColor(.green)
+                                HStack {
+                                    Image(systemName: "plus.circle")
+                                        .foregroundColor(.white)
+                                    Text("Add new Room")
+                                        .foregroundColor(.white)
+                                }
                             }
-                            .padding()
-                        } //VStack
-                    }//ZStack
-                } //NavigationView
+                        }
+                        .padding()
+                        
+                        Divider()
+                        
+                        ZStack {
+                            Capsule()
+                                .frame(width: 200.0, height: 50.0)
+                                .foregroundColor((Color(UIColor.systemGray5)))
+                            
+                            Text("Logout")
+                                .foregroundColor(.red)
+                            
+                        }
+                        .padding()
+                    } //VStack
+                }//ZStack
+            } //NavigationView
         } //VStack
-            //.onAppear {self.novaSala(nome: "Apple Developer Academy", criador: self.usuario)}
     } //body
     
     func novaSala(nome: String, criador: Usuario) {

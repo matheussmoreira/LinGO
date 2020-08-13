@@ -12,11 +12,11 @@ import UIKit
 struct PostEditorView: View {
     @ObservedObject var sala: Sala
     @EnvironmentObject var membro: Membro
-    @State var textHeight: CGFloat = 150
-    @State var description: String = ""
-    @State var title: String = ""
-    @State var link: String = ""
-    @State var tag: String = ""
+    @State private var textHeight: CGFloat = 150
+    @State private var description: String = ""
+    @State private var title: String = ""
+    @State private var link: String = ""
+    @State private var tag: String = ""
     
     var body: some View {
         NavigationView {
