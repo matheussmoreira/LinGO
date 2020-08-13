@@ -51,24 +51,28 @@ struct CallQuestions: View {
             HStack {
                 Text("Write a comment")
                     .font(.headline)
-                    .padding(.leading, 15)
+                    .padding(.leading, 20)
                 Spacer()
                 ZStack {
                     Capsule()
                         .frame(width: 50.0, height: 40.0)
-                        .foregroundColor(LingoColors.lingoBlue)
+                        .foregroundColor(Color.blue)
                     Button("Go!") {
                         self.comenta()
                         self.hideKeyboard()
                     }
                     .foregroundColor(.white)
-                }.padding(.trailing, 15)
+                }
+                    .padding(.trailing, 20)
             }
             
             MultilineTextField(placeholder: "", text: self.$newComment, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
                 .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
                 .frame(width: UIScreen.width - 20)
                 .shadow(radius: 5)
+            
+            Divider()
+                .padding(.vertical)
             
             if questions.count == 0 {
                 EmptyView(message: "No questions for this post :(")
@@ -113,18 +117,19 @@ struct CallComments: View {
             HStack {
                 Text("Write a comment")
                     .font(.headline)
-                    .padding(.leading, 15)
+                    .padding(.leading, 20)
                 Spacer()
                 ZStack {
                     Capsule()
                         .frame(width: 50.0, height: 40.0)
-                        .foregroundColor(LingoColors.lingoBlue)
+                        .foregroundColor(Color.blue)
                     Button("Go!") {
                         self.comenta()
                         self.hideKeyboard()
                     }
                     .foregroundColor(.white)
-                }.padding(.trailing, 15)
+                }
+                    .padding(.trailing, 20)
             }
             
             MultilineTextField(placeholder: "", text: self.$newComment, minHeight: self.textHeight, calculatedHeight: self.$textHeight)

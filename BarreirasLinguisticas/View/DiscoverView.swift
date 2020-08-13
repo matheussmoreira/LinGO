@@ -135,18 +135,6 @@ struct DiscoverView: View {
                             .padding(.leading)
                         
                 })
-            /*
-             trailing:
-             HStack {
-             Spacer()
-             Image(systemName: "magnifyingglass")
-             .imageScale(.large)
-             Image(systemName: "plus")
-             .imageScale(.large)
-             .padding(.leading)
-             
-             }
-             */
         } //NavigationView
     } //body
     

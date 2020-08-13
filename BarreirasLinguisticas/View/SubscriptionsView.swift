@@ -15,12 +15,6 @@ struct SubscriptionsView: View {
     
     var body: some View {
         VStack {
-            Text("Your subscriptions")
-                .font(.system(.largeTitle, design: .rounded))
-                .fontWeight(.bold)
-                .multilineTextAlignment(.leading)
-                .padding(.leading)
-            
             if (self.assinaturas.count == 0) {
                 VStack {
                     Spacer()
@@ -31,8 +25,8 @@ struct SubscriptionsView: View {
             }
             else {
                 ScrollView(.vertical, showsIndicators: false) {
-                    VStack{
-                        ForEach(self.assinaturas) { asst in
+                    VStack {
+                        ForEach(self.assinaturas.sorted(by: {$0.nome < $1.nome})) { asst in
                             NavigationLink(destination: PostsCategorieView(categoria: asst, sala: self.sala).environmentObject(self.membro)) {
                                 RoundedRectangle(cornerRadius: 45)
                                     .fill(LingoColors.lingoBlue)
@@ -49,6 +43,12 @@ struct SubscriptionsView: View {
                 } //ScrollView
             } //else
         }//VStack
+            .navigationBarTitle("Your subscriptions")
+            .navigationBarItems(trailing:
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .imageScale(.large)
+            })
             .onAppear {
                 self.assinaturas = self.membro.assinaturas
             }

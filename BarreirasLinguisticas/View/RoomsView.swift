@@ -35,7 +35,9 @@ struct RoomsView: View {
                             .fontWeight(.bold)
                             .foregroundColor(.white)
                             .multilineTextAlignment(.center)
+                            .lineLimit(nil)
                             .padding(.bottom, 50)
+                            
                         
                         Text("Select a room or create a new one!")
                             .font(.body)
@@ -115,8 +117,8 @@ struct RoomsView: View {
     
 }
 
-//struct RoomsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RoomsView(usuario: DAO().usuarios[2], sala_atual: <#Binding<Sala>#>).environmentObject(DAO())
-//    }
-//}
+struct RoomsView_Previews: PreviewProvider {
+    static var previews: some View {
+        RoomsView(usuario: DAO().usuarios[2])
+    }
+}

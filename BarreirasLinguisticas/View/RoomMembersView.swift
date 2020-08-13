@@ -13,45 +13,42 @@ struct RoomMembersView: View {
     @ObservedObject var sala: Sala
     
     var body: some View {
-        VStack {
-            Text("Members in this room")
-                .font(.system(.largeTitle, design: .rounded))
-                .fontWeight(.bold)
-                .multilineTextAlignment(.leading)
-                .padding(.leading)
-            
-            //MARK: - MEMBROS NA SALA
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack{
-                    ForEach(sala.membros.sorted(by: { $0.usuario.nome < $1.usuario.nome })) { membro in
-                        RoundedRectangle(cornerRadius: 45)
-                            .fill(LingoColors.lingoBlue)
-                            .frame(width: UIScreen.width*0.85, height: 40)
-                            .overlay(
-                                HStack{
-                                    Image(membro.usuario.foto_perfil)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 30.0, height: 30.0)
-                                        .clipShape(Circle())
-                                        .padding(.leading)
-                                    
-                                    Text(membro.usuario.nome)
-                                        .padding(.leading)
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack{
+                ForEach(sala.membros.sorted(by: { $0.usuario.nome < $1.usuario.nome })) { membro in
+                    RoundedRectangle(cornerRadius: 45)
+                        .fill(LingoColors.lingoBlue)
+                        .frame(width: UIScreen.width*0.85, height: 40)
+                        .overlay(
+                            HStack{
+                                Image(membro.usuario.foto_perfil)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 30.0, height: 30.0)
+                                    .clipShape(Circle())
+                                    .padding(.leading)
+                                
+                                Text(membro.usuario.nome)
+                                    .padding(.leading)
+                                    .foregroundColor(.white)
+                                Spacer()
+                                if membro.is_admin {
+                                    Text("admin")
                                         .foregroundColor(.white)
-                                    Spacer()
-                                    if membro.is_admin {
-                                        Text("admin")
-                                            .foregroundColor(.white)
-                                            .padding(.trailing,20)
-                                    }
-                                    
+                                        .padding(.trailing,20)
                                 }
-                        ) //overlay
-                    } //ForEach
-                } //VStack
-            } //ScrollView
-        } //VStack
+                                
+                            }
+                    ) //overlay
+                } //ForEach
+            } //VStack
+        } //ScrollView
+            .navigationBarTitle("Members of this room")
+            .navigationBarItems(trailing:
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .imageScale(.large)
+            })
     } //body
 }
 

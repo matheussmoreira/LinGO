@@ -30,7 +30,7 @@ struct PostView: View {
                         
                         Spacer()
                         
-                        Text("English Level:")
+                        Text(post.publicador.usuario.fluencia_ingles.rawValue)
                             .foregroundColor(Color.gray)
                             .lineLimit(1)
                         Image(systemName: "circle.fill")
@@ -77,7 +77,7 @@ struct PostView: View {
                     }
             )
             
-            //MARK: - REPORT E COMENTARIOS
+            //MARK: - REPORT
             HStack {
                 ZStack {
                     Capsule()
@@ -90,8 +90,9 @@ struct PostView: View {
                 }
                 .padding(.all)
                 .foregroundColor(.red)
-                Spacer()
                 
+                Spacer()
+                //MARK: - COMENTARIOS
                 Button(action: {self.showComments.toggle()}) {
                     ZStack {
                         Capsule()

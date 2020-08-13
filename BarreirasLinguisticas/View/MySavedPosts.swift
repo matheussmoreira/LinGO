@@ -15,16 +15,6 @@ struct MySavedPosts: View {
     
     var body: some View {
         VStack {
-            HStack {
-                Text("Your saved posts")
-                    .font(.system(.largeTitle, design: .rounded))
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.leading)
-                    .padding(.leading)
-                Spacer()
-            }
-            
-            SearchBar(text: $mensagem)
             
             if self.salvos.count == 0 {
                 Spacer()
@@ -42,8 +32,14 @@ struct MySavedPosts: View {
                 }
             } //else
         } //VStack
-        .onAppear {
-            self.salvos = self.membro.posts_salvos
+            .navigationBarTitle("Your saved posts")
+            .navigationBarItems(trailing:
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .imageScale(.large)
+            })
+            .onAppear {
+                self.salvos = self.membro.posts_salvos
         }
     } //body
 }

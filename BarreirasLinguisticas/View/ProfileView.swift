@@ -99,7 +99,7 @@ struct ProfileView: View {
                             .frame(height: btn_height)
                             .frame(width: btn_width)
                             .overlay(
-                                Text("Members in this room")
+                                Text("Members of this room")
                                     .foregroundColor(.white)
                         )
                     }
