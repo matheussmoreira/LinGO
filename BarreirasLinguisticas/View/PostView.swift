@@ -59,6 +59,7 @@ struct PostView: View {
                     
                 } //VStack
             } //ScrollView
+                .frame(width: UIScreen.width*0.95)
                 .onAppear {
                     self.carregaLink()
                     self.loadBookmark()
@@ -146,7 +147,6 @@ struct PostView: View {
     }
     
     func report() {
-        
     }
 }
 
