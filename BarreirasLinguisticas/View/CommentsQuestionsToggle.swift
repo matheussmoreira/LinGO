@@ -12,8 +12,6 @@ import SwiftUI
 struct CommentsQuestionsToggle: View {
     @EnvironmentObject var membro: Membro
     @ObservedObject var post: Post
-    @State var questions: [Comentario] = []
-    @State var not_questions: [Comentario] = []
     @State var questions_selected = true
     
     var body: some View {
@@ -40,11 +38,11 @@ struct CommentsQuestionsToggle_Previews: PreviewProvider {
 }
 
 struct CallQuestions: View {
-    @ObservedObject var post: Post
     @EnvironmentObject var membro: Membro
-    @State var questions: [Comentario] = []
-    @State var textHeight: CGFloat = 20
-    @State var newComment: String = ""
+    @ObservedObject var post: Post
+    @State private var questions: [Comentario] = []
+    @State private var textHeight: CGFloat = 20
+    @State private var newComment: String = ""
     
     var body: some View {
         VStack{
@@ -93,7 +91,6 @@ struct CallQuestions: View {
     
     func loadQuestions() {
         questions = post.perguntas
-        //questions = post.comentarios.filter{$0.is_question == true}
     }
     
     func comenta() {
@@ -106,11 +103,11 @@ struct CallQuestions: View {
 }
 
 struct CallComments: View {
-    @ObservedObject var post: Post
     @EnvironmentObject var membro: Membro
-    @State var comments: [Comentario] = []
-    @State var newComment: String = ""
-    @State var textHeight: CGFloat = 20
+    @ObservedObject var post: Post
+    @State private var comments: [Comentario] = []
+    @State private var newComment: String = ""
+    @State private var textHeight: CGFloat = 20
     
     var body: some View {
         VStack {
@@ -183,9 +180,9 @@ struct EmptyView: View {
 
 struct Toggle: View {
     @Binding var questions_selected: Bool
-    @State var comments_selected = false
-    @State var questions_color = Color.primary
-    @State var comments_color = Color.blue
+    @State private var comments_selected = false
+    @State private var questions_color = Color.primary
+    @State private var comments_color = Color.blue
     
     var body: some View {
         VStack {

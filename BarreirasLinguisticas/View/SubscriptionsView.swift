@@ -9,9 +9,9 @@
 import SwiftUI
 
 struct SubscriptionsView: View {
-    @ObservedObject var sala: Sala
     @EnvironmentObject var membro: Membro
-    @State var assinaturas: [Categoria] = []
+    @ObservedObject var sala: Sala
+    @State private var assinaturas: [Categoria] = []
     
     var body: some View {
         VStack {

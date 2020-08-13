@@ -48,7 +48,7 @@ struct RoomMembersView: View {
                 } //ForEach
             } //VStack
         } //ScrollView
-            .navigationBarTitle("Members of this room")
+            .navigationBarTitle(sala.nome)
             .navigationBarItems(trailing:
                 HStack {
                     Image(systemName: "magnifyingglass")

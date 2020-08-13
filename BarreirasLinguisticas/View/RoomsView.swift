@@ -56,8 +56,9 @@ struct RoomsView: View {
                                             .frame(width: 300.0, height: 50.0)
                                             .foregroundColor(.white)
                                         
-                                        Button(action:
-                                        {self.presentationMode.wrappedValue.dismiss()}) {
+                                        Button(action: { self.presentationMode.wrappedValue.dismiss()
+                                            self.dao.sala_atual = sala
+                                        }) {
                                             Text(sala.nome)
                                                 .foregroundColor(LingoColors.lingoBlue)
                                         }

@@ -13,7 +13,7 @@ struct QuestionRow: View {
     @ObservedObject var comentario: Comentario
     @State private var voted = false
     @State private var votedImage = "hand.raised"
-    @State var answer: String = ""
+    @State private var answer: String = ""
     
     var body: some View {
         VStack {

@@ -9,10 +9,11 @@
 import SwiftUI
 
 struct DiscoverView: View {
-    @ObservedObject var sala: Sala
+    @EnvironmentObject var dao: DAO
     @EnvironmentObject var membro: Membro
-    @State var fyPosts: [Post] = []
-    @State var mensagem = ""
+    var sala: Sala { return dao.sala_atual! }
+    @State private var fyPosts: [Post] = []
+    @State private var mensagem = ""
     
     var body: some View {
         NavigationView {
@@ -153,6 +154,6 @@ struct DiscoverView: View {
 //MARK: - PREVIEW
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverView(sala: DAO().salas[0]).environmentObject(DAO().salas[0].membros[0])
+        DiscoverView(/*sala: DAO().salas[0]*/).environmentObject(DAO().salas[0].membros[0])
     }
 }

@@ -11,7 +11,7 @@ import SwiftUI
 struct CommentRow: View {
     @EnvironmentObject var membro: Membro
     @ObservedObject var comentario: Comentario
-    @State var answer: String = ""
+    @State private var answer: String = ""
     
     var body: some View {
         ZStack {                    

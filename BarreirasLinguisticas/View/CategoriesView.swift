@@ -10,9 +10,9 @@ import SwiftUI
 
 struct CategoriesView: View {
     @EnvironmentObject var dao: DAO
-    @ObservedObject var sala: Sala
     @EnvironmentObject var membro: Membro
-    @State private var mensagem = ""//Search for categories"
+    var sala: Sala { return dao.sala_atual! }
+    @State private var mensagem = ""
     @State private var showRooms = false
     
     var body: some View {
@@ -20,14 +20,6 @@ struct CategoriesView: View {
             VStack {
                 if sala.categorias.count == 0 {
                     VStack {
-                        //                    HStack {
-                        //                        Text("Categories")
-                        //                            .font(.system(.largeTitle, design: .rounded))
-                        //                            .fontWeight(.bold)
-                        //                            .padding(.leading)
-                        //                        Spacer()
-                        //                    }
-                        //                    SearchBar(text: $mensagem)
                         Spacer()
                         Text("Add a new categorie by adding a new post!")
                             .foregroundColor(Color.gray)
@@ -35,16 +27,6 @@ struct CategoriesView: View {
                     }
                 }
                 else {
-                    //                HStack {
-                    //                    Text("Categories")
-                    //                        .font(.system(.title, design: .rounded))
-                    //                        .fontWeight(.bold)
-                    //                        .padding(.leading)
-                    //                    Spacer()
-                    //                }
-                    //
-                    //                SearchBar(text: $mensagem)
-                    
                     //MARK: - LIST
                     List (sala.categorias.sorted(by: { $0.nome < $1.nome })){ categ in
                         HStack {
@@ -93,11 +75,6 @@ struct CategoriesView: View {
                         RoomsView(usuario: self.membro.usuario)
                             .environmentObject(self.dao)
                     },
-                    
-//                    NavigationLink(destination: RoomsView( usuario: membro.usuario).environmentObject(dao)) {
-//                        Image(systemName: "arrow.right.arrow.left.square")
-//                            .imageScale(.large)
-//                    },
                     trailing:
                     HStack {
                         Spacer()
@@ -115,7 +92,7 @@ struct CategoriesView: View {
 
 struct CategoriesView_Previews: PreviewProvider {
     static var previews: some View {
-        CategoriesView(sala: DAO().salas[0]).environmentObject(DAO().salas[0].membros[0])
+        CategoriesView().environmentObject(DAO().salas[0].membros[0])
     }
 }
 

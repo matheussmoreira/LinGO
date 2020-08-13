@@ -9,8 +9,9 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @ObservedObject var sala: Sala
+    @EnvironmentObject var dao: DAO
     @EnvironmentObject var membro: Membro
+    var sala: Sala { return dao.sala_atual! }
     let btn_height: CGFloat = 50
     let btn_width: CGFloat = 200
     let corner: CGFloat = 45
@@ -122,6 +123,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(sala: DAO().salas[0]).environmentObject(DAO().salas[0].membros[0])
+        ProfileView().environmentObject(DAO().salas[0].membros[0])
     }
 }

@@ -9,18 +9,18 @@
 import SwiftUI
 
 struct PostsCategorieView: View {
-    @ObservedObject var categoria: Categoria
+    @EnvironmentObject var dao: DAO
     @EnvironmentObject var membro: Membro
-    @ObservedObject var sala: Sala
+    @ObservedObject var categoria: Categoria
+    @ObservedObject var sala: Sala //{ return dao.sala_atual! }
     @State private var postSelectionado: Post?
     @State private var subscribed = false
     @State private var subscribedImage = "checkmark.circle"
     @State private var loaded_posts: [Post] = []
-    @State var mensagem = ""
+    @State private var mensagem = ""
     
     var body: some View {
         VStack {
-            //SearchBar(text: $mensagem)
             
             if loaded_posts.count == 0 {
                 Spacer()
@@ -80,7 +80,6 @@ struct PostsCategorieView: View {
 struct PostsCategorieView_Previews: PreviewProvider {
     static var previews: some View {
         PostsCategorieView(
-            categoria: DAO().salas[0].categorias[0],
-            sala:DAO().salas[0]).environmentObject(DAO().salas[0].membros[0])
+            categoria: DAO().salas[0].categorias[0], sala: DAO().salas[0]).environmentObject(DAO().salas[0].membros[0])
     }
 }

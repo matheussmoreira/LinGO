@@ -23,6 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let usuario = dao.usuarios[2] //Evelyn
         let sala = Sala(id: 1, nome: "Apple Developer Academy", criador: usuario)
         dao.addNovaSala(sala) //adiciona no vetor das salas existentes
+        dao.usuario_atual = usuario
+        dao.sala_atual = sala
 
         //let content = RoomsView(usuario: usuario).environmentObject(dao)
         
@@ -34,7 +36,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 window.rootViewController = UIHostingController(rootView: RoomsView(usuario: usuario).environmentObject(dao))
             }
             else {
-                window.rootViewController = UIHostingController(rootView: ContentView(sala: dao.salas[0], usuario: usuario).environmentObject(dao))
+                window.rootViewController = UIHostingController(rootView: ContentView().environmentObject(dao))
             }
             self.window = window
             window.makeKeyAndVisible()

@@ -10,8 +10,8 @@ import SwiftUI
 
 struct MySavedPosts: View {
     @EnvironmentObject var membro: Membro
-    @State var salvos: [Post] = []
-    @State var mensagem = ""
+    @State private var salvos: [Post] = []
+    @State private var mensagem = ""
     
     var body: some View {
         VStack {

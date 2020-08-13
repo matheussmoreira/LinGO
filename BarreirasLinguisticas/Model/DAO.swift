@@ -11,6 +11,8 @@ import Foundation
 class DAO: ObservableObject {
     @Published var salas: [Sala] = []
     @Published var usuarios: [Usuario] = []
+    @Published var sala_atual: Sala?
+    @Published var usuario_atual: Usuario?
     
     init(){
         self.usuarios.append(Usuario(id: 1,

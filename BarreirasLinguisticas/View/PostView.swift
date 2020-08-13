@@ -10,8 +10,8 @@ import SwiftUI
 import LinkPresentation
 
 struct PostView: View {
-    @ObservedObject var post: Post
     @EnvironmentObject var membro: Membro
+    @ObservedObject var post: Post
     @State private var stored_link: Link?
     @State private var bookmarked = false
     @State private var bookmarkedImage = "bookmark"

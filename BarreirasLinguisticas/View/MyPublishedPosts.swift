@@ -10,11 +10,10 @@ import SwiftUI
 
 struct MyPublishedPosts: View {
     @EnvironmentObject var membro: Membro
-    @State var mensagem = ""
+    @State private var mensagem = ""
     
     var body: some View {
         VStack {
- 
             if membro.posts_publicados.count == 0 {
                 Spacer()
                 Text("You haven't published any post yet :(")
