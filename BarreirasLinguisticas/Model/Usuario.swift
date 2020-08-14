@@ -38,7 +38,7 @@ class Usuario: Equatable, Identifiable, ObservableObject {
         self.email = email ?? "<membro@email.com>"
         self.senha = senha ?? "<senha>"
         self.nome = nome ?? "<nome>"
-        self.foto_perfil = foto_perfil ?? "user_icon"
+        self.foto_perfil = foto_perfil ?? "perfil"
         self.pais = pais ?? "<pais>"
         self.fluencia_ingles = fluencia_ingles ?? fluencia.unknown
     }

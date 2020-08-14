@@ -18,7 +18,7 @@ class DAO: ObservableObject {
         self.usuarios.append(Usuario(id: 1,
                                      email: "matheus@icloud.com",
                                      senha: "sucoDeAbacaxi",
-                                     nome: "Matheus Moreira",
+                                     nome: "Matheus Diniz",
                                      foto_perfil: "foto_matheus",
                                      pais: "Brasil",
                                      fluencia_ingles: fluencia.intermed))
@@ -26,7 +26,7 @@ class DAO: ObservableObject {
         self.usuarios.append(Usuario(id: 2,
                                      email: "victor@icloud.com",
                                      senha: "niteroiAmorzinho",
-                                     nome: "Victor Duarte",
+                                     nome: "Victor Ierusalimschy",
                                      foto_perfil: "foto_victor",
                                      pais: "Brasil",
                                      fluencia_ingles: fluencia.advanced))
@@ -43,7 +43,7 @@ class DAO: ObservableObject {
         self.usuarios.append(Usuario(id: 4,
                                      email: "lidiane@icloud.com",
                                      senha: "chinaInBox",
-                                     nome: "Lidiane Chen",
+                                     nome: "Lidiane Duarte",
                                      foto_perfil: "foto_lidiane",
                                      pais: "Brasil",
                                      fluencia_ingles: fluencia.advanced))
@@ -51,7 +51,7 @@ class DAO: ObservableObject {
         self.usuarios.append(Usuario(id: 5,
                                      email: "bruna@icloud.com",
                                      senha: "moranguinho",
-                                     nome: "Bruna Costa",
+                                     nome: "Bruna Moreira",
                                      foto_perfil: "foto_bruna",
                                      pais: "Brasil",
                                      fluencia_ingles: fluencia.advanced))
@@ -59,7 +59,7 @@ class DAO: ObservableObject {
         self.usuarios.append(Usuario(id: 6,
                                      email: "larissa@icloud.com",
                                      senha: "maezona",
-                                     nome: "Larissa Diniz",
+                                     nome: "Larissa Silva",
                                      foto_perfil: "foto_larissa",
                                      pais: "Brasil",
                                      fluencia_ingles: fluencia.basic))
@@ -67,14 +67,14 @@ class DAO: ObservableObject {
         self.usuarios.append(Usuario(id: 7,
                                      email: "jefferson@icloud.com",
                                      senha: "engenharia",
-                                     nome: "Jefferson Silva",
+                                     nome: "Jefferson Costa",
                                      foto_perfil: "foto_jefferson",
                                      pais: "Brasil",
                                      fluencia_ingles: fluencia.intermed))
         
         self.usuarios.append(Usuario(id: 8, email: "juliana@icloud.com",
                                      senha: "sistemas",
-                                     nome: "Juliana Prado",
+                                     nome: "Juliana Chen",
                                      foto_perfil: "foto_juliana",
                                      pais: "Brasil",
                                      fluencia_ingles: fluencia.intermed))
@@ -82,7 +82,7 @@ class DAO: ObservableObject {
         self.usuarios.append(Usuario(id: 9,
                                      email: "theo@icloud.com",
                                      senha: "violao",
-                                     nome: "Theo Caldas",
+                                     nome: "Theo Prado",
                                      foto_perfil: "foto_theo",
                                      pais: "Brasil",
                                      fluencia_ingles: fluencia.intermed))
@@ -90,7 +90,7 @@ class DAO: ObservableObject {
         self.usuarios.append(Usuario(id: 10,
                                      email: "ana@icloud.com",
                                      senha: "artenapraia",
-                                     nome: "Ana Ierusalimschy",
+                                     nome: "Ana Caldas",
                                      foto_perfil: "foto_ana",
                                      pais: "Brasil",
                                      fluencia_ingles: fluencia.advanced))
