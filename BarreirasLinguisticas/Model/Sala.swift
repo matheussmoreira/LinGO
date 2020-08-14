@@ -47,7 +47,7 @@ class Sala: Identifiable, ObservableObject {
             novaCategoria(id: 7, nome: "Data Science")
             novaCategoria(id: 8, nome: "Entrepeneurship")
             novaCategoria(id: 9, nome: "English Language")
-            novaCategoria(id: 10, nome: "#Test Flight")
+            novaCategoria(id: 10, nome: "#TestFlight")
             
             //MARK: - TAGSS
             novaTag(id: 1,  nome: "UX",                   categs: [1])
