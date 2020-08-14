@@ -19,8 +19,6 @@ struct DiscoverView: View {
     var body: some View {
         NavigationView {
             VStack {
-                //SearchBar(text: $mensagem)
-                
                 if sala.posts.count == 0 {
                     VStack {
                         Spacer()
@@ -32,22 +30,8 @@ struct DiscoverView: View {
                 else {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 20){
-                            ForEach(sala.posts/*.reversed()*/){ post in
-                                /*NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
-                                    PostCardImageView(post: post)
-                                    .frame(width: UIScreen.width)
-                                    .rotation3DEffect(Angle(degrees: Double(geometry.frame(in:.global).minX)-40) / -20, axis: (x: 0, y: 10.0, z: 0))
-                                    }
-                                    }.frame(width: UIScreen.width, height: 270)
-                                    
-                                }*/
-                                GeometryReader { geometry in
-                                NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
-                                PostCardImageView(post: post)
-                                .frame(width: UIScreen.width)
-                                .rotation3DEffect(Angle(degrees: Double(geometry.frame(in:.global).minX)-40) / -20, axis: (x: 0, y: 10.0, z: 0))
-                                }
-                                }.frame(width: UIScreen.width, height: 270)
+                            ForEach(fyPosts.reversed()){ post in
+                                Cards3d(post: post, membro: self.membro)
                             }
                         } //ScrollView
                     } //else
@@ -59,6 +43,7 @@ struct DiscoverView: View {
                             .fontWeight(.bold)
                             .multilineTextAlignment(.leading)
                             .padding(.leading)
+                            .padding(.top)
                             .foregroundColor(.primary)
                         Spacer()
                     }
@@ -75,49 +60,14 @@ struct DiscoverView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 20){
                                 ForEach(sala.posts/*.reversed()*/){ post in
-                                    NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
-                                        PostCardImageView(post: post)
-                                            .frame(width: UIScreen.width)
-                                    }
+                                    Cards3d(post: post, membro: self.membro)
                                 }
                             }
                         } //ScrollView
                     } //else
-                    
-                    //MARK: - NEW TAGS
-                    /*HStack {
-                     Text("New tags")
-                     .font(.system(.title, design: .rounded))                        .fontWeight(.bold)
-                     .multilineTextAlignment(.leading)
-                     .padding(.leading)
-                     Spacer()
-                     }
-                     
-                     if sala.tags.count == 0 {
-                     Text("No new tags :(")
-                     .foregroundColor(Color.gray)
-                     }
-                     else {
-                     ScrollView(.horizontal, showsIndicators: false) {
-                     HStack {
-                     ForEach(sala.tags) { tag in
-                     RoundedRectangle(cornerRadius: 45)
-                     .fill(LingoColors.lingoBlue)
-                     .frame(width: 200, height: 40)
-                     .padding(.all)
-                     .overlay(
-                     Text(tag.nome)
-                     .foregroundColor(.white)
-                     .padding(.all)
-                     )
-                     }
-                     }
-                     } //ScrollView
-                     } //else*/
                 } //ScrollView
             } //VStack
                 .onAppear { self.loadFY() }
-                
                 .navigationBarTitle("Discover")
                 .navigationBarItems(trailing:
                     HStack {
@@ -126,10 +76,10 @@ struct DiscoverView: View {
                             .imageScale(.large)
                             .foregroundColor(LingoColors.lingoBlue)
                         Button(action: {self.showPostEditor.toggle()}) {
-                        Image(systemName: "plus")
-                            .imageScale(.large)
-                            .foregroundColor(LingoColors.lingoBlue)
-                            .padding(.leading)
+                            Image(systemName: "plus")
+                                .imageScale(.large)
+                                .foregroundColor(LingoColors.lingoBlue)
+                                .padding(.leading)
                         }
                         .sheet(isPresented: $showPostEditor) {
                             PostEditorView().environmentObject(self.membro).environmentObject(self.dao)
@@ -150,9 +100,24 @@ struct DiscoverView: View {
     
 }
 
-//MARK: - PREVIEW
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverView(/*sala: DAO().salas[0]*/).environmentObject(DAO().salas[0].membros[0])
+        DiscoverView().environmentObject(DAO().salas[0].membros[0])
+    }
+}
+
+struct Cards3d: View {
+    @ObservedObject var post: Post
+    @ObservedObject var membro: Membro
+    
+    var body: some View {
+        GeometryReader { geometry in
+            NavigationLink(destination: PostView(post: self.post).environmentObject(self.membro)) {
+                PostCardImageView(post: self.post)
+                    .frame(width: UIScreen.width)
+                    .rotation3DEffect(Angle(degrees: Double(geometry.frame(in:.global).minX)-40) / -20, axis: (x: 0, y: 10.0, z: 0))
+            }
+        }
+        .frame(width: UIScreen.width, height: 270)
     }
 }

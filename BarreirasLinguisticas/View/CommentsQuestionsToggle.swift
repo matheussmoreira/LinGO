@@ -88,6 +88,7 @@ struct CallQuestions: View {
             } //else
         }//VStack
             .onAppear {self.loadQuestions()}
+            .frame(width: UIScreen.width)
     } //body
     
     func loadQuestions() {
@@ -156,6 +157,7 @@ struct CallComments: View {
             } //else
         } //VStack
         .onAppear {self.loadComments()}
+        .frame(width: UIScreen.width)
     } //body
     
     func loadComments() {

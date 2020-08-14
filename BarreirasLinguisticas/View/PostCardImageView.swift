@@ -20,7 +20,7 @@ struct PostCardImageView: View {
         ZStack {
             //CARD
             RoundedRectangle(cornerRadius: 15, style: .continuous)
-                .fill(colorScheme == .dark ? Color.gray : Color.white)
+                .fill(colorScheme == .dark ? Color(UIColor.darkGray) : Color.white)
                 .frame(height: 260)
                 .shadow(radius: 8)
                 .padding()
@@ -79,7 +79,8 @@ struct PostCardImageView: View {
                         //DESCRICAO DO POST
                         Text(verbatim: post.descricao!)
                             .font(.body)
-                            .foregroundColor(Color(UIColor.systemGray))
+                            .foregroundColor(colorScheme == .dark ? Color.white : Color(UIColor.systemGray))
+
                             .multilineTextAlignment(.leading)
                             .lineLimit(line_limit_desc)
                         
@@ -94,7 +95,7 @@ struct PostCardImageView: View {
                 HStack {
                     ForEach(post.tags) { tag in
                         Text("#\(tag.nome)")
-                            .foregroundColor(LingoColors.lingoBlue)
+                            .foregroundColor(self.colorScheme == .dark ? Color.white : LingoColors.lingoBlue)
                             .lineLimit(1)
                     }
                     Spacer()

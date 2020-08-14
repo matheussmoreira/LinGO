@@ -45,29 +45,6 @@ struct PostEditorView: View {
                         .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
                 }
                 
-                HStack {
-                    Image(systemName: "link")
-                        .foregroundColor(LingoColors.lingoBlue)
-                        .font(.headline)
-                    
-                    TextField("You can paste a related link here", text: $link)
-                        .font(.headline)
-                        .foregroundColor(LingoColors.lingoBlue)
-                    
-                }
-                .padding(.bottom)
-                
-                HStack {
-                    Image(systemName: "tag")
-                        .foregroundColor(LingoColors.lingoBlue)
-                        .font(.headline)
-                    
-                    TextField("Add tags! Eg.: ''SwiftUI, UX, English'' etc. ", text: $tag)
-                        .font(.headline)
-                        .foregroundColor(LingoColors.lingoBlue)
-                    
-                }
-                
                 VStack {
                     HStack {
                         Image(systemName: "link")
@@ -151,7 +128,7 @@ struct PostEditorView: View {
             
             let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
             let height = value.height
-            self.value = height-100
+            self.value = height-50
         }
         
         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { (noti) in
