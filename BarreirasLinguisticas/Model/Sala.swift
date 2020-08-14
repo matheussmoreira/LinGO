@@ -68,9 +68,9 @@ class Sala: Identifiable, ObservableObject {
             //MARK: - POSTS
             novoPost(publicador: 2,
                      post: 1,
-                     titulo: "Stop obsessing over user personas",
-                     descricao: "People don’t need your product because they belong to a stupid persona",
-                     link: Link(urlString: "https://uxdesign.cc/stop-obsessing-over-user-personas-b2792ca00c7f"),
+                     titulo: "Design is eating code, even as software eats the world",
+                     descricao: "Product design today lets builders go faster and further than ever—how did this happen and what comes next?",
+                     link: Link(urlString: "https://uxdesign.cc/design-is-eating-code-even-as-software-eats-the-world-f40195982a08"),
                      categs: [1],
                      tags: [1,2])
             
