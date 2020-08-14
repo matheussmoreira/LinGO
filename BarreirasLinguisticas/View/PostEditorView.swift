@@ -40,7 +40,7 @@ struct PostEditorView: View {
                     .padding(.bottom)
                 
                 ScrollView {
-                    MultilineTextField(placeholder: "", text: self.$description, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
+                    MultilineTextField(placeholder: "Description", text: self.$description, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
                         .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
                 }
                 
