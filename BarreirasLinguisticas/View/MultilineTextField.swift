@@ -67,7 +67,7 @@ struct MultilineTextField: UIViewRepresentable {
 
         init(_ uiTextView: MultilineTextField) {
             self.parent = uiTextView
-            parent.text = parent.placeholder
+            self.parent.text = self.parent.placeholder
         }
 
         func textViewDidChange(_ textView: UITextView) {
