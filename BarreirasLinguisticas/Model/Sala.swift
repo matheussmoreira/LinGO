@@ -47,7 +47,7 @@ class Sala: Identifiable, ObservableObject {
             novaCategoria(id: 7, nome: "Data Science")
             novaCategoria(id: 8, nome: "Entrepeneurship")
             novaCategoria(id: 9, nome: "English Language")
-            //novaCategoria(id: 10, nome: "#New Categorie for tests")
+            novaCategoria(id: 10, nome: "#Test Flight")
             
             //MARK: - TAGSS
             novaTag(id: 1,  nome: "UX",                   categs: [1])
@@ -61,8 +61,8 @@ class Sala: Identifiable, ObservableObject {
             novaTag(id: 9,  nome: "App Store",            categs: [5])
             novaTag(id: 10, nome: "In-App Purchases",     categs: [5])
             novaTag(id: 11, nome: "Self-Knowledge",       categs: [8])
-            novaTag(id: 12, nome: "VisualAccessibility", categs: [1,3])
-            novaTag(id: 13, nome: "Scholarship",    categs: [4,6])
+            novaTag(id: 12, nome: "VisualAccessibility",  categs: [1,3])
+            novaTag(id: 13, nome: "Scholarship",          categs: [4,6])
             novaTag(id: 14, nome: "Grammar",              categs: [9])
             
             //MARK: - POSTS

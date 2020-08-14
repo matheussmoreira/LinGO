@@ -80,7 +80,7 @@ struct PostEditorView: View {
                 .navigationBarTitle(Text("New post!"))
                 .navigationBarItems(trailing:
                     Button(action: {
-                        self.publica(id_membro: self.membro.usuario.id, titulo: self.title, descricao: self.description, linkString: self.link, categs: [4/*10*/], tags: [])
+                        self.publica(id_membro: self.membro.usuario.id, titulo: self.title, descricao: self.description, linkString: self.link, categs: [10], tags: [])
                         
                     }){
                         
