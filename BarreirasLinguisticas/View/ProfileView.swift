@@ -56,65 +56,67 @@ struct ProfileView: View {
                         .foregroundColor(Color.gray)
                     
                     //MARK: - POSTS PUBLICADOS
-                    NavigationLink(destination:
-                    MyPublishedPosts().environmentObject(membro)) {
+                    ScrollView(.vertical, showsIndicators: false) {
+                        NavigationLink(destination:
+                        MyPublishedPosts().environmentObject(membro)) {
+                            RoundedRectangle(cornerRadius: corner)
+                                .foregroundColor(lingoBlue)
+                                .frame(height: btn_height)
+                                .frame(width: btn_width)
+                                .overlay(
+                                    Text("My published posts")
+                                        .foregroundColor(.white)
+                            )
+                        }
+                        
+                        //MARK: - POSTAS SALVOS
+                        NavigationLink(destination:
+                        MySavedPosts().environmentObject(membro)) {
+                            RoundedRectangle(cornerRadius: corner)
+                                .foregroundColor(lingoBlue)
+                                .frame(height: btn_height)
+                                .frame(width: btn_width)
+                                .overlay(
+                                    Text("My saved posts")
+                                        .foregroundColor(.white)
+                            )
+                        }
+                        
+                        //MARK: - ASSINATURAS
+                        NavigationLink(destination: SubscriptionsView(sala: sala).environmentObject(membro)) {
+                            RoundedRectangle(cornerRadius: corner)
+                                .foregroundColor(lingoBlue)
+                                .frame(height: btn_height)
+                                .frame(width: btn_width)
+                                .overlay(
+                                    Text("My subscriptions")
+                                        .foregroundColor(.white)
+                            )
+                        }
+                        
+                        //MARK: - MEMBROS DA SALA
+                        NavigationLink(destination:
+                        RoomMembersView(membro: membro, sala: sala)) {
+                            RoundedRectangle(cornerRadius: corner)
+                                .foregroundColor(lingoBlue)
+                                .frame(height: btn_height)
+                                .frame(width: btn_width)
+                                .overlay(
+                                    Text("Members of this room")
+                                        .foregroundColor(.white)
+                            )
+                        }
+                        
+                        //MARK: - LEAVE
                         RoundedRectangle(cornerRadius: corner)
-                            .foregroundColor(lingoBlue)
+                            .foregroundColor((Color(UIColor.systemGray5)))
                             .frame(height: btn_height)
                             .frame(width: btn_width)
                             .overlay(
-                                Text("My published posts")
-                                    .foregroundColor(.white)
+                                Text("Change Room")
+                                    .foregroundColor(.red)
                         )
                     }
-                    
-                    //MARK: - POSTAS SALVOS
-                    NavigationLink(destination:
-                    MySavedPosts().environmentObject(membro)) {
-                        RoundedRectangle(cornerRadius: corner)
-                            .foregroundColor(lingoBlue)
-                            .frame(height: btn_height)
-                            .frame(width: btn_width)
-                            .overlay(
-                                Text("My saved posts")
-                                    .foregroundColor(.white)
-                        )
-                    }
-                    
-                    //MARK: - ASSINATURAS
-                    NavigationLink(destination: SubscriptionsView(sala: sala).environmentObject(membro)) {
-                        RoundedRectangle(cornerRadius: corner)
-                            .foregroundColor(lingoBlue)
-                            .frame(height: btn_height)
-                            .frame(width: btn_width)
-                            .overlay(
-                                Text("My subscriptions")
-                                    .foregroundColor(.white)
-                        )
-                    }
-                    
-                    //MARK: - MEMBROS DA SALA
-                    NavigationLink(destination:
-                    RoomMembersView(membro: membro, sala: sala)) {
-                        RoundedRectangle(cornerRadius: corner)
-                            .foregroundColor(lingoBlue)
-                            .frame(height: btn_height)
-                            .frame(width: btn_width)
-                            .overlay(
-                                Text("Members of this room")
-                                    .foregroundColor(.white)
-                        )
-                    }
-                    
-                    //MARK: - LEAVE
-                    RoundedRectangle(cornerRadius: corner)
-                        .foregroundColor((Color(UIColor.systemGray5)))
-                        .frame(height: btn_height)
-                        .frame(width: btn_width)
-                        .overlay(
-                            Text("Change Room")
-                                .foregroundColor(.red)
-                    )
                 } //VStack
                     .padding(.top, -575)
             } //VStack
