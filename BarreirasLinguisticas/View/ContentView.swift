@@ -16,36 +16,29 @@ struct ContentView: View {
     //@State var selection = 2
     
     var body: some View {
-        //NavigationView {
-            TabView(/*selection: $selection*/) {
-                CategoriesView()
-                    .environmentObject(membro)
-                    .environmentObject(dao)
-                    .tabItem {
+        TabView(/*selection: $selection*/) {
+            CategoriesView()
+                .environmentObject(membro)
+                .environmentObject(dao)
+                .tabItem {
                     Image(systemName: "circle.grid.2x2")
                     Text("Categories")
-                }
-                DiscoverView()
-                    .environmentObject(membro)
-                    .environmentObject(dao)
-                    .tabItem {
+            }
+            DiscoverView()
+                .environmentObject(membro)
+                .environmentObject(dao)
+                .tabItem {
                     Image(systemName: "rectangle.on.rectangle.angled")
                     Text("Discover")
-                }
-//                PostEditorView()
-//                    .environmentObject(membro).tabItem {
-//                    Image(systemName: "pencil")
-//                    Text("Publish")
-//                }
-                ProfileView()
-                    .environmentObject(membro)
-                    .environmentObject(dao)
-                    .tabItem {
+            }
+            ProfileView()
+                .environmentObject(membro)
+                .environmentObject(dao)
+                .tabItem {
                     Image(systemName: "person")
                     Text("You")
-                }
+            }
         } //TabView
-        //} //ContentView
     } //body
 }
 
