@@ -21,7 +21,6 @@ struct PostView: View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .leading){
-                    
                     //AUTOR E NIVEL DE FLUENCIA
                     HStack {
                         Text("Shared by \(post.publicador.usuario.nome)")
@@ -37,12 +36,13 @@ struct PostView: View {
                             .imageScale(.small)
                             .foregroundColor(post.publicador.usuario.cor_fluencia)
                     }
+                    .padding(.top)
                     
                     //TAGS
                     HStack{
                         ForEach(post.tags) { tag in
                             Text("#\(tag.nome)")
-                                .foregroundColor(Color.blue)
+                                .foregroundColor(LingoColors.lingoBlue)
                         }
                         Spacer()
                     }
@@ -66,7 +66,7 @@ struct PostView: View {
             }
             .navigationBarTitle(
                 Text(post.titulo)
-                    .font(.system(.title, design: .rounded)),displayMode: .automatic
+                    .font(.system(.title, design: .rounded)),displayMode: .inline
             )
                 .padding(.horizontal)
                 .navigationBarItems(trailing:
@@ -86,7 +86,8 @@ struct PostView: View {
                     Button("Report") {
                         self.report()
                     }
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
+                    .colorInvert()
                 }
                 .padding(.all)
                 .foregroundColor(.red)
@@ -97,14 +98,16 @@ struct PostView: View {
                     ZStack {
                         Capsule()
                             .frame(height: 50.0)
-                            .foregroundColor(.blue)
+                            .foregroundColor(LingoColors.lingoBlue)
                         HStack {
                             Spacer()
                             Text("Ask or Comment")
-                                .foregroundColor(.white)
+                                .foregroundColor(.primary)
+                                .colorInvert()
                             Image(systemName: "pencil.circle.fill")
                                 .font(.system(size: 32, weight: .regular))
-                                .foregroundColor(.white)
+                                .foregroundColor(.primary)
+                                .colorInvert()
                             Spacer()
                         }
                     }

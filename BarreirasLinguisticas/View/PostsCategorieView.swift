@@ -43,6 +43,7 @@ struct PostsCategorieView: View {
                 HStack {
                     Image(systemName: "magnifyingglass")
                         .imageScale(.large)
+                        .foregroundColor(LingoColors.lingoBlue)
                     Button(action:{self.changeSubscription()}){
                         Image(systemName: subscribedImage)
                             .padding(.leading)

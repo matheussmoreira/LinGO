@@ -54,12 +54,13 @@ struct CallQuestions: View {
                 ZStack {
                     Capsule()
                         .frame(width: 50.0, height: 40.0)
-                        .foregroundColor(Color.blue)
+                        .foregroundColor(LingoColors.lingoBlue)
                     Button("Go!") {
                         self.comenta()
                         self.hideKeyboard()
                     }
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
+                    .colorInvert()
                 }
                 .padding(.trailing, 20)
             }
@@ -121,7 +122,7 @@ struct CallComments: View {
                 ZStack {
                     Capsule()
                         .frame(width: 50.0, height: 40.0)
-                        .foregroundColor(Color.blue)
+                        .foregroundColor(LingoColors.lingoBlue)
                     Button("Go!") {
                         self.comenta()
                         self.hideKeyboard()
@@ -248,10 +249,10 @@ struct Toggle: View {
             comments_selected.toggle()
             if questions_selected {
                 questions_color = Color.primary
-                comments_color = Color.blue
+                comments_color = LingoColors.lingoBlue
             }
             else {
-                questions_color = Color.blue
+                questions_color = LingoColors.lingoBlue
                 comments_color = Color.primary
             }
         }
