@@ -29,9 +29,9 @@ struct DiscoverView: View {
                 }
                 else {
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 20){
+                        HStack {
                             ForEach(fyPosts.reversed()){ post in
-                                Cards3d(post: post, membro: self.membro)
+                                Cards3D(post: post, membro: self.membro)
                             }
                         } //ScrollView
                     } //else
@@ -58,9 +58,9 @@ struct DiscoverView: View {
                     }
                     else {
                         ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 20){
+                            HStack {
                                 ForEach(sala.posts/*.reversed()*/){ post in
-                                    Cards3d(post: post, membro: self.membro)
+                                    Cards3D(post: post, membro: self.membro)
                                 }
                             }
                         } //ScrollView
@@ -106,7 +106,7 @@ struct HomeView_Previews: PreviewProvider {
     }
 }
 
-struct Cards3d: View {
+struct Cards3D: View {
     @ObservedObject var post: Post
     @ObservedObject var membro: Membro
     
