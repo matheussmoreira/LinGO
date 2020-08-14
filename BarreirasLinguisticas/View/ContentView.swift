@@ -44,7 +44,7 @@ struct ContentView: View {
                     .environmentObject(dao)
                     .tabItem {
                     Image(systemName: "person")
-                    Text("Profile")
+                    Text("You")
                 }
         } //TabView
         //} //ContentView

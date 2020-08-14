@@ -19,13 +19,6 @@ struct DiscoverView: View {
         NavigationView {
             
             ScrollView(.vertical, showsIndicators: false) {
-                HStack {
-                    Text("For you")
-                        .font(.system(.title, design: .rounded))
-                        .fontWeight(.bold)
-                        .padding(.leading)
-                    Spacer()
-                }
                 //MARK: - SUBSCRIPTION POSTS
                 
                 //FOR YOU CARDS
