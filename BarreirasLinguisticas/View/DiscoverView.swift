@@ -18,7 +18,7 @@ struct DiscoverView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
+            ScrollView(.vertical, showsIndicators: false) {
                 if sala.posts.count == 0 {
                     VStack {
                         Spacer()
