@@ -11,7 +11,7 @@ import SwiftUI
 struct ProfileView: View {
     @EnvironmentObject var dao: DAO
     @EnvironmentObject var membro: Membro
-    var sala: Sala { return dao.sala_atual! }
+    @EnvironmentObject var sala: Sala
     let btn_height: CGFloat = 50
     let btn_width: CGFloat = 200
     let corner: CGFloat = 45

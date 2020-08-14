@@ -11,7 +11,7 @@ import SwiftUI
 struct CategoriesView: View {
     @EnvironmentObject var dao: DAO
     @EnvironmentObject var membro: Membro
-    var sala: Sala { return dao.sala_atual! }
+    @EnvironmentObject var sala: Sala
     @State private var mensagem = ""
     @State private var showRooms = false
     
@@ -59,9 +59,7 @@ struct CategoriesView: View {
                             }
                             .padding(.vertical, 4)
                         } //HStack
-                        
                     }//List
-                    //.navigationBarTitle(Text("Categories"))
                     
                 } //else
             } //VStack
