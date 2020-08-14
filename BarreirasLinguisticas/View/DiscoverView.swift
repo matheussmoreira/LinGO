@@ -33,14 +33,21 @@ struct DiscoverView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 20){
                             ForEach(sala.posts/*.reversed()*/){ post in
-                                NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
+                                /*NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
                                     PostCardImageView(post: post)
                                     .frame(width: UIScreen.width)
                                     .rotation3DEffect(Angle(degrees: Double(geometry.frame(in:.global).minX)-40) / -20, axis: (x: 0, y: 10.0, z: 0))
                                     }
                                     }.frame(width: UIScreen.width, height: 270)
-                                    */
+                                    
+                                }*/
+                                GeometryReader { geometry in
+                                NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
+                                PostCardImageView(post: post)
+                                .frame(width: UIScreen.width)
+                                .rotation3DEffect(Angle(degrees: Double(geometry.frame(in:.global).minX)-40) / -20, axis: (x: 0, y: 10.0, z: 0))
                                 }
+                                }.frame(width: UIScreen.width, height: 270)
                             }
                         } //ScrollView
                     } //else
@@ -108,8 +115,9 @@ struct DiscoverView: View {
                      } //ScrollView
                      } //else*/
                 } //ScrollView
-                    .onAppear { self.loadFY() }
             } //VStack
+                .onAppear { self.loadFY() }
+                
                 .navigationBarTitle("Discover")
                 .navigationBarItems(trailing:
                     HStack {
@@ -124,7 +132,7 @@ struct DiscoverView: View {
                             .padding(.leading)
                         }
                         .sheet(isPresented: $showPostEditor) {
-                            PostEditorView()
+                            PostEditorView().environmentObject(self.membro).environmentObject(self.dao)
                         }
                 })
         } //NavigationView

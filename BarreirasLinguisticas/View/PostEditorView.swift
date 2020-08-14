@@ -10,6 +10,7 @@ import SwiftUI
 import UIKit
 
 struct PostEditorView: View {
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var dao: DAO
     @EnvironmentObject var membro: Membro
     var sala: Sala { return dao.sala_atual! }
@@ -103,7 +104,7 @@ struct PostEditorView: View {
                 .navigationBarItems(trailing:
                     Button(action: {
                         self.publica(id_membro: self.membro.usuario.id, titulo: self.title, descricao: self.description, linkString: self.link, categs: [4], tags: [])
-                        self.hideKeyboard()
+                        
                     }){
                         
                         ZStack {
@@ -128,13 +129,17 @@ struct PostEditorView: View {
             print("The post needs a title!")
         }
         else {
-            if (descricao == "" && linkString == "") {
+            if ((descricao == "" || descricao == "Description") && linkString == "") {
                 print("The post need a description text or an embeded link!")
             }
             else {
+                
                 sala.novoPost(publicador: id_membro, post: UUID().hashValue, titulo: titulo, descricao: descricao, link: Link(urlString: linkString), categs: categs, tags: tags)
                 
                 title = ""; description = ""; link = ""
+                
+                self.hideKeyboard()
+                self.presentationMode.wrappedValue.dismiss()
                 
                 print("Created the post!")
             }
