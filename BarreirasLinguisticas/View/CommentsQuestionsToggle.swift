@@ -64,6 +64,7 @@ struct CallQuestions: View {
                 }
                 .padding(.trailing, 20)
             }
+            .frame(width: UIScreen.width)
             
             MultilineTextField(placeholder: "", text: self.$newComment, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
                 .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
@@ -81,7 +82,9 @@ struct CallQuestions: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(questions.reversed().sorted(by: { $0.votos.count > $1.votos.count })) { comment in
                         if comment.is_question {
-                            QuestionRow(comentario: comment).environmentObject(self.membro)
+                            QuestionRow(comentario: comment)
+                                .environmentObject(self.membro)
+                                .frame(width: UIScreen.width)
                             Divider()
                         }
                     }
@@ -89,7 +92,7 @@ struct CallQuestions: View {
             } //else
         }//VStack
             .onAppear {self.loadQuestions()}
-            .frame(width: UIScreen.width)
+            //.frame(width: UIScreen.width)
     } //body
     
     func loadQuestions() {
@@ -131,6 +134,7 @@ struct CallComments: View {
                 }
                     .padding(.trailing, 20)
             }
+            .frame(width: UIScreen.width)
             
             MultilineTextField(placeholder: "", text: self.$newComment, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
                 .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
@@ -150,7 +154,9 @@ struct CallComments: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(comments.reversed()) { comment in
                         if !comment.is_question {
-                            CommentRow(comentario: comment).environmentObject(self.membro)
+                            CommentRow(comentario: comment)
+                                .environmentObject(self.membro)
+                                .frame(width: UIScreen.width)
                             Divider()
                         }
                     }
@@ -216,7 +222,7 @@ struct Toggle: View {
                             Image(systemName: "questionmark.circle")
                                 .foregroundColor(questions_color)
                             Text("Questions")
-                                .font(.headline)
+                                .font(.subheadline)
                                 .foregroundColor(questions_color)
                         }
                     }
@@ -231,7 +237,7 @@ struct Toggle: View {
                             Image(systemName: "bubble.left")
                                 .foregroundColor(comments_color)
                             Text("Comments")
-                                .font(.headline)
+                                .font(.subheadline)
                                 .foregroundColor(comments_color)
                         }
                     }
