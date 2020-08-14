@@ -79,7 +79,7 @@ struct PostCardImageView: View {
                         //DESCRICAO DO POST
                         Text(verbatim: post.descricao!)
                             .font(.body)
-                            .foregroundColor(Color.primary)
+                            .foregroundColor(Color(UIColor.systemGray))
                             .multilineTextAlignment(.leading)
                             .lineLimit(line_limit_desc)
                         
@@ -94,7 +94,7 @@ struct PostCardImageView: View {
                 HStack {
                     ForEach(post.tags) { tag in
                         Text("#\(tag.nome)")
-                            .foregroundColor(Color.blue)
+                            .foregroundColor(LingoColors.lingoBlue)
                             .lineLimit(1)
                     }
                     Spacer()
@@ -103,6 +103,7 @@ struct PostCardImageView: View {
             } // VStack
             .frame(height: 244.0)
             .onAppear {self.getLinkImage(from: self.post.link)}
+                
         } //ZStack
     }
     

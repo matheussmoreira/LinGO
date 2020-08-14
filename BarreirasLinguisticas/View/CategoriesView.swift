@@ -16,6 +16,7 @@ struct CategoriesView: View {
     @State private var showRooms = false
     
     var body: some View {
+        
         NavigationView {
             VStack {
                 if sala.categorias.count == 0 {
@@ -64,12 +65,13 @@ struct CategoriesView: View {
                     
                 } //else
             } //VStack
-                .navigationBarTitle("Categories")
+                .navigationBarTitle(Text("Categories"))
                 .navigationBarItems(
                     leading:
                     Button(action: {self.showRooms.toggle()}) {
-                        Image(systemName: "arrow.right.arrow.left.square")
+                        Image(systemName: "arrow.uturn.left")
                             .imageScale(.large)
+                            .foregroundColor(LingoColors.lingoBlue)
                         }
                     .sheet(isPresented: $showRooms) {
                         RoomsView(usuario: self.membro.usuario)
@@ -80,9 +82,10 @@ struct CategoriesView: View {
                         Spacer()
                         Image(systemName: "magnifyingglass")
                             .imageScale(.large)
-                        Image(systemName: "plus")
-                            .imageScale(.large)
+                            .foregroundColor(LingoColors.lingoBlue)
+                        EditButton()
                             .padding(.leading)
+                            .foregroundColor(LingoColors.lingoBlue)
                         
                 })
         } // NavigationView
@@ -104,7 +107,7 @@ struct TagsView: View {
             ForEach(tags){ tag in
                 Text("\(tag.nome) /")
                     .font(.subheadline)
-                    .foregroundColor(Color.gray)
+                    .foregroundColor(.gray)
                     .multilineTextAlignment(.leading)
             }
         } //HStack

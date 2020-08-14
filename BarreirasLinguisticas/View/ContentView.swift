@@ -30,11 +30,11 @@ struct ContentView: View {
                     Image(systemName: "rectangle.on.rectangle.angled")
                     Text("Discover")
                 }
-                PostEditorView()
-                    .environmentObject(membro).tabItem {
-                    Image(systemName: "pencil")
-                    Text("Publish")
-                }
+//                PostEditorView()
+//                    .environmentObject(membro).tabItem {
+//                    Image(systemName: "pencil")
+//                    Text("Publish")
+//                }
                 ProfileView()
                     .environmentObject(membro).tabItem {
                     Image(systemName: "person")

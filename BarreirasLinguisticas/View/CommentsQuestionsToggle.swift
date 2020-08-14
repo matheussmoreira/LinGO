@@ -47,7 +47,7 @@ struct CallQuestions: View {
     var body: some View {
         VStack{
             HStack {
-                Text("Write a comment")
+                Text("Write a question")
                     .font(.headline)
                     .padding(.leading, 20)
                 Spacer()
@@ -61,12 +61,13 @@ struct CallQuestions: View {
                     }
                     .foregroundColor(.white)
                 }
-                    .padding(.trailing, 20)
+                .padding(.trailing, 20)
             }
             
             MultilineTextField(placeholder: "", text: self.$newComment, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
                 .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
                 .frame(width: UIScreen.width - 20)
+                .cornerRadius(10)
                 .shadow(radius: 5)
             
             Divider()
@@ -132,7 +133,12 @@ struct CallComments: View {
             MultilineTextField(placeholder: "", text: self.$newComment, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
                 .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
                 .frame(width: UIScreen.width - 20)
+                .cornerRadius(10)
                 .shadow(radius: 5)
+                
+            Divider()
+            .padding(.vertical)
+
             
             if comments.count == 0 {
                 EmptyView(message: "No comments for this post :(")

@@ -58,10 +58,12 @@ struct QuestionRow: View {
                         Text(comentario.conteudo)
                             .font(.body)
                             .multilineTextAlignment(.leading)
-                            .padding(.horizontal)
                             .frame(width: UIScreen.width*0.75, height: 70.0)
                             .background(Color.gray.opacity(0.15))
                             .clipShape(RoundedRectangle(cornerRadius: 15))
+                            .padding(.horizontal)
+
+                        Spacer()
                         
                         Button(action: {self.changeVoted()}) {
                             Image(systemName: votedImage)
@@ -75,7 +77,7 @@ struct QuestionRow: View {
                             VStack {
                                 ZStack{
                                     Image(systemName: "circle.fill")
-                                        .imageScale(.medium)
+                                        .imageScale(.large)
                                         .foregroundColor(.red)
                                     Text("\(comentario.votos.count)")
                                         .font(.subheadline)

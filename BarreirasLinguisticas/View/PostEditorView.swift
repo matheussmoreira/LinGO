@@ -26,15 +26,15 @@ struct PostEditorView: View {
                     Text("Select a category")
                         .font(.system(.title, design: .rounded))
                         .fontWeight(.bold)
-                        .foregroundColor(Color.gray)
+                        .foregroundColor(Color(UIColor.systemGray2))
                     
                     Spacer()
                     Image(systemName: "plus")
-                        .foregroundColor(.blue)
-                        .font(.title)
+                        .foregroundColor(LingoColors.lingoBlue)
+                        .imageScale(.large)
                 }
                 
-                TextField("What is the subject?", text: $title)
+                TextField("Title here", text: $title)
                     .font(.system(size: 28, weight: .bold, design: .rounded))
                     .padding(.bottom)
                 
@@ -45,24 +45,24 @@ struct PostEditorView: View {
                 
                 HStack {
                     Image(systemName: "link")
-                        .foregroundColor(.blue)
+                        .foregroundColor(LingoColors.lingoBlue)
                         .font(.headline)
                     
                     TextField("You can paste a related link here", text: $link)
                         .font(.headline)
-                        .foregroundColor(.blue)
+                        .foregroundColor(LingoColors.lingoBlue)
                     
                 }
                 .padding(.bottom)
                 
                 HStack {
                     Image(systemName: "tag")
-                        .foregroundColor(.blue)
+                        .foregroundColor(LingoColors.lingoBlue)
                         .font(.headline)
                     
                     TextField("Add tags! Eg.: ''SwiftUI, UX, English'' etc. ", text: $tag)
                         .font(.headline)
-                        .foregroundColor(.blue)
+                        .foregroundColor(LingoColors.lingoBlue)
                     
                 }
                 .padding(.bottom)
@@ -70,18 +70,25 @@ struct PostEditorView: View {
                 Spacer()
             } //VStack
                 .padding()
-                .navigationBarTitle(Text("Create a post!"))
-                .font(.system(.largeTitle, design: .rounded))
+                .navigationBarTitle(Text("New post!"))
                 .navigationBarItems(trailing:
                     Button(action: {
                         self.publica(id_membro: self.membro.usuario.id, titulo: self.title, descricao: self.description, linkString: self.link, categs: [4], tags: [])
                         self.hideKeyboard()
                     }){
+                        
+                        ZStack {
+                        Capsule()
+                            .frame(width: 90, height: 50)
+                            .foregroundColor(LingoColors.lingoBlue)
                         Text("Go!")
                             .bold()
                             .font(.title)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.primary)
+                            .colorInvert()
                     }
+                    }//ZStack
+                        .padding(.top, 32)
             )
         } //NavigationView
     } //body

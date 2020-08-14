@@ -22,7 +22,7 @@ struct ProfileView: View {
             VStack {
                 Circle()
                     .padding(.bottom, -100.0)
-                    .padding(.top, -1000)
+                    .padding(.top, -1050)
                     .frame(width: 600.0, height: 600.0)
                     .foregroundColor(LingoColors.lingoBlue)
                 
@@ -34,7 +34,8 @@ struct ProfileView: View {
                         .frame(width: 150.0, height: 150.0)
                         .clipShape(Circle())
                         .overlay(
-                            Circle().stroke(Color.white, lineWidth: 8)
+                            Circle().stroke(Color.primary, lineWidth: 8)
+                            .colorInvert()
                     )
                     
                     Text(membro.usuario.nome)
@@ -111,7 +112,7 @@ struct ProfileView: View {
                         .frame(height: btn_height)
                         .frame(width: btn_width)
                         .overlay(
-                            Text("Leave Room")
+                            Text("Change Room")
                                 .foregroundColor(.red)
                     )
                 } //VStack

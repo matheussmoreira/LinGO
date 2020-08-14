@@ -14,6 +14,7 @@ struct DiscoverView: View {
     var sala: Sala { return dao.sala_atual! }
     @State private var fyPosts: [Post] = []
     @State private var mensagem = ""
+    @State private var showPostEditor = false
     
     var body: some View {
         NavigationView {
@@ -21,13 +22,13 @@ struct DiscoverView: View {
                 //SearchBar(text: $mensagem)
                 
                 ScrollView(.vertical, showsIndicators: false) {
-                    HStack {
-                        Text("For you")
-                            .font(.system(.title, design: .rounded))
-                            .fontWeight(.bold)
-                            .padding(.leading)
-                        Spacer()
-                    }
+//                    HStack {
+//                        Text("For you")
+//                            .font(.system(.title, design: .rounded))
+//                            .fontWeight(.bold)
+//                            .padding(.leading)
+//                        Spacer()
+//                    }
                     //MARK: - SUBSCRIPTION POSTS
                     
                     //FOR YOU CARDS
@@ -68,6 +69,7 @@ struct DiscoverView: View {
                             .fontWeight(.bold)
                             .multilineTextAlignment(.leading)
                             .padding(.leading)
+                            .foregroundColor(.primary)
                         Spacer()
                     }
                     
@@ -131,10 +133,16 @@ struct DiscoverView: View {
                         Spacer()
                         Image(systemName: "magnifyingglass")
                             .imageScale(.large)
+                            .foregroundColor(LingoColors.lingoBlue)
+                        Button(action: {self.showPostEditor.toggle()}) {
                         Image(systemName: "plus")
                             .imageScale(.large)
+                            .foregroundColor(LingoColors.lingoBlue)
                             .padding(.leading)
-                        
+                        }
+                        .sheet(isPresented: $showPostEditor) {
+                            PostEditorView()
+                        }
                 })
         } //NavigationView
     } //body
