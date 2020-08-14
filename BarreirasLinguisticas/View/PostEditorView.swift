@@ -117,8 +117,6 @@ struct PostEditorView: View {
                 
                 self.hideKeyboard()
                 self.presentationMode.wrappedValue.dismiss()
-                
-                print("Created the post!")
             }
         }
     }
