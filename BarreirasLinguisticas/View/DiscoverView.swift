@@ -21,36 +21,19 @@ struct DiscoverView: View {
             VStack {
                 //SearchBar(text: $mensagem)
                 
-                ScrollView(.vertical, showsIndicators: false) {
-//                    HStack {
-//                        Text("For you")
-//                            .font(.system(.title, design: .rounded))
-//                            .fontWeight(.bold)
-//                            .padding(.leading)
-//                        Spacer()
-//                    }
-                    //MARK: - SUBSCRIPTION POSTS
-                    
-                    //FOR YOU CARDS
-                    if fyPosts.count == 0 {
-                        VStack {
-                            Spacer()
-                            Text("No posts for you :(")
-                                .foregroundColor(Color.gray)
-                            Spacer()
-                        }
+                if sala.posts.count == 0 {
+                    VStack {
+                        Spacer()
+                        Text("No recent posts :(")
+                            .foregroundColor(Color.gray)
+                        Spacer()
                     }
-                    else {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack (spacing: 20){
-                                ForEach(fyPosts.reversed()){ post in
-                                    NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
-                                        PostCardImageView(post: post)
-                                            .frame(width: UIScreen.width)
-                                    }
-                                    /* EFEITO 3D
-                                    GeometryReader { geometry in
-                                    NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
+                }
+                else {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 20){
+                            ForEach(sala.posts/*.reversed()*/){ post in
+                                NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
                                     PostCardImageView(post: post)
                                     .frame(width: UIScreen.width)
                                     .rotation3DEffect(Angle(degrees: Double(geometry.frame(in:.global).minX)-40) / -20, axis: (x: 0, y: 10.0, z: 0))

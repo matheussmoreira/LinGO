@@ -22,17 +22,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let dao = DAO()
         let usuario = dao.usuarios[2] //Evelyn
         let sala = Sala(id: 1, nome: "Apple Developer Academy", criador: usuario)
-        dao.addNovaSala(sala) //adiciona no vetor das salas existentes
+        dao.addNovaSala(sala)
         dao.usuario_atual = usuario
         dao.sala_atual = sala
-
-        //let content = RoomsView(usuario: usuario).environmentObject(dao)
         
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            //window.rootViewController = UIHostingController(rootView: content)
-            if dao.salas.count == 0 {
+            if dao.getSalasByUser(id: usuario.id).count == 0 {
                 window.rootViewController = UIHostingController(rootView: RoomsView(usuario: usuario).environmentObject(dao))
             }
             else {

@@ -26,7 +26,9 @@ struct ContentView: View {
                     Text("Categories")
                 }
                 DiscoverView()
-                    .environmentObject(membro).tabItem {
+                    .environmentObject(membro)
+                    .environmentObject(dao)
+                    .tabItem {
                     Image(systemName: "rectangle.on.rectangle.angled")
                     Text("Discover")
                 }
@@ -36,9 +38,11 @@ struct ContentView: View {
 //                    Text("Publish")
 //                }
                 ProfileView()
-                    .environmentObject(membro).tabItem {
+                    .environmentObject(membro)
+                    .environmentObject(dao)
+                    .tabItem {
                     Image(systemName: "person")
-                    Text("Profile")
+                    Text("You")
                 }
         } //TabView
         //} //ContentView

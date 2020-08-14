@@ -78,7 +78,7 @@ struct CallQuestions: View {
             }
             else {
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(questions.reversed()) { comment in
+                    ForEach(questions.reversed().sorted(by: { $0.votos.count > $1.votos.count })) { comment in
                         if comment.is_question {
                             QuestionRow(comentario: comment).environmentObject(self.membro)
                             Divider()

@@ -15,24 +15,24 @@ struct RoomMembersView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack{
-                ForEach(sala.membros.sorted(by: { $0.usuario.nome < $1.usuario.nome })) { membro in
+                ForEach(sala.membros.sorted(by: { $0.usuario.nome < $1.usuario.nome })) { membro_sala in
                     RoundedRectangle(cornerRadius: 45)
                         .fill(LingoColors.lingoBlue)
                         .frame(width: UIScreen.width*0.85, height: 50)
                         .overlay(
                             HStack{
-                                Image(membro.usuario.foto_perfil)
+                                Image(membro_sala.usuario.foto_perfil)
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .frame(width: 30.0, height: 30.0)
                                     .clipShape(Circle())
                                     .padding(.leading)
                                 
-                                Text(membro.usuario.nome)
+                                Text(membro_sala.usuario.nome)
                                     .padding(.leading)
                                     .foregroundColor(.white)
                                 Spacer()
-                                if membro.is_admin {
+                                if membro_sala.is_admin {
                                     ZStack {
                                         Capsule()
                                             .frame(width: 65.0, height: 30.0)
@@ -42,8 +42,8 @@ struct RoomMembersView: View {
                                             .foregroundColor(.white)
                                             .padding(.trailing,20)
                                     }
-                                }
-                            }
+                                } //if is_admin
+                            } //HStack
                     ) //overlay
                 } //ForEach
             } //VStack

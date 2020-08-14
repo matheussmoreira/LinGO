@@ -38,8 +38,8 @@ struct MultilineTextField: UIViewRepresentable {
 
         // Set the placeholder
         textView.text = placeholder
-        textView.textColor = UIColor.secondaryLabel
-        textView.font = UIFont(name: "helvetica", size: 16)
+        textView.textColor = UIColor.gray
+        textView.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.bold)
         
         return textView
     }
@@ -67,6 +67,7 @@ struct MultilineTextField: UIViewRepresentable {
 
         init(_ uiTextView: MultilineTextField) {
             self.parent = uiTextView
+            self.parent.text = self.parent.placeholder
         }
 
         func textViewDidChange(_ textView: UITextView) {
@@ -78,16 +79,14 @@ struct MultilineTextField: UIViewRepresentable {
         }
 
         func textViewDidBeginEditing(_ textView: UITextView) {
-            if textView.textColor == UIColor.white {
+            if textView.text == parent.placeholder {
                 textView.text = nil
-                textView.textColor = UIColor.white
             }
         }
 
         func textViewDidEndEditing(_ textView: UITextView) {
             if textView.text.isEmpty {
                 textView.text = parent.placeholder
-                textView.textColor = UIColor.white
             }
         }
     }
