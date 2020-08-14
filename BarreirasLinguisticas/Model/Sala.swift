@@ -61,8 +61,8 @@ class Sala: Identifiable, ObservableObject {
             novaTag(id: 9,  nome: "App Store",            categs: [5])
             novaTag(id: 10, nome: "In-App Purchases",     categs: [5])
             novaTag(id: 11, nome: "Self-Knowledge",       categs: [8])
-            novaTag(id: 12, nome: "Visual Accessibility", categs: [1,3])
-            novaTag(id: 13, nome: "Swift Playgrounds",    categs: [4,6])
+            novaTag(id: 12, nome: "VisualAccessibility", categs: [1,3])
+            novaTag(id: 13, nome: "Scholarship",    categs: [4,6])
             novaTag(id: 14, nome: "Grammar",              categs: [9])
             
             //MARK: - POSTS

@@ -111,13 +111,13 @@ struct Cards3D: View {
     @ObservedObject var membro: Membro
     
     var body: some View {
-        GeometryReader { geometry in
+        //GeometryReader { geometry in
             NavigationLink(destination: PostView(post: self.post).environmentObject(self.membro)) {
                 PostCardImageView(post: self.post)
                     .frame(width: UIScreen.width)
-                    .rotation3DEffect(Angle(degrees: Double(geometry.frame(in:.global).minX)-40) / -20, axis: (x: 0, y: 10.0, z: 0))
+                    //.rotation3DEffect(Angle(degrees: Double(geometry.frame(in:.global).minX)-40) / -20, axis: (x: 0, y: 10.0, z: 0))
             }
-        }
-        .frame(width: UIScreen.width, height: 270)
+        //}
+        //.frame(width: UIScreen.width, height: 270)
     }
 }
