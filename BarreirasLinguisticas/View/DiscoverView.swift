@@ -33,40 +33,40 @@ struct DiscoverView: View {
                             ForEach(fyPosts.reversed()){ post in
                                 Cards3D(post: post, membro: self.membro)
                             }
-                        } //ScrollView
-                    } //else
-                    
-                    //MARK: - RECENT POSTS
-                    HStack {
-                        Text("Recent posts")
-                            .font(.system(.title, design: .rounded))
-                            .fontWeight(.bold)
-                            .multilineTextAlignment(.leading)
-                            .padding(.leading)
-                            .padding(.top)
-                            .foregroundColor(.primary)
+                        } //HStack
+                    } //ScrollView
+                } //else
+                
+                //MARK: - RECENT POSTS
+                HStack {
+                    Text("Recent posts")
+                        .font(.system(.title, design: .rounded))
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.leading)
+                        .padding(.leading)
+                        .padding(.top)
+                        .foregroundColor(.primary)
+                    Spacer()
+                }
+                
+                if sala.posts.count == 0 {
+                    VStack {
+                        Spacer()
+                        Text("No recent posts :(")
+                            .foregroundColor(Color.gray)
                         Spacer()
                     }
-                    
-                    if sala.posts.count == 0 {
-                        VStack {
-                            Spacer()
-                            Text("No recent posts :(")
-                                .foregroundColor(Color.gray)
-                            Spacer()
-                        }
-                    }
-                    else {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack {
-                                ForEach(sala.posts/*.reversed()*/){ post in
-                                    Cards3D(post: post, membro: self.membro)
-                                }
+                }
+                else {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(sala.posts/*.reversed()*/){ post in
+                                Cards3D(post: post, membro: self.membro)
                             }
-                        } //ScrollView
-                    } //else
-                } //ScrollView
-            } //VStack
+                        }
+                    } //ScrollView
+                } //else
+            } //ScrollView Vertical
                 .onAppear { self.loadFY() }
                 .navigationBarTitle("Discover")
                 .navigationBarItems(trailing:

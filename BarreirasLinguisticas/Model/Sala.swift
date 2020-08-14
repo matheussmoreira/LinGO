@@ -267,7 +267,7 @@ class Sala: Identifiable, ObservableObject {
         let tags = getTags(ids: tags)
         
         if membro != nil {
-            if categorias.count != 0{
+            if categorias.count != 0 {
                 let post = Post(id: id_post, titulo: titulo, descricao: descricao, link: link, categs: categorias, tags: tags, publicador: membro!)
                 
                 self.posts.append(post)
