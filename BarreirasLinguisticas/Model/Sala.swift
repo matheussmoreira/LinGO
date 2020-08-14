@@ -122,6 +122,10 @@ class Sala: Identifiable, ObservableObject {
             
             novoPost(publicador: 10, post: 8, titulo: "The Keys to a Successful WWDC Scholarship Submission", descricao: "I found this article for us having succes in this week's competition. I hope it is helpful!", link: Link(urlString: "https://medium.com/better-programming/the-keys-to-a-successful-wwdc-scholarship-submission-8cbbf5eb2281"), categs: [6], tags: [13])
             
+            novoPost(publicador: 5, post: 9, titulo: "ADA-from-home",
+                     descricao: "Hey, guys! All good? I'm here to ask everyone what are the greatest apps you guys are using to get in touch with your ADA's teams. I miss the old days inside the lab, so I wanna get to know how you're doing to make that experience possible now at days. By the way, I LOVE this video about the whole working-from-home challenges we deal, made by Apple.",
+                     link: Link(urlString: "https://www.youtube.com/watch?v=6_pru8U2RmM&t=20s"), categs: [5], tags: [])
+            
             //MARK: - COMENTARIOS ORIGINAIS
             //POST 2
             novoComentario(id: 1, publicador: 1, post: 2, conteudo: "I thought that radius meant radio in portuguese", is_question: false)
