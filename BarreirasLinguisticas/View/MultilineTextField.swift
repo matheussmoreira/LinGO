@@ -12,6 +12,7 @@ import SwiftUI
 struct MultilineTextField: UIViewRepresentable {
     var placeholder: String
     var minHeight: CGFloat
+    var maxHeight: CGFloat = 100
     @Binding var text: String
     @Binding var calculatedHeight: CGFloat
 
@@ -38,7 +39,7 @@ struct MultilineTextField: UIViewRepresentable {
 
         // Set the placeholder
         textView.text = placeholder
-        textView.textColor = UIColor.gray
+        textView.textColor = UIColor.lightGray
         textView.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.bold)
         
         return textView
@@ -46,7 +47,7 @@ struct MultilineTextField: UIViewRepresentable {
 
     func updateUIView(_ textView: UITextView, context: Context) {
         textView.text = self.text
-        recalculateHeight(view: textView)
+        //recalculateHeight(view: textView)
     }
 
     func recalculateHeight(view: UIView) {
@@ -74,7 +75,19 @@ struct MultilineTextField: UIViewRepresentable {
             // This is needed for multistage text input (eg. Chinese, Japanese)
             if textView.markedTextRange == nil {
                 parent.text = textView.text ?? String()
-                parent.recalculateHeight(view: textView)
+                //parent.recalculateHeight(view: textView)
+            }
+            
+            if textView.text == parent.placeholder {
+                textView.text = nil
+            }
+            
+            if textView.contentSize.height >= parent.maxHeight {
+                textView.isScrollEnabled = true
+            }
+            else {
+                textView.frame.size.height = textView.contentSize.height
+                textView.isScrollEnabled = false
             }
         }
 

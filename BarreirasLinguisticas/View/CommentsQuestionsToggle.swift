@@ -41,7 +41,7 @@ struct CallQuestions: View {
     @EnvironmentObject var membro: Membro
     @ObservedObject var post: Post
     @State private var questions: [Comentario] = []
-    @State private var textHeight: CGFloat = 20
+    @State private var textFieldMinHeight: CGFloat = 50
     @State private var newComment: String = ""
     
     var body: some View {
@@ -66,8 +66,8 @@ struct CallQuestions: View {
             }
             .frame(width: UIScreen.width)
             
-            MultilineTextField(placeholder: "", text: self.$newComment, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
-                .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
+            MultilineTextField(placeholder: "", text: self.$newComment, minHeight: self.textFieldMinHeight, calculatedHeight: self.$textFieldMinHeight)
+                .frame(minHeight: self.textFieldMinHeight, maxHeight: self.textFieldMinHeight)
                 .frame(width: UIScreen.width - 20)
                 .cornerRadius(10)
                 .shadow(radius: 5)
@@ -113,7 +113,7 @@ struct CallComments: View {
     @ObservedObject var post: Post
     @State private var comments: [Comentario] = []
     @State private var newComment: String = ""
-    @State private var textHeight: CGFloat = 20
+    @State private var textFieldMinHeight: CGFloat = 50
     
     var body: some View {
         VStack {
@@ -136,8 +136,8 @@ struct CallComments: View {
             }
             .frame(width: UIScreen.width)
             
-            MultilineTextField(placeholder: "", text: self.$newComment, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
-                .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
+            MultilineTextField(placeholder: "", text: self.$newComment, minHeight: self.textFieldMinHeight, calculatedHeight: self.$textFieldMinHeight)
+                .frame(minHeight: self.textFieldMinHeight, maxHeight: self.textFieldMinHeight)
                 .frame(width: UIScreen.width - 20)
                 .cornerRadius(10)
                 .shadow(radius: 5)

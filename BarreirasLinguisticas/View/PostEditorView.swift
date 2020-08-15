@@ -14,7 +14,7 @@ struct PostEditorView: View {
     @EnvironmentObject var dao: DAO
     @EnvironmentObject var membro: Membro
     var sala: Sala { return dao.sala_atual! }
-    @State private var textHeight: CGFloat = 150
+    @State private var textFieldMinHeight: CGFloat = 80
     @State private var description: String = ""
     @State private var title: String = ""
     @State private var link: String = ""
@@ -41,8 +41,8 @@ struct PostEditorView: View {
                     .padding(.bottom)
                 
                 ScrollView {
-                    MultilineTextField(placeholder: "Description", text: self.$description, minHeight: self.textHeight, calculatedHeight: self.$textHeight)
-                        .frame(minHeight: self.textHeight, maxHeight: self.textHeight)
+                    MultilineTextField(placeholder: "Description", text: self.$description, minHeight: self.textFieldMinHeight, calculatedHeight: self.$textFieldMinHeight)
+                        .frame(minHeight: self.textFieldMinHeight, maxHeight: self.textFieldMinHeight)
                 }
                 
                 VStack {
