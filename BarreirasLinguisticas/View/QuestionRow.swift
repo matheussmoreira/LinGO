@@ -40,6 +40,7 @@ struct QuestionRow: View {
                                 Text(comentario.publicador.usuario.fluencia_ingles.rawValue)
                                     .foregroundColor(.gray)
                                     .font(.footnote)
+                                .lineLimit(1)
                                 
                                 Circle()
                                     .fill(comentario.publicador.usuario.cor_fluencia)
@@ -57,11 +58,13 @@ struct QuestionRow: View {
                     HStack {
                         Text(comentario.conteudo)
                             .font(.body)
+                            .padding(.all)
+                            .lineLimit(10)
+                            .frame(width: UIScreen.width*0.70, height: 70.0)
                             .multilineTextAlignment(.leading)
-                            .frame(width: UIScreen.width*0.75, height: 70.0)
                             .background(Color.gray.opacity(0.15))
                             .clipShape(RoundedRectangle(cornerRadius: 15))
-                            .padding(.horizontal)
+                            
 
                         Spacer()
                         
@@ -89,7 +92,7 @@ struct QuestionRow: View {
                         } //Button
                             .padding(.leading)
                     } //HStack
-                        .padding(.trailing)
+                        .padding(.horizontal)
                 } //VStack
                     .padding(.horizontal)
             } //ZStack

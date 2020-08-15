@@ -53,6 +53,7 @@ struct RoomMembersView: View {
                 HStack {
                     Image(systemName: "magnifyingglass")
                         .imageScale(.large)
+                    .foregroundColor(LingoColors.lingoBlue)
             })
     } //body
 }

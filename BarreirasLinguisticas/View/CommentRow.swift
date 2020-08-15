@@ -54,7 +54,6 @@ struct CommentRow: View {
                     } //HStack
                     
                     HStack {
-                        
                         Text(comentario.conteudo)
                             .font(.body)
                             .padding(.all)
@@ -80,9 +79,8 @@ struct CommentRow: View {
                     
                 } //HStack
                     .padding(.horizontal)
-            }
+            } //VStack
         }//ZStack
-            .padding()
     }
 }
 

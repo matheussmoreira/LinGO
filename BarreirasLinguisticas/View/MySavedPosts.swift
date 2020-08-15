@@ -36,6 +36,7 @@ struct MySavedPosts: View {
             .navigationBarItems(trailing:
                 HStack {
                     Image(systemName: "magnifyingglass")
+                        .foregroundColor(LingoColors.lingoBlue)
                         .imageScale(.large)
             })
             .onAppear {

@@ -84,7 +84,6 @@ struct CallQuestions: View {
                         if comment.is_question {
                             QuestionRow(comentario: comment)
                                 .environmentObject(self.membro)
-                                .frame(width: UIScreen.width)
                             Divider()
                         }
                     }
@@ -92,7 +91,6 @@ struct CallQuestions: View {
             } //else
         }//VStack
             .onAppear {self.loadQuestions()}
-            //.frame(width: UIScreen.width)
     } //body
     
     func loadQuestions() {
@@ -130,7 +128,8 @@ struct CallComments: View {
                         self.comenta()
                         self.hideKeyboard()
                     }
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
+                    .colorInvert()
                 }
                     .padding(.trailing, 20)
             }
@@ -156,7 +155,6 @@ struct CallComments: View {
                         if !comment.is_question {
                             CommentRow(comentario: comment)
                                 .environmentObject(self.membro)
-                                .frame(width: UIScreen.width)
                             Divider()
                         }
                     }
@@ -164,7 +162,6 @@ struct CallComments: View {
             } //else
         } //VStack
         .onAppear {self.loadComments()}
-        .frame(width: UIScreen.width)
     } //body
     
     func loadComments() {
