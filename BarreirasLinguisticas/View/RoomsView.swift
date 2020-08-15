@@ -11,7 +11,6 @@ import SwiftUI
 struct RoomsView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var dao: DAO
-    //@Binding var sala_atual: Sala
     var usuario: Usuario
     var salas: [Sala] {
         return dao.getSalasByUser(id: usuario.id)
@@ -43,11 +42,7 @@ struct RoomsView: View {
                         .foregroundColor(.white)
                         .padding(.bottom, 50)
                     
-                    if salas.count == 0 {
-                        Text("Sem salas")
-                            .foregroundColor(.white)
-                    }
-                    else {
+                    if salas.count != 0 {
                         ScrollView(.vertical, showsIndicators: false) {
                             ForEach(salas) { sala in
                                 ZStack {
@@ -61,11 +56,6 @@ struct RoomsView: View {
                                         Text(sala.nome)
                                             .foregroundColor(LingoColors.lingoBlue)
                                     }
-                                    
-                                    //                                            NavigationLink(destination: ContentView(sala: sala, usuario: self.usuario).environmentObject(self.dao)){
-                                    //                                                Text(sala.nome)
-                                    //                                                    .foregroundColor(LingoColors.lingoBlue)
-                                    //                                            }
                                 }
                             }
                         } //ScrollView
@@ -81,7 +71,7 @@ struct RoomsView: View {
                             HStack {
                                 Image(systemName: "plus.circle")
                                     .foregroundColor(.white)
-                                Text("Add new Room")
+                                Text("New Room")
                                     .foregroundColor(.white)
                             }
                         }
@@ -106,11 +96,15 @@ struct RoomsView: View {
     } //body
     
     func novaSala(nome: String, criador: Usuario) {
-        var id: Int = 1
+        let sala: Sala
+
         if let ultima_sala = self.dao.salas.last {
-            id = ultima_sala.id + 1
+            sala = Sala(id: ultima_sala.id + 1, nome: nome, criador: criador)
         }
-        let sala = Sala(id: id, nome: nome, criador: criador)
+        else {
+            sala = Sala(id: 1, nome: "Apple Developer Academy", criador: criador)
+        }
+        
         self.dao.addNovaSala(sala)
     }
     

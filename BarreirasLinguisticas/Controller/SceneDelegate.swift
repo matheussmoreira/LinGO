@@ -22,19 +22,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let dao = DAO()
         let usuario = dao.usuarios[2] //Evelyn
         let sala = Sala(id: 1, nome: "Apple Developer Academy", criador: usuario)
-        dao.addNovaSala(sala)
         dao.usuario_atual = usuario
-        dao.sala_atual = sala
+        dao.addNovaSala(sala)
+        
+        if !dao.getSalasByUser(id: usuario.id).isEmpty {
+            dao.sala_atual = dao.salas[0]
+        }
+        else {
+            dao.sala_atual = nil
+        }
         
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            if dao.getSalasByUser(id: usuario.id).count == 0 {
-                window.rootViewController = UIHostingController(rootView: RoomsView(usuario: usuario).environmentObject(dao))
-            }
-            else {
-                window.rootViewController = UIHostingController(rootView: ContentView().environmentObject(dao))
-            }
+            window.rootViewController = UIHostingController(rootView: ContentView().environmentObject(dao))
             self.window = window
             window.makeKeyAndVisible()
         }
