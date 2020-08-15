@@ -13,7 +13,8 @@ struct PostEditorView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var dao: DAO
     @EnvironmentObject var membro: Membro
-    var sala: Sala { return dao.sala_atual! }
+    @EnvironmentObject var sala: Sala
+    @State private var placeholder = "Description"
     @State private var textFieldMinHeight: CGFloat = 80
     @State private var description: String = ""
     @State private var title: String = ""
@@ -41,7 +42,7 @@ struct PostEditorView: View {
                     .padding(.bottom)
                 
                 ScrollView {
-                    MultilineTextField(placeholder: "Description", text: self.$description, minHeight: self.textFieldMinHeight, calculatedHeight: self.$textFieldMinHeight)
+                    MultilineTextField(placeholder: placeholder, text: self.$description, minHeight: self.textFieldMinHeight, calculatedHeight: self.$textFieldMinHeight)
                         .frame(minHeight: self.textFieldMinHeight, maxHeight: self.textFieldMinHeight)
                 }
                 
@@ -106,7 +107,7 @@ struct PostEditorView: View {
             print("The post needs a title!")
         }
         else {
-            if ((descricao == "" || descricao == "Description") && linkString == "") {
+            if ((descricao == "" || descricao == placeholder) && linkString == "") {
                 print("The post need a description text or an embeded link!")
             }
             else {
