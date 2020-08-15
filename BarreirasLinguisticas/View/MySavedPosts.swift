@@ -16,7 +16,7 @@ struct MySavedPosts: View {
     var body: some View {
         VStack {
             
-            if self.salvos.count == 0 {
+            if self.salvos.isEmpty {
                 Spacer()
                 Text("You haven't saved any post yet :(")
                     .foregroundColor(Color.gray)

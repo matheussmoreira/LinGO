@@ -22,7 +22,7 @@ struct PostsCategorieView: View {
     var body: some View {
         VStack {
             
-            if loaded_posts.count == 0 {
+            if loaded_posts.isEmpty {
                 Spacer()
                 Text("No posts in \(categoria.nome) :(")
                     .foregroundColor(Color.gray)

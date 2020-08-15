@@ -19,7 +19,7 @@ struct CategoriesView: View {
         
         NavigationView {
             VStack {
-                if sala.categorias.count == 0 {
+                if sala.categorias.isEmpty {
                     VStack {
                         Spacer()
                         Text("Add a new categorie by adding a new post!")
@@ -46,7 +46,7 @@ struct CategoriesView: View {
                                         .padding(.top, 5.0)
                                     
                                 }
-                                if categ.tags.count == 0 {
+                                if categ.tags.isEmpty {
                                     Text("No tags")
                                         .font(.subheadline)
                                         .foregroundColor(Color.gray)

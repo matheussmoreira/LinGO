@@ -14,7 +14,7 @@ struct MyPublishedPosts: View {
     
     var body: some View {
         VStack {
-            if membro.posts_publicados.count == 0 {
+            if membro.posts_publicados.isEmpty {
                 Spacer()
                 Text("You haven't published any post yet :(")
                     .foregroundColor(Color.gray)

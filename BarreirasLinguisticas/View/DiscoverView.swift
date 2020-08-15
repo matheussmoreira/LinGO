@@ -19,7 +19,7 @@ struct DiscoverView: View {
     var body: some View {
         NavigationView {
             ScrollView(.vertical, showsIndicators: false) {
-                if fyPosts.count == 0 {
+                if fyPosts.isEmpty {
                     VStack {
                         Spacer()
                         Text("No posts for you :(")
@@ -49,7 +49,7 @@ struct DiscoverView: View {
                     Spacer()
                 }
                 
-                if sala.posts.count == 0 {
+                if sala.posts.isEmpty {
                     VStack {
                         Spacer()
                         Text("No recent posts :(")

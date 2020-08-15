@@ -75,7 +75,7 @@ struct CallQuestions: View {
             Divider()
                 .padding(.vertical)
             
-            if questions.count == 0 {
+            if questions.isEmpty {
                 EmptyView(message: "No questions for this post :(")
             }
             else {
@@ -145,7 +145,7 @@ struct CallComments: View {
             .padding(.vertical)
 
             
-            if comments.count == 0 {
+            if comments.isEmpty {
                 EmptyView(message: "No comments for this post :(")
             }
             else {

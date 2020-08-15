@@ -15,7 +15,7 @@ struct SubscriptionsView: View {
     
     var body: some View {
         VStack {
-            if (self.assinaturas.count == 0) {
+            if (self.assinaturas.isEmpty) {
                 VStack {
                     Spacer()
                     Text("You have no subscriptions :(")

@@ -42,7 +42,7 @@ struct RoomsView: View {
                         .foregroundColor(.white)
                         .padding(.bottom, 50)
                     
-                    if salas.count != 0 {
+                    if !salas.isEmpty {
                         ScrollView(.vertical, showsIndicators: false) {
                             ForEach(salas) { sala in
                                 ZStack {
@@ -59,7 +59,7 @@ struct RoomsView: View {
                                 }
                             }
                         } //ScrollView
-                    } //else
+                    } //if
                     
                     Spacer()
                     
