@@ -53,7 +53,7 @@ struct CategoriesView: View {
                                         .multilineTextAlignment(.leading)
                                 }
                                 else {
-                                    TagsView(tags: categ.tags)
+                                    TagsList(tags: categ.tags)
                                         .lineLimit(1)
                                 }
                             }
@@ -97,7 +97,7 @@ struct CategoriesView_Previews: PreviewProvider {
     }
 }
 
-struct TagsView: View {
+struct TagsList: View {
     var tags: [Tag]
     
     var body: some View {

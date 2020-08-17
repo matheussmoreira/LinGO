@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Tag: Identifiable, ObservableObject {
+class Tag: Equatable, Identifiable, ObservableObject {
     let id: Int
     @Published var nome: String
     var categorias: [Categoria] = []
@@ -18,6 +18,10 @@ class Tag: Identifiable, ObservableObject {
         self.id = id
         self.nome = nome ?? "<Nome Tag>"
         self.categorias.append(contentsOf: categorias)
+    }
+    
+    static func == (lhs: Tag, rhs: Tag) -> Bool {
+        return lhs.id == rhs.id
     }
     
     func addCategoria(categoria: Categoria?) {

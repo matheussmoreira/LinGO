@@ -21,6 +21,12 @@ struct PostView: View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .leading){
+                    
+                    Text(post.titulo)
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding(.top)
+                    
                     //AUTOR E NIVEL DE FLUENCIA
                     HStack {
                         Text("Shared by \(post.publicador.usuario.nome)")
@@ -36,7 +42,6 @@ struct PostView: View {
                             .imageScale(.small)
                             .foregroundColor(post.publicador.usuario.cor_fluencia)
                     }
-                    .padding(.top)
                     
                     //TAGS
                     HStack{

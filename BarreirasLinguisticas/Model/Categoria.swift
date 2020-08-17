@@ -30,12 +30,23 @@ class Categoria: Equatable, Identifiable, ObservableObject {
     }
     
     func addPost(post: Post?) {
-        if (post != nil) { self.posts.append(post!)}
+        if (post != nil) {
+            self.posts.append(post!)
+            //addTags2(from: post!)
+        }
         else { print("Categoria com post inválido") }
     }
     
     func addAssinantes(membro memb: Membro?) {
         if (memb != nil) { self.assinantes.append(memb!)}
         else { print("Problema na assinatura por membro inválido") }
+    }
+    
+    func addTags2(from post: Post) {
+        for tag in post.tags {
+            if !self.tags.contains(tag) {
+                self.tags.append(tag)
+            }
+        }
     }
 }

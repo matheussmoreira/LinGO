@@ -11,40 +11,58 @@ import SwiftUI
 struct RoomMembersView: View {
     @ObservedObject var membro: Membro
     @ObservedObject var sala: Sala
+    @State private var showMembro = false
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack{
                 ForEach(sala.membros.sorted(by: { $0.usuario.nome < $1.usuario.nome })) { membro_sala in
-                    RoundedRectangle(cornerRadius: 45)
-                        .fill(LingoColors.lingoBlue)
-                        .frame(width: UIScreen.width*0.85, height: 50)
-                        .overlay(
-                            HStack{
-                                Image(membro_sala.usuario.foto_perfil)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 30.0, height: 30.0)
-                                    .clipShape(Circle())
-                                    .padding(.leading)
+                    Button(action: {
+                        self.showMembro.toggle()
+                    }) {
+                        RoundedRectangle(cornerRadius: 45)
+                            .fill(LingoColors.lingoBlue)
+                            .frame(width: UIScreen.width*0.85, height: 50)
+                            .overlay(
+                                HStack{
+                                    Image(membro_sala.usuario.foto_perfil)
+                                        .renderingMode(.original)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 30.0, height: 30.0)
+                                        .clipShape(Circle())
+                                        .padding(.leading)
+                                    
+                                    Text(membro_sala.usuario.nome)
+                                        .padding(.leading)
+                                        .foregroundColor(.white)
+                                    Spacer()
+                                    if membro_sala.is_admin {
+                                        ZStack {
+                                            Capsule()
+                                                .frame(width: 65.0, height: 30.0)
+                                                .padding(.trailing,20)
+                                                .foregroundColor(Color.green)
+                                            Text("admin")
+                                                .foregroundColor(.white)
+                                                .padding(.trailing,20)
+                                        }
+                                    } //if is_admin
+                                } //HStack
                                 
-                                Text(membro_sala.usuario.nome)
-                                    .padding(.leading)
-                                    .foregroundColor(.white)
-                                Spacer()
-                                if membro_sala.is_admin {
-                                    ZStack {
-                                        Capsule()
-                                            .frame(width: 65.0, height: 30.0)
-                                            .padding(.trailing,20)
-                                            .foregroundColor(Color.green)
-                                        Text("admin")
-                                            .foregroundColor(.white)
-                                            .padding(.trailing,20)
-                                    }
-                                } //if is_admin
-                            } //HStack
-                    ) //overlay
+                        ) //overlay
+                    }//Button
+                        /*.actionSheet(isPresented: self.$showMembro) {
+                            ActionSheet(title: Text(membro_sala.usuario.nome), message: Text(self.sala.nome), buttons: [
+                                .default(
+                                    membro_sala.is_admin ?
+                                        Text("Dismiss as admin") :
+                                        Text("Turn admin")
+                                ){},
+                                .default(Text("Remove from room")){},
+                                .cancel()
+                            ])
+                    }*/
                 } //ForEach
             } //VStack
         } //ScrollView
@@ -53,7 +71,7 @@ struct RoomMembersView: View {
                 HStack {
                     Image(systemName: "magnifyingglass")
                         .imageScale(.large)
-                    .foregroundColor(LingoColors.lingoBlue)
+                        .foregroundColor(LingoColors.lingoBlue)
             })
     } //body
 }

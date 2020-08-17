@@ -30,7 +30,7 @@ struct DiscoverView: View {
                 else {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            ForEach(fyPosts.reversed()){ post in
+                            ForEach(fyPosts.suffix(7).reversed()){ post in
                                 Cards3D(post: post, membro: self.membro)
                             }
                         } //HStack
@@ -60,7 +60,7 @@ struct DiscoverView: View {
                 else {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            ForEach(sala.posts/*.reversed()*/){ post in
+                            ForEach(sala.posts.suffix(7).reversed()){ post in
                                 Cards3D(post: post, membro: self.membro)
                             }
                         }
@@ -92,8 +92,9 @@ struct DiscoverView: View {
     } //body
     
     func loadFY() {
-        for categ in membro.assinaturas {
-            for post in sala.getPostsByCategorie(categ: categ.id) {
+        fyPosts = []
+        for assinatura in membro.assinaturas {
+            for post in sala.getPostsByCategorie(categ: assinatura.id) {
                 if !fyPosts.contains(post) {
                     fyPosts.append(post)
                 }
