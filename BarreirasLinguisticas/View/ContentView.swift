@@ -26,14 +26,6 @@ struct ContentView: View {
         VStack {
             if sala != nil {
                 TabView(/*selection: $selection*/) {
-                    CategoriesView()
-                        .environmentObject(membro!)
-                        .environmentObject(sala!)
-                        .environmentObject(dao)
-                        .tabItem {
-                            Image(systemName: "circle.grid.2x2")
-                            Text("Categories")
-                    }
                     DiscoverView()
                         .environmentObject(membro!)
                         .environmentObject(sala!)
@@ -41,6 +33,14 @@ struct ContentView: View {
                         .tabItem {
                             Image(systemName: "rectangle.on.rectangle.angled")
                             Text("Discover")
+                    }
+                    CategoriesView()
+                        .environmentObject(membro!)
+                        .environmentObject(sala!)
+                        .environmentObject(dao)
+                        .tabItem {
+                            Image(systemName: "circle.grid.2x2")
+                            Text("Categories")
                     }
                     ProfileView()
                         .environmentObject(membro!)
@@ -69,7 +69,6 @@ struct ContentView: View {
                         ManageProfile(usuario: self.usuario)
                     }
                 }
-                
             }
         }
     } //body

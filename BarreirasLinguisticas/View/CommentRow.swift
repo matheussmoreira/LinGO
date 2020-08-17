@@ -60,10 +60,10 @@ struct CommentRow: View {
                             .lineLimit(10)
                             .frame(width: UIScreen.width*0.95)
                             .multilineTextAlignment(.leading)
-                            .background(Color.gray.opacity(0.1))
+                            .background(Color.gray.opacity(0.15))
                             .clipShape(RoundedRectangle(cornerRadius: 15))
                         
-                        Spacer()
+                       // Spacer()
                     }
                 } //VStack
                 

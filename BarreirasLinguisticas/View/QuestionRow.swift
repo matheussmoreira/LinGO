@@ -60,7 +60,7 @@ struct QuestionRow: View {
                             .font(.body)
                             .padding(.all)
                             .lineLimit(10)
-                            .frame(width: UIScreen.width*0.70, height: 70.0)
+                            .frame(width: UIScreen.width*0.70)
                             .multilineTextAlignment(.leading)
                             .background(Color.gray.opacity(0.15))
                             .clipShape(RoundedRectangle(cornerRadius: 15))
