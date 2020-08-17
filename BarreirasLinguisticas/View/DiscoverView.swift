@@ -15,6 +15,7 @@ struct DiscoverView: View {
     @State private var fyPosts: [Post] = []
     @State private var mensagem = ""
     @State private var showPostEditor = false
+    @State private var showRooms = false
     
     var body: some View {
         NavigationView {
@@ -69,7 +70,18 @@ struct DiscoverView: View {
             } //ScrollView Vertical
                 .onAppear { self.loadFY() }
                 .navigationBarTitle("Discover")
-                .navigationBarItems(trailing:
+                .navigationBarItems(
+                    leading:
+                    Button(action: {self.showRooms.toggle()}) {
+                        Image(systemName: "arrow.uturn.left")
+                            .imageScale(.large)
+                            .foregroundColor(LingoColors.lingoBlue)
+                        }
+                    .sheet(isPresented: $showRooms) {
+                        RoomsView(usuario: self.membro.usuario)
+                            .environmentObject(self.dao)
+                    },
+                    trailing:
                     HStack {
                         Spacer()
                         Image(systemName: "magnifyingglass")

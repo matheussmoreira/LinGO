@@ -149,7 +149,6 @@ class Sala: Identifiable, ObservableObject {
             novaAssinatura(membro: 3, categoria: 3)
             novaAssinatura(membro: 3, categoria: 6)
             novaAssinatura(membro: 3, categoria: 7)
-            novaAssinatura(membro: 3, categoria: 5)
             novaAssinatura(membro: 5, categoria: 5)
             
             //MARK: - POSTS SALVOS
