@@ -11,14 +11,15 @@ import SwiftUI
 struct RoomMembersView: View {
     @ObservedObject var membro: Membro
     @ObservedObject var sala: Sala
-    @State private var showMembro = false
+    @State private var showMembro: [String:Bool] = [:]
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack{
                 ForEach(sala.membros.sorted(by: { $0.usuario.nome < $1.usuario.nome })) { membro_sala in
+                    
                     Button(action: {
-                        self.showMembro.toggle()
+                        self.showMembro[membro_sala.usuario.nome] = true
                     }) {
                         RoundedRectangle(cornerRadius: 45)
                             .fill(LingoColors.lingoBlue)
@@ -52,17 +53,17 @@ struct RoomMembersView: View {
                                 
                         ) //overlay
                     }//Button
-                        /*.actionSheet(isPresented: self.$showMembro) {
-                            ActionSheet(title: Text(membro_sala.usuario.nome), message: Text(self.sala.nome), buttons: [
-                                .default(
-                                    membro_sala.is_admin ?
-                                        Text("Dismiss as admin") :
-                                        Text("Turn admin")
-                                ){},
-                                .default(Text("Remove from room")){},
-                                .cancel()
-                            ])
-                    }*/
+//                        .actionSheet(isPresented: self.showMembro[membro_sala.usuario.nome] ?? false) {
+//                            ActionSheet(title: Text(membro_sala.usuario.nome), message: Text(self.sala.nome), buttons: [
+//                                .default(
+//                                    membro_sala.is_admin ?
+//                                        Text("Dismiss as admin") :
+//                                        Text("Turn admin")
+//                                ){},
+//                                .default(Text("Remove from room")){},
+//                                .cancel()
+//                            ])
+//                    }
                 } //ForEach
             } //VStack
         } //ScrollView
