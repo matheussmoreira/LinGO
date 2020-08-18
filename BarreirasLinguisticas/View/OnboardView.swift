@@ -40,7 +40,7 @@ struct OnboardContainer<Onboard: View>: View {
     
     var body: some View {
         ZStack {
-            LingoColors.lingoBlue
+            Color("lingoBlueBackground")
                 .edgesIgnoringSafeArea(.all)
             
             VStack {

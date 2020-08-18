@@ -19,8 +19,8 @@ struct RoomsView: View {
     var body: some View {
         VStack {
             ZStack {
-                Color("lingoColor")
-    .edgesIgnoringSafeArea(.all)
+                Color("lingoBlueBackground")
+                    .edgesIgnoringSafeArea(.all)
                 
                 VStack {
                     Image("lingoLogoWhite")
@@ -96,7 +96,7 @@ struct RoomsView: View {
     
     func novaSala(nome: String, criador: Usuario) {
         let sala: Sala
-
+        
         if let ultima_sala = self.dao.salas.last {
             sala = Sala(id: ultima_sala.id + 1, nome: nome, criador: criador)
         }
