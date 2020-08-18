@@ -35,7 +35,7 @@ struct OnboardView_Previews: PreviewProvider {
 
 struct IntroView: View {
     @Binding var onContentView: Bool
-    @State private var introImages: [String] = ["languageSkills", "rooms", "discoverCards", "savePosts", "questions"]
+    //@State private var introImages: [String] = ["languageSkills", "rooms", "discoverCards", "savePosts", "questions"]
     
     var body: some View {
         ZStack {
@@ -43,17 +43,6 @@ struct IntroView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
-                ScrollView(.horizontal, showsIndicators: false){
-                    HStack(alignment: .center) {
-                        ForEach(0..<self.introImages.count) { idx in
-                            Image(self.introImages[idx])
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: UIScreen.width, height: 200, alignment: .center)
-                        }
-                    }
-                }
-                
                 Button(action: {self.onContentView.toggle()}) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
