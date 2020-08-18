@@ -35,11 +35,36 @@ struct OnboardView_Previews: PreviewProvider {
 
 struct IntroView: View {
     @Binding var onContentView: Bool
+    @State private var introImages: [String] = ["languageSkills", "rooms", "discoverCards", "savePosts", "questions"]
+    
     var body: some View {
-        VStack {
-            Button(action: {self.onContentView.toggle()}) {
-                Text("Sign-in")
+        ZStack {
+            LingoColors.lingoBlue
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack {
+                ScrollView(.horizontal, showsIndicators: false){
+                    HStack(alignment: .center) {
+                        ForEach(0..<self.introImages.count) { idx in
+                            Image(self.introImages[idx])
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: UIScreen.width, height: 200, alignment: .center)
+                        }
+                    }
+                }
+                
+                Button(action: {self.onContentView.toggle()}) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .frame(width: 250.0, height: 40.0)
+                            .foregroundColor(.black)
+                            
+                        Text("Sign-in with Apple")
+                            .foregroundColor(.white)
+                    }
+                }
             }
-        }
-    }
+        } //ZStack
+    } //body
 }
