@@ -71,6 +71,8 @@ struct ContentView: View {
                 }
             }
         }
+            .navigationBarBackButtonHidden(true)
+            .navigationBarHidden(true)
     } //body
 }
 
