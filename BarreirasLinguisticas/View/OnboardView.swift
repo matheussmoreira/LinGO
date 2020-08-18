@@ -15,13 +15,13 @@ struct OnboardView: View {
     var body: some View {
         VStack {
             if !onContentView {
-                IntroView(onContentView: $onContentView)
+                OnboardContainer(onContentView: $onContentView, viewControllers: Onboard.getAll.map{UIHostingController(rootView: OnboardPageView(element: $0))})
+                    .transition(.scale)
             }
             else {
                 ContentView()
                     .environmentObject(dao)
                     .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
-                //ler depois: https://www.hackingwithswift.com/quick-start/swiftui/how-to-add-and-remove-views-with-a-transition
             }
         } //VStack
     } //body
@@ -33,9 +33,10 @@ struct OnboardView_Previews: PreviewProvider {
     }
 }
 
-struct IntroView: View {
+struct OnboardContainer<Onboard: View>: View {
     @Binding var onContentView: Bool
-    //@State private var introImages: [String] = ["languageSkills", "rooms", "discoverCards", "savePosts", "questions"]
+    var viewControllers: [UIHostingController<Onboard>]
+    @State var currentPage = 0
     
     var body: some View {
         ZStack {
@@ -43,6 +44,8 @@ struct IntroView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
+                OnboardViewController(controllers: viewControllers, currentPage: self.$currentPage)
+                
                 Button(action: {self.onContentView.toggle()}) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
