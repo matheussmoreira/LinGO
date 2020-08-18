@@ -46,6 +46,8 @@ struct OnboardContainer<Onboard: View>: View {
             VStack {
                 OnboardViewController(controllers: viewControllers, currentPage: self.$currentPage)
                 
+                OnboardPageIndicator(currentIndex: self.currentPage)
+                
                 Button(action: {self.onContentView.toggle()}) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
@@ -55,7 +57,7 @@ struct OnboardContainer<Onboard: View>: View {
                         Text("Sign-in with Apple")
                             .foregroundColor(.white)
                     }
-                }
+                }.padding(.vertical)
             }
         } //ZStack
     } //body

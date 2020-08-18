@@ -27,15 +27,6 @@ struct RoomsView: View {
                         .padding()
                         .frame(width: 300, height: 268)
                     
-                    Text("Welcome back, \(usuario.nome)!")
-                        .font(.system(.largeTitle, design: .rounded))
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .lineLimit(nil)
-                        .padding(.bottom, 50)
-                    
-                    
                     Text("Select a room or create a new one!")
                         .font(.body)
                         .foregroundColor(.white)
