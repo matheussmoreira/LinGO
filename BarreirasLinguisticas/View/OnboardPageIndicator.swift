@@ -11,7 +11,7 @@ import SwiftUI
 struct OnboardPageIndicator: View {
     var currentIndex: Int = 0
     var pagesCount: Int = 5
-    var onColor: Color = LingoColors.lingoBlue
+    var onColor: Color = Color("lingoBlueBackgroundInverted")
     var offColor: Color = Color.white
     var diameter: CGFloat = 10
     
