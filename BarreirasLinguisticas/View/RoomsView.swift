@@ -19,14 +19,13 @@ struct RoomsView: View {
     var body: some View {
         VStack {
             ZStack {
-                LingoColors.lingoBlue
-                    .edgesIgnoringSafeArea(.all)
+                Color("lingoColor")
+    .edgesIgnoringSafeArea(.all)
                 
                 VStack {
-                    Image("lingologo")
-                        .resizable()
-                        .padding(.all, 32)
-                        .frame(width: 300, height: 128)
+                    Image("lingoLogoWhite")
+                        .padding()
+                        .frame(width: 300, height: 268)
                     
                     Text("Welcome back, \(usuario.nome)!")
                         .font(.system(.largeTitle, design: .rounded))
