@@ -15,9 +15,10 @@ struct RoomMembersView: View {
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
+            
             VStack{
                 ForEach(sala.membros.sorted(by: { $0.usuario.nome < $1.usuario.nome })) { membro_sala in
-                    MemberButton(sala: self.sala, membro: self.membro, membro_sala: membro_sala)//Button
+                    MemberButton(sala: self.sala, membro: self.membro, membro_sala: membro_sala)
                 } //ForEach
             } //VStack
         } //ScrollView
@@ -86,7 +87,11 @@ struct MemberButton: View {
                         membro_sala.is_admin ?
                             Text("Dismiss as admin") :
                             Text("Turn admin")
-                    ){},
+                    ){
+                        self.membro_sala.is_admin ?
+                            self.sala.removeAdmin(admin: self.membro_sala) :
+                            self.sala.novoAdmin(membro: self.membro_sala)
+                    },
                     .default(Text("Remove from room")){
                         self.sala.removeMembro(membro: self.membro_sala.usuario.id)
                     },

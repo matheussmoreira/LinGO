@@ -13,6 +13,7 @@ struct ProfileView: View {
     @EnvironmentObject var membro: Membro
     @EnvironmentObject var sala: Sala
     @State private var showRooms = false
+    @State private var showAlert = false
     let btn_height: CGFloat = 50
     let btn_width: CGFloat = 200
     let corner: CGFloat = 45
@@ -59,13 +60,13 @@ struct ProfileView: View {
                     //MARK: - POSTS PUBLICADOS
                     ScrollView(.vertical, showsIndicators: false) {
                         NavigationLink(destination:
-                        MyPublishedPosts().environmentObject(membro)) {
+                        MyPublications().environmentObject(membro)) {
                             RoundedRectangle(cornerRadius: corner)
                                 .foregroundColor(lingoBlue)
                                 .frame(height: btn_height)
                                 .frame(width: btn_width)
                                 .overlay(
-                                    Text("My published posts")
+                                    Text("My publications")
                                         .foregroundColor(.white)
                             )
                         }
@@ -108,23 +109,38 @@ struct ProfileView: View {
                             )
                         }
                         
-                        //MARK: - LEAVE
-                        
+                        //MARK: - CHANGE ROOM
                         Button(action: {self.showRooms.toggle()}) {
                             RoundedRectangle(cornerRadius: corner)
-                                .foregroundColor((Color(UIColor.systemGray5)))
+                                .foregroundColor(lingoBlue)
                                 .frame(height: btn_height)
                                 .frame(width: btn_width)
                                 .overlay(
-                                    Text("Change Room")
-                                        .foregroundColor(.red)
+                                    Text("Switch Room")
+                                        .foregroundColor(.white)
                             )
                         }
                         .sheet(isPresented: $showRooms) {
                             RoomsView(usuario: self.membro.usuario)
                                 .environmentObject(self.dao)
                         }
-                    }
+                        
+                        //MARK: - LEAVE ROOM
+                        Button(action: {self.showAlert.toggle()}) {
+                            RoundedRectangle(cornerRadius: corner)
+                                .foregroundColor((Color(UIColor.systemGray5)))
+                                .frame(height: btn_height)
+                                .frame(width: btn_width)
+                                .overlay(
+                                    Text("Leave Room")
+                                        .foregroundColor(.red)
+                            )
+                        }.alert(isPresented: $showAlert) {
+                            Alert(title: Text("Are you sure you want to leave this room?"),
+                                  primaryButton: .default(Text("Leave")),
+                                  secondaryButton: .cancel())
+                        }
+                    } //ScrollView
                 } //VStack
                     .padding(.top, -575)
             } //VStack

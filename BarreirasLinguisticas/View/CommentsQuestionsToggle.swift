@@ -210,6 +210,7 @@ struct Toggle: View {
                     .foregroundColor(.clear)
                     .background(Color.gray.opacity(0.1))
                     .clipShape(RoundedRectangle(cornerRadius: 15))
+                    .frame(width: UIScreen.width-20)
                 
                 HStack {
                     HStack {

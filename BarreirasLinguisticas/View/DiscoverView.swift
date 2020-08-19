@@ -22,10 +22,10 @@ struct DiscoverView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 if fyPosts.isEmpty {
                     VStack {
-                        Spacer()
+                        //Spacer()
                         Text("No posts for you :(")
                             .foregroundColor(Color.gray)
-                        Spacer()
+                        //Spacer()
                     }
                 }
                 else {
@@ -52,10 +52,10 @@ struct DiscoverView: View {
                 
                 if sala.posts.isEmpty {
                     VStack {
-                        Spacer()
+                        //Spacer()
                         Text("No recent posts :(")
                             .foregroundColor(Color.gray)
-                        Spacer()
+                        //Spacer()
                     }
                 }
                 else {

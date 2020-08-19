@@ -22,7 +22,7 @@ struct CategoriesView: View {
                 if sala.categorias.isEmpty {
                     VStack {
                         Spacer()
-                        Text("Add a new categorie by adding a new post!")
+                        Text("There are no categories yet :(")
                             .foregroundColor(Color.gray)
                         Spacer()
                     }

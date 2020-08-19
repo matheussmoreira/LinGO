@@ -1,5 +1,5 @@
 //
-//  MyPublishedPosts.swift
+//  MyPublications.swift
 //  BarreirasLinguisticas
 //
 //  Created by Matheus S. Moreira on 06/08/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct MyPublishedPosts: View {
+struct MyPublications: View {
     @EnvironmentObject var membro: Membro
     @State private var mensagem = ""
     
@@ -42,6 +42,6 @@ struct MyPublishedPosts: View {
 
 struct MyPublishedPosts_Previews: PreviewProvider {
     static var previews: some View {
-        MyPublishedPosts().environmentObject(DAO().salas[0].membros[0])
+        MyPublications().environmentObject(DAO().salas[0].membros[0])
     }
 }

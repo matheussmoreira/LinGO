@@ -23,7 +23,7 @@ struct OnboardPageView: View {
                         .bold()
                         .layoutPriority(1)
                         .multilineTextAlignment(.center)
-                    Text(element.subSubheading)
+                    Text(element.subheading)
                         .multilineTextAlignment(.center)
                         .foregroundColor(.white)
                 }.padding()

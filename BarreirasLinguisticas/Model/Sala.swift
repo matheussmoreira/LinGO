@@ -250,6 +250,19 @@ class Sala: Identifiable, ObservableObject {
         return nil
     }
     
+    func getAdminIndex(id: Int) -> Int? {
+        var idx = 0
+        for admin in admins {
+            if admin.usuario.id == id {
+                return idx
+            }
+            else {
+                idx += 1
+            }
+        }
+        return nil
+    }
+    
     //MARK: - NOVOS OBJETOS
     func novoMembro(id id_membro: Int, is_admin: Bool) {
         if let usuario = DAO().getUsuario(id: id_membro) {
@@ -262,6 +275,11 @@ class Sala: Identifiable, ObservableObject {
         else {
             print("Membro não adicionado à sala \(self.nome) pois Usuário não existe")
         }
+    }
+    
+    func novoAdmin(membro: Membro) {
+        membro.is_admin = true
+        admins.append(membro)
     }
     
     func novaCategoria(id: Int, nome: String) {
@@ -348,6 +366,16 @@ class Sala: Identifiable, ObservableObject {
         }
         else {
             print("Membro não encontrado na sala")
+        }
+    }
+    
+    func removeAdmin(admin: Membro) {
+        if let idx = getAdminIndex(id: admin.usuario.id) {
+            self.admins.remove(at: idx)
+            admin.is_admin = false
+        }
+        else {
+            print("Membro admin não encontrado na sala")
         }
     }
 }
