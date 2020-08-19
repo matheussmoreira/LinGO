@@ -16,13 +16,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="lingoLogoWhite" translatesAutoresizingMaskIntoConstraints="NO" id="CoE-p3-Xuo">
-                                <rect key="frame" x="10" y="356" width="394" height="184"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="lingoLogoWhite" translatesAutoresizingMaskIntoConstraints="NO" id="CoE-p3-Xuo">
+                                <rect key="frame" x="83" y="352" width="249" height="193"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" name="lingoBlueBackground"/>
                         <color key="tintColor" name="lingoBlueBackground"/>
+                        <constraints>
+                            <constraint firstItem="CoE-p3-Xuo" firstAttribute="centerX" secondItem="oxH-Ts-lgg" secondAttribute="centerX" id="8g6-cu-g9N"/>
+                            <constraint firstItem="CoE-p3-Xuo" firstAttribute="centerY" secondItem="oxH-Ts-lgg" secondAttribute="centerY" id="GFP-CU-Css"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="W9g-Mx-spj"/>
                     </view>
                 </viewController>
