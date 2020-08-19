@@ -73,7 +73,7 @@ struct DiscoverView: View {
                 .navigationBarItems(
                     leading:
                     Button(action: {self.showRooms.toggle()}) {
-                        Image(systemName: "arrow.uturn.left")
+                        Image(systemName: "rectangle.grid.1x2"/*"arrow.uturn.left"*/)
                             .imageScale(.large)
                             .foregroundColor(LingoColors.lingoBlue)
                         }

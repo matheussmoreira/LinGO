@@ -12,6 +12,7 @@ struct ProfileView: View {
     @EnvironmentObject var dao: DAO
     @EnvironmentObject var membro: Membro
     @EnvironmentObject var sala: Sala
+    @State private var showRooms = false
     let btn_height: CGFloat = 50
     let btn_width: CGFloat = 200
     let corner: CGFloat = 45
@@ -108,14 +109,21 @@ struct ProfileView: View {
                         }
                         
                         //MARK: - LEAVE
-                        RoundedRectangle(cornerRadius: corner)
-                            .foregroundColor((Color(UIColor.systemGray5)))
-                            .frame(height: btn_height)
-                            .frame(width: btn_width)
-                            .overlay(
-                                Text("Change Room")
-                                    .foregroundColor(.red)
-                        )
+                        
+                        Button(action: {self.showRooms.toggle()}) {
+                            RoundedRectangle(cornerRadius: corner)
+                                .foregroundColor((Color(UIColor.systemGray5)))
+                                .frame(height: btn_height)
+                                .frame(width: btn_width)
+                                .overlay(
+                                    Text("Change Room")
+                                        .foregroundColor(.red)
+                            )
+                        }
+                        .sheet(isPresented: $showRooms) {
+                            RoomsView(usuario: self.membro.usuario)
+                                .environmentObject(self.dao)
+                        }
                     }
                 } //VStack
                     .padding(.top, -575)

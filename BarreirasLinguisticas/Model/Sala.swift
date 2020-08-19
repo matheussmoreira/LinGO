@@ -237,6 +237,19 @@ class Sala: Identifiable, ObservableObject {
         return posts
     }
     
+    func getMembroIndex(id: Int) -> Int? {
+        var idx = 0
+        for membro in membros {
+            if membro.usuario.id == id {
+                return idx
+            }
+            else {
+                idx += 1
+            }
+        }
+        return nil
+    }
+    
     //MARK: - NOVOS OBJETOS
     func novoMembro(id id_membro: Int, is_admin: Bool) {
         if let usuario = DAO().getUsuario(id: id_membro) {
@@ -329,4 +342,12 @@ class Sala: Identifiable, ObservableObject {
         membro?.salvaPost(post: post)
     }
     
+    func removeMembro(membro id_membro: Int) {
+      if let idx = getMembroIndex(id: id_membro) {
+            self.membros.remove(at: idx)
+        }
+        else {
+            print("Membro não encontrado na sala")
+        }
+    }
 }
