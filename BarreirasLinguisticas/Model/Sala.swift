@@ -251,7 +251,6 @@ class Sala: Identifiable, ObservableObject {
                 for categ in categorias {
                     categ.addPost(post: post)
                 }
-                print("Criou o post!")
             }
             else {
                 print("Impossível criar o post pois nenhuma categoria é válida")

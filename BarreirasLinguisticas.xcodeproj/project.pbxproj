@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6603984B24DB31A100C5629B /* PostsCategorieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6603984A24DB31A100C5629B /* PostsCategorieView.swift */; };
 		6603984D24DB516800C5629B /* PostCardImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6603984C24DB516800C5629B /* PostCardImageView.swift */; };
+		66066F7C24EF201700021134 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66066F7B24EF201700021134 /* ImagePicker.swift */; };
 		6629EBA324EC45B4009802A5 /* OnboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6629EBA224EC45B4009802A5 /* OnboardView.swift */; };
 		6629EBAB24EC671D009802A5 /* Onboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6629EBAA24EC671D009802A5 /* Onboard.swift */; };
 		6629EBAD24EC73D2009802A5 /* OnboardPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6629EBAC24EC73D2009802A5 /* OnboardPageView.swift */; };
@@ -53,6 +54,7 @@
 /* Begin PBXFileReference section */
 		6603984A24DB31A100C5629B /* PostsCategorieView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsCategorieView.swift; sourceTree = "<group>"; };
 		6603984C24DB516800C5629B /* PostCardImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardImageView.swift; sourceTree = "<group>"; };
+		66066F7B24EF201700021134 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		6629EBA224EC45B4009802A5 /* OnboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardView.swift; sourceTree = "<group>"; };
 		6629EBAA24EC671D009802A5 /* Onboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboard.swift; sourceTree = "<group>"; };
 		6629EBAC24EC73D2009802A5 /* OnboardPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardPageView.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				EA6CA39E24DA00C000FAD6F6 /* PostEditorView.swift */,
 				66D7AA8A24CB8140001CEA3A /* ProfileView.swift */,
 				EA49EC2924EEEC210030F135 /* EditProfileView.swift */,
+				66066F7B24EF201700021134 /* ImagePicker.swift */,
 				665A157524DC2DE500D94359 /* MyPublications.swift */,
 				665A157724DC30A000D94359 /* MySavedPosts.swift */,
 				666C803124DCA329001A7148 /* SubscriptionsView.swift */,
@@ -275,6 +278,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66066F7C24EF201700021134 /* ImagePicker.swift in Sources */,
 				66D7AA8524CB80B2001CEA3A /* DiscoverView.swift in Sources */,
 				666732E824DAEDDD0069B02D /* Voto.swift in Sources */,
 				6629EBB124EC7EA9009802A5 /* OnboardPageIndicator.swift in Sources */,

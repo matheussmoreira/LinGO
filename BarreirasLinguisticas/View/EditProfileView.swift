@@ -11,7 +11,10 @@ import SwiftUI
 struct EditProfileView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var usuario: Usuario
-    //@EnvironmentObject var membro: Membro
+    @State private var photoProfile: Image? = Image("perfil")
+    @State private var presentImagePicker = false
+    @State private var presentImageActionScheet = false
+    @State private var presentCamera = false
     @State private var nome: String = ""
     @State private var fluenciaSelecionada = 0
     let fluencias = ["Basic", "Intermediate", "Advanced"]
@@ -19,7 +22,8 @@ struct EditProfileView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Image(usuario.foto_perfil)
+                //Image(usuario.foto_perfil)
+                photoProfile!
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 150.0, height: 150.0)
@@ -29,7 +33,25 @@ struct EditProfileView: View {
                             .colorInvert()
                             .shadow(radius: 8))
                     .padding(.all, 32)
-                
+                    .onTapGesture {
+                        self.presentImageActionScheet.toggle()
+                    }.sheet(isPresented: $presentImagePicker){
+                        ImagePickerView(sourceType: self.presentCamera ? .camera : .photoLibrary, image: self.$photoProfile, isPresented: self.$presentImagePicker)
+                        //Text("Escolha o modo aqui")
+                    }
+                    .actionSheet(isPresented: $presentImageActionScheet){
+                        ActionSheet(title: Text("Choose mode"), message: Text("Please choose your preferred mode to set your profile image"), buttons: [
+                            .default(Text("Camera")){
+                                self.presentImagePicker = true
+                                self.presentCamera = true
+                            },
+                            .default(Text("Photo Library")){
+                                self.presentImagePicker = true
+                                self.presentCamera = false
+                            },
+                            .cancel()
+                        ])
+                    }
                 Form {
                     Section {
                         TextField(usuario.nome, text: $nome)
@@ -59,6 +81,7 @@ struct EditProfileView: View {
                     Text("Save")
                 })
         }.onAppear{
+            self.photoProfile = Image(self.usuario.foto_perfil)
             switch self.usuario.fluencia_ingles {
                 case fluencia.basic:
                     self.fluenciaSelecionada = 0
