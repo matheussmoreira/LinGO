@@ -14,6 +14,7 @@ struct ProfileView: View {
     @EnvironmentObject var sala: Sala
     @State private var showRooms = false
     @State private var showAlert = false
+    @State private var showEditProfile = false
     let btn_height: CGFloat = 50
     let btn_width: CGFloat = 200
     let corner: CGFloat = 45
@@ -144,7 +145,19 @@ struct ProfileView: View {
                 } //VStack
                     .padding(.top, -575)
             } //VStack
+                .navigationBarItems(trailing: Button(action: {self.showEditProfile.toggle()}) {
+                            Text("Edit Profile")
+                                .foregroundColor(.white)
+                }
+                .sheet(isPresented: $showEditProfile) {
+                    EditProfileView()
+                        .environmentObject(self.dao)
+                        .environmentObject(self.membro)
+                        .environmentObject(self.sala)
+                })
+                
         } //NavigationView
+        
     } //body
 }
 
