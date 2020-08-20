@@ -20,7 +20,7 @@ struct OnboardView: View {
                     .transition(.scale)
             }
             else {
-                ContentView()
+                ContentView(signedIn: $signedIn)
                     .environmentObject(dao)
                     .transition(.scale)
             }

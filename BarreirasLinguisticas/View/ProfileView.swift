@@ -13,9 +13,11 @@ struct ProfileView: View {
     @EnvironmentObject var membro: Membro
     @EnvironmentObject var sala: Sala
     @State private var showRooms = false
-    @State private var showAlert = false
+    @State private var showAlertLeave = false
+    @State private var showAlertLogOut = false
+    @Binding var signedIn: Bool
     let btn_height: CGFloat = 50
-    let btn_width: CGFloat = 200
+    let btn_width: CGFloat = 230
     let corner: CGFloat = 45
     let lingoBlue = LingoColors.lingoBlue
     
@@ -126,7 +128,7 @@ struct ProfileView: View {
                         }
                         
                         //MARK: - LEAVE ROOM
-                        Button(action: {self.showAlert.toggle()}) {
+                        Button(action: {self.showAlertLeave.toggle()}) {
                             RoundedRectangle(cornerRadius: corner)
                                 .foregroundColor((Color(UIColor.systemGray5)))
                                 .frame(height: btn_height)
@@ -135,9 +137,25 @@ struct ProfileView: View {
                                     Text("Leave Room")
                                         .foregroundColor(.red)
                             )
-                        }.alert(isPresented: $showAlert) {
+                        }.alert(isPresented: $showAlertLeave) {
                             Alert(title: Text("Are you sure you want to leave this room?"),
                                   primaryButton: .default(Text("Leave")),
+                                  secondaryButton: .cancel())
+                        }
+                        
+                        //MARK: - LOGOUT
+                        Button(action: {self.showAlertLogOut.toggle()}) {
+                            RoundedRectangle(cornerRadius: corner)
+                                .foregroundColor(lingoBlue)
+                                .frame(height: btn_height)
+                                .frame(width: btn_width)
+                                .overlay(
+                                    Text("Log out")
+                                        .foregroundColor(.white)
+                            )
+                        }.alert(isPresented: $showAlertLogOut) {
+                            Alert(title: Text("Are you sure you want to log out?"),
+                                  primaryButton: .default(Text("Log out")) {self.signedIn.toggle()},
                                   secondaryButton: .cancel())
                         }
                     } //ScrollView
@@ -150,6 +168,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView().environmentObject(DAO().salas[0].membros[0])
+        ProfileView(signedIn: .constant(true)).environmentObject(DAO().salas[0].membros[0])
     }
 }
