@@ -58,7 +58,9 @@ struct DiscoverView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 1){
                             ForEach(sala.posts.suffix(7).reversed()){ post in
-                                CardsView(post: post, membro: self.membro)
+                                if !self.fyPosts.contains(post){
+                                    CardsView(post: post, membro: self.membro)
+                                }
                             }
                         }
                     } //ScrollView
