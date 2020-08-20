@@ -34,7 +34,6 @@ struct PostCardImageView: View {
                                 Text(categ.nome)
                                     .fontWeight(.semibold)
                                     .foregroundColor(self.colorScheme == .dark ? Color.white : Color.gray)
-                                    //.foregroundColor(Color.gray)
                                     .lineLimit(1)
                             }
                         }
@@ -93,8 +92,8 @@ struct PostCardImageView: View {
                 
                 //TAGS DO POST
                 HStack {
-                    ForEach(post.tags) { tag in
-                        Text("#\(tag.nome)")
+                    ForEach(0..<post.tags.count) { idx in
+                        Text(self.post.tags[idx])
                             .foregroundColor(self.colorScheme == .dark ? Color.white : LingoColors.lingoBlue)
                             .lineLimit(1)
                     }

@@ -19,7 +19,7 @@ struct PostEditorView: View {
     @State private var description: String = ""
     @State private var title: String = ""
     @State private var link: String = ""
-    @State private var tag: String = ""
+    @State private var tags: String = ""
     @State private var value: CGFloat = 0
     
     var body: some View {
@@ -64,7 +64,7 @@ struct PostEditorView: View {
                             .foregroundColor(.blue)
                             .font(.headline)
                         
-                        TextField("Add tags! Eg.: ''SwiftUI, UX, English'' etc. ", text: $tag)
+                        TextField("Add tags! Eg.: ''SwiftUI, UX, English'' etc. ", text: $tags)
                             .font(.headline)
                             .foregroundColor(.blue)
                         
@@ -81,10 +81,9 @@ struct PostEditorView: View {
                 .navigationBarTitle(Text("New post!"))
                 .navigationBarItems(trailing:
                     Button(action: {
-                        self.publica(id_membro: self.membro.usuario.id, titulo: self.title, descricao: self.description, linkString: self.link, categs: [10], tags: [])
+                        self.publica(id_membro: self.membro.usuario.id, titulo: self.title, descricao: self.description, linkString: self.link, categs: [10], tags: self.tags)
                         
                     }){
-                        
                         ZStack {
                         Capsule()
                             .frame(width: 90, height: 50)
@@ -101,7 +100,7 @@ struct PostEditorView: View {
         } //NavigationView
     } //body
     
-    func publica(id_membro: Int, titulo: String, descricao: String?, linkString: String, categs: [Int], tags: [Int]){
+    func publica(id_membro: Int, titulo: String, descricao: String?, linkString: String, categs: [Int], tags: String){
         
         if (titulo == "") {
             print("The post needs a title!")

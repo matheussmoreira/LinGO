@@ -46,17 +46,23 @@ struct CategoriesView: View {
                                         .padding(.top, 5.0)
                                     
                                 }
-                                if categ.tags.isEmpty {
+                                if categ.tagsPosts.isEmpty {
                                     Text("No tags")
                                         .font(.subheadline)
                                         .foregroundColor(Color.gray)
                                         .multilineTextAlignment(.leading)
                                 }
                                 else {
-                                    TagsList(tags: categ.tags)
-                                        .lineLimit(1)
+                                    HStack {
+                                        ForEach(0..<categ.tagsPosts.count) { idx in
+                                            Text(categ.tagsPosts[idx])
+                                                .font(.subheadline)
+                                                .foregroundColor(.gray)
+                                                .multilineTextAlignment(.leading)
+                                        }
+                                    }
                                 }
-                            }
+                            } //VStack
                             .padding(.vertical, 4)
                         } //HStack
                     }//List
@@ -95,19 +101,4 @@ struct CategoriesView_Previews: PreviewProvider {
     static var previews: some View {
         CategoriesView().environmentObject(DAO().salas[0].membros[0])
     }
-}
-
-struct TagsList: View {
-    var tags: [Tag]
-    
-    var body: some View {
-        HStack(){
-            ForEach(tags){ tag in
-                Text("\(tag.nome) /")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-                    .multilineTextAlignment(.leading)
-            }
-        } //HStack
-    } //body
 }

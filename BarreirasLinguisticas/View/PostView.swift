@@ -45,10 +45,10 @@ struct PostView: View {
                     
                     //TAGS
                     HStack{
-                        ForEach(post.tags) { tag in
-                            Text("#\(tag.nome)")
-                                .foregroundColor(LingoColors.lingoBlue)
-                        }
+//                        ForEach(post.tags) { tag in
+//                            Text("#\(tag.nome)")
+//                                .foregroundColor(LingoColors.lingoBlue)
+//                        }
                         Spacer()
                     }
                     .padding(.bottom)
