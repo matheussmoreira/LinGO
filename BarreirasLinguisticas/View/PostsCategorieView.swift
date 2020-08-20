@@ -22,7 +22,6 @@ struct PostsCategorieView: View {
     
     var body: some View {
         VStack {
-            
             if loaded_posts.isEmpty {
                 Spacer()
                 Text("No posts in \(categoria.nome) :(")
@@ -35,11 +34,11 @@ struct PostsCategorieView: View {
                             .foregroundColor(Color("lingoBlueBackgroundInverted"))
                         
                         Text("Create a new one!")
-                            .foregroundColor(.primary).colorInvert()
+                            .foregroundColor(.primary)
                     }
                     
                 }
-                .sheet(isPresented: $showPostEditor){
+                .sheet(isPresented: $showPostEditor, onDismiss: {self.loaded_posts = self.sala.getPostsByCategorie(categ: self.categoria.id)}){
                     PostEditorView()
                         .environmentObject(self.membro)
                         .environmentObject(self.sala)

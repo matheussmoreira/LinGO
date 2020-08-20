@@ -92,8 +92,8 @@ struct PostEditorView: View {
                         Text("Go!")
                             .bold()
                             .font(.title)
-                            .foregroundColor(.primary)
-                            .colorInvert()
+                            .foregroundColor(.white)
+                            //.colorInvert()
                     }
                     }//ZStack
                         .padding(.top, 32)
