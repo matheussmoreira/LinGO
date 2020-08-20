@@ -67,6 +67,7 @@ struct PostEditorView: View {
                         TextField("Add tags! Eg.: ''SwiftUI, UX, English'' etc. ", text: $tags)
                             .font(.headline)
                             .foregroundColor(.blue)
+                            .autocapitalization(.allCharacters)
                         
                     }
                     .padding(.bottom)

@@ -37,7 +37,6 @@
 		66D7AA7124CB5136001CEA3A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66D7AA6F24CB5136001CEA3A /* LaunchScreen.storyboard */; };
 		66D7AA7A24CB59C3001CEA3A /* Membro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7AA7924CB59C3001CEA3A /* Membro.swift */; };
 		66D7AA7C24CB59E1001CEA3A /* Categoria.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7AA7B24CB59E1001CEA3A /* Categoria.swift */; };
-		66D7AA7E24CB59F5001CEA3A /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7AA7D24CB59F5001CEA3A /* Tag.swift */; };
 		66D7AA8024CB5A08001CEA3A /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7AA7F24CB5A08001CEA3A /* Post.swift */; };
 		66D7AA8224CB5A1D001CEA3A /* Sala.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7AA8124CB5A1D001CEA3A /* Sala.swift */; };
 		66D7AA8524CB80B2001CEA3A /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7AA8424CB80B2001CEA3A /* DiscoverView.swift */; };
@@ -83,7 +82,6 @@
 		66D7AA7224CB5136001CEA3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66D7AA7924CB59C3001CEA3A /* Membro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Membro.swift; sourceTree = "<group>"; };
 		66D7AA7B24CB59E1001CEA3A /* Categoria.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categoria.swift; sourceTree = "<group>"; };
-		66D7AA7D24CB59F5001CEA3A /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		66D7AA7F24CB5A08001CEA3A /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		66D7AA8124CB5A1D001CEA3A /* Sala.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sala.swift; sourceTree = "<group>"; };
 		66D7AA8424CB80B2001CEA3A /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
@@ -164,7 +162,6 @@
 				66D7AA7F24CB5A08001CEA3A /* Post.swift */,
 				662B018824D9F3FC008BF2D7 /* Comentario.swift */,
 				66D7AA7B24CB59E1001CEA3A /* Categoria.swift */,
-				66D7AA7D24CB59F5001CEA3A /* Tag.swift */,
 				663C8ECB24CC6C2E000936FF /* Link.swift */,
 				668D55FF24D43ED900EBDD15 /* LinkManager.swift */,
 				666732E724DAEDDD0069B02D /* Voto.swift */,
@@ -283,7 +280,6 @@
 				664973C724E4C7BC00D01BAC /* UIManager.swift in Sources */,
 				66D7AA8224CB5A1D001CEA3A /* Sala.swift in Sources */,
 				662B018924D9F3FC008BF2D7 /* Comentario.swift in Sources */,
-				66D7AA7E24CB59F5001CEA3A /* Tag.swift in Sources */,
 				66D7AA7A24CB59C3001CEA3A /* Membro.swift in Sources */,
 				663C8ED024CCB7F5000936FF /* LinkView.swift in Sources */,
 				EAF98EF424DDAEF80087FA3A /* CommentsQuestionsToggle.swift in Sources */,
