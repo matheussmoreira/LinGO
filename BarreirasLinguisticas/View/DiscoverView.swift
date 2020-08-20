@@ -32,7 +32,7 @@ struct DiscoverView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
                             ForEach(fyPosts.suffix(7).reversed()){ post in
-                                Cards3D(post: post, membro: self.membro)
+                                CardsView(post: post, membro: self.membro)
                             }
                         } //HStack
                     } //ScrollView
@@ -62,7 +62,7 @@ struct DiscoverView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
                             ForEach(sala.posts.suffix(7).reversed()){ post in
-                                Cards3D(post: post, membro: self.membro)
+                                CardsView(post: post, membro: self.membro)
                             }
                         }
                     } //ScrollView
@@ -122,7 +122,7 @@ struct HomeView_Previews: PreviewProvider {
     }
 }
 
-struct Cards3D: View {
+struct CardsView: View {
     @ObservedObject var post: Post
     @ObservedObject var membro: Membro
     

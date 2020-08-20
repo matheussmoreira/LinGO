@@ -15,7 +15,7 @@ struct ProfileView: View {
     @State private var showRooms = false
     @State private var showAlertLeave = false
     @State private var showAlertLogOut = false
-    @Binding var signedIn: Bool
+    @Binding var loggedIn: Bool
     let btn_height: CGFloat = 50
     let btn_width: CGFloat = 230
     let corner: CGFloat = 45
@@ -155,7 +155,9 @@ struct ProfileView: View {
                             )
                         }.alert(isPresented: $showAlertLogOut) {
                             Alert(title: Text("Are you sure you want to log out?"),
-                                  primaryButton: .default(Text("Log out")) {self.signedIn.toggle()},
+                                  primaryButton: .default(Text("Log out")) {
+                                    self.loggedIn.toggle()
+                                },
                                   secondaryButton: .cancel())
                         }
                     } //ScrollView
@@ -168,6 +170,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(signedIn: .constant(true)).environmentObject(DAO().salas[0].membros[0])
+        ProfileView(loggedIn: .constant(true)).environmentObject(DAO().salas[0].membros[0])
     }
 }
