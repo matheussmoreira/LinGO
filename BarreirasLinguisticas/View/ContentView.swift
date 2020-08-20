@@ -68,7 +68,7 @@ struct ContentView: View {
                     Button(action: { self.showProfile.toggle() }) {
                         Text("Manage my profile")
                     }.sheet(isPresented: $showProfile) {
-                        ManageProfile(usuario: self.usuario)
+                        EditProfileView(usuario: self.usuario)
                     }
                     Button(action: {self.showAlertLogOut.toggle()}) {
                         Text("Log Out")
@@ -88,45 +88,5 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(loggedIn: .constant(true))
-    }
-}
-
-struct ManageProfile: View {
-    @ObservedObject var usuario: Usuario
-    
-    var body: some View {
-        VStack {
-            Rectangle()
-                .frame(width: 60, height: 6)
-                .cornerRadius(3.0)
-                .opacity(0.1)
-                .padding(.top,10)
-            
-            Spacer()
-            
-            Image(usuario.foto_perfil)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 150.0, height: 150.0)
-                .clipShape(Circle())
-                .overlay(
-                    Circle().stroke(Color.primary, lineWidth: 8)
-                    .colorInvert()
-            )
-            
-            Text(usuario.nome)
-                .font(.system(.title, design: .rounded))
-                .fontWeight(.bold)
-                .foregroundColor(Color.primary)
-            
-            HStack {
-                Text(usuario.fluencia_ingles.rawValue)
-                    .foregroundColor(Color.gray)
-                Circle()
-                    .fill(usuario.cor_fluencia)
-                    .frame(width: 15.0, height: 15.0)
-            }
-            Spacer()
-        }
     }
 }

@@ -13,7 +13,7 @@ enum fluencia: String {
     case advanced = "Advanced English"
     case intermed = "Intermediate English"
     case basic = "Basic English"
-    case unknown = "<fluencia>"
+    case unknown = "Unknown English"
 }
 
 class Usuario: Equatable, Identifiable, ObservableObject {
