@@ -16,6 +16,8 @@ struct ProfileView: View {
     @State private var showAlertLeave = false
     @State private var showAlertLogOut = false
     @Binding var loggedIn: Bool
+    @State private var showAlert = false
+    @State private var showEditProfile = false
     let btn_height: CGFloat = 50
     let btn_width: CGFloat = 230
     let corner: CGFloat = 45
@@ -164,7 +166,19 @@ struct ProfileView: View {
                 } //VStack
                     .padding(.top, -575)
             } //VStack
+                .navigationBarItems(trailing: Button(action: {self.showEditProfile.toggle()}) {
+                            Text("Edit Profile")
+                                .foregroundColor(.white)
+                }
+                .sheet(isPresented: $showEditProfile) {
+                    EditProfileView()
+                        .environmentObject(self.dao)
+                        .environmentObject(self.membro)
+                        .environmentObject(self.sala)
+                })
+                
         } //NavigationView
+        
     } //body
 }
 
