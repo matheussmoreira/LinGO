@@ -70,18 +70,21 @@ struct RoomsView: View {
                     
                     Divider()
                     
-                    ZStack {
-                        Capsule()
-                            .frame(width: 200.0, height: 50.0)
-                            .foregroundColor((Color(UIColor.systemGray5)))
-                        
-                        Text("Logout")
-                            .foregroundColor(.red)
-                        
+                    Button(action: {
+                    }) {
+                        ZStack {
+                            Capsule()
+                                .frame(width: 200.0, height: 50.0)
+                                .foregroundColor((Color(UIColor.systemGray5)))
+                            
+                            Text("Logout")
+                                .foregroundColor(.red)
+                        }
+                        .padding()
                     }
-                    .padding()
                 } //VStack
             }//ZStack
+            
         } //VStack
     } //body
     

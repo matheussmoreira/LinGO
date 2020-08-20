@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var dao: DAO
+    @Binding var loggedIn: Bool
+    @State private var showAlertLogOut = false
     var sala: Sala? { return dao.sala_atual }
     var usuario: Usuario { return dao.usuario_atual! }
     var membro: Membro? {
@@ -42,7 +44,7 @@ struct ContentView: View {
                             Image(systemName: "circle.grid.2x2")
                             Text("Categories")
                     }
-                    ProfileView()
+                    ProfileView(loggedIn: $loggedIn)
                         .environmentObject(membro!)
                         .environmentObject(sala!)
                         .environmentObject(dao)
@@ -61,12 +63,19 @@ struct ContentView: View {
                         Text("Manage rooms")
                     }.sheet(isPresented: $showRooms) {
                         RoomsView(usuario: self.usuario)
-                            .environmentObject(self.dao)
+                            .environmentObject(self.dao)    
                     }
                     Button(action: { self.showProfile.toggle() }) {
                         Text("Manage my profile")
                     }.sheet(isPresented: $showProfile) {
                         ManageProfile(usuario: self.usuario)
+                    }
+                    Button(action: {self.showAlertLogOut.toggle()}) {
+                        Text("Log Out")
+                    }.alert(isPresented: $showAlertLogOut) {
+                        Alert(title: Text("Are you sure you want to log out?"),
+                              primaryButton: .default(Text("Log out")) {self.loggedIn.toggle()},
+                              secondaryButton: .cancel())
                     }
                 }
             }
@@ -78,7 +87,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(loggedIn: .constant(true))
     }
 }
 
