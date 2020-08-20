@@ -18,7 +18,7 @@ struct CommentRow: View {
             VStack {
                 VStack {
                     HStack(alignment: .top) {
-                        Image(comentario.publicador.usuario.foto_perfil)
+                        comentario.publicador.usuario.foto_perfil
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 40.0, height: 40.0)
@@ -68,7 +68,7 @@ struct CommentRow: View {
                 } //VStack
                 
                 HStack {
-                    Image(membro.usuario.foto_perfil)
+                    membro.usuario.foto_perfil
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 20.0, height: 20.0)

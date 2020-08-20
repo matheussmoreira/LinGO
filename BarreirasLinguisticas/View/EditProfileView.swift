@@ -37,7 +37,6 @@ struct EditProfileView: View {
                         self.presentImageActionScheet.toggle()
                     }.sheet(isPresented: $presentImagePicker){
                         ImagePickerView(sourceType: self.presentCamera ? .camera : .photoLibrary, image: self.$photoProfile, isPresented: self.$presentImagePicker)
-                        //Text("Escolha o modo aqui")
                     }
                     .actionSheet(isPresented: $presentImageActionScheet){
                         ActionSheet(title: Text("Choose mode"), message: Text("Please choose your preferred mode to set your profile image"), buttons: [
@@ -51,7 +50,13 @@ struct EditProfileView: View {
                             },
                             .cancel()
                         ])
-                    }
+                    } //actionSheet
+                
+                Text("Click to choose a picture")
+                    .font(.system(.title, design: .rounded))
+                    .fontWeight(.bold)
+                    .foregroundColor(.primary)
+                
                 Form {
                     Section {
                         TextField(usuario.nome, text: $nome)
@@ -62,14 +67,15 @@ struct EditProfileView: View {
                         }
                     }
                 }
-            }
+            } //VStack
             .navigationBarTitle("Edit Profile", displayMode: .inline)
             .navigationBarItems(leading:
                 Button(action: {self.presentationMode.wrappedValue.dismiss()}){
                     Text("Cancel")
                 }
                 ,trailing: Button(action: {
-                    self.usuario.nome = self.nome
+                    if self.nome != "" {self.usuario.nome = self.nome}
+                    self.usuario.foto_perfil = self.photoProfile ?? self.usuario.foto_perfil
                     switch self.fluenciaSelecionada {
                         case 0: self.usuario.fluencia_ingles = fluencia.basic
                         case 1: self.usuario.fluencia_ingles = fluencia.intermed
@@ -81,7 +87,7 @@ struct EditProfileView: View {
                     Text("Save")
                 })
         }.onAppear{
-            self.photoProfile = Image(self.usuario.foto_perfil)
+            self.photoProfile = self.usuario.foto_perfil
             switch self.usuario.fluencia_ingles {
                 case fluencia.basic:
                     self.fluenciaSelecionada = 0
