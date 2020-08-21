@@ -12,11 +12,9 @@ import LinkPresentation
 class Sala: Identifiable, ObservableObject {
     let id: Int
     @Published var nome: String
-    @Published var admins: [Membro] = []
     @Published var membros: [Membro] = []
     @Published var posts: [Post] = []
     @Published var categorias: [Categoria] = []
-    var link_manager = LinkManager()
     
     init(id: Int, nome: String, criador: Usuario) {
         self.id = id
@@ -202,26 +200,13 @@ class Sala: Identifiable, ObservableObject {
         return nil
     }
     
-    func getAdminIndex(id: Int) -> Int? {
-        var idx = 0
-        for admin in admins {
-            if admin.usuario.id == id {
-                return idx
-            }
-            else {
-                idx += 1
-            }
-        }
-        return nil
-    }
-    
     //MARK: - NOVOS OBJETOS
     func novoMembro(id id_membro: Int, is_admin: Bool) {
         if let usuario = DAO().getUsuario(id: id_membro) {
             if getMembro(id: usuario.id) == nil { //para nao adicionar membro repetido
                 let membro = Membro(usuario: usuario, sala: self, is_admin: is_admin)
                 self.membros.append(membro)
-                if is_admin { self.admins.append(membro) }
+               // if is_admin { self.admins.append(membro) }
             }
         }
         else {
@@ -231,7 +216,7 @@ class Sala: Identifiable, ObservableObject {
     
     func novoAdmin(membro: Membro) {
         membro.is_admin = true
-        admins.append(membro)
+        //admins.append(membro)
     }
     
     func novaCategoria(id: Int, nome: String) {
@@ -299,22 +284,6 @@ class Sala: Identifiable, ObservableObject {
     func removeMembro(membro id_membro: Int) {
         if let idx = getMembroIndex(id: id_membro) {
             self.membros.remove(at: idx)
-            if let idx = getAdminIndex(id: id_membro){
-                self.admins.remove(at: idx)
-            }
-            else {
-                print("Membro não encontrado na sala")
-            }
-        }
-    }
-    
-    func removeAdmin(admin: Membro) {
-        if let idx = getAdminIndex(id: admin.usuario.id) {
-            self.admins.remove(at: idx)
-            admin.is_admin = false
-        }
-        else {
-            print("Admin não encontrado")
         }
     }
 }
