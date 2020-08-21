@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "66D7AA6024CB5135001CEA3A"
-               BuildableName = "LinGO.app"
+               BuildableName = "LinGO!.app"
                BlueprintName = "BarreirasLinguisticas"
                ReferencedContainer = "container:BarreirasLinguisticas.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "66D7AA6024CB5135001CEA3A"
-            BuildableName = "LinGO.app"
+            BuildableName = "LinGO!.app"
             BlueprintName = "BarreirasLinguisticas"
             ReferencedContainer = "container:BarreirasLinguisticas.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "66D7AA6024CB5135001CEA3A"
-            BuildableName = "LinGO.app"
+            BuildableName = "LinGO!.app"
             BlueprintName = "BarreirasLinguisticas"
             ReferencedContainer = "container:BarreirasLinguisticas.xcodeproj">
          </BuildableReference>

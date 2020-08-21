@@ -31,7 +31,7 @@ struct SubscriptionsView: View {
                                 RoundedRectangle(cornerRadius: 45)
                                     .fill(LingoColors.lingoBlue)
                                     .frame(height: 50)
-                                    .frame(width: UIScreen.width*0.85)
+                                    .frame(width: UIScreen.width*0.95)
                                     .overlay(
                                         Text(asst.nome)
                                             .padding(.leading)
