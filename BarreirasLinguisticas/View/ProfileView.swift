@@ -228,40 +228,46 @@ struct AdminView: View {
                 .padding(.top,10)
             
             NavigationView{
-                //Spacer()
-                NavigationLink(destination: PostsDenunciados()) {
-                    RoundedRectangle(cornerRadius: corner)
-                        .foregroundColor(lingoBlue)
-                        .frame(height: btn_height)
-                        .frame(width: btn_width)
-                        .overlay(
-                            Text("Posts denunciados")
-                                .foregroundColor(.white)
-                    )
-                }
                 
-                NavigationLink(destination: ComentariosDenunciados()) {
-                    RoundedRectangle(cornerRadius: corner)
-                        .foregroundColor(lingoBlue)
-                        .frame(height: btn_height)
-                        .frame(width: btn_width)
-                        .overlay(
-                            Text("Comentários denunciados")
-                                .foregroundColor(.white)
-                    )
-                }
-                
-                Button(action: {}){
-                    RoundedRectangle(cornerRadius: corner)
-                        .foregroundColor(lingoBlue)
-                        .frame(height: btn_height)
-                        .frame(width: btn_width)
-                        .overlay(
-                            Text("Convidar novo membro")
-                                .foregroundColor(.white)
-                    )
-                }
-                //Spacer()
+                VStack {
+                    Text("What do you want to do?")
+                        .font(.system(.title, design: .rounded))
+                        .fontWeight(.bold)
+                    
+                    NavigationLink(destination: PostsDenunciados()) {
+                        RoundedRectangle(cornerRadius: corner)
+                            .foregroundColor(lingoBlue)
+                            .frame(height: btn_height)
+                            .frame(width: btn_width)
+                            .overlay(
+                                Text("Check reported posts")
+                                    .foregroundColor(.white)
+                        )
+                    }
+                    
+                    NavigationLink(destination: ComentariosDenunciados()) {
+                        RoundedRectangle(cornerRadius: corner)
+                            .foregroundColor(lingoBlue)
+                            .frame(height: btn_height)
+                            .frame(width: btn_width)
+                            .overlay(
+                                Text("Check reported comments")
+                                    .foregroundColor(.white)
+                        )
+                    }
+                    
+                    Button(action: {}){
+                        RoundedRectangle(cornerRadius: corner)
+                            .foregroundColor(lingoBlue)
+                            .frame(height: btn_height)
+                            .frame(width: btn_width)
+                            .overlay(
+                                Text("Invite a new member")
+                                    .foregroundColor(.white)
+                        )
+                    }
+                    //Spacer()
+                } //VStack
             } //NavigationView
         } //VStack
     } //body
