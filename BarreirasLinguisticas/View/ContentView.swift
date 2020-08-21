@@ -12,11 +12,11 @@ struct ContentView: View {
     @EnvironmentObject var dao: DAO
     @Binding var loggedIn: Bool
     @State private var showAlertLogOut = false
-    var sala: Sala? { return dao.sala_atual }
+    var sala_atual: Sala? { return dao.sala_atual }
     var usuario: Usuario { return dao.usuario_atual! }
     var membro: Membro? {
-        if sala != nil {
-            return sala!.getMembro(id: usuario.id)!
+        if sala_atual != nil {
+            return sala_atual!.getMembro(id: usuario.id)!
         }
         return nil
     }
@@ -26,11 +26,11 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            if sala != nil {
+            if sala_atual != nil {
                 TabView(/*selection: $selection*/) {
                     DiscoverView()
                         .environmentObject(membro!)
-                        .environmentObject(sala!)
+                        .environmentObject(sala_atual!)
                         .environmentObject(dao)
                         .tabItem {
                             Image(systemName: "rectangle.on.rectangle.angled")
@@ -38,7 +38,7 @@ struct ContentView: View {
                     }
                     CategoriesView()
                         .environmentObject(membro!)
-                        .environmentObject(sala!)
+                        .environmentObject(sala_atual!)
                         .environmentObject(dao)
                         .tabItem {
                             Image(systemName: "circle.grid.2x2")
@@ -46,7 +46,7 @@ struct ContentView: View {
                     }
                     ProfileView(loggedIn: $loggedIn)
                         .environmentObject(membro!)
-                        .environmentObject(sala!)
+                        .environmentObject(sala_atual!)
                         .environmentObject(dao)
                         .tabItem {
                             Image(systemName: "person")

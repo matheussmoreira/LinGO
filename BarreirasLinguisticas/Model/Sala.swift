@@ -297,11 +297,14 @@ class Sala: Identifiable, ObservableObject {
     }
     
     func removeMembro(membro id_membro: Int) {
-      if let idx = getMembroIndex(id: id_membro) {
+        if let idx = getMembroIndex(id: id_membro) {
             self.membros.remove(at: idx)
-        }
-        else {
-            print("Membro não encontrado na sala")
+            if let idx = getAdminIndex(id: id_membro){
+                self.admins.remove(at: idx)
+            }
+            else {
+                print("Membro não encontrado na sala")
+            }
         }
     }
     
@@ -311,7 +314,7 @@ class Sala: Identifiable, ObservableObject {
             admin.is_admin = false
         }
         else {
-            print("Membro admin não encontrado na sala")
+            print("Admin não encontrado")
         }
     }
 }

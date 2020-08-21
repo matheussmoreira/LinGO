@@ -73,7 +73,7 @@ struct CategoriesView: View {
                 .navigationBarItems(
                     leading:
                     Button(action: {self.showRooms.toggle()}) {
-                        Image(systemName: "rectangle.grid.1x2"/*"arrow.uturn.left"*/)
+                        Image(systemName: "rectangle.grid.1x2")
                             .imageScale(.large)
                             .foregroundColor(LingoColors.lingoBlue)
                         }
