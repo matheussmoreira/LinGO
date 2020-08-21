@@ -55,29 +55,7 @@ struct ContentView: View {
                 } //TabView
             }
             else {
-                VStack {
-                    Text("You don't belong to any room yet :(.\nCreate a new one or accept an invitation!")
-                        .foregroundColor(Color.gray)
-                        .multilineTextAlignment(.center)
-                    Button(action: { self.showRooms.toggle() }) {
-                        Text("Manage rooms")
-                    }.sheet(isPresented: $showRooms) {
-                        RoomsView(usuario: self.usuario)
-                            .environmentObject(self.dao)    
-                    }
-                    Button(action: { self.showProfile.toggle() }) {
-                        Text("Manage my profile")
-                    }.sheet(isPresented: $showProfile) {
-                        EditProfileView(usuario: self.usuario)
-                    }
-                    Button(action: {self.showAlertLogOut.toggle()}) {
-                        Text("Log Out")
-                    }.alert(isPresented: $showAlertLogOut) {
-                        Alert(title: Text("Are you sure you want to log out?"),
-                              primaryButton: .default(Text("Log out")) {self.loggedIn.toggle()},
-                              secondaryButton: .cancel())
-                    }
-                }
+                EmptyRoom(usuario: usuario, showRooms: $showRooms, showProfile: $showProfile, showAlertLogOut: $showAlertLogOut, loggedIn: $loggedIn)
             }
         }
             .navigationBarBackButtonHidden(true)
@@ -88,5 +66,40 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(loggedIn: .constant(true))
+    }
+}
+
+struct EmptyRoom: View {
+    @EnvironmentObject var dao: DAO
+    @ObservedObject var usuario: Usuario
+    @Binding var showRooms: Bool
+    @Binding var showProfile: Bool
+    @Binding var showAlertLogOut: Bool
+    @Binding var loggedIn: Bool
+    
+    var body: some View {
+        VStack {
+            Text("You don't belong to any room yet :(.\nCreate a new one or accept an invitation!")
+                .foregroundColor(Color.gray)
+                .multilineTextAlignment(.center)
+            Button(action: { self.showRooms.toggle() }) {
+                Text("Manage rooms")
+            }.sheet(isPresented: $showRooms) {
+                RoomsView(usuario: self.usuario)
+                    .environmentObject(self.dao)
+            }
+            Button(action: { self.showProfile.toggle() }) {
+                Text("Manage my profile")
+            }.sheet(isPresented: $showProfile) {
+                EditProfileView(usuario: self.usuario)
+            }
+            Button(action: {self.showAlertLogOut.toggle()}) {
+                Text("Log Out")
+            }.alert(isPresented: $showAlertLogOut) {
+                Alert(title: Text("Are you sure you want to log out?"),
+                      primaryButton: .default(Text("Log out")) {self.loggedIn.toggle()},
+                      secondaryButton: .cancel())
+            }
+        }
     }
 }
