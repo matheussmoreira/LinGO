@@ -184,6 +184,9 @@ struct ProfileView: View {
         else {
             dao.sala_atual = salas[0]
         }
+        if sala.membros.isEmpty {
+            dao.removeSala(sala: sala)
+        }
     }
 }
 
