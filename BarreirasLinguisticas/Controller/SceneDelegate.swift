@@ -21,9 +21,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Create the SwiftUI view that provides the window contents.
         let dao = DAO()
         let usuario = dao.usuarios[2] //Evelyn
-        let sala = Sala(id: 1, nome: "Apple Developer Academy", criador: usuario)
         dao.usuario_atual = usuario
-        dao.addNovaSala(sala)
+        //let sala = Sala(id: 1, nome: "Apple Developer Academy", criador: usuario)
+        //dao.addNovaSala(sala)
         
         if !dao.getSalasByUser(id: usuario.id).isEmpty {
             dao.sala_atual = dao.salas[0]

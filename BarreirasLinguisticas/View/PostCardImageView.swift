@@ -15,6 +15,7 @@ struct PostCardImageView: View {
     @State private var line_limit_title = 2
     @State private var font_size_title = Font.TextStyle.title
     @State private var line_limit_desc = 4
+    var proportion: CGFloat
     
     var body: some View {
         ZStack {
@@ -34,7 +35,6 @@ struct PostCardImageView: View {
                                 Text(categ.nome)
                                     .fontWeight(.semibold)
                                     .foregroundColor(self.colorScheme == .dark ? Color.white : Color.gray)
-                                    //.foregroundColor(Color.gray)
                                     .lineLimit(1)
                             }
                         }
@@ -61,7 +61,7 @@ struct PostCardImageView: View {
                     Image(uiImage: link_image!)
                         .renderingMode(.original)
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: UIScreen.width*0.85, height: 100)
+                        .frame(width: UIScreen.width*proportion, height: 100)
                         .cornerRadius(10)
                 }
                 
@@ -93,8 +93,8 @@ struct PostCardImageView: View {
                 
                 //TAGS DO POST
                 HStack {
-                    ForEach(post.tags) { tag in
-                        Text("#\(tag.nome)")
+                    ForEach(0..<post.tags.count) { idx in
+                        Text(self.post.tags[idx])
                             .foregroundColor(self.colorScheme == .dark ? Color.white : LingoColors.lingoBlue)
                             .lineLimit(1)
                     }
@@ -120,6 +120,6 @@ struct PostCardImageView: View {
 
 struct PostCardImageView_Previews: PreviewProvider {
     static var previews: some View {
-        PostCardImageView(post: DAO().salas[0].posts[0])
+        PostCardImageView(post: DAO().salas[0].posts[0], proportion: 0.80)
     }
 }

@@ -22,15 +22,13 @@ struct DiscoverView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 if fyPosts.isEmpty {
                     VStack {
-                        //Spacer()
                         Text("No posts for you :(")
                             .foregroundColor(Color.gray)
-                        //Spacer()
                     }
                 }
                 else {
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
+                        HStack(spacing: 1){
                             ForEach(fyPosts.suffix(7).reversed()){ post in
                                 CardsView(post: post, membro: self.membro)
                             }
@@ -52,17 +50,17 @@ struct DiscoverView: View {
                 
                 if sala.posts.isEmpty {
                     VStack {
-                        //Spacer()
                         Text("No recent posts :(")
                             .foregroundColor(Color.gray)
-                        //Spacer()
                     }
                 }
                 else {
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
+                        HStack(spacing: 1){
                             ForEach(sala.posts.suffix(7).reversed()){ post in
-                                CardsView(post: post, membro: self.membro)
+                                if !self.fyPosts.contains(post){
+                                    CardsView(post: post, membro: self.membro)
+                                }
                             }
                         }
                     } //ScrollView
@@ -73,7 +71,7 @@ struct DiscoverView: View {
                 .navigationBarItems(
                     leading:
                     Button(action: {self.showRooms.toggle()}) {
-                        Image(systemName: "rectangle.grid.1x2"/*"arrow.uturn.left"*/)
+                        Image(systemName: "rectangle.grid.1x2")
                             .imageScale(.large)
                             .foregroundColor(LingoColors.lingoBlue)
                         }
@@ -129,8 +127,8 @@ struct CardsView: View {
     var body: some View {
         //GeometryReader { geometry in
             NavigationLink(destination: PostView(post: self.post).environmentObject(self.membro)) {
-                PostCardImageView(post: self.post)
-                    .frame(width: UIScreen.width)
+                PostCardImageView(post: self.post, proportion: 0.80)
+                    .frame(width: UIScreen.width-30)
                     //.rotation3DEffect(Angle(degrees: Double(geometry.frame(in:.global).minX)-40) / -20, axis: (x: 0, y: 10.0, z: 0))
             }
         //}

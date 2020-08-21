@@ -13,7 +13,7 @@ enum fluencia: String {
     case advanced = "Advanced English"
     case intermed = "Intermediate English"
     case basic = "Basic English"
-    case unknown = "<fluencia>"
+    case unknown = "Unknown English"
 }
 
 class Usuario: Equatable, Identifiable, ObservableObject {
@@ -21,7 +21,7 @@ class Usuario: Equatable, Identifiable, ObservableObject {
     var email: String
     var senha: String
     @Published var nome: String
-    @Published var foto_perfil: String
+    @Published var foto_perfil: Image
     @Published var pais: String
     @Published var fluencia_ingles: fluencia
     var cor_fluencia: Color {
@@ -38,7 +38,7 @@ class Usuario: Equatable, Identifiable, ObservableObject {
         self.email = email ?? "<membro@email.com>"
         self.senha = senha ?? "<senha>"
         self.nome = nome ?? "<nome>"
-        self.foto_perfil = foto_perfil ?? "perfil"
+        self.foto_perfil = Image(foto_perfil ?? "perfil")
         self.pais = pais ?? "<pais>"
         self.fluencia_ingles = fluencia_ingles ?? fluencia.unknown
     }

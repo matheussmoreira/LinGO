@@ -52,10 +52,10 @@ struct MemberButton: View {
         }) {
             RoundedRectangle(cornerRadius: 45)
                 .fill(LingoColors.lingoBlue)
-                .frame(width: UIScreen.width*0.85, height: 50)
+                .frame(width: UIScreen.width*0.95, height: 50)
                 .overlay(
                     HStack{
-                        Image(membro_sala.usuario.foto_perfil)
+                        membro_sala.usuario.foto_perfil
                             .renderingMode(.original)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
@@ -66,6 +66,8 @@ struct MemberButton: View {
                         Text(membro_sala.usuario.nome)
                             .padding(.leading)
                             .foregroundColor(.white)
+                            .multilineTextAlignment(.leading)
+                        
                         Spacer()
                         if membro_sala.is_admin {
                             ZStack {

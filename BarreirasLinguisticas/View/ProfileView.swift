@@ -15,6 +15,8 @@ struct ProfileView: View {
     @State private var showRooms = false
     @State private var showAlertLeave = false
     @State private var showAlertLogOut = false
+    @State private var showAlert = false
+    @State private var showEditProfile = false
     @Binding var loggedIn: Bool
     let btn_height: CGFloat = 50
     let btn_width: CGFloat = 230
@@ -32,14 +34,14 @@ struct ProfileView: View {
                 
                 //MARK: - DADOS DO MEMBRO
                 VStack {
-                    Image(membro.usuario.foto_perfil)
+                    membro.usuario.foto_perfil
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 150.0, height: 150.0)
                         .clipShape(Circle())
                         .overlay(
                             Circle().stroke(Color.primary, lineWidth: 8)
-                            .colorInvert()
+                                .colorInvert()
                     )
                     
                     Text(membro.usuario.nome)
@@ -111,22 +113,6 @@ struct ProfileView: View {
                             )
                         }
                         
-                        //MARK: - CHANGE ROOM
-                        Button(action: {self.showRooms.toggle()}) {
-                            RoundedRectangle(cornerRadius: corner)
-                                .foregroundColor(lingoBlue)
-                                .frame(height: btn_height)
-                                .frame(width: btn_width)
-                                .overlay(
-                                    Text("Switch Room")
-                                        .foregroundColor(.white)
-                            )
-                        }
-                        .sheet(isPresented: $showRooms) {
-                            RoomsView(usuario: self.membro.usuario)
-                                .environmentObject(self.dao)
-                        }
-                        
                         //MARK: - LEAVE ROOM
                         Button(action: {self.showAlertLeave.toggle()}) {
                             RoundedRectangle(cornerRadius: corner)
@@ -139,7 +125,28 @@ struct ProfileView: View {
                             )
                         }.alert(isPresented: $showAlertLeave) {
                             Alert(title: Text("Are you sure you want to leave this room?"),
-                                  primaryButton: .default(Text("Leave")),
+                                  primaryButton: .default(Text("Leave")){
+                                    self.sala.removeMembro(membro: self.membro.usuario.id)
+                                    self.proxima_sala()
+                                },
+                                  secondaryButton: .cancel())
+                        }
+                        
+                        //MARK: - LOGOUT
+                        Button(action: {self.showAlertLogOut.toggle()}) {
+                            RoundedRectangle(cornerRadius: corner)
+                                .foregroundColor(lingoBlue)
+                                .frame(height: btn_height)
+                                .frame(width: btn_width)
+                                .overlay(
+                                    Text("Log out")
+                                        .foregroundColor(.white)
+                            )
+                        }.alert(isPresented: $showAlertLogOut) {
+                            Alert(title: Text("Are you sure you want to log out?"),
+                                  primaryButton: .default(Text("Log out")) {
+                                    self.loggedIn.toggle()
+                                },
                                   secondaryButton: .cancel())
                         }
                         
@@ -164,20 +171,41 @@ struct ProfileView: View {
                 } //VStack
                     .padding(.top, -575)
             } //VStack
-                .navigationBarItems(trailing: Button(action: {self.showEditProfile.toggle()}) {
-                            Text("Edit Profile")
-                                .foregroundColor(.white)
-                }
-                .sheet(isPresented: $showEditProfile) {
-                    EditProfileView()
-                        .environmentObject(self.dao)
-                        .environmentObject(self.membro)
-                        .environmentObject(self.sala)
+                .navigationBarItems(
+                    leading:
+                    Button(action: {self.showRooms.toggle()}) {
+                        Image(systemName: "rectangle.grid.1x2")
+                            .imageScale(.large)
+                            .foregroundColor(.white)
+                    }
+                    .sheet(isPresented: $showRooms) {
+                        RoomsView(usuario: self.membro.usuario)
+                            .environmentObject(self.dao)
+                    },
+                    trailing: Button(action: {self.showEditProfile.toggle()}) {
+                        Image(systemName: "pencil.circle.fill")
+                            .resizable()
+                            .imageScale(.large)
+                            .foregroundColor(.white)
+                    }
+                    .sheet(isPresented: $showEditProfile) {
+                        EditProfileView(usuario: self.membro.usuario)
                 })
-                
         } //NavigationView
-        
     } //body
+    
+    func proxima_sala(){
+        let salas = dao.getSalasByUser(id: membro.usuario.id)
+        if salas.isEmpty {
+            dao.sala_atual = nil
+        }
+        else {
+            dao.sala_atual = salas[0]
+        }
+        if sala.membros.isEmpty {
+            dao.removeSala(sala: sala)
+        }
+    }
 }
 
 struct ProfileView_Previews: PreviewProvider {

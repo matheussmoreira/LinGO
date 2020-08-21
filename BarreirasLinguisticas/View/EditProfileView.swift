@@ -9,14 +9,21 @@
 import SwiftUI
 
 struct EditProfileView: View {
-    @EnvironmentObject var dao: DAO
-    @EnvironmentObject var membro: Membro
-    @EnvironmentObject var sala: Sala
+    @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var usuario: Usuario
+    @State private var photoProfile: Image? = Image("perfil")
+    @State private var presentImagePicker = false
+    @State private var presentImageActionScheet = false
+    @State private var presentCamera = false
+    @State private var nome: String = ""
+    @State private var fluenciaSelecionada = 0
+    let fluencias = ["Basic", "Intermediate", "Advanced"]
     
     var body: some View {
         NavigationView {
             VStack {
-                Image(membro.usuario.foto_perfil)
+                //Image(usuario.foto_perfil)
+                photoProfile!
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 150.0, height: 150.0)
@@ -26,27 +33,77 @@ struct EditProfileView: View {
                             .colorInvert()
                             .shadow(radius: 8))
                     .padding(.all, 32)
+                    .onTapGesture {
+                        self.presentImageActionScheet.toggle()
+                    }.sheet(isPresented: $presentImagePicker){
+                        ImagePickerView(sourceType: self.presentCamera ? .camera : .photoLibrary, image: self.$photoProfile, isPresented: self.$presentImagePicker)
+                    }
+                    .actionSheet(isPresented: $presentImageActionScheet){
+                        ActionSheet(title: Text("Choose mode"), message: Text("Please choose your preferred mode to set your profile image"), buttons: [
+                            .default(Text("Camera")){
+                                self.presentImagePicker = true
+                                self.presentCamera = true
+                            },
+                            .default(Text("Photo Library")){
+                                self.presentImagePicker = true
+                                self.presentCamera = false
+                            },
+                            .cancel()
+                        ])
+                    } //actionSheet
+                
+                Text("Click to choose a picture")
+                    .font(.system(.title, design: .rounded))
+                    .fontWeight(.bold)
+                    .foregroundColor(.primary)
                 
                 Form {
                     Section {
-                        TextField("Your name here", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
-                        
-                        Picker(selection: /*@START_MENU_TOKEN@*/.constant(1)/*@END_MENU_TOKEN@*/, label: Text("English Level")) {
-                            Text("Beginner").tag(1)
-                            Text("Intermediate").tag(2)
-                            Text("Advanced").tag(3)
+                        TextField(usuario.nome, text: $nome)
+                        Picker(selection: $fluenciaSelecionada, label: Text("English Level")) {
+                            ForEach(0..<fluencias.count) { idx in
+                                Text(self.fluencias[idx]).tag(idx)
+                            }
                         }
                     }
                 }
-            }
+            } //VStack
             .navigationBarTitle("Edit Profile", displayMode: .inline)
-            .navigationBarItems(leading: Text("Cancel"), trailing:  Text("Save"))
-        }
+            .navigationBarItems(leading:
+                Button(action: {self.presentationMode.wrappedValue.dismiss()}){
+                    Text("Cancel")
+                }
+                ,trailing: Button(action: {
+                    if self.nome != "" {self.usuario.nome = self.nome}
+                    self.usuario.foto_perfil = self.photoProfile ?? self.usuario.foto_perfil
+                    switch self.fluenciaSelecionada {
+                        case 0: self.usuario.fluencia_ingles = fluencia.basic
+                        case 1: self.usuario.fluencia_ingles = fluencia.intermed
+                        case 2: self.usuario.fluencia_ingles = fluencia.advanced
+                        default: self.usuario.fluencia_ingles = fluencia.unknown
+                    }
+                    self.presentationMode.wrappedValue.dismiss()
+                }){
+                    Text("Save")
+                })
+        }.onAppear{
+            self.photoProfile = self.usuario.foto_perfil
+            switch self.usuario.fluencia_ingles {
+                case fluencia.basic:
+                    self.fluenciaSelecionada = 0
+                case fluencia.intermed:
+                    self.fluenciaSelecionada = 1
+                case fluencia.advanced:
+                    self.fluenciaSelecionada = 2
+                default:
+                    self.fluenciaSelecionada = 0
+            }
+        } //NavigationView
     }
 }
 
 struct EditProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        EditProfileView()
+        EditProfileView(usuario: DAO().usuarios[0])
     }
 }

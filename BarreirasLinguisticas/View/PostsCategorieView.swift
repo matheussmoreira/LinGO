@@ -12,7 +12,8 @@ struct PostsCategorieView: View {
     @EnvironmentObject var dao: DAO
     @EnvironmentObject var membro: Membro
     @ObservedObject var categoria: Categoria
-    @ObservedObject var sala: Sala //{ return dao.sala_atual! }
+    @ObservedObject var sala: Sala
+    @State private var showPostEditor = false
     @State private var postSelectionado: Post?
     @State private var subscribed = false
     @State private var subscribedImage = "checkmark.circle"
@@ -21,18 +22,35 @@ struct PostsCategorieView: View {
     
     var body: some View {
         VStack {
-            
             if loaded_posts.isEmpty {
                 Spacer()
                 Text("No posts in \(categoria.nome) :(")
                     .foregroundColor(Color.gray)
+                
+                Button(action: {self.showPostEditor.toggle()}){
+                    ZStack{
+                        Capsule()
+                            .frame(width: 250.0, height: 50.0)
+                            .foregroundColor(Color("lingoBlueBackgroundInverted"))
+                        
+                        Text("Create a new one!")
+                            .foregroundColor(.primary)
+                    }
+                    
+                }
+                .sheet(isPresented: $showPostEditor, onDismiss: {self.loaded_posts = self.sala.getPostsByCategorie(categ: self.categoria.id)}){
+                    PostEditorView()
+                        .environmentObject(self.membro)
+                        .environmentObject(self.sala)
+                        .environmentObject(self.dao)
+                }
                 Spacer()
             }
             else {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(loaded_posts) { post in
                         NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
-                            PostCardImageView(post: post)
+                            PostCardImageView(post: post, proportion: 0.85)
                         }
                     }
                 }

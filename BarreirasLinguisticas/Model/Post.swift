@@ -19,18 +19,17 @@ class Post: Equatable, Identifiable, ObservableObject {
     @Published var perguntas: [Comentario] = []
     @Published var comentarios: [Comentario] = []
     @Published var categorias: [Categoria] = []
-    @Published var tags: [Tag] = []
-    //var date = Date()
+    @Published var tags: [String] = []
     var improprio = false
     
-    init(id: Int, titulo: String?, descricao: String?, link: Link?, categs: [Categoria], tags: [Tag], publicador: Membro) {
+    init(id: Int, titulo: String?, descricao: String?, link: Link?, categs: [Categoria], tags: String, publicador: Membro) {
         self.id = id
         self.titulo = titulo ?? "Post sem título"
         self.descricao = descricao ?? ""
         self.categorias = categs
-        self.tags = tags
         self.publicador = publicador
-        addLink(link: link)
+        addLink(link)
+        self.tags = splitTags(tags)
     }
     
     static func == (lhs: Post, rhs: Post) -> Bool {
@@ -42,12 +41,11 @@ class Post: Equatable, Identifiable, ObservableObject {
         else { print("Post com categoria inválida") }
     }
     
-    func addTag(tag: Tag?) {
-        if (tag != nil) { self.tags.append(tag!) }
-        else { print("Categoria com tag inválida") }
+    func splitTags(_ tags: String) -> [String] {
+        return tags.components(separatedBy: " ")
     }
     
-    func addLink(link: Link?) {
+    func addLink(_ link: Link?) {
         if (link != nil) { self.link = link! }
         else { print("Não deu pra adquirir o link pois está inválido\n") }
     }

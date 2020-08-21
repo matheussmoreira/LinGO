@@ -30,6 +30,7 @@ struct RoomsView: View {
                     Text("Select a room or create a new one!")
                         .font(.body)
                         .foregroundColor(.white)
+                        .fontWeight(.bold)
                         .padding(.bottom, 50)
                     
                     if !salas.isEmpty {
@@ -68,7 +69,7 @@ struct RoomsView: View {
                     }
                     .padding()
                     
-                    Divider()
+                    /*Divider()
                     
                     Button(action: {
                     }) {
@@ -81,7 +82,7 @@ struct RoomsView: View {
                                 .foregroundColor(.red)
                         }
                         .padding()
-                    }
+                    }*/
                 } //VStack
             }//ZStack
             

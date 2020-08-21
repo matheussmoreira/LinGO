@@ -11,7 +11,7 @@ import Foundation
 class Categoria: Equatable, Identifiable, ObservableObject {
     let id: Int
     @Published var nome: String
-    @Published var tags: [Tag] = []
+    @Published var tagsPosts: [String] = []
     @Published var posts: [Post] = []
     var assinantes: [Membro] = []
     
@@ -24,17 +24,20 @@ class Categoria: Equatable, Identifiable, ObservableObject {
         return lhs.id == rhs.id
     }
     
-    func addTag(tag: Tag?) {
-        if (tag != nil) { self.tags.append(tag!)}
-        else { print("Categoria com tag inválida") }
-    }
-    
     func addPost(post: Post?) {
         if (post != nil) {
             self.posts.append(post!)
-            //addTags2(from: post!)
+            addPostsTags(post: post!)
         }
         else { print("Categoria com post inválido") }
+    }
+    
+    func addPostsTags(post: Post) {
+        for tag in post.tags{
+            if !self.tagsPosts.contains(tag) {
+                self.tagsPosts.append(tag)
+            }
+        }
     }
     
     func addAssinantes(membro memb: Membro?) {
@@ -42,11 +45,4 @@ class Categoria: Equatable, Identifiable, ObservableObject {
         else { print("Problema na assinatura por membro inválido") }
     }
     
-    func addTags2(from post: Post) {
-        for tag in post.tags {
-            if !self.tags.contains(tag) {
-                self.tags.append(tag)
-            }
-        }
-    }
 }
