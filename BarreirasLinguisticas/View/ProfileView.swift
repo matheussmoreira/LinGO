@@ -15,8 +15,8 @@ struct ProfileView: View {
     @State private var showRooms = false
     @State private var showAlertLeave = false
     @State private var showAlertLogOut = false
-    @State private var showAlert = false
     @State private var showEditProfile = false
+    @State private var showAdminSheet = false
     @Binding var loggedIn: Bool
     let btn_height: CGFloat = 50
     let btn_width: CGFloat = 230
@@ -113,6 +113,22 @@ struct ProfileView: View {
                             )
                         }
                         
+                        //MARK: - FUNCOES ADMIN
+                        if(membro.is_admin) {
+                            Button(action: {self.showAdminSheet.toggle()}){
+                                RoundedRectangle(cornerRadius: corner)
+                                    .foregroundColor(lingoBlue)
+                                    .frame(height: btn_height)
+                                    .frame(width: btn_width)
+                                    .overlay(
+                                        Text("Admin")
+                                            .foregroundColor(.white)
+                                )
+                            }.sheet(isPresented: $showAdminSheet) {
+                                AdminView()
+                            }
+                        }
+                        
                         //MARK: - LEAVE ROOM
                         Button(action: {self.showAlertLeave.toggle()}) {
                             RoundedRectangle(cornerRadius: corner)
@@ -193,5 +209,71 @@ struct ProfileView: View {
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileView(loggedIn: .constant(true)).environmentObject(DAO().salas[0].membros[0])
+    }
+}
+
+struct AdminView: View {
+    let btn_height: CGFloat = 50
+    let btn_width: CGFloat = 230
+    let corner: CGFloat = 45
+    let lingoBlue = LingoColors.lingoBlue
+    
+    var body: some View {
+        VStack{
+            Rectangle()
+                .frame(width: 60, height: 6)
+                .cornerRadius(3.0)
+                .opacity(0.1)
+                .padding(.top,10)
+            Spacer()
+            //Text("Funções admin")
+            
+            NavigationLink(destination: PostsDenunciados()) {
+                RoundedRectangle(cornerRadius: corner)
+                    .foregroundColor(lingoBlue)
+                    .frame(height: btn_height)
+                    .frame(width: btn_width)
+                    .overlay(
+                        Text("Posts denunciados")
+                            .foregroundColor(.white)
+                )
+            }
+            
+            NavigationLink(destination: ComentariosDenunciados()) {
+                RoundedRectangle(cornerRadius: corner)
+                    .foregroundColor(lingoBlue)
+                    .frame(height: btn_height)
+                    .frame(width: btn_width)
+                    .overlay(
+                        Text("Comentários denunciados")
+                            .foregroundColor(.white)
+                )
+            }
+            
+            Button(action: {}){
+                RoundedRectangle(cornerRadius: corner)
+                    .foregroundColor(lingoBlue)
+                    .frame(height: btn_height)
+                    .frame(width: btn_width)
+                    .overlay(
+                        Text("Convidar novo membro")
+                            .foregroundColor(.white)
+                )
+            }
+            
+            Spacer()
+        }
+    }
+}
+
+struct PostsDenunciados: View {
+    var body: some View {
+        Text("Posts denunciados")
+    }
+}
+
+struct ComentariosDenunciados: View {
+    var body: some View {
+        Text("Comentários denunciados")
     }
 }
