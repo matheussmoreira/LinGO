@@ -21,20 +21,37 @@ struct PostEditorView: View {
     @State private var link: String = ""
     @State private var tags: String = ""
     @State private var value: CGFloat = 0
+    @State private var selectedCategories: [Categoria] = []
     
     var body: some View {
         NavigationView {
             VStack {
                 HStack {
-                    Text("Select a category")
-                        .font(.system(.title, design: .rounded))
-                        .fontWeight(.bold)
-                        .foregroundColor(Color(UIColor.systemGray2))
+                    if selectedCategories.isEmpty {
+                        Text("Select a category")
+                            .font(.system(.title, design: .rounded))
+                            .fontWeight(.bold)
+                            .foregroundColor(Color(UIColor.systemGray2))
+                    } else {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack{
+                                ForEach(self.selectedCategories) { categ in
+                                    Text(categ.nome)
+                                        .font(.system(.title, design: .rounded))
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.primary)
+                                }
+                            }
+                        }
+                    }
                     
                     Spacer()
-                    Image(systemName: "plus")
-                        .foregroundColor(LingoColors.lingoBlue)
-                        .imageScale(.large)
+                    
+                    NavigationLink(destination: SelectCategories(selectedCategories: $selectedCategories).environmentObject(sala)) {
+                        Image(systemName: "plus")
+                            .foregroundColor(LingoColors.lingoBlue)
+                            .imageScale(.large)
+                    }
                 }
                 
                 TextField("Title here", text: $title)
@@ -86,15 +103,15 @@ struct PostEditorView: View {
                         
                     }){
                         ZStack {
-                        Capsule()
-                            .frame(width: 90, height: 50)
-                            .foregroundColor(LingoColors.lingoBlue)
-                        Text("Go!")
-                            .bold()
-                            .font(.title)
-                            .foregroundColor(.white)
+                            Capsule()
+                                .frame(width: 90, height: 50)
+                                .foregroundColor(LingoColors.lingoBlue)
+                            Text("Go!")
+                                .bold()
+                                .font(.title)
+                                .foregroundColor(.white)
                             //.colorInvert()
-                    }
+                        }
                     }//ZStack
                         .padding(.top, 32)
             )
@@ -112,7 +129,7 @@ struct PostEditorView: View {
             }
             else {
                 
-                sala.novoPost(publicador: id_membro, post: UUID().hashValue, titulo: titulo, descricao: descricao, link: Link(urlString: linkString), categs: categs, tags: tags)
+                sala.novoPost(publicador: id_membro, post: UUID().hashValue, titulo: titulo, descricao: descricao, link: Link(urlString: linkString), categs: getCategsId(), tags: tags)
                 
                 title = ""; description = ""; link = ""
                 
@@ -120,6 +137,14 @@ struct PostEditorView: View {
                 self.presentationMode.wrappedValue.dismiss()
             }
         }
+    }
+    
+    func getCategsId() -> [Int] {
+        var categsId: [Int] = []
+        for categ in selectedCategories {
+            categsId.append(categ.id)
+        }
+        return categsId
     }
     
     func ajustaAltura() {
@@ -139,5 +164,43 @@ struct PostEditorView: View {
 struct PostEditorView_Previews: PreviewProvider {
     static var previews: some View {
         PostEditorView().environmentObject(DAO().salas[0].membros[0])
+    }
+}
+
+struct SelectCategories: View {
+    @EnvironmentObject var sala: Sala
+    @Binding var selectedCategories: [Categoria]
+    
+    var body: some View {
+        List {
+            ForEach(0..<sala.categorias.count) { idx in
+                SelectCategorieRow(isSelected: self.selectedCategories.contains(self.sala.categorias[idx]), idx: idx).environmentObject(self.sala)
+                    .onTapGesture {
+                        
+                        if self.selectedCategories.contains(self.sala.categorias[idx]) {
+                            self.selectedCategories.removeAll(where: { $0 == self.sala.categorias[idx]})
+                        }
+                        else {
+                            self.selectedCategories.append(self.sala.categorias[idx])
+                        }
+                }
+            }
+        }.navigationBarTitle(Text("Select the categories"))
+    }
+}
+
+struct SelectCategorieRow: View {
+    @EnvironmentObject var sala: Sala
+    var isSelected: Bool
+    var idx: Int
+    
+    var body: some View {
+        HStack {
+            Text(self.sala.categorias[idx].nome)
+            if self.isSelected {
+                Spacer()
+                Image(systemName: "checkmark")
+            }
+        }
     }
 }
