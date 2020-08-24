@@ -34,7 +34,7 @@ struct PostsCategorieView: View {
                             .foregroundColor(Color("lingoBlueBackgroundInverted"))
                         
                         Text("Create a new one!")
-                            .foregroundColor(.primary)
+                            .foregroundColor(.white)
                     }
                     
                 }

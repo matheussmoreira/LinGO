@@ -16,6 +16,7 @@ struct PostView: View {
     @State private var bookmarked = false
     @State private var bookmarkedImage = "bookmark"
     @State private var showComments = false
+    @State private var reported = false
     
     var body: some View {
         VStack {
@@ -88,7 +89,7 @@ struct PostView: View {
                     Capsule()
                         .frame(width: 100.0, height: 50.0)
                         .foregroundColor(.orange)
-                    Button("Report") {
+                    Button(reported ? "Dismiss" : "Report") {
                         self.report()
                     }
                     .foregroundColor(.primary)
@@ -123,7 +124,7 @@ struct PostView: View {
                         .environmentObject(self.membro)
                 }
             } //sheet
-        } //VStack
+        }.onAppear{self.loadReport()} //VStack
     } //body
     
     func carregaLink(){
@@ -155,8 +156,20 @@ struct PostView: View {
         }
     }
     
-    func report() {
+    func report(){
+        if !post.denuncias.contains(membro) {
+            post.denuncias.append(membro)
+        }
+        else {
+            post.denuncias.remove(at: post.getDenunciaIndex(membro_id: membro.usuario.id))
+        }
+        reported = post.denuncias.contains(membro)
     }
+    
+    func loadReport(){
+        reported = post.denuncias.contains(membro)
+    }
+
 }
 
 

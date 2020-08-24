@@ -125,7 +125,7 @@ struct ProfileView: View {
                                             .foregroundColor(.white)
                                 )
                             }.sheet(isPresented: $showAdminSheet) {
-                                AdminView()
+                                AdminView().environmentObject(self.sala)
                             }
                         }
                         
@@ -213,6 +213,7 @@ struct ProfileView_Previews: PreviewProvider {
 }
 
 struct AdminView: View {
+    @EnvironmentObject var sala: Sala
     let btn_height: CGFloat = 50
     let btn_width: CGFloat = 230
     let corner: CGFloat = 45
@@ -234,7 +235,7 @@ struct AdminView: View {
                         .font(.system(.title, design: .rounded))
                         .fontWeight(.bold)
                     
-                    NavigationLink(destination: PostsDenunciados()) {
+                    NavigationLink(destination: PostsDenunciados().environmentObject(sala)) {
                         RoundedRectangle(cornerRadius: corner)
                             .foregroundColor(lingoBlue)
                             .frame(height: btn_height)
@@ -274,9 +275,28 @@ struct AdminView: View {
 }
 
 struct PostsDenunciados: View {
+    @EnvironmentObject var sala: Sala
+    @State var posts: [Post] = []
+    
     var body: some View {
-        Text("Posts denunciados")
-    }
+        VStack{
+            if posts.isEmpty{
+                Text("No reported posts :)")
+                    .foregroundColor(.gray)
+            }
+            else {
+                ScrollView(.vertical, showsIndicators: false) {
+                    ForEach(posts) { post in
+                        PostCardImageView(post: post, proportion: 0.85)
+                    }
+                }
+            }
+        }.navigationBarTitle("Posts Denunciados")
+        .onAppear {
+            print("Contando os posts denunciados")
+            self.posts = self.sala.posts.filter{!$0.denuncias.isEmpty}
+        }
+    }//body
 }
 
 struct ComentariosDenunciados: View {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Membro: Identifiable, ObservableObject {
+class Membro: Equatable, Identifiable, ObservableObject {
     var usuario: Usuario
     var sala: Sala
     var is_admin: Bool
@@ -20,6 +20,10 @@ class Membro: Identifiable, ObservableObject {
         self.usuario = usuario
         self.sala = sala
         self.is_admin = is_admin
+    }
+    
+    static func == (lhs: Membro, rhs: Membro) -> Bool {
+        return lhs.usuario.id == rhs.usuario.id
     }
     
     func salvaPost(post: Post?) {

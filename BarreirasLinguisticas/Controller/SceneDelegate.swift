@@ -22,8 +22,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let dao = DAO()
         let usuario = dao.usuarios[2] //Evelyn
         dao.usuario_atual = usuario
-        //let sala = Sala(id: 1, nome: "Apple Developer Academy", criador: usuario)
-        //dao.addNovaSala(sala)
+        let sala = Sala(id: 1, nome: "Apple Developer Academy", criador: usuario)
+        dao.addNovaSala(sala)
         
         if !dao.getSalasByUser(id: usuario.id).isEmpty {
             dao.sala_atual = dao.salas[0]

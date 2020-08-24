@@ -15,7 +15,7 @@ class Comentario: Identifiable, ObservableObject {
     @Published var conteudo: String
     //var data = Date()
     var is_question: Bool
-    @Published var votos: [Voto] = []
+    @Published var votos: [Membro] = []
     @Published var original: Comentario?
     @Published var replies: [Comentario] = []
     var improprio = false
@@ -30,13 +30,13 @@ class Comentario: Identifiable, ObservableObject {
     }
     
     func ganhaVoto(membro: Membro){
-        votos.append(Voto(membro: membro))
+        votos.append(membro)
     }
     
     func getVotoIndex(id: Int) -> Int? {
         var idx = 0
-        for voto in votos {
-            if voto.membro.usuario.id == id {
+        for membro_voto in votos {
+            if membro_voto.usuario.id == id {
                 return idx
             }
             else {
@@ -56,8 +56,8 @@ class Comentario: Identifiable, ObservableObject {
     }
     
     func checkVotoExists(membro: Membro) -> Bool {
-        for voto in votos {
-            if voto.membro.usuario.id == membro.usuario.id {
+        for membro_voto in votos {
+            if membro_voto.usuario.id == membro.usuario.id {
                 return true
             }
         }

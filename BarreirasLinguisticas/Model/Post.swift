@@ -20,7 +20,7 @@ class Post: Equatable, Identifiable, ObservableObject {
     @Published var comentarios: [Comentario] = []
     @Published var categorias: [Categoria] = []
     @Published var tags: [String] = []
-    var improprio = false
+    @Published var denuncias: [Membro] = []
     
     init(id: Int, titulo: String?, descricao: String?, link: Link?, categs: [Categoria], tags: String, publicador: Membro) {
         self.id = id
@@ -80,6 +80,18 @@ class Post: Equatable, Identifiable, ObservableObject {
         else {
             print("Reply não adicionado por comentário original não identificado")
         }
+    }
+    
+    func getDenunciaIndex(membro_id: Int) -> Int {
+        var idx = 0
+        for denuncia in denuncias {
+            if denuncia.usuario.id == membro_id {
+                return idx
+            } else {
+                idx += 1
+            }
+        }
+        return -1
     }
     
 }
