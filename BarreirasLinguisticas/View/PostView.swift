@@ -161,7 +161,8 @@ struct PostView: View {
             post.denuncias.append(membro)
         }
         else {
-            post.denuncias.remove(at: post.getDenunciaIndex(membro_id: membro.usuario.id))
+            post.denuncias.removeAll(where: {$0.usuario.id == membro.usuario.id})
+            //post.denuncias.remove(at: post.getDenunciaIndex(membro_id: membro.usuario.id))
         }
         reported = post.denuncias.contains(membro)
     }

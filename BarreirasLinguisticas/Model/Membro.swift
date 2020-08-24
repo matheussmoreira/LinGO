@@ -56,12 +56,13 @@ class Membro: Equatable, Identifiable, ObservableObject {
     
     func removeAssinatura(categoria categ: Categoria?) {
         if (categ != nil) {
-            if let idx = getAssinaturaIndex(id: categ!.id) {
-                self.assinaturas.remove(at: idx)
-            }
-            else {
-                print("Assinatura não encontrada")
-            }
+            //if let idx = getAssinaturaIndex(id: categ!.id) {
+                self.assinaturas.removeAll(where: {$0.id == categ!.id})
+                //self.assinaturas.remove(at: idx)
+//            }
+//            else {
+//                print("Assinatura não encontrada")
+//            }
         }
         else {
             print("Categoria a ser removida inválida")

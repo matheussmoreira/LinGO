@@ -29,30 +29,31 @@ class Comentario: Identifiable, ObservableObject {
         self.original = original
     }
     
-    func ganhaVoto(membro: Membro){
+    func ganhaVoto(de membro: Membro){
         votos.append(membro)
     }
     
-    func getVotoIndex(id: Int) -> Int? {
-        var idx = 0
-        for membro_voto in votos {
-            if membro_voto.usuario.id == id {
-                return idx
-            }
-            else {
-              idx += 1
-            }
-        }
-        return nil
-    }
+//    func getVotoIndex(id: Int) -> Int? {
+//        var idx = 0
+//        for membro_voto in votos {
+//            if membro_voto.usuario.id == id {
+//                return idx
+//            }
+//            else {
+//              idx += 1
+//            }
+//        }
+//        return nil
+//    }
     
-    func perdeVoto(membro: Membro){
-        if let idx = getVotoIndex(id: membro.usuario.id) {
-            self.votos.remove(at: idx)
-        }
-        else {
-            print("Autor do voto não encontrado")
-        }
+    func perdeVoto(de membro: Membro){
+        //if let idx = getVotoIndex(id: membro.usuario.id) {
+            //self.votos.remove(at: idx)
+            self.votos.removeAll(where: {$0.usuario.id == membro.usuario.id})
+        //}
+        //else {
+            //print("Autor do voto não encontrado")
+        //}
     }
     
     func checkVotoExists(membro: Membro) -> Bool {

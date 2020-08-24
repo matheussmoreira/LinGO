@@ -82,16 +82,16 @@ class Post: Equatable, Identifiable, ObservableObject {
         }
     }
     
-    func getDenunciaIndex(membro_id: Int) -> Int {
-        var idx = 0
-        for denuncia in denuncias {
-            if denuncia.usuario.id == membro_id {
-                return idx
-            } else {
-                idx += 1
-            }
-        }
-        return -1
-    }
+//    func getDenunciaIndex(membro_id: Int) -> Int {
+//        var idx = 0
+//        for denuncia in denuncias {
+//            if denuncia.usuario.id == membro_id {
+//                return idx
+//            } else {
+//                idx += 1
+//            }
+//        }
+//        return -1
+//    }
     
 }

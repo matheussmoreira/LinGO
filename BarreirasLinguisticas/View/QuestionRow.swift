@@ -125,11 +125,11 @@ struct QuestionRow: View {
         voted.toggle()
         if voted {
             votedImage = "hand.raised.fill"
-            comentario.ganhaVoto(membro: membro)
+            comentario.ganhaVoto(de: membro)
         }
         else {
             votedImage = "hand.raised"
-            comentario.perdeVoto(membro: membro)
+            comentario.perdeVoto(de: membro)
         }
     }
 }

@@ -186,18 +186,18 @@ class Sala: Identifiable, ObservableObject {
         return posts
     }
     
-    func getMembroIndex(id: Int) -> Int? {
-        var idx = 0
-        for membro in membros {
-            if membro.usuario.id == id {
-                return idx
-            }
-            else {
-                idx += 1
-            }
-        }
-        return nil
-    }
+//    func getMembroIndex(id: Int) -> Int? {
+//        var idx = 0
+//        for membro in membros {
+//            if membro.usuario.id == id {
+//                return idx
+//            }
+//            else {
+//                idx += 1
+//            }
+//        }
+//        return nil
+//    }
     
     //MARK: - NOVOS OBJETOS
     func novoMembro(id id_membro: Int, is_admin: Bool) {
@@ -281,8 +281,10 @@ class Sala: Identifiable, ObservableObject {
     }
     
     func removeMembro(membro id_membro: Int) {
-        if let idx = getMembroIndex(id: id_membro) {
-            self.membros.remove(at: idx)
-        }
+        
+        //if let idx = getMembroIndex(id: id_membro) {
+            self.membros.removeAll(where: {$0.usuario.id == id_membro})
+            //self.membros.remove(at: idx)
+        //}
     }
 }
