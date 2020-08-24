@@ -14,7 +14,7 @@ struct EditProfileView: View {
     @State private var photoProfile: Image? = Image("perfil")
     @State private var presentImagePicker = false
     @State private var presentImageActionScheet = false
-    @State private var presentCamera = false
+    //@State private var presentCamera = false
     @State private var nome: String = ""
     @State private var fluenciaSelecionada = 0
     let fluencias = ["Basic", "Intermediate", "Advanced"]
@@ -35,22 +35,23 @@ struct EditProfileView: View {
                     .padding(.all, 32)
                     .onTapGesture {
                         self.presentImageActionScheet.toggle()
+                        self.presentImagePicker = true //essa linha so existe na ausencia de camera
                     }.sheet(isPresented: $presentImagePicker){
-                        ImagePickerView(sourceType: self.presentCamera ? .camera : .photoLibrary, image: self.$photoProfile, isPresented: self.$presentImagePicker)
+                        ImagePickerView(sourceType: .photoLibrary /*self.presentCamera ? .camera : .photoLibrary*/, image: self.$photoProfile, isPresented: self.$presentImagePicker)
                     }
-                    .actionSheet(isPresented: $presentImageActionScheet){
-                        ActionSheet(title: Text("Choose mode"), message: Text("Please choose your preferred mode to set your profile image"), buttons: [
-                            .default(Text("Camera")){
-                                self.presentImagePicker = true
-                                self.presentCamera = true
-                            },
-                            .default(Text("Photo Library")){
-                                self.presentImagePicker = true
-                                self.presentCamera = false
-                            },
-                            .cancel()
-                        ])
-                    } //actionSheet
+//                    .actionSheet(isPresented: $presentImageActionScheet){
+//                        ActionSheet(title: Text("Choose mode"), message: Text("Please choose your preferred mode to set your profile image"), buttons: [
+//                            .default(Text("Camera")){
+//                                self.presentImagePicker = true
+//                                self.presentCamera = true
+//                            },
+//                            .default(Text("Photo Library")){
+//                                self.presentImagePicker = true
+//                                self.presentCamera = false
+//                            },
+//                            .cancel()
+//                        ])
+//                    } //actionSheet
                 
                 Text("Click to choose a picture")
                     .font(.system(.title, design: .rounded))

@@ -165,24 +165,6 @@ struct ProfileView: View {
                                 },
                                   secondaryButton: .cancel())
                         }
-                        
-                        //MARK: - LOGOUT
-                        Button(action: {self.showAlertLogOut.toggle()}) {
-                            RoundedRectangle(cornerRadius: corner)
-                                .foregroundColor(lingoBlue)
-                                .frame(height: btn_height)
-                                .frame(width: btn_width)
-                                .overlay(
-                                    Text("Log out")
-                                        .foregroundColor(.white)
-                            )
-                        }.alert(isPresented: $showAlertLogOut) {
-                            Alert(title: Text("Are you sure you want to log out?"),
-                                  primaryButton: .default(Text("Log out")) {
-                                    self.loggedIn.toggle()
-                                },
-                                  secondaryButton: .cancel())
-                        }
                     } //ScrollView
                 } //VStack
                     .padding(.top, -575)
