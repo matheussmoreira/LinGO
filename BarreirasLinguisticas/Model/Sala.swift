@@ -186,26 +186,12 @@ class Sala: Identifiable, ObservableObject {
         return posts
     }
     
-//    func getMembroIndex(id: Int) -> Int? {
-//        var idx = 0
-//        for membro in membros {
-//            if membro.usuario.id == id {
-//                return idx
-//            }
-//            else {
-//                idx += 1
-//            }
-//        }
-//        return nil
-//    }
-    
     //MARK: - NOVOS OBJETOS
     func novoMembro(id id_membro: Int, is_admin: Bool) {
         if let usuario = DAO().getUsuario(id: id_membro) {
             if getMembro(id: usuario.id) == nil { //para nao adicionar membro repetido
                 let membro = Membro(usuario: usuario, sala: self, is_admin: is_admin)
                 self.membros.append(membro)
-               // if is_admin { self.admins.append(membro) }
             }
         }
         else {
@@ -281,10 +267,6 @@ class Sala: Identifiable, ObservableObject {
     }
     
     func removeMembro(membro id_membro: Int) {
-        
-        //if let idx = getMembroIndex(id: id_membro) {
-            self.membros.removeAll(where: {$0.usuario.id == id_membro})
-            //self.membros.remove(at: idx)
-        //}
+        self.membros.removeAll(where: {$0.usuario.id == id_membro})
     }
 }

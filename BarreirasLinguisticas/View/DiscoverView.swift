@@ -127,7 +127,7 @@ struct CardsView: View {
     var body: some View {
         //GeometryReader { geometry in
             NavigationLink(destination: PostView(post: self.post).environmentObject(self.membro)) {
-                PostCardImageView(post: self.post, proportion: 0.80)
+                PostCardImageView(post: self.post, width: 0.80)
                     .frame(width: UIScreen.width-30)
                     //.rotation3DEffect(Angle(degrees: Double(geometry.frame(in:.global).minX)-40) / -20, axis: (x: 0, y: 10.0, z: 0))
             }

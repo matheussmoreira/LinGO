@@ -69,7 +69,7 @@ extension Link {
             let data = try NSKeyedArchiver.archivedData(withRootObject: self, requiringSecureCoding: true)
             guard let docDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
             try data.write(to: docDirURL.appendingPathComponent("Link \(id_link)"))
-            print(docDirURL.appendingPathComponent("Link \(id_link)"))
+            //print(docDirURL.appendingPathComponent("Link \(id_link)"))
         } catch {
             print(error.localizedDescription)
         }

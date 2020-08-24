@@ -72,7 +72,6 @@ class Post: Equatable, Identifiable, ObservableObject {
     }
     
     func novoReply(id: Int, publicador id_publicador: Membro, conteudo: String, original id_original: Int) {
-        
         if let original = self.getComentarioOriginal(id: id_original) {
             let comentario = Comentario(id: id, post: self, publicador: publicador, conteudo: conteudo, is_question: false, original: original)
             original.replies.append(comentario)
@@ -81,17 +80,6 @@ class Post: Equatable, Identifiable, ObservableObject {
             print("Reply não adicionado por comentário original não identificado")
         }
     }
-    
-//    func getDenunciaIndex(membro_id: Int) -> Int {
-//        var idx = 0
-//        for denuncia in denuncias {
-//            if denuncia.usuario.id == membro_id {
-//                return idx
-//            } else {
-//                idx += 1
-//            }
-//        }
-//        return -1
-//    }
+
     
 }

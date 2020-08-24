@@ -287,7 +287,7 @@ struct PostsDenunciados: View {
             else {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(posts) { post in
-                        PostCardImageView(post: post, proportion: 0.85)
+                        PostCardImageView(post: post, width: 0.85)
                     }
                 }
             }

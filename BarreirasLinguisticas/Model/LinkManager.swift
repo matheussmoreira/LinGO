@@ -16,7 +16,7 @@ class LinkManager: ObservableObject {
             DispatchQueue.main.sync {
                 switch result {
                 case .success(let metadata):
-                    print("Case success")
+                    //print("Case success")
                     link.update(from: metadata)
                 case .failure(let error):
                     print("Case failure: \(error.localizedDescription)")
@@ -32,12 +32,12 @@ class LinkManager: ObservableObject {
         print("Fetching...")
         metadataProvider.startFetchingMetadata(for: url) { (metadata, error) in
             if let error = error  {
-                print("\nFetched error")
+                //print("\nFetched error")
                 completion(.failure(error))
                 return
             }
             if let metadata = metadata {
-                print("\nFetched metadata")
+                //print("\nFetched metadata")
                 completion(.success(metadata))
                 return
             }

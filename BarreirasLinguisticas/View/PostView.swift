@@ -46,10 +46,10 @@ struct PostView: View {
                     
                     //TAGS
                     HStack{
-//                        ForEach(post.tags) { tag in
-//                            Text("#\(tag.nome)")
-//                                .foregroundColor(LingoColors.lingoBlue)
-//                        }
+                        ForEach(0..<post.tags.count) { idx in
+                            Text(self.post.tags[idx])
+                                .foregroundColor(LingoColors.lingoBlue)
+                        }
                         Spacer()
                     }
                     .padding(.bottom)
@@ -162,7 +162,6 @@ struct PostView: View {
         }
         else {
             post.denuncias.removeAll(where: {$0.usuario.id == membro.usuario.id})
-            //post.denuncias.remove(at: post.getDenunciaIndex(membro_id: membro.usuario.id))
         }
         reported = post.denuncias.contains(membro)
     }

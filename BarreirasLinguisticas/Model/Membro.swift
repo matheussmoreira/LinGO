@@ -48,7 +48,7 @@ class Membro: Equatable, Identifiable, ObservableObject {
                 return idx
             }
             else {
-              idx += 1
+                idx += 1
             }
         }
         return nil
@@ -56,13 +56,8 @@ class Membro: Equatable, Identifiable, ObservableObject {
     
     func removeAssinatura(categoria categ: Categoria?) {
         if (categ != nil) {
-            //if let idx = getAssinaturaIndex(id: categ!.id) {
-                self.assinaturas.removeAll(where: {$0.id == categ!.id})
-                //self.assinaturas.remove(at: idx)
-//            }
-//            else {
-//                print("Assinatura não encontrada")
-//            }
+            self.assinaturas.removeAll(where: {$0.id == categ!.id})
+            
         }
         else {
             print("Categoria a ser removida inválida")
@@ -76,7 +71,7 @@ class Membro: Equatable, Identifiable, ObservableObject {
                 return idx
             }
             else {
-              idx += 1
+                idx += 1
             }
         }
         return nil

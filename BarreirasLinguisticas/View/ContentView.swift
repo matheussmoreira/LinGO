@@ -22,12 +22,11 @@ struct ContentView: View {
     }
     @State var showRooms = false
     @State var showProfile = false
-    //@State var selection = 2
     
     var body: some View {
         VStack {
             if sala_atual != nil {
-                TabView(/*selection: $selection*/) {
+                TabView() {
                     DiscoverView()
                         .environmentObject(membro!)
                         .environmentObject(sala_atual!)
