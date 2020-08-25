@@ -30,7 +30,7 @@ struct MyPublications: View {
                 }
             } //else
         } //VStack
-        .navigationBarTitle("Your published posts")
+        .navigationBarTitle("Your publications")
         .navigationBarItems(trailing:
             HStack {
                 Image(systemName: "magnifyingglass")

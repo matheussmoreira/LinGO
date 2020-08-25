@@ -39,7 +39,7 @@ struct PostsCategorieView: View {
                     
                 }
                 .sheet(isPresented: $showPostEditor, onDismiss: {self.loaded_posts = self.sala.getPostsByCategorie(categ: self.categoria.id)}){
-                    PostEditorView()
+                    PostCreatorView()
                         .environmentObject(self.membro)
                         .environmentObject(self.sala)
                         .environmentObject(self.dao)

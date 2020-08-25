@@ -92,7 +92,7 @@ struct DiscoverView: View {
                                 .padding(.leading)
                         }
                         .sheet(isPresented: $showPostEditor) {
-                            PostEditorView()
+                            PostCreatorView()
                                 .environmentObject(self.membro)
                                 .environmentObject(self.sala)
                                 .environmentObject(self.dao)

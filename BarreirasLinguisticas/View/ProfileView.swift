@@ -291,7 +291,11 @@ struct PostsDenunciados: View {
                     }
                 }
             }
-        }.navigationBarTitle("Posts Denunciados")
+        }
+        .navigationBarTitle(
+            Text("Posts Denunciados")
+                .font(.system(.title, design: .rounded)),displayMode: .inline
+        )
         .onAppear {
             print("Contando os posts denunciados")
             self.posts = self.sala.posts.filter{!$0.denuncias.isEmpty}
