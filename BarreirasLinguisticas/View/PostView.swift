@@ -76,7 +76,8 @@ struct PostView: View {
             )
                 .padding(.horizontal)
                 .navigationBarItems(trailing:
-                    Button(action: {self.changeBookmark()}){
+                    Button(action: {self.changeBookmark()
+                    }){
                         Image(systemName: bookmarkedImage)
                             .imageScale(.large)
                             .foregroundColor(.red)

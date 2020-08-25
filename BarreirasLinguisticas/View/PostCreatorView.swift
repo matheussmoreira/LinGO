@@ -22,6 +22,8 @@ struct PostCreatorView: View {
     @State private var tags: String = ""
     @State private var value: CGFloat = 0
     @State private var selectedCategories: [Categoria] = []
+    @State private var showPublicationStatusAlert = false
+    @State private var publicationStatus = ""
     
     var body: some View {
         NavigationView {
@@ -99,7 +101,8 @@ struct PostCreatorView: View {
                 .navigationBarTitle(Text("New post!"))
                 .navigationBarItems(trailing:
                     Button(action: {
-                        self.publica(id_membro: self.membro.usuario.id, titulo: self.title, descricao: self.description, linkString: self.link, categs: [10], tags: self.tags)
+                        self.publicationStatus = self.publica(id_membro: self.membro.usuario.id, titulo: self.title, descricao: self.description, linkString: self.link, categs: [10], tags: self.tags)
+                        self.showPublicationStatusAlert = true
                         
                     }){
                         ZStack {
@@ -114,29 +117,43 @@ struct PostCreatorView: View {
                         }
                     }//ZStack
                         .padding(.top, 32)
+                        .alert(isPresented: $showPublicationStatusAlert, content: {
+                            Alert(title: Text(publicationStatus),
+                                  message: Text(""),
+                                  dismissButton: .default(Text("Ok")) {
+                                    if self.publicationStatus == "Success!"{
+                                        self.title = ""; self.description = ""; self.link = ""
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }
+                                })
+                        })
             )
         } //NavigationView
     } //body
     
-    func publica(id_membro: Int, titulo: String, descricao: String?, linkString: String, categs: [Int], tags: String){
+    func publica(id_membro: Int, titulo: String, descricao: String?, linkString: String, categs: [Int], tags: String) -> String {
         
-        if (titulo == "") {
-            print("The post needs a title!")
-        }
-        else {
-            if ((descricao == "" || descricao == placeholder) && linkString == "") {
-                print("The post need a description text or an embeded link!")
+        if !selectedCategories.isEmpty{
+            if (titulo == "") {
+                //print("The post needs a title!")
+                return "The post needs a title!"
+            } else {
+                if ((descricao == "" || descricao == placeholder) && linkString == "") {
+                    //print("The post need a description text or an embeded link!")
+                    return "The post need a description text or an embeded link!"
+                } else {
+                    
+                    sala.novoPost(publicador: id_membro, post: UUID().hashValue, titulo: titulo, descricao: descricao, link: Link(urlString: linkString), categs: getCategsId(), tags: tags)
+                    
+                    self.hideKeyboard()
+                    return "Success!"
+                }
             }
-            else {
-                
-                sala.novoPost(publicador: id_membro, post: UUID().hashValue, titulo: titulo, descricao: descricao, link: Link(urlString: linkString), categs: getCategsId(), tags: tags)
-                
-                title = ""; description = ""; link = ""
-                
-                self.hideKeyboard()
-                self.presentationMode.wrappedValue.dismiss()
-            }
+        } else {
+            return "Select at least one category!"
         }
+        
+        
     }
     
     func getCategsId() -> [Int] {
