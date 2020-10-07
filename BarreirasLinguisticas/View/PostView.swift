@@ -105,7 +105,7 @@ struct PostView: View {
                     ZStack {
                         Capsule()
                             .frame(height: 50.0)
-                            .foregroundColor(LingoColors.lingoBlue)
+                            //.foregroundColor(LingoColors.lingoBlue)
                         HStack {
                             Spacer()
                             Text("Ask or Comment")

@@ -239,7 +239,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 66D7AA5C24CB5135001CEA3A /* Build configuration list for PBXProject "BarreirasLinguisticas" */;
+			buildConfigurationList = 66D7AA5C24CB5135001CEA3A /* Build configuration list for PBXProject "LinGO" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -457,7 +457,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.matheussmoreira.LinGO;
 				PRODUCT_NAME = "LinGO!";
 				SWIFT_VERSION = 5.0;
@@ -478,7 +478,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.matheussmoreira.LinGO;
 				PRODUCT_NAME = "LinGO!";
 				SWIFT_VERSION = 5.0;
@@ -489,7 +489,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		66D7AA5C24CB5135001CEA3A /* Build configuration list for PBXProject "BarreirasLinguisticas" */ = {
+		66D7AA5C24CB5135001CEA3A /* Build configuration list for PBXProject "LinGO" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				66D7AA7324CB5136001CEA3A /* Debug */,
