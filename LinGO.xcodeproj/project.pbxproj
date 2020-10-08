@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6603984B24DB31A100C5629B /* PostsCategorieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6603984A24DB31A100C5629B /* PostsCategorieView.swift */; };
-		6603984D24DB516800C5629B /* PostCardImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6603984C24DB516800C5629B /* PostCardImageView.swift */; };
+		6603984D24DB516800C5629B /* PostCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6603984C24DB516800C5629B /* PostCardView.swift */; };
 		66066F7C24EF201700021134 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66066F7B24EF201700021134 /* ImagePicker.swift */; };
 		6629EBA324EC45B4009802A5 /* OnboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6629EBA224EC45B4009802A5 /* OnboardView.swift */; };
 		6629EBAB24EC671D009802A5 /* Onboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6629EBAA24EC671D009802A5 /* Onboard.swift */; };
@@ -52,7 +52,7 @@
 
 /* Begin PBXFileReference section */
 		6603984A24DB31A100C5629B /* PostsCategorieView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsCategorieView.swift; sourceTree = "<group>"; };
-		6603984C24DB516800C5629B /* PostCardImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardImageView.swift; sourceTree = "<group>"; };
+		6603984C24DB516800C5629B /* PostCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardView.swift; sourceTree = "<group>"; };
 		66066F7B24EF201700021134 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		6629EBA224EC45B4009802A5 /* OnboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardView.swift; sourceTree = "<group>"; };
 		6629EBAA24EC671D009802A5 /* Onboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboard.swift; sourceTree = "<group>"; };
@@ -116,6 +116,46 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		6674DDF7252FACAA0044E9C7 /* Comentarios */ = {
+			isa = PBXGroup;
+			children = (
+				EAF98EF324DDAEF80087FA3A /* CommentsQuestionsToggle.swift */,
+				EA62ABAD24DC77790026C1BE /* QuestionRow.swift */,
+				EA62ABAB24DB62810026C1BE /* CommentRow.swift */,
+			);
+			path = Comentarios;
+			sourceTree = "<group>";
+		};
+		6674DDFA252FAD4D0044E9C7 /* Onboard */ = {
+			isa = PBXGroup;
+			children = (
+				6629EBA224EC45B4009802A5 /* OnboardView.swift */,
+				6629EBAC24EC73D2009802A5 /* OnboardPageView.swift */,
+				6629EBAE24EC7442009802A5 /* OnboardViewController.swift */,
+				6629EBB024EC7EA9009802A5 /* OnboardPageIndicator.swift */,
+			);
+			path = Onboard;
+			sourceTree = "<group>";
+		};
+		6674DDFC252FADBC0044E9C7 /* Perfil */ = {
+			isa = PBXGroup;
+			children = (
+				EA49EC2924EEEC210030F135 /* EditProfileView.swift */,
+				66066F7B24EF201700021134 /* ImagePicker.swift */,
+			);
+			path = Perfil;
+			sourceTree = "<group>";
+		};
+		6674DDFD252FADE80044E9C7 /* Secundarias */ = {
+			isa = PBXGroup;
+			children = (
+				EA6CA39C24DA006600FAD6F6 /* MultilineTextField.swift */,
+				6675881724D3789B00C9B805 /* UsersView.swift */,
+				663C8ECF24CCB7F5000936FF /* LinkView.swift */,
+			);
+			path = Secundarias;
+			sourceTree = "<group>";
+		};
 		66D7AA5824CB5135001CEA3A = {
 			isa = PBXGroup;
 			children = (
@@ -175,31 +215,23 @@
 		66D7AA8324CB5A3C001CEA3A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				EA6CA39C24DA006600FAD6F6 /* MultilineTextField.swift */,
-				6675881724D3789B00C9B805 /* UsersView.swift */,
-				6629EBA224EC45B4009802A5 /* OnboardView.swift */,
-				6629EBAC24EC73D2009802A5 /* OnboardPageView.swift */,
-				6629EBAE24EC7442009802A5 /* OnboardViewController.swift */,
-				6629EBB024EC7EA9009802A5 /* OnboardPageIndicator.swift */,
+				6674DDFA252FAD4D0044E9C7 /* Onboard */,
+				6674DDFD252FADE80044E9C7 /* Secundarias */,
+				6674DDFC252FADBC0044E9C7 /* Perfil */,
+				6674DDF7252FACAA0044E9C7 /* Comentarios */,
 				667D8BAC24D302B4005D51F4 /* RoomsView.swift */,
 				66D7AA6824CB5135001CEA3A /* ContentView.swift */,
-				66D7AA8624CB80F0001CEA3A /* CategoriesView.swift */,
-				6603984A24DB31A100C5629B /* PostsCategorieView.swift */,
-				668903A724D5B7F60062C8CA /* PostView.swift */,
-				EAF98EF324DDAEF80087FA3A /* CommentsQuestionsToggle.swift */,
-				EA62ABAD24DC77790026C1BE /* QuestionRow.swift */,
-				EA62ABAB24DB62810026C1BE /* CommentRow.swift */,
-				663C8ECF24CCB7F5000936FF /* LinkView.swift */,
 				66D7AA8424CB80B2001CEA3A /* DiscoverView.swift */,
-				6603984C24DB516800C5629B /* PostCardImageView.swift */,
+				66D7AA8624CB80F0001CEA3A /* CategoriesView.swift */,
+				668903A724D5B7F60062C8CA /* PostView.swift */,
+				6603984A24DB31A100C5629B /* PostsCategorieView.swift */,
+				6603984C24DB516800C5629B /* PostCardView.swift */,
 				EA6CA39E24DA00C000FAD6F6 /* PostCreatorView.swift */,
 				66D7AA8A24CB8140001CEA3A /* ProfileView.swift */,
-				EA49EC2924EEEC210030F135 /* EditProfileView.swift */,
-				66066F7B24EF201700021134 /* ImagePicker.swift */,
+				665A157924DC315100D94359 /* RoomMembersView.swift */,
 				665A157524DC2DE500D94359 /* MyPublications.swift */,
 				665A157724DC30A000D94359 /* MySavedPosts.swift */,
 				666C803124DCA329001A7148 /* SubscriptionsView.swift */,
-				665A157924DC315100D94359 /* RoomMembersView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -231,7 +263,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1160;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Matheus S. Moreira";
 				TargetAttributes = {
 					66D7AA6024CB5135001CEA3A = {
@@ -279,7 +311,7 @@
 				66D7AA8524CB80B2001CEA3A /* DiscoverView.swift in Sources */,
 				6629EBB124EC7EA9009802A5 /* OnboardPageIndicator.swift in Sources */,
 				6629EBA324EC45B4009802A5 /* OnboardView.swift in Sources */,
-				6603984D24DB516800C5629B /* PostCardImageView.swift in Sources */,
+				6603984D24DB516800C5629B /* PostCardView.swift in Sources */,
 				664973C724E4C7BC00D01BAC /* UIManager.swift in Sources */,
 				66D7AA8224CB5A1D001CEA3A /* Sala.swift in Sources */,
 				662B018924D9F3FC008BF2D7 /* Comentario.swift in Sources */,
@@ -356,6 +388,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -416,6 +449,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

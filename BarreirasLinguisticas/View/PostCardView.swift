@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct PostCardImageView: View {
+struct PostCardView: View {
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var post: Post
     @State private var link_image: UIImage?
@@ -121,6 +121,6 @@ struct PostCardImageView: View {
 
 struct PostCardImageView_Previews: PreviewProvider {
     static var previews: some View {
-        PostCardImageView(post: DAO().salas[0].posts[0], width: 0.80)
+        PostCardView(post: DAO().salas[0].posts[0], width: 0.80)
     }
 }

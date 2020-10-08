@@ -24,7 +24,7 @@ struct MyPublications: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(membro.posts_publicados.reversed()) { post in
                         NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
-                            PostCardImageView(post: post, width: 0.85)
+                            PostCardView(post: post, width: 0.85)
                         }
                     }
                 }

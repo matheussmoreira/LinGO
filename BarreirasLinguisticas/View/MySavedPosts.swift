@@ -26,7 +26,7 @@ struct MySavedPosts: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(self.salvos.reversed()) { post in
                         NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
-                            PostCardImageView(post: post, width: 0.85)
+                            PostCardView(post: post, width: 0.85)
                         }
                     }
                 }
