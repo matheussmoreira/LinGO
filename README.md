@@ -1,2 +1,2 @@
 # BarreirasLinguisticas
-Challenge 3
+Challenges 3 e 5
