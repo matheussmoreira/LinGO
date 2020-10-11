@@ -1,2 +1,2 @@
-# BarreirasLinguisticas
-Challenges 3 e 5
+# LinGO!
+Projeto dos Challenges 3 e 5
