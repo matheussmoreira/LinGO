@@ -222,12 +222,12 @@ struct AdminView: View {
     var body: some View {
         
         VStack{
-            Rectangle()
-                .frame(width: 60, height: 6)
-                .cornerRadius(3.0)
-                .opacity(0.1)
-                .padding(.top,10)
-            
+//            Rectangle()
+//                .frame(width: 60, height: 6)
+//                .cornerRadius(3.0)
+//                .opacity(0.1)
+//                .padding(.top,10)
+//
             NavigationView{
                 
                 VStack {
@@ -294,10 +294,10 @@ struct PostsDenunciados: View {
         }
         .navigationBarTitle(
             Text("Posts Denunciados")
-                .font(.system(.title, design: .rounded)),displayMode: .inline
+//                .font(.system(.title, design: .rounded)),displayMode: .inline
         )
         .onAppear {
-            print("Contando os posts denunciados")
+//            print("Contando os posts denunciados")
             self.posts = self.sala.posts.filter{!$0.denuncias.isEmpty}
         }
     }//body
@@ -305,6 +305,6 @@ struct PostsDenunciados: View {
 
 struct ComentariosDenunciados: View {
     var body: some View {
-        Text("Comentários denunciados")
+        Text("Reported Comments")
     }
 }

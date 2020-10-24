@@ -15,6 +15,7 @@ struct PostCreatorView: View {
     @EnvironmentObject var membro: Membro
     @EnvironmentObject var sala: Sala
     @State private var placeholder = "Description"
+    @State private var showPlaceholder = true
     @State private var textFieldMinHeight: CGFloat = 80
     @State private var description: String = ""
     @State private var title: String = ""
@@ -54,17 +55,38 @@ struct PostCreatorView: View {
                             .foregroundColor(LingoColors.lingoBlue)
                             .imageScale(.large)
                     }
-                }//.padding(.bottom)
+                }.onTapGesture{
+                    self.hideKeyboard()
+                    if description == "" {
+                        showPlaceholder = true
+                    }
+                }
                 
                 TextField("Title", text: $title)
                     .font(.system(size: 28, weight: .bold, design: .rounded))
                     .foregroundColor(Color(UIColor.systemGray2))
                     .padding(.vertical)
+                    .onTapGesture {
+                        if description == "" {
+                            showPlaceholder = true
+                        }
+                    }
                 
-                ScrollView {
-                    MultilineTextField(placeholder: placeholder, text: self.$description, minHeight: self.textFieldMinHeight, calculatedHeight: self.$textFieldMinHeight)
-                        .frame(minHeight: self.textFieldMinHeight, maxHeight: self.textFieldMinHeight)
+                //                ScrollView {
+                ZStack(alignment: .topLeading){
+                    TextEditor(text: self.$description)
+                        .onTapGesture {
+                            showPlaceholder = false
+                        }
+                    if showPlaceholder {
+                        Text(self.placeholder)
+                            .foregroundColor(Color(UIColor.systemGray2))
+                            .padding(.top, 5)
+                    }
                 }
+                //                    MultilineTextField(placeholder: placeholder, text: self.$description, minHeight: self.textFieldMinHeight, calculatedHeight: self.$textFieldMinHeight)
+                //                        .frame(minHeight: self.textFieldMinHeight, maxHeight: self.textFieldMinHeight)
+                //                }
                 
                 VStack {
                     HStack {
@@ -75,6 +97,11 @@ struct PostCreatorView: View {
                         TextField("You can paste a related link here", text: $link)
                             .font(.headline)
                             .foregroundColor(.blue)
+                            .onTapGesture {
+                                if description == "" {
+                                    showPlaceholder = true
+                                }
+                            }
                         
                     }
                     .padding(.bottom)
@@ -88,25 +115,33 @@ struct PostCreatorView: View {
                             .font(.headline)
                             .foregroundColor(.blue)
                             .autocapitalization(.allCharacters)
+                            .onTapGesture {
+                                if description == "" {
+                                    showPlaceholder = true
+                                }
+                            }
                         
                     }
                     .padding(.bottom)
                 }
                 .animation(.spring())
                 .offset(y: -self.value)
-//                .onAppear {
-//                    self.ajustaAltura()
-//                }
+                //                .onAppear {
+                //                    self.ajustaAltura()
+                //                }
             }//VStack
-//            .background(Color.red)
+            //            .background(Color.red)
             .padding(.horizontal)//.padding(.trailing)//.padding(.bottom)
-//                .navigationBarTitle(Text("New post!"))
-                .navigationBarItems(
-                    leading: Text("New post")
-                        .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                        .bold()
-                        .padding(.top, 32),
-                    trailing:
+            //                .navigationBarTitle(Text("New post!"))
+            .navigationBarItems(
+                leading: Text("New post")
+                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .bold()
+                    .padding(.top, 32)
+                    .onTapGesture{
+                        self.hideKeyboard()
+                    },
+                trailing:
                     Button(action: {
                         self.publicationStatus = self.publica(id_membro: self.membro.usuario.id, titulo: self.title, descricao: self.description, linkString: self.link, categs: [10], tags: self.tags)
                         self.showPublicationStatusAlert = true
@@ -123,17 +158,17 @@ struct PostCreatorView: View {
                             //.colorInvert()
                         }
                     }//ZStack
-                        .padding(.top, 32)
-                        .alert(isPresented: $showPublicationStatusAlert, content: {
-                            Alert(title: Text(publicationStatus),
-                                  message: Text(""),
-                                  dismissButton: .default(Text("Ok")) {
-                                    if self.publicationStatus == "Success!"{
-                                        self.title = ""; self.description = ""; self.link = ""
-                                        self.presentationMode.wrappedValue.dismiss()
-                                    }
-                                })
-                        })
+                    .padding(.top, 32)
+                    .alert(isPresented: $showPublicationStatusAlert, content: {
+                        Alert(title: Text(publicationStatus),
+                              message: Text(""),
+                              dismissButton: .default(Text("Ok")) {
+                                if self.publicationStatus == "Success!"{
+                                    self.title = ""; self.description = ""; self.link = ""
+                                    self.presentationMode.wrappedValue.dismiss()
+                                }
+                              })
+                    })
             )
         } //NavigationView
     } //body
@@ -206,11 +241,11 @@ struct SelectCategories: View {
                         else {
                             self.selectedCategories.append(self.sala.categorias[idx])
                         }
-                }
+                    }
             }
         }.navigationBarTitle(
             Text("Select the categories")
-//                .font(.system(.title, design: .rounded)),displayMode: .inline
+            //.font(.system(.title, design: .rounded)),displayMode: .inline
         )
     }
 }
