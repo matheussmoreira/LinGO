@@ -56,16 +56,18 @@ struct QuestionRow: View {
                     } //HStack
                     
                     HStack {
-                        Text(comentario.conteudo)
-                            .font(.body)
-                            .padding(.all)
-                            .lineLimit(10)
-                            .frame(width: UIScreen.width*0.70)
-                            .multilineTextAlignment(.leading)
-                            .background(Color.gray.opacity(0.15))
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
-                            
-
+//                        ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false, content: {
+                            Text(comentario.conteudo)
+                                .font(.body)
+                                .padding(.all)
+                                .lineLimit(10)
+                                .frame(width: UIScreen.width*0.70)
+                                .multilineTextAlignment(.leading)
+                                .background(Color.gray.opacity(0.15))
+                                .clipShape(RoundedRectangle(cornerRadius: 15))
+//                                .border(Color.yellow)
+//                        })
+                        
                         Spacer()
                         
                         Button(action: {self.changeVoted()}) {
@@ -74,7 +76,7 @@ struct QuestionRow: View {
                                 .frame(width: 30.0, height: 40.0)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 10)
-                                        .stroke(lineWidth: 2)
+                                        .stroke(lineWidth: 1.5)
                                         .frame(width: 60.0, height: 80.0)
                                 )
                             VStack {
@@ -94,22 +96,22 @@ struct QuestionRow: View {
                     } //HStack
                         .padding(.horizontal)
                 } //VStack
-                    .padding(.horizontal)
+                    .padding(.all)
             } //ZStack
             
             //MARK: - ANSWER HERE
-            HStack {
-                membro.usuario.foto_perfil
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 20.0, height: 20.0)
-                    .clipShape(Circle())
-                    .padding(.leading)
-                
-                TextField("Answer here", text: $answer)
-                
-            } //HStack
-                .padding(.horizontal)
+//            HStack {
+//                membro.usuario.foto_perfil
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fill)
+//                    .frame(width: 20.0, height: 20.0)
+//                    .clipShape(Circle())
+//                    .padding(.leading)
+//
+//                TextField("Answer here", text: $answer)
+//
+//            } //HStack
+//                .padding(.horizontal)
         } //VStack
             .onAppear { self.loadVoto() }
     } //body

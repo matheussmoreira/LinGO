@@ -260,7 +260,12 @@ struct SelectCategorieRow: View {
             Text(self.sala.categorias[idx].nome)
             if self.isSelected {
                 Spacer()
-                Image(systemName: "checkmark")
+                Image(systemName: "checkmark.circle.fill")
+                    .renderingMode(.original)
+            }
+            else {
+                Spacer()
+                Image(systemName: "checkmark.circle")
             }
         }
     }

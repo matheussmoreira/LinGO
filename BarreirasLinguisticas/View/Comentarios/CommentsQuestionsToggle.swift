@@ -66,12 +66,17 @@ struct CallQuestions: View {
             }
             .frame(width: UIScreen.width)
             
-            MultilineTextField(placeholder: "", text: self.$newComment, minHeight: self.textFieldMinHeight, calculatedHeight: self.$textFieldMinHeight)
-                .frame(minHeight: self.textFieldMinHeight, maxHeight: self.textFieldMinHeight)
-                .frame(width: UIScreen.width - 20)
+            TextEditor(text: self.$newComment)
+                .frame(width: UIScreen.width - 20, height: 150)
                 .cornerRadius(10)
                 .shadow(radius: 5)
             
+//            MultilineTextField(placeholder: "", text: self.$newComment, minHeight: self.textFieldMinHeight, calculatedHeight: self.$textFieldMinHeight)
+//                .frame(minHeight: self.textFieldMinHeight, maxHeight: self.textFieldMinHeight)
+//                .frame(width: UIScreen.width - 20)
+//                .cornerRadius(10)
+//                .shadow(radius: 5)
+//
             Divider()
                 .padding(.vertical)
             
@@ -135,16 +140,20 @@ struct CallComments: View {
             }
             .frame(width: UIScreen.width)
             
-            MultilineTextField(placeholder: "", text: self.$newComment, minHeight: self.textFieldMinHeight, calculatedHeight: self.$textFieldMinHeight)
-                .frame(minHeight: self.textFieldMinHeight, maxHeight: self.textFieldMinHeight)
-                .frame(width: UIScreen.width - 20)
+            TextEditor(text: self.$newComment)
+                .frame(width: UIScreen.width - 20, height: 150)
                 .cornerRadius(10)
                 .shadow(radius: 5)
+            
+//            MultilineTextField(placeholder: "", text: self.$newComment, minHeight: self.textFieldMinHeight, calculatedHeight: self.$textFieldMinHeight)
+//                .frame(minHeight: self.textFieldMinHeight, maxHeight: self.textFieldMinHeight)
+//                .frame(width: UIScreen.width - 20)
+//                .cornerRadius(10)
+//                .shadow(radius: 5)
                 
             Divider()
-            .padding(.vertical)
+                .padding(.vertical)
 
-            
             if comments.isEmpty {
                 EmptyView(message: "No comments for this post :(")
             }
@@ -158,7 +167,7 @@ struct CallComments: View {
                             Divider()
                         }
                     }
-                }
+                }//.frame(width: UIScreen.width*0.95)
             } //else
         } //VStack
         .onAppear {self.loadComments()}
@@ -199,11 +208,11 @@ struct Toggle: View {
     var body: some View {
         VStack {
             //TRACINHO DO SHEET
-            Rectangle()
-                .frame(width: 60, height: 6)
-                .cornerRadius(3.0)
-                .opacity(0.1)
-                .padding(.top,10)
+//            Rectangle()
+//                .frame(width: 60, height: 6)
+//                .cornerRadius(3.0)
+//                .opacity(0.1)
+//                .padding(.top,10)
             
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
