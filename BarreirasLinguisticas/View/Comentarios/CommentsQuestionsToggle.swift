@@ -50,6 +50,7 @@ struct CallQuestions: View {
                 Text("Write a question")
                     .font(.headline)
                     .padding(.leading, 20)
+                    
                 Spacer()
                 ZStack {
                     Capsule()
@@ -65,6 +66,9 @@ struct CallQuestions: View {
                 .padding(.trailing, 20)
             }
             .frame(width: UIScreen.width)
+            .onTapGesture {
+                self.hideKeyboard()
+            }
             
             TextEditor(text: self.$newComment)
                 .frame(width: UIScreen.width - 20, height: 150)
@@ -79,6 +83,9 @@ struct CallQuestions: View {
 //
             Divider()
                 .padding(.vertical)
+                .onTapGesture {
+                    self.hideKeyboard()
+                }
             
             if questions.isEmpty {
                 EmptyView(message: "No questions for this post :(")
@@ -92,6 +99,8 @@ struct CallQuestions: View {
                             Divider()
                         }
                     }
+                }.onTapGesture {
+                    self.hideKeyboard()
                 }
             } //else
         }//VStack
@@ -124,6 +133,7 @@ struct CallComments: View {
                 Text("Write a comment")
                     .font(.headline)
                     .padding(.leading, 20)
+                    
                 Spacer()
                 ZStack {
                     Capsule()
@@ -139,6 +149,9 @@ struct CallComments: View {
                     .padding(.trailing, 20)
             }
             .frame(width: UIScreen.width)
+            .onTapGesture {
+                self.hideKeyboard()
+            }
             
             TextEditor(text: self.$newComment)
                 .frame(width: UIScreen.width - 20, height: 150)
@@ -153,6 +166,9 @@ struct CallComments: View {
                 
             Divider()
                 .padding(.vertical)
+                .onTapGesture {
+                    self.hideKeyboard()
+                }
 
             if comments.isEmpty {
                 EmptyView(message: "No comments for this post :(")
@@ -167,7 +183,10 @@ struct CallComments: View {
                             Divider()
                         }
                     }
-                }//.frame(width: UIScreen.width*0.95)
+                }.onTapGesture {
+                    self.hideKeyboard()
+                }
+                //.frame(width: UIScreen.width*0.95)
             } //else
         } //VStack
         .onAppear {self.loadComments()}
