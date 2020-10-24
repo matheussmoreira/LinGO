@@ -34,7 +34,7 @@ struct ContentView: View {
                         .tabItem {
                             Image(systemName: "rectangle.on.rectangle.angled")
                             Text("Discover")
-                    }
+                        }
                     CategoriesView()
                         .environmentObject(membro!)
                         .environmentObject(sala_atual!)
@@ -51,7 +51,7 @@ struct ContentView: View {
                             Image(systemName: "person")
                             Text("You")
                     }
-                } //TabView
+                }//TabView
             }
             else {
                 EmptyRoom(usuario: usuario, showRooms: $showRooms, showProfile: $showProfile, showAlertLogOut: $showAlertLogOut, loggedIn: $loggedIn)

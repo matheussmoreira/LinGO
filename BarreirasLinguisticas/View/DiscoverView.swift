@@ -24,7 +24,10 @@ struct DiscoverView: View {
                     VStack {
                         Text("No posts for you :(")
                             .foregroundColor(Color.gray)
-                    }
+                        Text("Subscribe in a category :)")
+                            .foregroundColor(Color.gray)
+                            
+                    }.frame(height: 260)
                 }
                 else {
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -52,7 +55,7 @@ struct DiscoverView: View {
                     VStack {
                         Text("No recent posts :(")
                             .foregroundColor(Color.gray)
-                    }
+                    }.frame(height: 260)
                 }
                 else {
                     ScrollView(.horizontal, showsIndicators: false) {
