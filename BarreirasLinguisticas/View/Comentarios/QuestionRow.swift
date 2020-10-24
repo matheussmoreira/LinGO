@@ -79,6 +79,7 @@ struct QuestionRow: View {
                                         .stroke(lineWidth: 1.5)
                                         .frame(width: 60.0, height: 80.0)
                                 )
+                            
                             VStack {
                                 ZStack{
                                     Image(systemName: "circle.fill")
@@ -91,8 +92,12 @@ struct QuestionRow: View {
                                 
                                 Spacer()
                             }
-                        } //Button
+                            
+                        }//Button
+//                            .background(Color.yellow)
                             .padding(.leading)
+                        
+                        
                     } //HStack
                         .padding(.horizontal)
                 } //VStack
