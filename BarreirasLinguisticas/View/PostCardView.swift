@@ -61,7 +61,7 @@ struct PostCardView: View {
                     Image(uiImage: link_image!)
                         .renderingMode(.original)
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: UIScreen.width*width, height: 100)
+                        .frame(width: UIScreen.width*width-10, height: 100)
                         .cornerRadius(10)
                 }
                 

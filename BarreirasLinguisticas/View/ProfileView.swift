@@ -293,7 +293,7 @@ struct PostsDenunciados: View {
             }
         }
         .navigationBarTitle(
-            Text("Posts Denunciados")
+            Text("Reported Posts")
 //                .font(.system(.title, design: .rounded)),displayMode: .inline
         )
         .onAppear {
@@ -305,6 +305,11 @@ struct PostsDenunciados: View {
 
 struct ComentariosDenunciados: View {
     var body: some View {
-        Text("Reported Comments")
+        VStack {
+            Text("Reported Comments will be here")
+                .foregroundColor(.gray)
+        }.navigationBarTitle(
+            Text("Reported Comments")
+        )
     }
 }

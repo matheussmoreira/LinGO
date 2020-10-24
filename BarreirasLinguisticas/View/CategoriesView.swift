@@ -90,7 +90,12 @@ struct CategoriesView: View {
 //                        EditButton()
 //                            .padding(.leading)
 //                            .foregroundColor(LingoColors.lingoBlue)
-                        
+                        Button(action: {}) {
+                            Image(systemName: "plus")
+                                .imageScale(.large)
+                                .foregroundColor(LingoColors.lingoBlue)
+                                .padding(.leading)
+                        }
                 })
         } // NavigationView
     }// body
