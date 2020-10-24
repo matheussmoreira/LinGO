@@ -22,7 +22,7 @@ struct OnboardView: View {
             else {
                 ContentView(loggedIn: $loggedIn)
                     .environmentObject(dao)
-                    .transition(.scale)
+//                    .transition(.scale)
             }
         } //VStack
     } //body

@@ -28,7 +28,7 @@ struct ProfileView: View {
             VStack {
                 Circle()
                     .padding(.bottom, -100.0)
-                    .padding(.top, -1050)
+                    .padding(.top, -1150)
                     .frame(width: 600.0, height: 600.0)
                     .foregroundColor(LingoColors.lingoBlue)
                 
@@ -167,7 +167,7 @@ struct ProfileView: View {
                         }
                     } //ScrollView
                 } //VStack
-                    .padding(.top, -575)
+                    .padding(.top, -645)
             } //VStack
                 .navigationBarItems(
                     leading:

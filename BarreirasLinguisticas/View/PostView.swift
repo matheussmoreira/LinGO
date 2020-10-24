@@ -23,10 +23,10 @@ struct PostView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .leading){
                     
-                    Text(post.titulo)
-                        .fontWeight(.bold)
-                        .font(.title)
-                        .padding(.top)
+//                    Text(post.titulo)
+//                        .fontWeight(.bold)
+//                        .font(.title)
+//                        .padding(.top)
                     
                     //AUTOR E NIVEL DE FLUENCIA
                     HStack {
@@ -49,6 +49,7 @@ struct PostView: View {
                         ForEach(0..<post.tags.count) { idx in
                             Text(self.post.tags[idx])
                                 .foregroundColor(LingoColors.lingoBlue)
+//                                .padding(.top)
                         }
                         Spacer()
                     }
@@ -72,7 +73,7 @@ struct PostView: View {
             }
             .navigationBarTitle(
                 Text(post.titulo)
-                    .font(.system(.title, design: .rounded)),displayMode: .inline
+//                    .font(.system(.title, design: .rounded)),displayMode: .inline
             )
                 .padding(.horizontal)
                 .navigationBarItems(trailing:

@@ -30,8 +30,8 @@ struct PostCreatorView: View {
             VStack {
                 HStack {
                     if selectedCategories.isEmpty {
-                        Text("Select a category")
-                            .font(.system(.title, design: .rounded))
+                        Text("Select the categories ->")
+                            .font(.system(.title3, design: .rounded))
                             .fontWeight(.bold)
                             .foregroundColor(Color(UIColor.systemGray2))
                     } else {
@@ -39,7 +39,7 @@ struct PostCreatorView: View {
                             HStack{
                                 ForEach(self.selectedCategories) { categ in
                                     Text(categ.nome)
-                                        .font(.system(.title, design: .rounded))
+                                        .font(.system(.title3, design: .rounded))
                                         .fontWeight(.bold)
                                         .foregroundColor(.primary)
                                 }
@@ -54,11 +54,12 @@ struct PostCreatorView: View {
                             .foregroundColor(LingoColors.lingoBlue)
                             .imageScale(.large)
                     }
-                }
+                }//.padding(.bottom)
                 
-                TextField("Title here", text: $title)
+                TextField("Title", text: $title)
                     .font(.system(size: 28, weight: .bold, design: .rounded))
-                    .padding(.bottom)
+                    .foregroundColor(Color(UIColor.systemGray2))
+                    .padding(.vertical)
                 
                 ScrollView {
                     MultilineTextField(placeholder: placeholder, text: self.$description, minHeight: self.textFieldMinHeight, calculatedHeight: self.$textFieldMinHeight)
@@ -93,13 +94,19 @@ struct PostCreatorView: View {
                 }
                 .animation(.spring())
                 .offset(y: -self.value)
-                .onAppear {
-                    self.ajustaAltura()
-                }
+//                .onAppear {
+//                    self.ajustaAltura()
+//                }
             }//VStack
-                .padding()
-                .navigationBarTitle(Text("New post!"))
-                .navigationBarItems(trailing:
+//            .background(Color.red)
+            .padding(.horizontal)//.padding(.trailing)//.padding(.bottom)
+//                .navigationBarTitle(Text("New post!"))
+                .navigationBarItems(
+                    leading: Text("New post")
+                        .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                        .bold()
+                        .padding(.top, 32),
+                    trailing:
                     Button(action: {
                         self.publicationStatus = self.publica(id_membro: self.membro.usuario.id, titulo: self.title, descricao: self.description, linkString: self.link, categs: [10], tags: self.tags)
                         self.showPublicationStatusAlert = true
@@ -107,7 +114,7 @@ struct PostCreatorView: View {
                     }){
                         ZStack {
                             Capsule()
-                                .frame(width: 90, height: 50)
+                                .frame(width: 80, height: 40)
                                 .foregroundColor(LingoColors.lingoBlue)
                             Text("Go!")
                                 .bold()
@@ -203,7 +210,7 @@ struct SelectCategories: View {
             }
         }.navigationBarTitle(
             Text("Select the categories")
-                .font(.system(.title, design: .rounded)),displayMode: .inline
+//                .font(.system(.title, design: .rounded)),displayMode: .inline
         )
     }
 }

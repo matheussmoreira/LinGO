@@ -65,7 +65,7 @@ struct CategoriesView: View {
                             } //VStack
                             .padding(.vertical, 4)
                         } //HStack
-                    }//List
+                    }.listStyle(InsetGroupedListStyle())//List
                     
                 } //else
             } //VStack
@@ -87,9 +87,9 @@ struct CategoriesView: View {
                         Image(systemName: "magnifyingglass")
                             .imageScale(.large)
                             .foregroundColor(LingoColors.lingoBlue)
-                        EditButton()
-                            .padding(.leading)
-                            .foregroundColor(LingoColors.lingoBlue)
+//                        EditButton()
+//                            .padding(.leading)
+//                            .foregroundColor(LingoColors.lingoBlue)
                         
                 })
         } // NavigationView
