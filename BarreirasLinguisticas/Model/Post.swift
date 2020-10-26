@@ -10,6 +10,8 @@ import Foundation
 import LinkPresentation
 
 class Post: Equatable, Identifiable, ObservableObject {
+    //var recordName: String?
+    
     let id: Int
     @Published var titulo: String
     @Published var descricao: String?

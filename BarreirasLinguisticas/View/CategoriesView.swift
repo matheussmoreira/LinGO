@@ -14,6 +14,8 @@ struct CategoriesView: View {
     @EnvironmentObject var sala: Sala
     @State private var mensagem = ""
     @State private var showRooms = false
+    @State private var showCriaCategoria = false
+    @State private var newCategoryName = ""
     
     var body: some View {
         
@@ -90,12 +92,25 @@ struct CategoriesView: View {
 //                        EditButton()
 //                            .padding(.leading)
 //                            .foregroundColor(LingoColors.lingoBlue)
-                        Button(action: {}) {
+                        Button(action: {showCriaCategoria.toggle()}) {
                             Image(systemName: "plus")
                                 .imageScale(.large)
                                 .foregroundColor(LingoColors.lingoBlue)
                                 .padding(.leading)
-                        }
+                        }.sheet(isPresented: $showCriaCategoria, content: {
+                            Text("Create a new category!")
+                                .font(.title)
+                                .fontWeight(.bold)
+                            TextField("Name",text: $newCategoryName)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .frame(width: UIScreen.width*0.95)
+//                            Button(action: {}) {
+//                                Text("Save")
+//                                    //.backgroundColor(Color.black)
+//                                    //.clipShape(Capsule())
+//                                sala.novaCategoria(id: sala.categorias.count(), nome:$newCategoryName)
+//                            }
+                        })
                 })
         } // NavigationView
     }// body

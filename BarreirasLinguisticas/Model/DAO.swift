@@ -15,13 +15,15 @@ class DAO: ObservableObject {
     @Published var usuario_atual: Usuario?
     
     init(){
-        self.usuarios.append(Usuario(id: 1,
+
+        /*self.usuarios.append(Usuario(id: 1,
                                      email: "matheus@icloud.com",
                                      senha: "sucoDeAbacaxi",
                                      nome: "Matheus Diniz",
                                      foto_perfil: "foto_matheus",
                                      pais: "Brasil",
                                      fluencia_ingles: fluencia.intermed))
+
         
         self.usuarios.append(Usuario(id: 2,
                                      email: "victor@icloud.com",
@@ -32,13 +34,12 @@ class DAO: ObservableObject {
                                      fluencia_ingles: fluencia.advanced))
         
         self.usuarios.append(Usuario(id: 3,
-                                     email: "evelyn@icloud.com",
-                                     senha: "roxoComAmarelo",
-                                     nome: "Evelyn de Jesus",
-                                     foto_perfil: "foto_evelyn",
-                                     pais: "Brasil",
-                                     fluencia_ingles: fluencia.basic))
-        
+                               email: "evelyn@icloud.com",
+                               senha: "roxoComAmarelo",
+                               nome: "Evelyn de Jesus",
+                               foto_perfil: "foto_evelyn",
+                               pais: "Brasil",
+                               fluencia_ingles: fluencia.basic))
         
         self.usuarios.append(Usuario(id: 4,
                                      email: "lidiane@icloud.com",
@@ -93,7 +94,7 @@ class DAO: ObservableObject {
                                      nome: "Ana Caldas",
                                      foto_perfil: "foto_ana",
                                      pais: "Brasil",
-                                     fluencia_ingles: fluencia.advanced))
+                                     fluencia_ingles: fluencia.advanced))*/
         
     }
     
@@ -115,6 +116,7 @@ class DAO: ObservableObject {
     }
     
     func getUsuario(id: Int) -> Usuario? {
+//        print(self.usuario_atual)
         for user in self.usuarios {
             if (id == user.id) { return user }
         }

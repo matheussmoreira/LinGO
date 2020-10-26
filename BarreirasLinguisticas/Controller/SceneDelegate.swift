@@ -20,17 +20,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Create the SwiftUI view that provides the window contents.
         let dao = DAO()
-        let usuario = dao.usuarios[2] //Evelyn
-        dao.usuario_atual = usuario
-        let sala = Sala(id: 1, nome: "Apple Developer Academy", criador: usuario)
-        dao.addNovaSala(sala)
+        //let usuario = dao.usuarios[2] //Evelyn
+        //dao.usuario_atual = usuario
         
-        if !dao.getSalasByUser(id: usuario.id).isEmpty {
-            dao.sala_atual = dao.salas[0]
-        }
-        else {
-            dao.sala_atual = nil
-        }
+        //let sala = Sala(id: 1, nome: "Apple Developer Academy", criador: usuario)
+        //dao.addNovaSala(sala)
+        
+//        if !dao.getSalasByUser(id: usuario.id.hashValue).isEmpty { //HASH VALUE COMO SOLUCAO DE CONTORNO
+//            dao.sala_atual = dao.salas[0]
+//        }
+//        else {
+//            dao.sala_atual = nil
+//        }
         
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

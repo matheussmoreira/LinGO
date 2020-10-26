@@ -75,12 +75,12 @@ struct RoomsView: View {
     
     func novaSala(nome: String, criador: Usuario) {
         let sala: Sala
-        
+        //print(dao.usuario_atual?.nome)
         if let ultima_sala = self.dao.salas.last {
-            sala = Sala(id: ultima_sala.id + 1, nome: nome, criador: criador)
+            sala = Sala(id: ultima_sala.id + 1, nome: nome, criador: criador, dao: self.dao)
         }
         else {
-            sala = Sala(id: 1, nome: "Apple Developer Academy", criador: criador)
+            sala = Sala(id: 1, nome: "Apple Developer Academy", criador: criador, dao: self.dao)
         }
         
         self.dao.addNovaSala(sala)

@@ -54,7 +54,7 @@ struct ContentView: View {
                 }//TabView
             }
             else {
-                EmptyRoom(usuario: usuario, showRooms: $showRooms, showProfile: $showProfile, showAlertLogOut: $showAlertLogOut, loggedIn: $loggedIn)
+                EmptyRoom(usuario: usuario, showRooms: $showRooms, showProfile: $showProfile, showAlertLogOut: $showAlertLogOut, loggedIn: $loggedIn).environmentObject(dao)
             }
         }
             .navigationBarBackButtonHidden(true)

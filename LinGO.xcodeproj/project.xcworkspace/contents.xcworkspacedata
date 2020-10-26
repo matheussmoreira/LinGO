@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/matheusmoreira/XCode Projects/Academy Challenges/BarreirasLinguisticas/LinGO.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>

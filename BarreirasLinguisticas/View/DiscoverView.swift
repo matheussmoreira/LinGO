@@ -101,6 +101,16 @@ struct DiscoverView: View {
                                 .environmentObject(self.dao)
                         }
                 })
+        }.onAppear {
+//            let novaclasse = NovaClasse(nome: "Ricardão")
+//            novaclasse.ckSave(then: { result in
+//                switch result {
+//                    case .success(let savedRecord):
+//                        dump(savedRecord)
+//                    case .failure(let error):
+//                        print(error)
+//                }
+//            })
         } //NavigationView
     } //body
     

@@ -10,19 +10,26 @@ import SwiftUI
 
 struct OnboardView: View {
     @EnvironmentObject var dao: DAO
+    @State private var signedIn = false
     @State private var loggedIn = false
     
     var body: some View {
         VStack {
-            if !loggedIn {
-                OnboardContainer(signedIn: $loggedIn,
+            if !signedIn {
+                OnboardContainer(signedIn: $signedIn,
                                  viewControllers: Onboard.getAll.map{UIHostingController(rootView: OnboardPageView(element: $0))})
                     .transition(.scale)
             }
             else {
-                ContentView(loggedIn: $loggedIn)
-                    .environmentObject(dao)
-//                    .transition(.scale)
+                
+                if !loggedIn {
+                    NewUserView(loggedIn: $loggedIn).environmentObject(dao)
+                } else {
+                    ContentView(loggedIn: $loggedIn)
+                        .environmentObject(dao)
+                        .transition(.scale)
+                }
+                
             }
         } //VStack
     } //body

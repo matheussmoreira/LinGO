@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftUI
+import CloudKitMagicCRUD
 
 enum fluencia: String {
     case advanced = "Advanced English"
@@ -16,7 +17,8 @@ enum fluencia: String {
     case unknown = "Unknown English"
 }
 
-class Usuario: Equatable, Identifiable, ObservableObject {
+class Usuario: Equatable, Identifiable, ObservableObject/*, CKMRecord*/ {
+    //var recordName: String?
     let id: Int
     var email: String
     var senha: String
