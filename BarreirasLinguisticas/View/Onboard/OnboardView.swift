@@ -24,6 +24,8 @@ struct OnboardView: View {
                 
                 if !loggedIn {
                     NewUserView(loggedIn: $loggedIn).environmentObject(dao)
+                        .transition(.opacity)
+                        .animation(.easeOut)
                 } else {
                     ContentView(loggedIn: $loggedIn)
                         .environmentObject(dao)
@@ -62,7 +64,7 @@ struct OnboardContainer<Onboard: View>: View {
                             .frame(width: 250.0, height: 40.0)
                             .foregroundColor(.black)
                             
-                        Text("Sign-in with Apple")
+                        Text("Get started")
                             .foregroundColor(.white)
                     }
                 }.padding(.vertical)

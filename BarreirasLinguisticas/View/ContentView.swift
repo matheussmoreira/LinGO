@@ -55,6 +55,8 @@ struct ContentView: View {
             }
             else {
                 EmptyRoom(usuario: usuario, showRooms: $showRooms, showProfile: $showProfile, showAlertLogOut: $showAlertLogOut, loggedIn: $loggedIn).environmentObject(dao)
+                    .transition(.opacity)
+                    .animation(.easeOut)
             }
         }
             .navigationBarBackButtonHidden(true)
