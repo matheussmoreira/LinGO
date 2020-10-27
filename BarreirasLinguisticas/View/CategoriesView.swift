@@ -15,7 +15,6 @@ struct CategoriesView: View {
     @State private var mensagem = ""
     @State private var showRooms = false
     @State private var showCriaCategoria = false
-    @State private var newCategoryName = ""
     
     var body: some View {
         
@@ -49,7 +48,7 @@ struct CategoriesView: View {
                                     
                                 }
                                 if categ.tagsPosts.isEmpty {
-                                    Text("No tags")
+                                    Text("No related tags")
                                         .font(.subheadline)
                                         .foregroundColor(Color.gray)
                                         .multilineTextAlignment(.leading)
@@ -97,20 +96,13 @@ struct CategoriesView: View {
                                 .imageScale(.large)
                                 .foregroundColor(LingoColors.lingoBlue)
                                 .padding(.leading)
-                        }.sheet(isPresented: $showCriaCategoria, content: {
-                            Text("Create a new category!")
-                                .font(.title)
-                                .fontWeight(.bold)
-                            TextField("Name",text: $newCategoryName)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .frame(width: UIScreen.width*0.95)
-                            //                            Button(action: {}) {
-                            //                                Text("Save")
-                            //                                    //.backgroundColor(Color.black)
-                            //                                    //.clipShape(Capsule())
-                            //                                sala.novaCategoria(id: sala.categorias.count(), nome:$newCategoryName)
-                            //                            }
-                        })
+                        }
+                        .sheet(
+                            isPresented: $showCriaCategoria,
+                            content: {
+                                CreateCategorieView()
+                                    .environmentObject(sala)
+                            })
                     })
         } // NavigationView
     }// body
@@ -120,5 +112,38 @@ struct CategoriesView: View {
 struct CategoriesView_Previews: PreviewProvider {
     static var previews: some View {
         CategoriesView().environmentObject(DAO().salas[0].membros[0])
+    }
+}
+
+struct CreateCategorieView: View {
+    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var sala: Sala
+    @State private var newCategoryName = ""
+    
+    var body: some View {
+        VStack {
+            Text("Create a new category!")
+                .font(.title)
+                .fontWeight(.bold)
+            
+            TextField("Name",text: $newCategoryName)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .frame(width: UIScreen.width*0.95)
+                .padding(.bottom)
+            
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(width: 250.0, height: 40.0)
+                    .foregroundColor(Color("lingoBlueBackgroundInverted"))
+                
+                Button(action: {
+                    sala.novaCategoria(id: UUID().hashValue, nome: newCategoryName)
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Save")
+                        .foregroundColor(.white)
+                }
+            }
+        }
     }
 }

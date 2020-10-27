@@ -109,44 +109,17 @@ struct EditProfileView: View {
                     Button(action: {
                         if self.nome != "" {self.usuario.nome = self.nome}
                         self.usuario.foto_perfil = self.photoProfile ?? self.usuario.foto_perfil
-                        self.usuario.fluencia_ingles = pegaFluenciaEnum()
+                        self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada)
                         self.presentationMode.wrappedValue.dismiss()
-                        //                        switch self.fluenciaSelecionada {
-                        //                            case 0: self.usuario.fluencia_ingles = fluencia.basic
-                        //                            case 1: self.usuario.fluencia_ingles = fluencia.intermed
-                        //                            case 2: self.usuario.fluencia_ingles = fluencia.advanced
-                        //                            default: self.usuario.fluencia_ingles = fluencia.unknown
-                        //                        }
                     }){
                         Text("Save")
                     })
         }.onAppear{
             self.photoProfile = self.usuario.foto_perfil
-            switch self.usuario.fluencia_ingles {
-                case Fluencia.basic:
-                    self.fluenciaSelecionada = 0
-                case Fluencia.intermed:
-                    self.fluenciaSelecionada = 1
-                case Fluencia.advanced:
-                    self.fluenciaSelecionada = 2
-                default:
-                    self.fluenciaSelecionada = 0
-            }
+            self.fluenciaSelecionada = Usuario.pegaFluenciaIdx(fluencia: self.usuario.fluencia_ingles)
         } //NavigationView
     }
     
-    func pegaFluenciaEnum() -> Fluencia {
-        switch fluenciaSelecionada {
-            case 0:
-                return Fluencia.basic
-            case 1:
-                return Fluencia.intermed
-            case 2:
-                return Fluencia.advanced
-            default:
-                return Fluencia.unknown
-        }
-    }
 }
 
 struct EditProfileView_Previews: PreviewProvider {

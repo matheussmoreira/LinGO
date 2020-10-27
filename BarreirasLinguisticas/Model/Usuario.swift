@@ -31,7 +31,7 @@ class Usuario: Equatable, Identifiable, ObservableObject/*, CKMRecord*/ {
         case .advanced: return .blue
         case .intermed: return .yellow
         case .basic: return .green
-        default: return .black
+        default: return .gray
         }
     }
     
@@ -47,5 +47,31 @@ class Usuario: Equatable, Identifiable, ObservableObject/*, CKMRecord*/ {
     
     static func == (lhs: Usuario, rhs: Usuario) -> Bool {
         return lhs.id == rhs.id
+    }
+    
+    static func pegaFluenciaNome(idx: Int) -> Fluencia {
+        switch idx {
+            case 0:
+                return Fluencia.basic
+            case 1:
+                return Fluencia.intermed
+            case 2:
+                return Fluencia.advanced
+            default:
+                return Fluencia.unknown
+        }
+    }
+    
+    static func pegaFluenciaIdx(fluencia: Fluencia) -> Int {
+        switch fluencia {
+            case .basic:
+                return 0
+            case .intermed:
+                return 1
+            case .advanced:
+                return 2
+            default:
+                return 0
+        }
     }
 }

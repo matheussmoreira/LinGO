@@ -85,7 +85,7 @@ struct NewUserView: View {
         
         Button(action: {
             if nome != "" {
-                let novoUsuario = Usuario(id: UUID().hashValue, email: nil, senha: nil, nome: nome, foto_perfil: self.photoProfile, pais: nil, fluencia_ingles: pegaFluenciaEnum())
+                let novoUsuario = Usuario(id: UUID().hashValue, email: nil, senha: nil, nome: nome, foto_perfil: self.photoProfile, pais: nil, fluencia_ingles: Usuario.pegaFluenciaNome(idx: fluenciaSelecionada))
                 
                 dao.addNovoUsuario(novoUsuario)
                 dao.usuario_atual = novoUsuario
@@ -115,19 +115,6 @@ struct NewUserView: View {
                 )
             })
         .padding(.vertical)
-    }
-    
-    func pegaFluenciaEnum() -> Fluencia {
-        switch fluenciaSelecionada {
-            case 0:
-                return Fluencia.basic
-            case 1:
-                return Fluencia.intermed
-            case 2:
-                return Fluencia.advanced
-            default:
-                return Fluencia.unknown
-        }
     }
 }
 
