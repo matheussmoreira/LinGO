@@ -44,32 +44,32 @@ struct FirstView_Previews: PreviewProvider {
     }
 }
 
-struct OnboardContainer<Onboard: View>: View {
-    @Binding var signedIn: Bool
-    var viewControllers: [UIHostingController<Onboard>]
-    @State var currentPage = 0
-
-    var body: some View {
-        ZStack {
-            Color("lingoBlueBackground")
-                .edgesIgnoringSafeArea(.all)
-
-            VStack {
-                OnboardViewController(controllers: viewControllers, currentPage: self.$currentPage)
-
-                OnboardPageIndicator(currentIndex: self.currentPage)
-
-                Button(action: {self.signedIn.toggle()}) {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .frame(width: 250.0, height: 40.0)
-                            .foregroundColor(.black)
-
-                        Text("Get started")
-                            .foregroundColor(.white)
-                    }
-                }.padding(.vertical)
-            }
-        } //ZStack
-    } //body
-}
+//struct OnboardContainer<Onboard: View>: View {
+//    @Binding var signedIn: Bool
+//    var viewControllers: [UIHostingController<Onboard>]
+//    @State var currentPage = 0
+//
+//    var body: some View {
+//        ZStack {
+//            Color("lingoBlueBackground")
+//                .edgesIgnoringSafeArea(.all)
+//
+//            VStack {
+//                OnboardViewController(controllers: viewControllers, currentPage: self.$currentPage)
+//
+//                OnboardPageIndicator(currentIndex: self.currentPage)
+//
+//                Button(action: {self.signedIn.toggle()}) {
+//                    ZStack {
+//                        RoundedRectangle(cornerRadius: 10)
+//                            .frame(width: 250.0, height: 40.0)
+//                            .foregroundColor(.black)
+//
+//                        Text("Get started")
+//                            .foregroundColor(.white)
+//                    }
+//                }.padding(.vertical)
+//            }
+//        } //ZStack
+//    } //body
+//}

@@ -11,17 +11,18 @@ import LinkPresentation
 
 class Sala: Identifiable, ObservableObject {
     let id: Int
-    var dao: DAO
+//    var dao: DAO
     @Published var nome: String
     @Published var membros: [Membro] = []
     @Published var posts: [Post] = []
     @Published var categorias: [Categoria] = []
     
-    init(id: Int, nome: String, criador: Usuario, dao: DAO) {
-        self.dao = dao
+    init(id: Int, nome: String, criador: Usuario/*, dao: DAO*/) {
+//        self.dao = dao
         self.id = id
         self.nome = nome
-        novoMembro(id: criador.id, is_admin: true)
+//        novoMembro(id: criador.id, is_admin: true)
+        novoMembro(id: criador.id, usuario: criador, is_admin: true)
         
         if (self.id == 1) { //so populando com dados a primeira sala
             //MARK: - MEMBROS
@@ -37,15 +38,15 @@ class Sala: Identifiable, ObservableObject {
 //            novoMembro(id: 10, is_admin: false)
             
             //MARK: - CATEGORIAS
-            novaCategoria(id: 1, nome: "Design")
-            novaCategoria(id: 2, nome: "Programming")
-            novaCategoria(id: 3, nome: "Accessibility")
-            novaCategoria(id: 4, nome: "Games")
-            novaCategoria(id: 5, nome: "Business")
-            novaCategoria(id: 6, nome: "WWDC")
-            novaCategoria(id: 7, nome: "Data Science")
-            novaCategoria(id: 8, nome: "Entrepeneurship")
-            novaCategoria(id: 9, nome: "English Language")
+//            novaCategoria(id: 1, nome: "Design")
+//            novaCategoria(id: 2, nome: "Programming")
+//            novaCategoria(id: 3, nome: "Accessibility")
+//            novaCategoria(id: 4, nome: "Games")
+//            novaCategoria(id: 5, nome: "Business")
+//            novaCategoria(id: 6, nome: "WWDC")
+//            novaCategoria(id: 7, nome: "Data Science")
+//            novaCategoria(id: 8, nome: "Entrepeneurship")
+//            novaCategoria(id: 9, nome: "English Language")
             
             //MARK: - POSTS
 //            novoPost(publicador: 2,
@@ -189,17 +190,30 @@ class Sala: Identifiable, ObservableObject {
     }
     
     //MARK: - NOVOS OBJETOS
-    func novoMembro(id id_membro: Int, is_admin: Bool) {
+//    func novoMembro(id id_membro: Int, is_admin: Bool) {
+//        //print(id_membro)
+//        if let usuario = self.dao.getUsuario(id: id_membro) {
+//            if getMembro(id: usuario.id) == nil { //para nao adicionar membro repetido
+//                let membro = Membro(usuario: usuario, sala: self, is_admin: is_admin)
+//                self.membros.append(membro)
+//            }
+//        }
+//        else {
+//            print("Membro não adicionado à sala \(self.nome) pois Usuário não existe")
+//        }
+//    }
+    
+    func novoMembro(id id_membro: Int, usuario: Usuario, is_admin: Bool) {
         //print(id_membro)
-        if let usuario = self.dao.getUsuario(id: id_membro) {
+//        if let usuario = self.dao.getUsuario(id: id_membro) {
             if getMembro(id: usuario.id) == nil { //para nao adicionar membro repetido
                 let membro = Membro(usuario: usuario, sala: self, is_admin: is_admin)
                 self.membros.append(membro)
             }
-        }
-        else {
-            print("Membro não adicionado à sala \(self.nome) pois Usuário não existe")
-        }
+//        }
+//        else {
+//            print("Membro não adicionado à sala \(self.nome) pois Usuário não existe")
+//        }
     }
     
     func novoAdmin(membro: Membro) {

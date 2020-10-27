@@ -70,7 +70,7 @@ struct NewUserView: View {
         
         Button(action: {
             if nome != ""{
-                let novoUsuario = Usuario(id: UUID().hashValue, email: nil, senha: nil, nome: nome, foto_perfil: nil, pais: nil, fluencia_ingles: pegaFluenciaEnum())
+                let novoUsuario = Usuario(id: UUID().hashValue, email: nil, senha: nil, nome: nome, foto_perfil: self.photoProfile, pais: nil, fluencia_ingles: pegaFluenciaEnum())
                 dao.addNovoUsuario(novoUsuario)
                 dao.usuario_atual = novoUsuario
                 loggedIn = true

@@ -74,14 +74,14 @@ struct RoomsView: View {
     } //body
     
     func novaSala(nome: String, criador: Usuario) {
-        let sala: Sala
+        let sala = Sala(id: UUID().hashValue, nome: nome, criador: criador)
         //print(dao.usuario_atual?.nome)
-        if let ultima_sala = self.dao.salas.last {
-            sala = Sala(id: ultima_sala.id + 1, nome: nome, criador: criador, dao: self.dao)
-        }
-        else {
-            sala = Sala(id: 1, nome: "Apple Developer Academy", criador: criador, dao: self.dao)
-        }
+//        if let ultima_sala = self.dao.salas.last {
+//            sala = Sala(id: ultima_sala.id + 1, nome: nome, criador: criador/*, dao: self.dao*/)
+//        }
+//        else {
+//            sala = Sala(id: 1, nome: "Apple Developer Academy", criador: criador/*, dao: self.dao*/)
+//        }
         
         self.dao.addNovaSala(sala)
     }

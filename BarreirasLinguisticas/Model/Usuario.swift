@@ -35,12 +35,12 @@ class Usuario: Equatable, Identifiable, ObservableObject/*, CKMRecord*/ {
         }
     }
     
-    init(id: Int, email: String?, senha: String?, nome: String?, foto_perfil: String?, pais: String?, fluencia_ingles: fluencia?) {
+    init(id: Int, email: String?, senha: String?, nome: String?, foto_perfil: Image?, pais: String?, fluencia_ingles: fluencia?) {
         self.id = id
         self.email = email ?? "<membro@email.com>"
         self.senha = senha ?? "<senha>"
         self.nome = nome ?? "<nome>"
-        self.foto_perfil = Image(foto_perfil ?? "perfil")
+        self.foto_perfil = foto_perfil ?? Image("perfil")
         self.pais = pais ?? "<pais>"
         self.fluencia_ingles = fluencia_ingles ?? fluencia.unknown
     }
