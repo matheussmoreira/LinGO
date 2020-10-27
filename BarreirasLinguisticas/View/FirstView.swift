@@ -8,32 +8,46 @@
 
 import SwiftUI
 
+enum EnterMode {
+    case signUp
+    case logIn
+    case none
+}
+
 struct FirstView: View {
     @EnvironmentObject var dao: DAO
-    @State private var signedIn = false
+    @State private var enterMode = EnterMode.none
+    @State private var getStarted = false
     @State private var loggedIn = false
     
     var body: some View {
         VStack {
-            if !signedIn {
-                OnboardView(signedIn: $signedIn)
-                //                OnboardContainer(signedIn: $signedIn,
-                //                                 viewControllers: Onboard.getAll.map{UIHostingController(rootView: OnboardPageView(element: $0))})
-                //                    .transition(.scale)
-                //                    .animation(.spring())
-            }
-            else {
-                if !loggedIn {
+            if !loggedIn {
+                if enterMode == .none {
+                    OnboardView(enterMode: $enterMode)
+                    //                OnboardContainer(signedIn: $signedIn,
+                    //                                 viewControllers: Onboard.getAll.map{UIHostingController(rootView: OnboardPageView(element: $0))})
+                    //                    .transition(.scale)
+                    //                    .animation(.spring())
+                }
+                else if enterMode == .signUp {
                     NewUserView(loggedIn: $loggedIn)
                         .environmentObject(dao)
                         .transition(.opacity)
                         .animation(.easeOut)
-                } else {
-                    ContentView(loggedIn: $loggedIn)
-                        .environmentObject(dao)
                 }
-                
+//                else {
+//                    ContentView(loggedIn: $loggedIn, enterMode: $enterMode)
+//                        .environmentObject(dao)
+//                }
+            } else {
+                ContentView(
+                    loggedIn: $loggedIn,
+                    enterMode: $enterMode
+                )
+                    .environmentObject(dao)
             }
+            
         } //VStack
     } //body
 }

@@ -10,7 +10,9 @@ import SwiftUI
 
 struct OnboardView: View {
     @EnvironmentObject var dao: DAO
-    @Binding var signedIn: Bool
+    //@Binding var enterMode: EnterMode
+    @State private var getStarted = false
+    @Binding var enterMode: EnterMode
     var onboardPages = Onboard.getAll
     var body: some View {
         
@@ -39,7 +41,7 @@ struct OnboardView: View {
                 
             }.tabViewStyle(PageTabViewStyle())
             
-            Button(action: {self.signedIn.toggle()}) {
+            Button(action: {self.getStarted.toggle()}) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
                         .frame(width: 250.0, height: 40.0)
@@ -48,7 +50,11 @@ struct OnboardView: View {
                     Text("Get started")
                         .foregroundColor(.white)
                 }
-            }.padding(.vertical)
+            }
+            .padding(.vertical)
+            .sheet(isPresented: $getStarted){
+                EnterView(enterMode: $enterMode)
+            }
         }
         .background(
             Color("lingoBlueBackground")
@@ -59,6 +65,6 @@ struct OnboardView: View {
 
 struct OnboardView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardView(signedIn: .constant(true))
+        OnboardView(enterMode: .constant(.none))
     }
 }

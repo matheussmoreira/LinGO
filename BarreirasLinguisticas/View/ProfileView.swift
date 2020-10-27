@@ -13,6 +13,7 @@ struct ProfileView: View {
     @EnvironmentObject var membro: Membro
     @EnvironmentObject var sala: Sala
     @Binding var loggedIn: Bool
+    @Binding var enterMode: EnterMode
     @State private var showRooms = false
     @State private var showAlertLeave = false
     @State private var showAlertLogOut = false
@@ -170,6 +171,7 @@ struct ProfileView: View {
                             Alert(title: Text("Are you sure you want to log out?"),
                                   primaryButton: .default(Text("Log out")) {
                                     self.loggedIn.toggle()
+                                    self.enterMode = .none
                                   },
                                   secondaryButton: .cancel())
                         }
@@ -216,7 +218,8 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(loggedIn: .constant(true)).environmentObject(DAO().salas[0].membros[0])
+        ProfileView(loggedIn: .constant(true), enterMode: .constant(.none))
+            .environmentObject(DAO().salas[0].membros[0])
     }
 }
 

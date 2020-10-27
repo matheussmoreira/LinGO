@@ -11,6 +11,7 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var dao: DAO
     @Binding var loggedIn: Bool
+    @Binding var enterMode: EnterMode
     @State private var showAlertLogOut = false
     @State private var showRooms = false
     @State private var showProfile = false
@@ -43,7 +44,7 @@ struct ContentView: View {
                             Image(systemName: "circle.grid.2x2")
                             Text("Categories")
                         }
-                    ProfileView(loggedIn: $loggedIn)
+                    ProfileView(loggedIn: $loggedIn, enterMode: $enterMode)
                         .environmentObject(membro!)
                         .environmentObject(sala_atual!)
                         .environmentObject(dao)
@@ -59,7 +60,8 @@ struct ContentView: View {
                     showRooms: $showRooms,
                     showProfile: $showProfile,
                     showAlertLogOut: $showAlertLogOut,
-                    loggedIn: $loggedIn
+                    loggedIn: $loggedIn,
+                    enterMode: $enterMode
                 )
                 .environmentObject(dao)
                 .transition(.opacity)
@@ -73,7 +75,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(loggedIn: .constant(true))
+        ContentView(loggedIn: .constant(true), enterMode: .constant(.none))
     }
 }
 
@@ -84,6 +86,7 @@ struct EmptyRoom: View {
     @Binding var showProfile: Bool
     @Binding var showAlertLogOut: Bool
     @Binding var loggedIn: Bool
+    @Binding var enterMode: EnterMode
     
     var body: some View {
         ZStack {
@@ -139,6 +142,7 @@ struct EmptyRoom: View {
                     .alert(isPresented: $showAlertLogOut) {
                         Alert(title: Text("Are you sure you want to log out?"),
                               primaryButton: .default(Text("Log out")) { self.loggedIn.toggle()
+                                self.enterMode = .none
                               },
                               secondaryButton: .cancel()
                         )

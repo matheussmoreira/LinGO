@@ -85,10 +85,15 @@ struct NewUserView: View {
         
         Button(action: {
             if nome != "" {
-                let novoUsuario = Usuario(id: UUID().hashValue, email: nil, senha: nil, nome: nome, foto_perfil: self.photoProfile, pais: nil, fluencia_ingles: Usuario.pegaFluenciaNome(idx: fluenciaSelecionada))
+                let newUserId = UUID().hashValue
+                let novoUsuario = Usuario(id: newUserId, email: nil, senha: nil, nome: nome, foto_perfil: self.photoProfile, pais: nil, fluencia_ingles: Usuario.pegaFluenciaNome(idx: fluenciaSelecionada))
                 
                 dao.addNovoUsuario(novoUsuario)
                 dao.usuario_atual = novoUsuario
+                
+//                let defaults = UserDefaults.standard
+//                defaults.setValue(newUserId, forKey: "UserId")
+                
                 loggedIn = true
             } else {
                 showAlertNome = true
@@ -120,6 +125,6 @@ struct NewUserView: View {
 
 struct NewUserView_Previews: PreviewProvider {
     static var previews: some View {
-        NewUserView(loggedIn: .constant(false))
+        NewUserView(loggedIn: .constant(true))
     }
 }
