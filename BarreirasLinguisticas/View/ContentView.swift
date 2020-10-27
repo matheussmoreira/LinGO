@@ -12,6 +12,8 @@ struct ContentView: View {
     @EnvironmentObject var dao: DAO
     @Binding var loggedIn: Bool
     @State private var showAlertLogOut = false
+    @State private var showRooms = false
+    @State private var showProfile = false
     var sala_atual: Sala? { return dao.sala_atual }
     var usuario: Usuario { return dao.usuario_atual! }
     var membro: Membro? {
@@ -20,8 +22,6 @@ struct ContentView: View {
         }
         return nil
     }
-    @State var showRooms = false
-    @State var showProfile = false
     
     var body: some View {
         VStack {
@@ -42,7 +42,7 @@ struct ContentView: View {
                         .tabItem {
                             Image(systemName: "circle.grid.2x2")
                             Text("Categories")
-                    }
+                        }
                     ProfileView(loggedIn: $loggedIn)
                         .environmentObject(membro!)
                         .environmentObject(sala_atual!)
@@ -50,17 +50,24 @@ struct ContentView: View {
                         .tabItem {
                             Image(systemName: "person")
                             Text("You")
-                    }
+                        }
                 }//TabView
             }
             else {
-                EmptyRoom(usuario: usuario, showRooms: $showRooms, showProfile: $showProfile, showAlertLogOut: $showAlertLogOut, loggedIn: $loggedIn).environmentObject(dao)
-                    .transition(.opacity)
-                    .animation(.easeOut)
+                EmptyRoom(
+                    usuario: usuario,
+                    showRooms: $showRooms,
+                    showProfile: $showProfile,
+                    showAlertLogOut: $showAlertLogOut,
+                    loggedIn: $loggedIn
+                )
+                .environmentObject(dao)
+                .transition(.opacity)
+                .animation(.easeOut)
             }
         }
-            .navigationBarBackButtonHidden(true)
-            .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarHidden(true)
     } //body
 }
 
@@ -91,36 +98,51 @@ struct EmptyRoom: View {
                 
                 ZStack {
                     Capsule()
-                    .frame(width: 300.0, height: 50.0)
-                    .foregroundColor(.white)
-                Button(action: { self.showRooms.toggle() }) {
-                    Text("Manage rooms")
-                }.sheet(isPresented: $showRooms) {
-                    RoomsView(usuario: self.usuario)
-                        .environmentObject(self.dao)
-                }
-                }
-                ZStack {
-                    Capsule()
-                    .frame(width: 300.0, height: 50.0)
-                    .foregroundColor(.white)
-                Button(action: { self.showProfile.toggle() }) {
-                    Text("Manage my profile")
-                }.sheet(isPresented: $showProfile) {
-                    EditProfileView(usuario: self.usuario)
-                }
+                        .frame(width: 300.0, height: 50.0)
+                        .foregroundColor(.white)
+                    
+                    Button(action: {
+                        self.showRooms.toggle()
+                    }) {
+                        Text("Manage rooms")
+                    }
+                    .sheet(isPresented: $showRooms) {
+                        RoomsView(usuario: self.usuario)
+                            .environmentObject(self.dao)
+                    }
                 }
                 ZStack {
                     Capsule()
-                    .frame(width: 300.0, height: 50.0)
-                    .foregroundColor(.white)
-                Button(action: {self.showAlertLogOut.toggle()}) {
-                    Text("Log Out")
-                }.alert(isPresented: $showAlertLogOut) {
-                    Alert(title: Text("Are you sure you want to log out?"),
-                          primaryButton: .default(Text("Log out")) {self.loggedIn.toggle()},
-                          secondaryButton: .cancel())
+                        .frame(width: 300.0, height: 50.0)
+                        .foregroundColor(.white)
+                    Button(action: {
+                        self.showProfile.toggle()
+                        
+                    }) {
+                        Text("Manage my profile")
+                    }
+                    .sheet(isPresented: $showProfile) {
+                        EditProfileView(usuario: self.usuario)
+                    }
                 }
+                
+                ZStack {
+                    Capsule()
+                        .frame(width: 300.0, height: 50.0)
+                        .foregroundColor(.white)
+                    
+                    Button(action: {
+                        self.showAlertLogOut.toggle()
+                    }) {
+                        Text("Log Out")
+                    }
+                    .alert(isPresented: $showAlertLogOut) {
+                        Alert(title: Text("Are you sure you want to log out?"),
+                              primaryButton: .default(Text("Log out")) { self.loggedIn.toggle()
+                              },
+                              secondaryButton: .cancel()
+                        )
+                    }
                 }
             }
         }

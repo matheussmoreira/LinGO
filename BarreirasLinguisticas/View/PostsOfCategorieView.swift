@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct PostsCategorieView: View {
+struct PostsOfCategorieView: View {
     @EnvironmentObject var dao: DAO
     @EnvironmentObject var membro: Membro
     @ObservedObject var categoria: Categoria
@@ -27,7 +27,9 @@ struct PostsCategorieView: View {
                 Text("No posts in \(categoria.nome) :(")
                     .foregroundColor(Color.gray)
                 
-                Button(action: {self.showPostEditor.toggle()}){
+                Button(action: {
+                    self.showPostEditor.toggle()
+                }){
                     ZStack{
                         Capsule()
                             .frame(width: 250.0, height: 50.0)
@@ -38,7 +40,11 @@ struct PostsCategorieView: View {
                     }
                     
                 }
-                .sheet(isPresented: $showPostEditor, onDismiss: {self.loaded_posts = self.sala.getPostsByCategorie(categ: self.categoria.id)}){
+                .sheet(
+                    isPresented: $showPostEditor,
+                    onDismiss: {
+                        self.loaded_posts = self.sala.getPostsByCategorie(categ: self.categoria.id)
+                    }){
                     PostCreatorView()
                         .environmentObject(self.membro)
                         .environmentObject(self.sala)
@@ -49,27 +55,33 @@ struct PostsCategorieView: View {
             else {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(loaded_posts) { post in
-                        NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
+                        NavigationLink(
+                            destination: PostView(post: post)
+                                .environmentObject(self.membro)
+                        ) {
                             PostCardView(post: post, width: 0.85)
                         }
                     }
                 }
             } //else
         }//VStack
-            .navigationBarTitle(categoria.nome)
-            .navigationBarItems(trailing:
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                        .imageScale(.large)
-                        .foregroundColor(LingoColors.lingoBlue)
-                    Button(action:{self.changeSubscription()}){
-                        Image(systemName: subscribedImage)
-                            .padding(.leading)
-                            .imageScale(.large)
-                            .foregroundColor(.green)
-                    }
-            })
-            .onAppear { self.load() }
+        .navigationBarTitle(categoria.nome)
+        .navigationBarItems(trailing:
+                                HStack {
+                                    Image(systemName: "magnifyingglass")
+                                        .imageScale(.large)
+                                        .foregroundColor(LingoColors.lingoBlue)
+                                    
+                                    Button(action:{
+                                        self.changeSubscription()
+                                    }){
+                                        Image(systemName: subscribedImage)
+                                            .padding(.leading)
+                                            .imageScale(.large)
+                                            .foregroundColor(.green)
+                                    }
+                                })
+        .onAppear { self.load() }
     } //body
     
     func load() {
@@ -98,7 +110,7 @@ struct PostsCategorieView: View {
 
 struct PostsCategorieView_Previews: PreviewProvider {
     static var previews: some View {
-        PostsCategorieView(
+        PostsOfCategorieView(
             categoria: DAO().salas[0].categorias[0], sala: DAO().salas[0]).environmentObject(DAO().salas[0].membros[0])
     }
 }

@@ -25,22 +25,26 @@ struct MySavedPosts: View {
             else {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(self.salvos.reversed()) { post in
-                        NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
+                        NavigationLink(
+                            destination: PostView(post: post)
+                                .environmentObject(self.membro)
+                        ){
                             PostCardView(post: post, width: 0.85)
                         }
                     }
                 }
             } //else
         } //VStack
-            .navigationBarTitle("Your saved posts")
-            .navigationBarItems(trailing:
+        .navigationBarTitle("Your saved posts")
+        .navigationBarItems(
+            trailing:
                 HStack {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(LingoColors.lingoBlue)
                         .imageScale(.large)
-            })
-            .onAppear {
-                self.salvos = self.membro.posts_salvos
+                })
+        .onAppear {
+            self.salvos = self.membro.posts_salvos
         }
     } //body
 }

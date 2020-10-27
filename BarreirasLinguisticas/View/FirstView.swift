@@ -17,20 +17,20 @@ struct FirstView: View {
         VStack {
             if !signedIn {
                 OnboardView(signedIn: $signedIn)
-//                OnboardContainer(signedIn: $signedIn,
-//                                 viewControllers: Onboard.getAll.map{UIHostingController(rootView: OnboardPageView(element: $0))})
-                    .transition(.scale)
+                //                OnboardContainer(signedIn: $signedIn,
+                //                                 viewControllers: Onboard.getAll.map{UIHostingController(rootView: OnboardPageView(element: $0))})
+                //                    .transition(.scale)
+                //                    .animation(.spring())
             }
             else {
-                
                 if !loggedIn {
-                    NewUserView(loggedIn: $loggedIn).environmentObject(dao)
+                    NewUserView(loggedIn: $loggedIn)
+                        .environmentObject(dao)
                         .transition(.opacity)
                         .animation(.easeOut)
                 } else {
                     ContentView(loggedIn: $loggedIn)
                         .environmentObject(dao)
-                        .transition(.scale)
                 }
                 
             }

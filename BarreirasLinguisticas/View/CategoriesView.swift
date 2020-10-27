@@ -40,7 +40,7 @@ struct CategoriesView: View {
                             
                             // CATEGORIAS E TAGS
                             VStack(alignment: .leading) {
-                                NavigationLink(destination: PostsCategorieView(categoria: categ, sala: self.sala).environmentObject(self.membro)) {
+                                NavigationLink(destination: PostsOfCategorieView(categoria: categ, sala: self.sala).environmentObject(self.membro)) {
                                     Text(categ.nome)
                                         .font(.headline)
                                         .multilineTextAlignment(.leading)
@@ -71,27 +71,27 @@ struct CategoriesView: View {
                     
                 } //else
             } //VStack
-                .navigationBarTitle(Text("Categories"))
-                .navigationBarItems(
-                    leading:
+            .navigationBarTitle(Text("Categories"))
+            .navigationBarItems(
+                leading:
                     Button(action: {self.showRooms.toggle()}) {
                         Image(systemName: "rectangle.grid.1x2")
                             .imageScale(.large)
                             .foregroundColor(LingoColors.lingoBlue)
-                        }
+                    }
                     .sheet(isPresented: $showRooms) {
                         RoomsView(usuario: self.membro.usuario)
                             .environmentObject(self.dao)
                     },
-                    trailing:
+                trailing:
                     HStack {
                         Spacer()
                         Image(systemName: "magnifyingglass")
                             .imageScale(.large)
                             .foregroundColor(LingoColors.lingoBlue)
-//                        EditButton()
-//                            .padding(.leading)
-//                            .foregroundColor(LingoColors.lingoBlue)
+                        //                        EditButton()
+                        //                            .padding(.leading)
+                        //                            .foregroundColor(LingoColors.lingoBlue)
                         Button(action: {showCriaCategoria.toggle()}) {
                             Image(systemName: "plus")
                                 .imageScale(.large)
@@ -104,14 +104,14 @@ struct CategoriesView: View {
                             TextField("Name",text: $newCategoryName)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .frame(width: UIScreen.width*0.95)
-//                            Button(action: {}) {
-//                                Text("Save")
-//                                    //.backgroundColor(Color.black)
-//                                    //.clipShape(Capsule())
-//                                sala.novaCategoria(id: sala.categorias.count(), nome:$newCategoryName)
-//                            }
+                            //                            Button(action: {}) {
+                            //                                Text("Save")
+                            //                                    //.backgroundColor(Color.black)
+                            //                                    //.clipShape(Capsule())
+                            //                                sala.novaCategoria(id: sala.categorias.count(), nome:$newCategoryName)
+                            //                            }
                         })
-                })
+                    })
         } // NavigationView
     }// body
     

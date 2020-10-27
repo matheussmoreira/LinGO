@@ -26,7 +26,7 @@ struct DiscoverView: View {
                             .foregroundColor(Color.gray)
                         Text("Subscribe in a category :)")
                             .foregroundColor(Color.gray)
-                            
+                        
                     }.frame(height: 260)
                 }
                 else {
@@ -69,20 +69,20 @@ struct DiscoverView: View {
                     } //ScrollView
                 } //else
             } //ScrollView Vertical
-                .onAppear { self.loadFY() }
-                .navigationBarTitle("Discover")
-                .navigationBarItems(
-                    leading:
+            .onAppear { self.loadFY() }
+            .navigationBarTitle("Discover")
+            .navigationBarItems(
+                leading:
                     Button(action: {self.showRooms.toggle()}) {
                         Image(systemName: "rectangle.grid.1x2")
                             .imageScale(.large)
                             .foregroundColor(LingoColors.lingoBlue)
-                        }
+                    }
                     .sheet(isPresented: $showRooms) {
                         RoomsView(usuario: self.membro.usuario)
                             .environmentObject(self.dao)
                     },
-                    trailing:
+                trailing:
                     HStack {
                         Spacer()
                         Image(systemName: "magnifyingglass")
@@ -100,17 +100,17 @@ struct DiscoverView: View {
                                 .environmentObject(self.sala)
                                 .environmentObject(self.dao)
                         }
-                })
+                    })
         }.onAppear {
-//            let novaclasse = NovaClasse(nome: "Ricardão")
-//            novaclasse.ckSave(then: { result in
-//                switch result {
-//                    case .success(let savedRecord):
-//                        dump(savedRecord)
-//                    case .failure(let error):
-//                        print(error)
-//                }
-//            })
+            //            let novaclasse = NovaClasse(nome: "Ricardão")
+            //            novaclasse.ckSave(then: { result in
+            //                switch result {
+            //                    case .success(let savedRecord):
+            //                        dump(savedRecord)
+            //                    case .failure(let error):
+            //                        print(error)
+            //                }
+            //            })
         } //NavigationView
     } //body
     
@@ -139,11 +139,11 @@ struct CardsView: View {
     
     var body: some View {
         //GeometryReader { geometry in
-            NavigationLink(destination: PostView(post: self.post).environmentObject(self.membro)) {
-                PostCardView(post: self.post, width: 0.80)
-                    .frame(width: UIScreen.width-30)
-                    //.rotation3DEffect(Angle(degrees: Double(geometry.frame(in:.global).minX)-40) / -20, axis: (x: 0, y: 10.0, z: 0))
-            }
+        NavigationLink(destination: PostView(post: self.post).environmentObject(self.membro)) {
+            PostCardView(post: self.post, width: 0.80)
+                .frame(width: UIScreen.width-30)
+            //.rotation3DEffect(Angle(degrees: Double(geometry.frame(in:.global).minX)-40) / -20, axis: (x: 0, y: 10.0, z: 0))
+        }
         //}
         //.frame(width: UIScreen.width, height: 270)
     }

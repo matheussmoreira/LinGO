@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 import CloudKitMagicCRUD
 
-enum fluencia: String {
+enum Fluencia: String {
     case advanced = "Advanced English"
     case intermed = "Intermediate English"
     case basic = "Basic English"
@@ -25,7 +25,7 @@ class Usuario: Equatable, Identifiable, ObservableObject/*, CKMRecord*/ {
     @Published var nome: String
     @Published var foto_perfil: Image
     @Published var pais: String
-    @Published var fluencia_ingles: fluencia
+    @Published var fluencia_ingles: Fluencia
     var cor_fluencia: Color {
         switch fluencia_ingles {
         case .advanced: return .blue
@@ -35,14 +35,14 @@ class Usuario: Equatable, Identifiable, ObservableObject/*, CKMRecord*/ {
         }
     }
     
-    init(id: Int, email: String?, senha: String?, nome: String?, foto_perfil: Image?, pais: String?, fluencia_ingles: fluencia?) {
+    init(id: Int, email: String?, senha: String?, nome: String?, foto_perfil: Image?, pais: String?, fluencia_ingles: Fluencia?) {
         self.id = id
         self.email = email ?? "<membro@email.com>"
         self.senha = senha ?? "<senha>"
         self.nome = nome ?? "<nome>"
         self.foto_perfil = foto_perfil ?? Image("perfil")
         self.pais = pais ?? "<pais>"
-        self.fluencia_ingles = fluencia_ingles ?? fluencia.unknown
+        self.fluencia_ingles = fluencia_ingles ?? Fluencia.unknown
     }
     
     static func == (lhs: Usuario, rhs: Usuario) -> Bool {

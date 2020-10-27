@@ -25,7 +25,7 @@ struct PostCardView: View {
                 .frame(height: 260)
                 .shadow(radius: 8)
                 .padding()
-
+            
             VStack {
                 HStack {
                     //NOME DAS CATEGORIAS
@@ -80,7 +80,7 @@ struct PostCardView: View {
                         Text(verbatim: post.descricao!)
                             .font(.body)
                             .foregroundColor(colorScheme == .dark ? Color.white : Color(UIColor.systemGray))
-
+                            
                             .multilineTextAlignment(.leading)
                             .lineLimit(line_limit_desc)
                         
@@ -104,7 +104,7 @@ struct PostCardView: View {
             } // VStack
             .frame(height: 244.0)
             .onAppear {self.getLinkImage(from: self.post.link)}
-                
+            
         } //ZStack
     }
     

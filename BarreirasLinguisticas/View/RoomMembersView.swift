@@ -17,18 +17,24 @@ struct RoomMembersView: View {
         ScrollView(.vertical, showsIndicators: false) {
             
             VStack{
-                ForEach(sala.membros.sorted(by: { $0.usuario.nome < $1.usuario.nome })) { membro_sala in
-                    MemberButton(sala: self.sala, membro: self.membro, membro_sala: membro_sala)
+                ForEach(sala.membros.sorted(
+                            by: { $0.usuario.nome < $1.usuario.nome })
+                ) { membro_sala in
+                    MemberButton(
+                        sala: self.sala,
+                        membro: self.membro,
+                        membro_sala: membro_sala
+                    )
                 } //ForEach
             } //VStack
         } //ScrollView
-            .navigationBarTitle(sala.nome)
-            .navigationBarItems(trailing:
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                        .imageScale(.large)
-                        .foregroundColor(LingoColors.lingoBlue)
-            })
+        .navigationBarTitle(sala.nome)
+        .navigationBarItems(trailing:
+                                HStack {
+                                    Image(systemName: "magnifyingglass")
+                                        .imageScale(.large)
+                                        .foregroundColor(LingoColors.lingoBlue)
+                                })
     } //body
 }
 
@@ -81,10 +87,13 @@ struct MemberButton: View {
                             }
                         } //if is_admin
                     } //HStack
-            ) //overlay
+                ) //overlay
         }//Button
-            .actionSheet(isPresented: self.$showMembro) {
-                ActionSheet(title: Text(membro_sala.usuario.nome), message: Text(self.sala.nome), buttons: [
+        .actionSheet(isPresented: self.$showMembro) {
+            ActionSheet(
+                title: Text(membro_sala.usuario.nome),
+                message: Text(self.sala.nome),
+                buttons: [
                     .default(
                         membro_sala.is_admin ?
                             Text("Dismiss as admin") :

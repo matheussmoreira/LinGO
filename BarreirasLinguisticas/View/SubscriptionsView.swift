@@ -26,8 +26,11 @@ struct SubscriptionsView: View {
             else {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack {
-                        ForEach(self.assinaturas.sorted(by: {$0.nome < $1.nome})) { asst in
-                            NavigationLink(destination: PostsCategorieView(categoria: asst, sala: self.sala).environmentObject(self.membro)) {
+                        ForEach(self.assinaturas.sorted(by: { $0.nome < $1.nome })) { asst in
+                            NavigationLink(
+                                destination: PostsOfCategorieView(categoria: asst, sala: self.sala)
+                                    .environmentObject(self.membro)
+                            ){
                                 RoundedRectangle(cornerRadius: 45)
                                     .fill(LingoColors.lingoBlue)
                                     .frame(height: 50)
@@ -43,16 +46,16 @@ struct SubscriptionsView: View {
                 } //ScrollView
             } //else
         }//VStack
-            .navigationBarTitle("Your subscriptions")
-            .navigationBarItems(trailing:
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundColor(LingoColors.lingoBlue)
-                        .imageScale(.large)
-            })
-            .onAppear {
-                self.assinaturas = self.membro.assinaturas
-            }
+        .navigationBarTitle("Your subscriptions")
+        .navigationBarItems(trailing:
+                                HStack {
+                                    Image(systemName: "magnifyingglass")
+                                        .foregroundColor(LingoColors.lingoBlue)
+                                        .imageScale(.large)
+                                })
+        .onAppear {
+            self.assinaturas = self.membro.assinaturas
+        }
     } //body
     
 }

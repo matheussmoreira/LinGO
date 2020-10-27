@@ -31,22 +31,26 @@ struct NewUserView: View {
             .frame(width: 150.0, height: 150.0)
             .clipShape(Circle())
             .overlay(
-                Circle().stroke(Color.primary, lineWidth: 8)
+                Circle()
+                    .stroke(Color.primary, lineWidth: 8)
                     .colorInvert()
                     .shadow(radius: 8))
             .padding(.all, 32)
             .onTapGesture {
                 self.presentImageActionScheet.toggle()
                 self.presentImagePicker = true //essa linha so existe na ausencia de camera
-            }.sheet(isPresented: $presentImagePicker){
-                ImagePickerView(sourceType: .photoLibrary /*self.presentCamera ? .camera : .photoLibrary*/, image: self.$photoProfile, isPresented: self.$presentImagePicker)
+            }
+            .sheet(isPresented: $presentImagePicker) {
+                ImagePickerView(
+                    sourceType: .photoLibrary /*self.presentCamera ? .camera : .photoLibrary*/,
+                    image: self.$photoProfile,
+                    isPresented: self.$presentImagePicker)
             }
         
         Text("Click to choose a picture")
             .font(.system(.title2, design: .rounded))
             .fontWeight(.bold)
             .foregroundColor(.primary)
-        
         
         Form {
             Section {
@@ -69,8 +73,9 @@ struct NewUserView: View {
         }
         
         Button(action: {
-            if nome != ""{
+            if nome != "" {
                 let novoUsuario = Usuario(id: UUID().hashValue, email: nil, senha: nil, nome: nome, foto_perfil: self.photoProfile, pais: nil, fluencia_ingles: pegaFluenciaEnum())
+                
                 dao.addNovoUsuario(novoUsuario)
                 dao.usuario_atual = novoUsuario
                 loggedIn = true
@@ -83,22 +88,27 @@ struct NewUserView: View {
                 .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                 .background(Color.white)
                 .cornerRadius(5)
-        }.alert(isPresented: $showAlertNome, content: {
-            Alert(title: Text("You cannot have an empty name!"),message: Text(""),dismissButton: .default(Text("Ok")))
-        })
-        
+        }.alert(
+            isPresented: $showAlertNome,
+            content: {
+                Alert(
+                    title: Text("You cannot have an empty name!"),
+                    message: Text(""),
+                    dismissButton: .default(Text("Ok"))
+                )
+            })
     }
     
-    func pegaFluenciaEnum() -> fluencia {
+    func pegaFluenciaEnum() -> Fluencia {
         switch fluenciaSelecionada {
             case 0:
-                return fluencia.basic
+                return Fluencia.basic
             case 1:
-                return fluencia.intermed
+                return Fluencia.intermed
             case 2:
-                return fluencia.advanced
+                return Fluencia.advanced
             default:
-                return fluencia.unknown
+                return Fluencia.unknown
         }
     }
 }

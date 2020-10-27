@@ -23,10 +23,10 @@ struct PostView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .leading){
                     
-//                    Text(post.titulo)
-//                        .fontWeight(.bold)
-//                        .font(.title)
-//                        .padding(.top)
+                    //                    Text(post.titulo)
+                    //                        .fontWeight(.bold)
+                    //                        .font(.title)
+                    //                        .padding(.top)
                     
                     //AUTOR E NIVEL DE FLUENCIA
                     HStack {
@@ -49,7 +49,7 @@ struct PostView: View {
                         ForEach(0..<post.tags.count) { idx in
                             Text(self.post.tags[idx])
                                 .foregroundColor(LingoColors.lingoBlue)
-//                                .padding(.top)
+                            //                                .padding(.top)
                         }
                         Spacer()
                     }
@@ -66,23 +66,23 @@ struct PostView: View {
                     
                 } //VStack
             } //ScrollView
-                .frame(width: UIScreen.width*0.95)
-                .onAppear {
-                    self.carregaLink()
-                    self.loadBookmark()
+            .frame(width: UIScreen.width*0.95)
+            .onAppear {
+                self.carregaLink()
+                self.loadBookmark()
             }
             .navigationBarTitle(
                 Text(post.titulo)
-//                    .font(.system(.title, design: .rounded)),displayMode: .inline
+                //                    .font(.system(.title, design: .rounded)),displayMode: .inline
             )
-                .padding(.horizontal)
-                .navigationBarItems(trailing:
-                    Button(action: {self.changeBookmark()
-                    }){
-                        Image(systemName: bookmarkedImage)
-                            .imageScale(.large)
-                            .foregroundColor(.red)
-                    }
+            .padding(.horizontal)
+            .navigationBarItems(trailing:
+                                    Button(action: {self.changeBookmark()
+                                    }){
+                                        Image(systemName: bookmarkedImage)
+                                            .imageScale(.large)
+                                            .foregroundColor(.red)
+                                    }
             )
             
             //MARK: - REPORT
@@ -106,7 +106,7 @@ struct PostView: View {
                     ZStack {
                         Capsule()
                             .frame(height: 50.0)
-                            //.foregroundColor(LingoColors.lingoBlue)
+                        //.foregroundColor(LingoColors.lingoBlue)
                         HStack {
                             Spacer()
                             Text("Ask or Comment")
@@ -171,7 +171,7 @@ struct PostView: View {
     func loadReport(){
         reported = post.denuncias.contains(membro)
     }
-
+    
 }
 
 

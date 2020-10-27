@@ -12,12 +12,13 @@ struct ProfileView: View {
     @EnvironmentObject var dao: DAO
     @EnvironmentObject var membro: Membro
     @EnvironmentObject var sala: Sala
+    @Binding var loggedIn: Bool
     @State private var showRooms = false
     @State private var showAlertLeave = false
     @State private var showAlertLogOut = false
     @State private var showEditProfile = false
     @State private var showAdminSheet = false
-    @Binding var loggedIn: Bool
+    
     let btn_height: CGFloat = 50
     let btn_width: CGFloat = 230
     let corner: CGFloat = 45
@@ -40,9 +41,10 @@ struct ProfileView: View {
                         .frame(width: 150.0, height: 150.0)
                         .clipShape(Circle())
                         .overlay(
-                            Circle().stroke(Color.primary, lineWidth: 8)
+                            Circle()
+                                .stroke(Color.primary, lineWidth: 8)
                                 .colorInvert()
-                    )
+                        )
                     
                     Text(membro.usuario.nome)
                         .font(.system(.title, design: .rounded))
@@ -64,7 +66,7 @@ struct ProfileView: View {
                     //MARK: - POSTS PUBLICADOS
                     ScrollView(.vertical, showsIndicators: false) {
                         NavigationLink(destination:
-                        MyPublications().environmentObject(membro)) {
+                                        MyPublications().environmentObject(membro)) {
                             RoundedRectangle(cornerRadius: corner)
                                 .foregroundColor(lingoBlue)
                                 .frame(height: btn_height)
@@ -72,12 +74,12 @@ struct ProfileView: View {
                                 .overlay(
                                     Text("My publications")
                                         .foregroundColor(.white)
-                            )
+                                )
                         }
                         
                         //MARK: - POSTAS SALVOS
                         NavigationLink(destination:
-                        MySavedPosts().environmentObject(membro)) {
+                                        MySavedPosts().environmentObject(membro)) {
                             RoundedRectangle(cornerRadius: corner)
                                 .foregroundColor(lingoBlue)
                                 .frame(height: btn_height)
@@ -85,7 +87,7 @@ struct ProfileView: View {
                                 .overlay(
                                     Text("My saved posts")
                                         .foregroundColor(.white)
-                            )
+                                )
                         }
                         
                         //MARK: - ASSINATURAS
@@ -97,12 +99,12 @@ struct ProfileView: View {
                                 .overlay(
                                     Text("My subscriptions")
                                         .foregroundColor(.white)
-                            )
+                                )
                         }
                         
                         //MARK: - MEMBROS DA SALA
                         NavigationLink(destination:
-                        RoomMembersView(membro: membro, sala: sala)) {
+                                        RoomMembersView(membro: membro, sala: sala)) {
                             RoundedRectangle(cornerRadius: corner)
                                 .foregroundColor(lingoBlue)
                                 .frame(height: btn_height)
@@ -110,7 +112,7 @@ struct ProfileView: View {
                                 .overlay(
                                     Text("Members of this room")
                                         .foregroundColor(.white)
-                            )
+                                )
                         }
                         
                         //MARK: - FUNCOES ADMIN
@@ -123,9 +125,11 @@ struct ProfileView: View {
                                     .overlay(
                                         Text("Admin")
                                             .foregroundColor(.white)
-                                )
-                            }.sheet(isPresented: $showAdminSheet) {
-                                AdminView().environmentObject(self.sala)
+                                    )
+                            }
+                            .sheet(isPresented: $showAdminSheet) {
+                                AdminView()
+                                    .environmentObject(self.sala)
                             }
                         }
                         
@@ -138,13 +142,15 @@ struct ProfileView: View {
                                 .overlay(
                                     Text("Leave Room")
                                         .foregroundColor(.red)
-                            )
+                                )
                         }.alert(isPresented: $showAlertLeave) {
                             Alert(title: Text("Are you sure you want to leave this room?"),
                                   primaryButton: .default(Text("Leave")){
-                                    self.sala.removeMembro(membro: self.membro.usuario.id)
+                                    self.sala.removeMembro(
+                                        membro: self.membro.usuario.id
+                                    )
                                     self.proxima_sala()
-                                },
+                                  },
                                   secondaryButton: .cancel())
                         }
                         
@@ -157,20 +163,21 @@ struct ProfileView: View {
                                 .overlay(
                                     Text("Log out")
                                         .foregroundColor(.white)
-                            )
-                        }.alert(isPresented: $showAlertLogOut) {
+                                )
+                        }
+                        .alert(isPresented: $showAlertLogOut) {
                             Alert(title: Text("Are you sure you want to log out?"),
                                   primaryButton: .default(Text("Log out")) {
                                     self.loggedIn.toggle()
-                                },
+                                  },
                                   secondaryButton: .cancel())
                         }
                     } //ScrollView
                 } //VStack
-                    .padding(.top, -645)
+                .padding(.top, -645)
             } //VStack
-                .navigationBarItems(
-                    leading:
+            .navigationBarItems(
+                leading:
                     Button(action: {self.showRooms.toggle()}) {
                         Image(systemName: "rectangle.grid.1x2")
                             .imageScale(.large)
@@ -180,14 +187,14 @@ struct ProfileView: View {
                         RoomsView(usuario: self.membro.usuario)
                             .environmentObject(self.dao)
                     },
-                    trailing: Button(action: {self.showEditProfile.toggle()}) {
-                        Image(systemName: "pencil.circle.fill")
-                            .resizable()
-                            .imageScale(.large)
-                            .foregroundColor(.white)
-                    }
-                    .sheet(isPresented: $showEditProfile) {
-                        EditProfileView(usuario: self.membro.usuario)
+                trailing: Button(action: {self.showEditProfile.toggle()}) {
+                    Image(systemName: "pencil.circle.fill")
+                        .resizable()
+                        .imageScale(.large)
+                        .foregroundColor(.white)
+                }
+                .sheet(isPresented: $showEditProfile) {
+                    EditProfileView(usuario: self.membro.usuario)
                 })
         } //NavigationView
     } //body
@@ -222,12 +229,12 @@ struct AdminView: View {
     var body: some View {
         
         VStack{
-//            Rectangle()
-//                .frame(width: 60, height: 6)
-//                .cornerRadius(3.0)
-//                .opacity(0.1)
-//                .padding(.top,10)
-//
+            //            Rectangle()
+            //                .frame(width: 60, height: 6)
+            //                .cornerRadius(3.0)
+            //                .opacity(0.1)
+            //                .padding(.top,10)
+            //
             NavigationView{
                 
                 VStack {
@@ -243,7 +250,7 @@ struct AdminView: View {
                             .overlay(
                                 Text("Check reported posts")
                                     .foregroundColor(.white)
-                        )
+                            )
                     }
                     
                     NavigationLink(destination: ComentariosDenunciados()) {
@@ -254,7 +261,7 @@ struct AdminView: View {
                             .overlay(
                                 Text("Check reported comments")
                                     .foregroundColor(.white)
-                        )
+                            )
                     }
                     
                     Button(action: {}){
@@ -265,7 +272,7 @@ struct AdminView: View {
                             .overlay(
                                 Text("Invite a new member")
                                     .foregroundColor(.white)
-                        )
+                            )
                     }
                     //Spacer()
                 } //VStack
@@ -294,10 +301,10 @@ struct PostsDenunciados: View {
         }
         .navigationBarTitle(
             Text("Reported Posts")
-//                .font(.system(.title, design: .rounded)),displayMode: .inline
+            //                .font(.system(.title, design: .rounded)),displayMode: .inline
         )
         .onAppear {
-//            print("Contando os posts denunciados")
+            //            print("Contando os posts denunciados")
             self.posts = self.sala.posts.filter{!$0.denuncias.isEmpty}
         }
     }//body

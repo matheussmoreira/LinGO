@@ -23,7 +23,10 @@ struct MyPublications: View {
             else {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(membro.posts_publicados.reversed()) { post in
-                        NavigationLink(destination: PostView(post: post).environmentObject(self.membro)) {
+                        NavigationLink(
+                            destination: PostView(post: post)
+                                .environmentObject(self.membro)
+                        ){
                             PostCardView(post: post, width: 0.85)
                         }
                     }
@@ -32,11 +35,11 @@ struct MyPublications: View {
         } //VStack
         .navigationBarTitle("Your publications")
         .navigationBarItems(trailing:
-            HStack {
-                Image(systemName: "magnifyingglass")
-                    .imageScale(.large)
-                    .foregroundColor(LingoColors.lingoBlue)
-        })
+                                HStack {
+                                    Image(systemName: "magnifyingglass")
+                                        .imageScale(.large)
+                                        .foregroundColor(LingoColors.lingoBlue)
+                                })
     } //body
 }
 

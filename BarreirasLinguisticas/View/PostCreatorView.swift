@@ -35,6 +35,7 @@ struct PostCreatorView: View {
                             .font(.system(.title3, design: .rounded))
                             .fontWeight(.bold)
                             .foregroundColor(Color(UIColor.systemGray2))
+                        
                     } else {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack{
@@ -50,12 +51,18 @@ struct PostCreatorView: View {
                     
                     Spacer()
                     
-                    NavigationLink(destination: SelectCategories(selectedCategories: $selectedCategories).environmentObject(sala)) {
+                    NavigationLink(
+                        destination: SelectCategories(
+                            selectedCategories: $selectedCategories
+                        )
+                        .environmentObject(sala)
+                    ) {
                         Image(systemName: "plus")
                             .foregroundColor(LingoColors.lingoBlue)
                             .imageScale(.large)
                     }
-                }.onTapGesture{
+                }
+                .onTapGesture{
                     self.hideKeyboard()
                     if description == "" {
                         showPlaceholder = true
@@ -95,14 +102,16 @@ struct PostCreatorView: View {
                             .foregroundColor(.blue)
                             .font(.headline)
                         
-                        TextField("You can paste a related link here", text: $link)
-                            .font(.headline)
-                            .foregroundColor(.blue)
-                            .onTapGesture {
-                                if description == "" {
-                                    showPlaceholder = true
-                                }
+                        TextField("You can paste a related link here",
+                                  text: $link
+                        )
+                        .font(.headline)
+                        .foregroundColor(.blue)
+                        .onTapGesture {
+                            if description == "" {
+                                showPlaceholder = true
                             }
+                        }
                         
                     }
                     .padding(.bottom)
@@ -135,7 +144,8 @@ struct PostCreatorView: View {
             .padding(.horizontal)//.padding(.trailing)//.padding(.bottom)
             //                .navigationBarTitle(Text("New post!"))
             .navigationBarItems(
-                leading: Text("New post")
+                leading:
+                    Text("New post")
                     .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                     .bold()
                     .padding(.top, 32)
@@ -144,7 +154,14 @@ struct PostCreatorView: View {
                     },
                 trailing:
                     Button(action: {
-                        self.publicationStatus = self.publica(id_membro: self.membro.usuario.id, titulo: self.title, descricao: self.description, linkString: self.link, categs: [10], tags: self.tags)
+                        self.publicationStatus = self.publica(
+                            id_membro: self.membro.usuario.id,
+                            titulo: self.title,
+                            descricao: self.description,
+                            linkString: self.link,
+                            categs: [10],
+                            tags: self.tags
+                        )
                         self.showPublicationStatusAlert = true
                         
                     }){
@@ -152,6 +169,7 @@ struct PostCreatorView: View {
                             Capsule()
                                 .frame(width: 80, height: 40)
                                 .foregroundColor(LingoColors.lingoBlue)
+                            
                             Text("Go!")
                                 .bold()
                                 .font(.title)
@@ -160,16 +178,19 @@ struct PostCreatorView: View {
                         }
                     }//ZStack
                     .padding(.top, 32)
-                    .alert(isPresented: $showPublicationStatusAlert, content: {
-                        Alert(title: Text(publicationStatus),
-                              message: Text(""),
-                              dismissButton: .default(Text("Ok")) {
-                                if self.publicationStatus == "Success!"{
-                                    self.title = ""; self.description = ""; self.link = ""
-                                    self.presentationMode.wrappedValue.dismiss()
-                                }
-                              })
-                    })
+                    .alert(isPresented: $showPublicationStatusAlert,
+                           content: {
+                            Alert(title: Text(publicationStatus),
+                                  message: Text(""),
+                                  dismissButton: .default(Text("Ok")) {
+                                    if self.publicationStatus == "Success!" {
+                                        self.title = ""
+                                        self.description = ""
+                                        self.link = ""
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }
+                                  })
+                           })
             )
         } //NavigationView
     } //body
@@ -178,15 +199,22 @@ struct PostCreatorView: View {
         
         if !selectedCategories.isEmpty{
             if (titulo == "") {
-                //print("The post needs a title!")
                 return "The post needs a title!"
+                
             } else {
                 if ((descricao == "" || descricao == placeholder) && linkString == "") {
-                    //print("The post need a description text or an embeded link!")
                     return "The post need a description text or an embeded link!"
-                } else {
                     
-                    sala.novoPost(publicador: id_membro, post: UUID().hashValue, titulo: titulo, descricao: descricao, link: Link(urlString: linkString), categs: getCategsId(), tags: tags)
+                } else {
+                    sala.novoPost(
+                        publicador: id_membro,
+                        post: UUID().hashValue,
+                        titulo: titulo,
+                        descricao: descricao,
+                        link: Link(urlString: linkString),
+                        categs: getCategsId(),
+                        tags: tags
+                    )
                     
                     self.hideKeyboard()
                     return "Success!"
@@ -195,7 +223,6 @@ struct PostCreatorView: View {
         } else {
             return "Select at least one category!"
         }
-        
         
     }
     
@@ -207,18 +234,18 @@ struct PostCreatorView: View {
         return categsId
     }
     
-    func ajustaAltura() {
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main){ (noti) in
-            
-            let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
-            let height = value.height
-            self.value = height-50
-        }
-        
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { (noti) in
-            self.value = 0
-        }
-    }
+    //    func ajustaAltura() {
+    //        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main){ (noti) in
+    //
+    //            let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+    //            let height = value.height
+    //            self.value = height-50
+    //        }
+    //
+    //        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { (noti) in
+    //            self.value = 0
+    //        }
+    //    }
 }
 
 struct PostEditorView_Previews: PreviewProvider {
@@ -234,7 +261,8 @@ struct SelectCategories: View {
     var body: some View {
         List {
             ForEach(0..<sala.categorias.count) { idx in
-                SelectCategorieRow(isSelected: self.selectedCategories.contains(self.sala.categorias[idx]), idx: idx).environmentObject(self.sala)
+                SelectCategorieRow(
+                    isSelected: self.selectedCategories.contains(self.sala.categorias[idx]), idx: idx).environmentObject(self.sala)
                     .onTapGesture {
                         if self.selectedCategories.contains(self.sala.categorias[idx]) {
                             self.selectedCategories.removeAll(where: { $0 == self.sala.categorias[idx]})

@@ -28,10 +28,12 @@ struct OnboardView: View {
                                 .bold()
                                 .layoutPriority(1)
                                 .multilineTextAlignment(.center)
+                            
                             Text(onboardPages[idx].subheading)
                                 .multilineTextAlignment(.center)
                                 .foregroundColor(.white)
-                        }.padding()
+                        }
+                        .padding()
                     }
                 }
                 
@@ -47,7 +49,11 @@ struct OnboardView: View {
                         .foregroundColor(.white)
                 }
             }.padding(.vertical)
-        }.background(Color("lingoBlueBackground").edgesIgnoringSafeArea(.all))
+        }
+        .background(
+            Color("lingoBlueBackground")
+                .edgesIgnoringSafeArea(.all)
+        )
     }
 }
 

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6603984B24DB31A100C5629B /* PostsCategorieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6603984A24DB31A100C5629B /* PostsCategorieView.swift */; };
+		6603984B24DB31A100C5629B /* PostsOfCategorieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6603984A24DB31A100C5629B /* PostsOfCategorieView.swift */; };
 		6603984D24DB516800C5629B /* PostCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6603984C24DB516800C5629B /* PostCardView.swift */; };
 		66066F7C24EF201700021134 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66066F7B24EF201700021134 /* ImagePicker.swift */; };
 		6629EBA324EC45B4009802A5 /* FirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6629EBA224EC45B4009802A5 /* FirstView.swift */; };
@@ -55,7 +55,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6603984A24DB31A100C5629B /* PostsCategorieView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsCategorieView.swift; sourceTree = "<group>"; };
+		6603984A24DB31A100C5629B /* PostsOfCategorieView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsOfCategorieView.swift; sourceTree = "<group>"; };
 		6603984C24DB516800C5629B /* PostCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardView.swift; sourceTree = "<group>"; };
 		66066F7B24EF201700021134 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		6629EBA224EC45B4009802A5 /* FirstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstView.swift; sourceTree = "<group>"; };
@@ -146,20 +146,6 @@
 			path = OnboardAntigo;
 			sourceTree = "<group>";
 		};
-		6674DDFC252FADBC0044E9C7 /* Perfil */ = {
-			isa = PBXGroup;
-			children = (
-				66D7AA8A24CB8140001CEA3A /* ProfileView.swift */,
-				665A157924DC315100D94359 /* RoomMembersView.swift */,
-				665A157524DC2DE500D94359 /* MyPublications.swift */,
-				665A157724DC30A000D94359 /* MySavedPosts.swift */,
-				666C803124DCA329001A7148 /* SubscriptionsView.swift */,
-				EA49EC2924EEEC210030F135 /* EditProfileView.swift */,
-				66066F7B24EF201700021134 /* ImagePicker.swift */,
-			);
-			path = Perfil;
-			sourceTree = "<group>";
-		};
 		6674DDFD252FADE80044E9C7 /* Auxiliares */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,38 +226,28 @@
 			isa = PBXGroup;
 			children = (
 				6674DDFD252FADE80044E9C7 /* Auxiliares */,
-				66E744742547B3BB00B33131 /* Categories */,
 				6674DDF7252FACAA0044E9C7 /* Comentarios */,
 				6674DDFA252FAD4D0044E9C7 /* OnboardAntigo */,
-				6674DDFC252FADBC0044E9C7 /* Perfil */,
-				66E744782547B4EC00B33131 /* Post */,
 				6629EBA224EC45B4009802A5 /* FirstView.swift */,
 				66E744682547AC4400B33131 /* OnboardView.swift */,
 				66C35043254768E300E3CA26 /* NewUserView.swift */,
 				667D8BAC24D302B4005D51F4 /* RoomsView.swift */,
 				66D7AA6824CB5135001CEA3A /* ContentView.swift */,
 				66D7AA8424CB80B2001CEA3A /* DiscoverView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		66E744742547B3BB00B33131 /* Categories */ = {
-			isa = PBXGroup;
-			children = (
 				66D7AA8624CB80F0001CEA3A /* CategoriesView.swift */,
-				6603984A24DB31A100C5629B /* PostsCategorieView.swift */,
-			);
-			path = Categories;
-			sourceTree = "<group>";
-		};
-		66E744782547B4EC00B33131 /* Post */ = {
-			isa = PBXGroup;
-			children = (
+				6603984A24DB31A100C5629B /* PostsOfCategorieView.swift */,
 				668903A724D5B7F60062C8CA /* PostView.swift */,
 				6603984C24DB516800C5629B /* PostCardView.swift */,
 				EA6CA39E24DA00C000FAD6F6 /* PostCreatorView.swift */,
+				66D7AA8A24CB8140001CEA3A /* ProfileView.swift */,
+				665A157524DC2DE500D94359 /* MyPublications.swift */,
+				665A157724DC30A000D94359 /* MySavedPosts.swift */,
+				666C803124DCA329001A7148 /* SubscriptionsView.swift */,
+				EA49EC2924EEEC210030F135 /* EditProfileView.swift */,
+				665A157924DC315100D94359 /* RoomMembersView.swift */,
+				66066F7B24EF201700021134 /* ImagePicker.swift */,
 			);
-			path = Post;
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -368,7 +344,7 @@
 				668903A824D5B7F60062C8CA /* PostView.swift in Sources */,
 				666C803224DCA329001A7148 /* SubscriptionsView.swift in Sources */,
 				667D8BAF24D30469005D51F4 /* DAO.swift in Sources */,
-				6603984B24DB31A100C5629B /* PostsCategorieView.swift in Sources */,
+				6603984B24DB31A100C5629B /* PostsOfCategorieView.swift in Sources */,
 				6675881624D3667400C9B805 /* Usuario.swift in Sources */,
 				665A157624DC2DE500D94359 /* MyPublications.swift in Sources */,
 				66D7AA6524CB5135001CEA3A /* AppDelegate.swift in Sources */,
