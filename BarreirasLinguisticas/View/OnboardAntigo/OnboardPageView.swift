@@ -28,7 +28,6 @@ struct OnboardPageView: View {
                         .foregroundColor(.white)
                 }.padding()
             }
-        
     }
 }
 

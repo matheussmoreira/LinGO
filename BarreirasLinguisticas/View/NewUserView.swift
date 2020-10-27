@@ -56,7 +56,7 @@ struct NewUserView: View {
             }
             
             Section {
-                Text("What is yout fluency in English?")
+                Text("What is your fluency in English?")
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                 List(0..<fluencias.count){ idx in
                     Text(fluencias[idx])

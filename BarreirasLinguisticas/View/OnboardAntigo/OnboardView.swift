@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct OnboardView: View {
+struct FirstView: View {
     @EnvironmentObject var dao: DAO
     @State private var signedIn = false
     @State private var loggedIn = false
@@ -16,8 +16,9 @@ struct OnboardView: View {
     var body: some View {
         VStack {
             if !signedIn {
-                OnboardContainer(signedIn: $signedIn,
-                                 viewControllers: Onboard.getAll.map{UIHostingController(rootView: OnboardPageView(element: $0))})
+                WelcomeView(signedIn: $signedIn)
+//                OnboardContainer(signedIn: $signedIn,
+//                                 viewControllers: Onboard.getAll.map{UIHostingController(rootView: OnboardPageView(element: $0))})
                     .transition(.scale)
             }
             else {
@@ -39,7 +40,7 @@ struct OnboardView: View {
 
 struct OnboardView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardView()
+        FirstView()
     }
 }
 
@@ -47,23 +48,23 @@ struct OnboardContainer<Onboard: View>: View {
     @Binding var signedIn: Bool
     var viewControllers: [UIHostingController<Onboard>]
     @State var currentPage = 0
-    
+
     var body: some View {
         ZStack {
             Color("lingoBlueBackground")
                 .edgesIgnoringSafeArea(.all)
-            
+
             VStack {
                 OnboardViewController(controllers: viewControllers, currentPage: self.$currentPage)
-                
+
                 OnboardPageIndicator(currentIndex: self.currentPage)
-                
+
                 Button(action: {self.signedIn.toggle()}) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
                             .frame(width: 250.0, height: 40.0)
                             .foregroundColor(.black)
-                            
+
                         Text("Get started")
                             .foregroundColor(.white)
                     }
