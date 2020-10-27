@@ -61,11 +61,17 @@ struct EditProfileView: View {
                     .font(.system(.title2, design: .rounded))
                     .fontWeight(.bold)
                     .foregroundColor(.primary)
+                    .onTapGesture {
+                        self.hideKeyboard()
+                    }
                 
                 Form {
                     Section {
                         Text("Your Name")
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            .onTapGesture {
+                                self.hideKeyboard()
+                            }
                         TextField(usuario.nome, text: $nome)
                         //                        Picker(selection: $fluenciaSelecionada, label: Text("English Level")) {
                         //                            ForEach(0..<fluencias.count) { idx in
@@ -77,10 +83,14 @@ struct EditProfileView: View {
                     Section {
                         Text("English Fluency")
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            .onTapGesture {
+                                self.hideKeyboard()
+                            }
                         List(0..<fluencias.count){ idx in
                             Text(fluencias[idx])
                                 .onTapGesture {
                                     fluenciaSelecionada = idx
+                                    self.hideKeyboard()
                                 }
                                 .foregroundColor(fluencias[idx] == fluencias[fluenciaSelecionada] ? .blue : .gray)
                         }

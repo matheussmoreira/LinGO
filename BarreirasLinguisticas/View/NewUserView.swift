@@ -24,6 +24,7 @@ struct NewUserView: View {
         Text("Create your profile")
             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
             .font(.title)
+            .padding(.top)
         
         photoProfile!
             .resizable()
@@ -51,23 +52,33 @@ struct NewUserView: View {
             .font(.system(.title2, design: .rounded))
             .fontWeight(.bold)
             .foregroundColor(.primary)
+            .onTapGesture{
+                self.hideKeyboard()
+            }
         
         Form {
             Section {
                 Text("Your Name")
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .onTapGesture{
+                        self.hideKeyboard()
+                    }
                 TextField("", text: $nome)
             }
             
             Section {
                 Text("What is your fluency in English?")
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .onTapGesture{
+                        self.hideKeyboard()
+                    }
                 List(0..<fluencias.count){ idx in
                     Text(fluencias[idx])
                         .onTapGesture {
                             fluenciaSelecionada = idx
+                            self.hideKeyboard()
                         }
-                        .foregroundColor(fluencias[idx] == fluencias[fluenciaSelecionada] ? .blue : .black)
+                        .foregroundColor(fluencias[idx] == fluencias[fluenciaSelecionada] ? .blue : .gray)
                 }
             }
         }
@@ -84,11 +95,17 @@ struct NewUserView: View {
             }
             
         }) {
-            Text("Create")
-                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                .background(Color.white)
-                .cornerRadius(5)
-        }.alert(
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(width: 250.0, height: 40.0)
+                    .foregroundColor(Color("lingoBlueBackgroundInverted"))
+                
+                Text("Create")
+                    .foregroundColor(.white)
+                    
+            }
+        }
+        .alert(
             isPresented: $showAlertNome,
             content: {
                 Alert(
@@ -97,6 +114,7 @@ struct NewUserView: View {
                     dismissButton: .default(Text("Ok"))
                 )
             })
+        .padding(.vertical)
     }
     
     func pegaFluenciaEnum() -> Fluencia {
