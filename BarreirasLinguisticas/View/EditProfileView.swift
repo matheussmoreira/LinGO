@@ -107,14 +107,15 @@ struct EditProfileView: View {
                     },
                 trailing:
                     Button(action: {
-                        if self.nome != "" {self.usuario.nome = self.nome}
+                        if self.nome != "" { self.usuario.nome = self.nome }
                         self.usuario.foto_perfil = self.photoProfile ?? self.usuario.foto_perfil
                         self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada)
                         self.presentationMode.wrappedValue.dismiss()
                     }){
                         Text("Save")
                     })
-        }.onAppear{
+        }
+        .onAppear {
             self.photoProfile = self.usuario.foto_perfil
             self.fluenciaSelecionada = Usuario.pegaFluenciaIdx(fluencia: self.usuario.fluencia_ingles)
         } //NavigationView

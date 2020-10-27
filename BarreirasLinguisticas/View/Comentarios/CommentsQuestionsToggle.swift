@@ -19,10 +19,12 @@ struct CommentsQuestionsToggle: View {
             Toggle(questions_selected: $questions_selected)
             
             if questions_selected {
-                CallQuestions(post: post).environmentObject(membro)
+                CallQuestions(post: post)
+                    .environmentObject(membro)
             }
             else {
-                CallComments(post: post).environmentObject(membro)
+                CallComments(post: post)
+                    .environmentObject(membro)
             }
         } //VStack
         

@@ -143,7 +143,8 @@ struct ProfileView: View {
                                     Text("Leave Room")
                                         .foregroundColor(.red)
                                 )
-                        }.alert(isPresented: $showAlertLeave) {
+                        }
+                        .alert(isPresented: $showAlertLeave) {
                             Alert(title: Text("Are you sure you want to leave this room?"),
                                   primaryButton: .default(Text("Leave")){
                                     self.sala.removeMembro(
