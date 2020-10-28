@@ -84,45 +84,57 @@ struct PostView: View {
                                     }
             )
             
-            //MARK: - REPORT
-            HStack {
-                ZStack {
-                    Capsule()
-                        .frame(width: 100.0, height: 50.0)
-                        .foregroundColor(.orange)
-                    Button(reported ? "Dismiss" : "Report") {
-                        self.report()
-                    }
-                    .foregroundColor(.primary)
-                    .colorInvert()
-                }
-                .padding(.all)
-                .foregroundColor(.red)
-                
-                Spacer()
+            VStack {
                 //MARK: - COMENTARIOS
                 Button(action: {self.showComments.toggle()}) {
                     ZStack {
-                        Capsule()
-                            .frame(height: 50.0)
-                        //.foregroundColor(LingoColors.lingoBlue)
+                        RoundedRectangle(cornerRadius: 10)
+                            .frame(width: UIScreen.width*0.95, height: 40.0)
+                            .foregroundColor(LingoColors.lingoBlue)
                         HStack {
                             Spacer()
                             Text("Ask or Comment")
                                 .foregroundColor(.primary)
                                 .colorInvert()
-                            Image(systemName: "pencil.circle.fill")
-                                .font(.system(size: 32, weight: .regular))
-                                .foregroundColor(.primary)
-                                .colorInvert()
+//                            Image(systemName: "pencil.circle.fill")
+//                                .font(.system(size: 32, weight: .regular))
+//                                .foregroundColor(.primary)
+//                                .colorInvert()
+                                
                             Spacer()
                         }
                     }
                 }
-                .padding(.all)
                 .sheet(isPresented: $showComments) {
                     CommentsQuestionsToggle(post: self.post)
                         .environmentObject(self.membro)
+                }
+                //MARK: - REPORT
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10)
+                        .frame(width: UIScreen.width*0.95, height: 40.0)
+                        .foregroundColor(LingoColors.lingoBlue)
+                    Button(action:{
+                        self.report()
+                    }) {
+                        Text(reported ? "Dismiss" : "Report")
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                            
+                    }
+                }
+                //MARK: - EXCLUIR POST
+                if membro.id == post.publicador.id{
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .frame(width: UIScreen.width*0.95, height: 40.0)
+                            .foregroundColor(LingoColors.lingoBlue)
+                        Button(action: {}) {
+                            Text("Delete")
+                                .cornerRadius(8)
+                                .foregroundColor(.white)
+                        }
+                    }.padding(.bottom)
                 }
             }
         }
