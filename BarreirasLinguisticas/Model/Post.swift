@@ -83,5 +83,11 @@ class Post: Equatable, Identifiable, ObservableObject {
         }
     }
 
+    func apagaPergunta(id: Int) {
+        perguntas.removeAll(where: { $0.id == id})
+    }
     
+    func apagaComentario(id: Int) {
+        comentarios.removeAll(where: { $0.id == id})
+    }
 }

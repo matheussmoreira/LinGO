@@ -45,6 +45,7 @@ struct CallQuestions: View {
     @State private var questions: [Comentario] = []
     @State private var textFieldMinHeight: CGFloat = 50
     @State private var newComment: String = ""
+    @State private var askApagaPergunta = false
     
     var body: some View {
         VStack{
@@ -96,18 +97,47 @@ struct CallQuestions: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(questions.reversed().sorted(by: { $0.votos.count > $1.votos.count })) { comment in
                         if comment.is_question {
-                            QuestionRow(comentario: comment)
-                                .environmentObject(self.membro)
-                            Divider()
+                            VStack {
+                                QuestionRow(comentario: comment)
+                                    .environmentObject(self.membro)
+                                
+                                HStack {
+                                    Button(action: {
+                                        askApagaPergunta.toggle()
+                                    }){
+                                        Text("Delete this question")
+                                            .font(.footnote)
+                                            .foregroundColor(.gray)
+                                            .padding(.horizontal)
+                                    }.alert(isPresented: $askApagaPergunta) {
+                                        Alert(
+                                            title: Text("Delete this question?"),
+                                            primaryButton: .default(Text("Delete")){
+                                                apagaPergunta(id: comment.id)
+                                            },
+                                            secondaryButton: .cancel())
+                                    }
+                                    .padding(.horizontal)
+                                    Spacer()
+                                }
+                                
+                                Divider()
+                            }
                         }
                     }
-                }.onTapGesture {
+                }
+                .onTapGesture {
                     self.hideKeyboard()
                 }
             } //else
         }//VStack
             .onAppear {self.loadQuestions()}
     } //body
+    
+    func apagaPergunta(id: Int){
+        post.apagaPergunta(id: id)
+        loadQuestions()
+    }
     
     func loadQuestions() {
         questions = post.perguntas
@@ -128,6 +158,7 @@ struct CallComments: View {
     @State private var comments: [Comentario] = []
     @State private var newComment: String = ""
     @State private var textFieldMinHeight: CGFloat = 50
+    @State private var askApagaComentario = false
     
     var body: some View {
         VStack {
@@ -159,12 +190,6 @@ struct CallComments: View {
                 .frame(width: UIScreen.width - 20, height: 150)
                 .cornerRadius(10)
                 .shadow(radius: 5)
-            
-//            MultilineTextField(placeholder: "", text: self.$newComment, minHeight: self.textFieldMinHeight, calculatedHeight: self.$textFieldMinHeight)
-//                .frame(minHeight: self.textFieldMinHeight, maxHeight: self.textFieldMinHeight)
-//                .frame(width: UIScreen.width - 20)
-//                .cornerRadius(10)
-//                .shadow(radius: 5)
                 
             Divider()
                 .padding(.vertical)
@@ -180,19 +205,46 @@ struct CallComments: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(comments.reversed()) { comment in
                         if !comment.is_question {
-                            CommentRow(comentario: comment)
-                                .environmentObject(self.membro)
-                            Divider()
+                            VStack {
+                                CommentRow(comentario: comment)
+                                    .environmentObject(self.membro)
+                                
+                                HStack {
+                                    Button(action: {
+                                        askApagaComentario.toggle()
+                                    }){
+                                        Text("Delete this comment")
+                                            .font(.footnote)
+                                            .foregroundColor(.gray)
+                                            .padding(.horizontal)
+                                    }.alert(isPresented: $askApagaComentario) {
+                                        Alert(
+                                            title: Text("Delete this comment?"),
+                                            primaryButton: .default(Text("Delete")){
+                                                apagaComentario(id: comment.id)
+                                            },
+                                            secondaryButton: .cancel())
+                                    }
+                                    .padding(.horizontal)
+                                    Spacer()
+                                }
+                                
+                                Divider()
+                            }
                         }
                     }
                 }.onTapGesture {
                     self.hideKeyboard()
                 }
-                //.frame(width: UIScreen.width*0.95)
             } //else
         } //VStack
         .onAppear {self.loadComments()}
     } //body
+    
+    func apagaComentario(id: Int){
+        post.apagaComentario(id: id)
+        loadComments()
+    }
     
     func loadComments() {
         comments = post.comentarios
