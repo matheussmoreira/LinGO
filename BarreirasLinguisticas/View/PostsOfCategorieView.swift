@@ -56,7 +56,7 @@ struct PostsOfCategorieView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(loaded_posts) { post in
                         NavigationLink(
-                            destination: PostView(post: post)
+                            destination: PostView(sala: self.sala, post: post)
                                 .environmentObject(self.membro)
                         ) {
                             PostCardView(post: post, width: 0.85)

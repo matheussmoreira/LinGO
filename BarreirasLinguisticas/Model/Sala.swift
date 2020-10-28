@@ -249,6 +249,10 @@ class Sala: Identifiable, ObservableObject {
         
     }
     
+    func excluiPost(id_post: Int){
+        posts.removeAll(where: { $0.id == id_post})
+    }
+    
     //MARK: - RELACIONAMENTOS
     func novoComentario(id: Int, publicador id_publicador: Int, post id_post: Int, conteudo: String, is_question: Bool) {
         if let publicador = getMembro(id: id_publicador), let post = getPost(id: id_post)  {

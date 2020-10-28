@@ -10,13 +10,16 @@ import SwiftUI
 import LinkPresentation
 
 struct PostView: View {
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var membro: Membro
+    @ObservedObject var sala: Sala
     @ObservedObject var post: Post
     @State private var stored_link: Link?
     @State private var bookmarked = false
     @State private var bookmarkedImage = "bookmark"
     @State private var showComments = false
     @State private var reported = false
+    @State private var showAlterExcluiPost = false
     
     var body: some View {
         VStack {
@@ -129,10 +132,21 @@ struct PostView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .frame(width: UIScreen.width*0.95, height: 40.0)
                             .foregroundColor(LingoColors.lingoBlue)
-                        Button(action: {}) {
+                        Button(action: {
+                            showAlterExcluiPost.toggle()
+                            
+                        }) {
                             Text("Delete")
                                 .cornerRadius(8)
                                 .foregroundColor(.white)
+                        }
+                        .alert(isPresented: $showAlterExcluiPost) {
+                            Alert(title: Text("Are you sure you want to delete this?"),
+                                  primaryButton: .default(Text("Delete")){
+                                    sala.excluiPost(id_post: post.id)
+                                    self.presentationMode.wrappedValue.dismiss()
+                                  },
+                                  secondaryButton: .cancel())
                         }
                     }.padding(.bottom)
                 }
@@ -189,7 +203,7 @@ struct PostView: View {
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
-        PostView(post:DAO().salas[0].posts[0])
+        PostView(sala: DAO().salas[0], post:DAO().salas[0].posts[0])
             .environmentObject(DAO().salas[0].membros[0])
     }
 }

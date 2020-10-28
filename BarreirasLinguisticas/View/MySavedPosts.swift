@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MySavedPosts: View {
     @EnvironmentObject var membro: Membro
+    @ObservedObject var sala: Sala
     @State private var salvos: [Post] = []
     @State private var mensagem = ""
     
@@ -26,7 +27,7 @@ struct MySavedPosts: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(self.salvos.reversed()) { post in
                         NavigationLink(
-                            destination: PostView(post: post)
+                            destination: PostView(sala: self.sala, post: post)
                                 .environmentObject(self.membro)
                         ){
                             PostCardView(post: post, width: 0.85)
@@ -51,7 +52,7 @@ struct MySavedPosts: View {
 
 struct MySavedPosts_Previews: PreviewProvider {
     static var previews: some View {
-        MySavedPosts()
+        MySavedPosts(sala: DAO().salas[0])
             .environmentObject(DAO().salas[0].membros[0])
     }
 }

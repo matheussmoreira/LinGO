@@ -66,7 +66,7 @@ struct ProfileView: View {
                     //MARK: - POSTS PUBLICADOS
                     ScrollView(.vertical, showsIndicators: false) {
                         NavigationLink(destination:
-                                        MyPublications().environmentObject(membro)) {
+                                        MyPublications(sala: sala).environmentObject(membro)) {
                             RoundedRectangle(cornerRadius: corner)
                                 .foregroundColor(lingoBlue)
                                 .frame(height: btn_height)
@@ -79,7 +79,7 @@ struct ProfileView: View {
                         
                         //MARK: - POSTAS SALVOS
                         NavigationLink(destination:
-                                        MySavedPosts().environmentObject(membro)) {
+                                        MySavedPosts(sala:sala).environmentObject(membro)) {
                             RoundedRectangle(cornerRadius: corner)
                                 .foregroundColor(lingoBlue)
                                 .frame(height: btn_height)

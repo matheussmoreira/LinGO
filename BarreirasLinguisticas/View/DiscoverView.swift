@@ -33,7 +33,7 @@ struct DiscoverView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 1){
                             ForEach(fyPosts.suffix(7).reversed()){ post in
-                                CardsView(post: post, membro: self.membro)
+                                CardsView(post: post, membro: self.membro, sala: self.sala)
                             }
                         }
                     }
@@ -62,7 +62,7 @@ struct DiscoverView: View {
                         HStack(spacing: 1){
                             ForEach(sala.posts.suffix(7).reversed()){ post in
                                 if !self.fyPosts.contains(post){
-                                    CardsView(post: post, membro: self.membro)
+                                    CardsView(post: post, membro: self.membro, sala: self.sala)
                                 }
                             }
                         }
@@ -137,10 +137,11 @@ struct HomeView_Previews: PreviewProvider {
 struct CardsView: View {
     @ObservedObject var post: Post
     @ObservedObject var membro: Membro
+    @ObservedObject var sala: Sala
     
     var body: some View {
         //GeometryReader { geometry in
-        NavigationLink(destination: PostView(post: self.post).environmentObject(self.membro)) {
+        NavigationLink(destination: PostView(sala: sala, post: self.post).environmentObject(self.membro)) {
             PostCardView(post: self.post, width: 0.80)
                 .frame(width: UIScreen.width-30)
             //.rotation3DEffect(Angle(degrees: Double(geometry.frame(in:.global).minX)-40) / -20, axis: (x: 0, y: 10.0, z: 0))

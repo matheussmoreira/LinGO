@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MyPublications: View {
     @EnvironmentObject var membro: Membro
+    @ObservedObject var sala: Sala
     @State private var mensagem = ""
     
     var body: some View {
@@ -24,7 +25,7 @@ struct MyPublications: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(membro.posts_publicados.reversed()) { post in
                         NavigationLink(
-                            destination: PostView(post: post)
+                            destination: PostView(sala: sala, post: post)
                                 .environmentObject(self.membro)
                         ){
                             PostCardView(post: post, width: 0.85)
@@ -45,6 +46,7 @@ struct MyPublications: View {
 
 struct MyPublishedPosts_Previews: PreviewProvider {
     static var previews: some View {
-        MyPublications().environmentObject(DAO().salas[0].membros[0])
+        MyPublications(sala: DAO().salas[0])
+            .environmentObject(DAO().salas[0].membros[0])
     }
 }
