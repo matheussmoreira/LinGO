@@ -49,8 +49,8 @@ struct RoomsView: View {
                                     }
                                 }
                             }
-                        } //ScrollView
-                    } //if
+                        }
+                    }
                     
                     Spacer()
                     
@@ -72,9 +72,9 @@ struct RoomsView: View {
                         }
                     }
                     .padding()
-                } //VStack
-            }//ZStack
-        } //VStack
+                }
+            }
+        }
     } //body
     
     func novaSala(nome: String, criador: Usuario) {
@@ -84,13 +84,6 @@ struct RoomsView: View {
             criador: criador
         )
         self.dao.addNovaSala(sala)
-        //print(dao.usuario_atual?.nome)
-        //        if let ultima_sala = self.dao.salas.last {
-        //            sala = Sala(id: ultima_sala.id + 1, nome: nome, criador: criador/*, dao: self.dao*/)
-        //        }
-        //        else {
-        //            sala = Sala(id: 1, nome: "Apple Developer Academy", criador: criador/*, dao: self.dao*/)
-        //        }
     }
     
 }

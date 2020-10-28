@@ -85,8 +85,8 @@ struct MemberButton: View {
                                     .foregroundColor(.white)
                                     .padding(.trailing,20)
                             }
-                        } //if is_admin
-                    } //HStack
+                        }
+                    }
                 ) //overlay
         }//Button
         .actionSheet(isPresented: self.$showMembro) {

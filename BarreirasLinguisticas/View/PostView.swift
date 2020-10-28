@@ -49,7 +49,6 @@ struct PostView: View {
                         ForEach(0..<post.tags.count) { idx in
                             Text(self.post.tags[idx])
                                 .foregroundColor(LingoColors.lingoBlue)
-                            //                                .padding(.top)
                         }
                         Spacer()
                     }
@@ -125,8 +124,9 @@ struct PostView: View {
                     CommentsQuestionsToggle(post: self.post)
                         .environmentObject(self.membro)
                 }
-            } //sheet
-        }.onAppear{self.loadReport()} //VStack
+            }
+        }
+        .onAppear{self.loadReport()}
     } //body
     
     func carregaLink(){
@@ -177,6 +177,7 @@ struct PostView: View {
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
-        PostView(post:DAO().salas[0].posts[0]).environmentObject(DAO().salas[0].membros[0])
+        PostView(post:DAO().salas[0].posts[0])
+            .environmentObject(DAO().salas[0].membros[0])
     }
 }

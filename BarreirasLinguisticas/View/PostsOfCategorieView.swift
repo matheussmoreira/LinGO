@@ -63,8 +63,8 @@ struct PostsOfCategorieView: View {
                         }
                     }
                 }
-            } //else
-        }//VStack
+            }
+        }
         .navigationBarTitle(categoria.nome)
         .navigationBarItems(trailing:
                                 HStack {

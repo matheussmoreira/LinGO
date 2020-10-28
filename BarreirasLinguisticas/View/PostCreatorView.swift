@@ -79,7 +79,6 @@ struct PostCreatorView: View {
                         }
                     }
                 
-                //                ScrollView {
                 ZStack(alignment: .topLeading){
                     TextEditor(text: self.$description)
                         .onTapGesture {
@@ -92,9 +91,6 @@ struct PostCreatorView: View {
                             .padding(.top, 5)
                     }
                 }
-                //                    MultilineTextField(placeholder: placeholder, text: self.$description, minHeight: self.textFieldMinHeight, calculatedHeight: self.$textFieldMinHeight)
-                //                        .frame(minHeight: self.textFieldMinHeight, maxHeight: self.textFieldMinHeight)
-                //                }
                 
                 VStack {
                     HStack {
@@ -136,12 +132,8 @@ struct PostCreatorView: View {
                 }
                 .animation(.spring())
                 .offset(y: -self.value)
-                //                .onAppear {
-                //                    self.ajustaAltura()
-                //                }
             }//VStack
-            //            .background(Color.red)
-            .padding(.horizontal)//.padding(.trailing)//.padding(.bottom)
+            .padding(.horizontal)
             //                .navigationBarTitle(Text("New post!"))
             .navigationBarItems(
                 leading:
@@ -192,7 +184,7 @@ struct PostCreatorView: View {
                                   })
                            })
             )
-        } //NavigationView
+        }
     } //body
     
     func publica(id_membro: Int, titulo: String, descricao: String?, linkString: String, categs: [Int], tags: String) -> String {
@@ -233,19 +225,6 @@ struct PostCreatorView: View {
         }
         return categsId
     }
-    
-    //    func ajustaAltura() {
-    //        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main){ (noti) in
-    //
-    //            let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
-    //            let height = value.height
-    //            self.value = height-50
-    //        }
-    //
-    //        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { (noti) in
-    //            self.value = 0
-    //        }
-    //    }
 }
 
 struct PostEditorView_Previews: PreviewProvider {

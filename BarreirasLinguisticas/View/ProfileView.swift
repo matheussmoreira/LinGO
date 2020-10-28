@@ -12,7 +12,6 @@ struct ProfileView: View {
     @EnvironmentObject var dao: DAO
     @EnvironmentObject var membro: Membro
     @EnvironmentObject var sala: Sala
-    @Binding var loggedIn: Bool
     @Binding var enterMode: EnterMode
     @State private var showRooms = false
     @State private var showAlertLeave = false
@@ -170,15 +169,14 @@ struct ProfileView: View {
                         .alert(isPresented: $showAlertLogOut) {
                             Alert(title: Text("Are you sure you want to log out?"),
                                   primaryButton: .default(Text("Log out")) {
-                                    self.loggedIn.toggle()
                                     self.enterMode = .none
                                   },
                                   secondaryButton: .cancel())
                         }
-                    } //ScrollView
-                } //VStack
+                    }
+                }
                 .padding(.top, -645)
-            } //VStack
+            }
             .navigationBarItems(
                 leading:
                     Button(action: {self.showRooms.toggle()}) {
@@ -199,7 +197,7 @@ struct ProfileView: View {
                 .sheet(isPresented: $showEditProfile) {
                     EditProfileView(usuario: self.membro.usuario)
                 })
-        } //NavigationView
+        }
     } //body
     
     func proxima_sala(){
@@ -218,7 +216,7 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(loggedIn: .constant(true), enterMode: .constant(.none))
+        ProfileView(enterMode: .constant(.none))
             .environmentObject(DAO().salas[0].membros[0])
     }
 }
@@ -233,12 +231,6 @@ struct AdminView: View {
     var body: some View {
         
         VStack{
-            //            Rectangle()
-            //                .frame(width: 60, height: 6)
-            //                .cornerRadius(3.0)
-            //                .opacity(0.1)
-            //                .padding(.top,10)
-            //
             NavigationView{
                 
                 VStack {
@@ -278,11 +270,10 @@ struct AdminView: View {
                                     .foregroundColor(.white)
                             )
                     }
-                    //Spacer()
-                } //VStack
-            } //NavigationView
-        } //VStack
-    } //body
+                }
+            }
+        }
+    }
 }
 
 struct PostsDenunciados: View {
@@ -305,10 +296,9 @@ struct PostsDenunciados: View {
         }
         .navigationBarTitle(
             Text("Reported Posts")
-            //                .font(.system(.title, design: .rounded)),displayMode: .inline
+//                .font(.system(.title, design: .rounded)),displayMode: .inline
         )
         .onAppear {
-            //            print("Contando os posts denunciados")
             self.posts = self.sala.posts.filter{!$0.denuncias.isEmpty}
         }
     }//body

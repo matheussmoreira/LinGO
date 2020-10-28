@@ -59,7 +59,7 @@ struct EnterView: View {
             Spacer()
         }
         
-    }
+    } //body
 }
 
 struct EnterView_Previews: PreviewProvider {

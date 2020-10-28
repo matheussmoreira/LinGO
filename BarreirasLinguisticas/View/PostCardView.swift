@@ -101,11 +101,13 @@ struct PostCardView: View {
                     Spacer()
                 } .padding(.horizontal, 32)
                 
-            } // VStack
+            }
             .frame(height: 244.0)
-            .onAppear {self.getLinkImage(from: self.post.link)}
+            .onAppear {
+                self.getLinkImage(from: self.post.link)
+            }
             
-        } //ZStack
+        } //body
     }
     
     func getLinkImage(from link: Link?) {
@@ -115,7 +117,7 @@ struct PostCardView: View {
             self.line_limit_desc = 2
             self.font_size_title = Font.TextStyle.body
         }
-    } //addLinkImage
+    }
 }
 
 struct PostCardImageView_Previews: PreviewProvider {

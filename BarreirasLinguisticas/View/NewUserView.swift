@@ -10,13 +10,13 @@ import SwiftUI
 
 struct NewUserView: View {
     @EnvironmentObject var dao: DAO
+    @Binding var enterMode: EnterMode
     @State private var photoProfile: Image? = Image("perfil")
     @State private var presentImagePicker = false
     @State private var presentImageActionScheet = false
     @State private var nome: String = ""
     @State private var fluenciaSelecionada = 0
     @State private var showAlertNome = false
-    @Binding var loggedIn: Bool
     let fluencias = ["Basic","Intermediate", "Advanced"]
     
     
@@ -93,8 +93,7 @@ struct NewUserView: View {
                 
 //                let defaults = UserDefaults.standard
 //                defaults.setValue(newUserId, forKey: "UserId")
-                
-                loggedIn = true
+                enterMode = .logIn
             } else {
                 showAlertNome = true
             }
@@ -120,11 +119,11 @@ struct NewUserView: View {
                 )
             })
         .padding(.vertical)
-    }
+    } //body
 }
 
 struct NewUserView_Previews: PreviewProvider {
     static var previews: some View {
-        NewUserView(loggedIn: .constant(true))
+        NewUserView(enterMode: .constant(.none))
     }
 }

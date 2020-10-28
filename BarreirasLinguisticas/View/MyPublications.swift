@@ -31,8 +31,8 @@ struct MyPublications: View {
                         }
                     }
                 }
-            } //else
-        } //VStack
+            }
+        }
         .navigationBarTitle("Your publications")
         .navigationBarItems(trailing:
                                 HStack {

@@ -10,7 +10,6 @@ import SwiftUI
 
 struct OnboardView: View {
     @EnvironmentObject var dao: DAO
-    //@Binding var enterMode: EnterMode
     @State private var getStarted = false
     @Binding var enterMode: EnterMode
     var onboardPages = Onboard.getAll
@@ -60,7 +59,7 @@ struct OnboardView: View {
             Color("lingoBlueBackground")
                 .edgesIgnoringSafeArea(.all)
         )
-    }
+    }//body
 }
 
 struct OnboardView_Previews: PreviewProvider {

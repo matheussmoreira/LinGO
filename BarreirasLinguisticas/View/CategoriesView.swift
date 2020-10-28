@@ -63,13 +63,13 @@ struct CategoriesView: View {
                                         }
                                     }
                                 }
-                            } //VStack
+                            }
                             .padding(.vertical, 4)
-                        } //HStack
-                    }.listStyle(InsetGroupedListStyle())//List
-                    
-                } //else
-            } //VStack
+                        }
+                    }
+                    .listStyle(InsetGroupedListStyle())
+                }
+            }
             .navigationBarTitle(Text("Categories"))
             .navigationBarItems(
                 leading:
@@ -88,9 +88,9 @@ struct CategoriesView: View {
                         Image(systemName: "magnifyingglass")
                             .imageScale(.large)
                             .foregroundColor(LingoColors.lingoBlue)
-                        //                        EditButton()
-                        //                            .padding(.leading)
-                        //                            .foregroundColor(LingoColors.lingoBlue)
+//                        EditButton()
+//                            .padding(.leading)
+//                            .foregroundColor(LingoColors.lingoBlue)
                         Button(action: {showCriaCategoria.toggle()}) {
                             Image(systemName: "plus")
                                 .imageScale(.large)
@@ -104,8 +104,8 @@ struct CategoriesView: View {
                                     .environmentObject(sala)
                             })
                     })
-        } // NavigationView
-    }// body
+        }
+    } //body
     
 }
 
@@ -145,5 +145,5 @@ struct CreateCategorieView: View {
                 }
             }
         }
-    }
+    } //body
 }

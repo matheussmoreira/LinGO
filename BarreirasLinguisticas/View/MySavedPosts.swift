@@ -33,8 +33,8 @@ struct MySavedPosts: View {
                         }
                     }
                 }
-            } //else
-        } //VStack
+            }
+        }
         .navigationBarTitle("Your saved posts")
         .navigationBarItems(
             trailing:

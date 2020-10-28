@@ -22,7 +22,6 @@ struct EditProfileView: View {
     var body: some View {
         NavigationView {
             VStack {
-                //Image(usuario.foto_perfil)
                 photoProfile!
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -73,11 +72,7 @@ struct EditProfileView: View {
                                 self.hideKeyboard()
                             }
                         TextField(usuario.nome, text: $nome)
-                        //                        Picker(selection: $fluenciaSelecionada, label: Text("English Level")) {
-                        //                            ForEach(0..<fluencias.count) { idx in
-                        //                                Text(self.fluencias[idx]).tag(idx)
-                        //                            }
-                        //                        }
+
                     }
                     
                     Section {
@@ -118,8 +113,8 @@ struct EditProfileView: View {
         .onAppear {
             self.photoProfile = self.usuario.foto_perfil
             self.fluenciaSelecionada = Usuario.pegaFluenciaIdx(fluencia: self.usuario.fluencia_ingles)
-        } //NavigationView
-    }
+        }
+    } //body
     
 }
 

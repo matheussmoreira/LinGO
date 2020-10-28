@@ -41,11 +41,11 @@ struct SubscriptionsView: View {
                                             .foregroundColor(.white)
                                     )
                             }
-                        } //ForEach
-                    } //VStack
-                } //ScrollView
-            } //else
-        }//VStack
+                        }
+                    }
+                }
+            }
+        }
         .navigationBarTitle("Your subscriptions")
         .navigationBarItems(trailing:
                                 HStack {

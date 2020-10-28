@@ -35,9 +35,9 @@ struct DiscoverView: View {
                             ForEach(fyPosts.suffix(7).reversed()){ post in
                                 CardsView(post: post, membro: self.membro)
                             }
-                        } //HStack
-                    } //ScrollView
-                } //else
+                        }
+                    }
+                }
                 
                 //MARK: - RECENT POSTS
                 HStack {
@@ -66,9 +66,9 @@ struct DiscoverView: View {
                                 }
                             }
                         }
-                    } //ScrollView
-                } //else
-            } //ScrollView Vertical
+                    }
+                }
+            }
             .onAppear { self.loadFY() }
             .navigationBarTitle("Discover")
             .navigationBarItems(
@@ -101,17 +101,18 @@ struct DiscoverView: View {
                                 .environmentObject(self.dao)
                         }
                     })
-        }.onAppear {
-            //            let novaclasse = NovaClasse(nome: "Ricardão")
-            //            novaclasse.ckSave(then: { result in
-            //                switch result {
-            //                    case .success(let savedRecord):
-            //                        dump(savedRecord)
-            //                    case .failure(let error):
-            //                        print(error)
-            //                }
-            //            })
-        } //NavigationView
+        }
+        .onAppear {
+//            let novaclasse = NovaClasse(nome: "Ricardão")
+//            novaclasse.ckSave(then: { result in
+//                switch result {
+//                    case .success(let savedRecord):
+//                        dump(savedRecord)
+//                    case .failure(let error):
+//                        print(error)
+//                }
+//            })
+        }
     } //body
     
     func loadFY() {
@@ -123,7 +124,7 @@ struct DiscoverView: View {
                 }
             }
         }
-    } //loadFY
+    }
     
 }
 
