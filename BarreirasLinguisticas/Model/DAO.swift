@@ -115,8 +115,19 @@ class DAO: ObservableObject {
         return salas
     }
     
+    func getSalasWithoutUser(id: Int) -> [Sala] {
+        var salasWithout: [Sala] = []
+        for sala in salasWithout {
+            for membro in sala.membros {
+                if (membro == sala.membros.last! && membro.usuario.id != id) {
+                    salasWithout.append(sala)
+                }
+            }
+        }
+        return salasWithout
+    }
+    
     func getUsuario(id: Int) -> Usuario? {
-//        print(self.usuario_atual)
         for user in self.usuarios {
             if (id == user.id) { return user }
         }
