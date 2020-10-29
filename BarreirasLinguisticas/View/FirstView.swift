@@ -8,31 +8,38 @@
 
 import SwiftUI
 
-enum EnterMode {
-    case signUp
-    case logIn
-    case none
+enum EnterMode: Int {
+    case signUp = 1
+    case logIn = 2
+    case none = -1
 }
 
 struct FirstView: View {
     @EnvironmentObject var dao: DAO
     @State private var enterMode = EnterMode.none
     @State private var getStarted = false
+    @State private var userId: Int = -1
     
     var body: some View {
         VStack {
-            if enterMode == .none {
-                OnboardView(enterMode: $enterMode)
-            }
-//            else if enterMode == .signUp {
-//                NavigationView {
-//                    NewUserView(enterMode: $enterMode)
-//                        .environmentObject(dao)
-//                }
-//            }
-            else {
+            if userId == 0 || enterMode == .none {
+                OnboardView(userId: $userId, enterMode: $enterMode)
+            } else {
                 ContentView(enterMode: $enterMode)
                     .environmentObject(dao)
+            }
+        }
+        .onAppear{
+            let defaults = UserDefaults.standard
+            userId = defaults.integer(forKey: "UserId")
+            let storedEnterMode = defaults.integer(forKey: "LastEnterMode")
+            switch storedEnterMode {
+                case 1:
+                    enterMode = .signUp
+                case 2:
+                    enterMode = .logIn
+                default:
+                    enterMode = .none
             }
         }
     } //body

@@ -15,10 +15,10 @@ struct ContentView: View {
     @State private var showRooms = false
     @State private var showProfile = false
     var sala_atual: Sala? { return dao.sala_atual }
-    var usuario: Usuario { return dao.usuario_atual! }
+    var usuario: Usuario? { return dao.usuario_atual }
     var membro: Membro? {
         if sala_atual != nil {
-            return sala_atual!.getMembro(id: usuario.id)!
+            return sala_atual!.getMembro(id: usuario!.id)!
         }
         return nil
     }
@@ -55,7 +55,7 @@ struct ContentView: View {
             }
             else {
                 EmptyRoom(
-                    usuario: usuario,
+                    usuario: usuario!,
                     showRooms: $showRooms,
                     showProfile: $showProfile,
                     showAlertLogOut: $showAlertLogOut,

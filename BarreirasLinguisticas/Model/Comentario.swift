@@ -13,7 +13,6 @@ class Comentario: Identifiable, ObservableObject {
     var post: Post
     @Published var publicador: Membro
     @Published var conteudo: String
-    //var data = Date()
     var is_question: Bool
     @Published var votos: [Membro] = []
     @Published var original: Comentario?

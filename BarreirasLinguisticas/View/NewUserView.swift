@@ -105,14 +105,22 @@ struct NewUserView: View {
     
     func novoUsuario(){
         if nome != "" {
-            let newUserId = UUID().hashValue
-            let novoUsuario = Usuario(id: newUserId, email: nil, senha: nil, nome: nome, foto_perfil: self.photoProfile, pais: nil, fluencia_ingles: Usuario.pegaFluenciaNome(idx: fluenciaSelecionada))
+            let novoUsuario = Usuario(
+                id: UUID().hashValue,
+                email: nil,
+                senha: nil,
+                nome: nome,
+                foto_perfil: self.photoProfile,
+                pais: nil,
+                fluencia_ingles: Usuario.pegaFluenciaNome(idx: fluenciaSelecionada)
+            )
             
             dao.addNovoUsuario(novoUsuario)
             dao.usuario_atual = novoUsuario
             
-            //                let defaults = UserDefaults.standard
-            //                defaults.setValue(newUserId, forKey: "UserId")
+            let defaults = UserDefaults.standard
+            defaults.setValue(novoUsuario.id, forKey: "UserId")
+            defaults.setValue(2, forKey: "LastEnterMode")
             enterMode = .logIn
         } else {
             showAlertNome = true

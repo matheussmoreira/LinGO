@@ -11,6 +11,7 @@ import SwiftUI
 struct OnboardView: View {
     @EnvironmentObject var dao: DAO
     @State private var getStarted = false
+    @Binding var userId: Int
     @Binding var enterMode: EnterMode
     var onboardPages = Onboard.getAll
     var body: some View {
@@ -53,7 +54,7 @@ struct OnboardView: View {
             .padding(.vertical)
             .sheet(isPresented: $getStarted){
                 NavigationView {
-                    EnterView(enterMode: $enterMode)
+                    EnterView(userId: $userId, enterMode: $enterMode)
                         .environmentObject(dao)
                         .navigationBarHidden(true)
                 }
@@ -68,6 +69,6 @@ struct OnboardView: View {
 
 struct OnboardView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardView(enterMode: .constant(.none))
+        OnboardView(userId: .constant(0), enterMode: .constant(.none))
     }
 }

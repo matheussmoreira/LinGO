@@ -7,96 +7,14 @@
 //
 
 import Foundation
+import CloudKitMagicCRUD
 
-class DAO: ObservableObject {
+class DAO: ObservableObject, CKMRecord {
+    var recordName: String?
     @Published var salas: [Sala] = []
     @Published var usuarios: [Usuario] = []
     @Published var sala_atual: Sala?
     @Published var usuario_atual: Usuario?
-    
-    init(){
-
-        /*self.usuarios.append(Usuario(id: 1,
-                                     email: "matheus@icloud.com",
-                                     senha: "sucoDeAbacaxi",
-                                     nome: "Matheus Diniz",
-                                     foto_perfil: "foto_matheus",
-                                     pais: "Brasil",
-                                     fluencia_ingles: fluencia.intermed))
-
-        
-        self.usuarios.append(Usuario(id: 2,
-                                     email: "victor@icloud.com",
-                                     senha: "niteroiAmorzinho",
-                                     nome: "Victor Ierusalimschy",
-                                     foto_perfil: "foto_victor",
-                                     pais: "Brasil",
-                                     fluencia_ingles: fluencia.advanced))
-        
-        self.usuarios.append(Usuario(id: 3,
-                               email: "evelyn@icloud.com",
-                               senha: "roxoComAmarelo",
-                               nome: "Evelyn de Jesus",
-                               foto_perfil: "foto_evelyn",
-                               pais: "Brasil",
-                               fluencia_ingles: fluencia.basic))
-        
-        self.usuarios.append(Usuario(id: 4,
-                                     email: "lidiane@icloud.com",
-                                     senha: "chinaInBox",
-                                     nome: "Lidiane Duarte",
-                                     foto_perfil: "foto_lidiane",
-                                     pais: "Brasil",
-                                     fluencia_ingles: fluencia.advanced))
-        
-        self.usuarios.append(Usuario(id: 5,
-                                     email: "bruna@icloud.com",
-                                     senha: "moranguinho",
-                                     nome: "Bruna Moreira",
-                                     foto_perfil: "foto_bruna",
-                                     pais: "Brasil",
-                                     fluencia_ingles: fluencia.advanced))
-        
-        self.usuarios.append(Usuario(id: 6,
-                                     email: "larissa@icloud.com",
-                                     senha: "maezona",
-                                     nome: "Larissa Silva",
-                                     foto_perfil: "foto_larissa",
-                                     pais: "Brasil",
-                                     fluencia_ingles: fluencia.basic))
-        
-        self.usuarios.append(Usuario(id: 7,
-                                     email: "jefferson@icloud.com",
-                                     senha: "engenharia",
-                                     nome: "Jefferson Costa",
-                                     foto_perfil: "foto_jefferson",
-                                     pais: "Brasil",
-                                     fluencia_ingles: fluencia.intermed))
-        
-        self.usuarios.append(Usuario(id: 8, email: "juliana@icloud.com",
-                                     senha: "sistemas",
-                                     nome: "Juliana Chen",
-                                     foto_perfil: "foto_juliana",
-                                     pais: "Brasil",
-                                     fluencia_ingles: fluencia.intermed))
-        
-        self.usuarios.append(Usuario(id: 9,
-                                     email: "theo@icloud.com",
-                                     senha: "violao",
-                                     nome: "Theo Prado",
-                                     foto_perfil: "foto_theo",
-                                     pais: "Brasil",
-                                     fluencia_ingles: fluencia.intermed))
-        
-        self.usuarios.append(Usuario(id: 10,
-                                     email: "ana@icloud.com",
-                                     senha: "artenapraia",
-                                     nome: "Ana Caldas",
-                                     foto_perfil: "foto_ana",
-                                     pais: "Brasil",
-                                     fluencia_ingles: fluencia.advanced))*/
-        
-    }
     
     func getSala(id: Int) -> Sala? {
         for sala in self.salas {
