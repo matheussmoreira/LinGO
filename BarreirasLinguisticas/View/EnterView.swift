@@ -10,6 +10,7 @@ import SwiftUI
 
 struct EnterView: View {
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var dao: DAO
     @Binding var enterMode: EnterMode
     var body: some View {
         VStack{
@@ -18,20 +19,14 @@ struct EnterView: View {
                 .frame(width: 60, height: 6)
                 .cornerRadius(3.0)
                 .opacity(0.1)
-                .padding(.top,10)
+                .padding(.top)
+            
             Spacer()
             Text("What do you want to do?")
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                 .fontWeight(.bold)
             Button(action: {
-//                let defaults = UserDefaults.standard
-//                let retrievedId = defaults.integer(forKey: "UserId")
-//
-//                if retrievedId != 0 {
-//                    self.presentationMode.wrappedValue.dismiss()
-//                    enterMode = .logIn
-//                }
-                    
+                logIn()
             }) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
@@ -43,10 +38,12 @@ struct EnterView: View {
                 }
             }
             
-            Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
-                    enterMode = .signUp
-            }) {
+            NavigationLink(
+                destination:
+                    NewUserView(enterMode: $enterMode)
+                        .environmentObject(dao)
+                    .navigationBarHidden(false)
+            ){
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
                         .frame(width: 250.0, height: 40.0)
@@ -56,10 +53,21 @@ struct EnterView: View {
                         .foregroundColor(.white)
                 }
             }
+            
             Spacer()
         }
         
     } //body
+    
+    func logIn(){
+//        let defaults = UserDefaults.standard
+//        let retrievedId = defaults.integer(forKey: "UserId")
+//
+//        if retrievedId != 0 {
+//            self.presentationMode.wrappedValue.dismiss()
+//            enterMode = .logIn
+//        }
+    }
 }
 
 struct EnterView_Previews: PreviewProvider {

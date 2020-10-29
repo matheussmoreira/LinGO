@@ -21,15 +21,15 @@ struct FirstView: View {
     
     var body: some View {
         VStack {
-                if enterMode == .none {
-                    OnboardView(enterMode: $enterMode)
-                }
-                else if enterMode == .signUp {
-                    NewUserView(enterMode: $enterMode)
-                        .environmentObject(dao)
-                        .transition(.opacity)
-                        .animation(.easeOut)
-                }
+            if enterMode == .none {
+                OnboardView(enterMode: $enterMode)
+            }
+//            else if enterMode == .signUp {
+//                NavigationView {
+//                    NewUserView(enterMode: $enterMode)
+//                        .environmentObject(dao)
+//                }
+//            }
             else {
                 ContentView(enterMode: $enterMode)
                     .environmentObject(dao)

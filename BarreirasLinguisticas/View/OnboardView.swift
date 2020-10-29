@@ -52,7 +52,11 @@ struct OnboardView: View {
             }
             .padding(.vertical)
             .sheet(isPresented: $getStarted){
-                EnterView(enterMode: $enterMode)
+                NavigationView {
+                    EnterView(enterMode: $enterMode)
+                        .environmentObject(dao)
+                        .navigationBarHidden(true)
+                }
             }
         }
         .background(

@@ -35,8 +35,8 @@ struct RoomsView: View {
                     
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
-                            .foregroundColor(.clear)
-                            .background(Color.gray.opacity(0.1))
+                            .foregroundColor(.white)
+                            .background(Color.gray.opacity(0.5))
                             .clipShape(RoundedRectangle(cornerRadius: 15))
                             .frame(width: UIScreen.width-20, height: 40)
                         
@@ -141,11 +141,12 @@ struct SelectRoomsView: View {
                         }
                     }
                 }
-            } else {
-                Spacer()
-                Text("You don't belong\nto any room yet :(")
-                    .multilineTextAlignment(.center)
             }
+//            else {
+//                Spacer()
+//                Text("You don't belong\nto any room yet :(")
+//                    .multilineTextAlignment(.center)
+//            }
             
             Spacer()
             
@@ -218,7 +219,9 @@ struct AvailableRoomsView: View {
             } else {
                 Spacer()
                 Text("No available rooms :(")
+                    .foregroundColor(.white)
                     .multilineTextAlignment(.center)
+                Spacer()
             }
             
             Spacer()

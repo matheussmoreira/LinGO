@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct NewUserView: View {
+    //    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var dao: DAO
     @Binding var enterMode: EnterMode
     @State private var photoProfile: Image? = Image("perfil")
@@ -19,107 +20,104 @@ struct NewUserView: View {
     @State private var showAlertNome = false
     let fluencias = ["Basic","Intermediate", "Advanced"]
     
-    
     var body: some View {
-        Text("Create your profile")
-            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-            .font(.title)
-            .padding(.top)
-        
-        photoProfile!
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(width: 150.0, height: 150.0)
-            .clipShape(Circle())
-            .overlay(
-                Circle()
-                    .stroke(Color.primary, lineWidth: 8)
-                    .colorInvert()
-                    .shadow(radius: 8))
-            .padding(.all, 32)
-            .onTapGesture {
-                self.presentImageActionScheet.toggle()
-                self.presentImagePicker = true //essa linha so existe na ausencia de camera
-            }
-            .sheet(isPresented: $presentImagePicker) {
-                ImagePickerView(
-                    sourceType: .photoLibrary /*self.presentCamera ? .camera : .photoLibrary*/,
-                    image: self.$photoProfile,
-                    isPresented: self.$presentImagePicker)
-            }
-        
-        Text("Click to choose a picture")
-            .font(.system(.title2, design: .rounded))
-            .fontWeight(.bold)
-            .foregroundColor(.primary)
-            .onTapGesture{
-                self.hideKeyboard()
-            }
-        
-        Form {
-            Section {
-                Text("Your Name")
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                    .onTapGesture{
-                        self.hideKeyboard()
-                    }
-                TextField("", text: $nome)
-            }
+        VStack{
+            photoProfile!
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 150.0, height: 150.0)
+                .clipShape(Circle())
+                .overlay(
+                    Circle()
+                        .stroke(Color.primary, lineWidth: 8)
+                        .colorInvert()
+                        .shadow(radius: 8))
+                .padding(.all, 32)
+                .onTapGesture {
+                    self.presentImageActionScheet.toggle()
+                    self.presentImagePicker = true //essa linha so existe na ausencia de camera
+                }
+                .sheet(isPresented: $presentImagePicker) {
+                    ImagePickerView(
+                        sourceType: .photoLibrary /*self.presentCamera ? .camera : .photoLibrary*/,
+                        image: self.$photoProfile,
+                        isPresented: self.$presentImagePicker)
+                }
             
-            Section {
-                Text("What is your fluency in English?")
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                    .onTapGesture{
-                        self.hideKeyboard()
-                    }
-                List(0..<fluencias.count){ idx in
-                    Text(fluencias[idx])
-                        .onTapGesture {
-                            fluenciaSelecionada = idx
+            Text("Click to choose a picture")
+                .font(.system(.title2, design: .rounded))
+                .fontWeight(.bold)
+                .foregroundColor(.primary)
+                .onTapGesture{
+                    self.hideKeyboard()
+                }
+            
+            Form {
+                Section {
+                    Text("Your Name")
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        .onTapGesture{
                             self.hideKeyboard()
                         }
-                        .foregroundColor(fluencias[idx] == fluencias[fluenciaSelecionada] ? .blue : .gray)
+                    TextField("", text: $nome)
                 }
-            }
-        }
-        
-        Button(action: {
-            if nome != "" {
-                let newUserId = UUID().hashValue
-                let novoUsuario = Usuario(id: newUserId, email: nil, senha: nil, nome: nome, foto_perfil: self.photoProfile, pais: nil, fluencia_ingles: Usuario.pegaFluenciaNome(idx: fluenciaSelecionada))
                 
-                dao.addNovoUsuario(novoUsuario)
-                dao.usuario_atual = novoUsuario
-                
-//                let defaults = UserDefaults.standard
-//                defaults.setValue(newUserId, forKey: "UserId")
-                enterMode = .logIn
-            } else {
-                showAlertNome = true
-            }
+                Section {
+                    Text("What is your fluency in English?")
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        .onTapGesture{
+                            self.hideKeyboard()
+                        }
+                    List(0..<fluencias.count){ idx in
+                        Text(fluencias[idx])
+                            .onTapGesture {
+                                fluenciaSelecionada = idx
+                                self.hideKeyboard()
+                            }
+                            .foregroundColor(fluencias[idx] == fluencias[fluenciaSelecionada] ? .blue : .gray)
+                    }
+                }
+            } //Form
+            .padding(.vertical)
             
-        }) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 10)
-                    .frame(width: 250.0, height: 40.0)
-                    .foregroundColor(Color("lingoBlueBackgroundInverted"))
-                
-                Text("Create")
-                    .foregroundColor(.white)
-                    
-            }
+            Spacer()
         }
-        .alert(
-            isPresented: $showAlertNome,
-            content: {
-                Alert(
-                    title: Text("You cannot have an empty name!"),
-                    message: Text(""),
-                    dismissButton: .default(Text("Ok"))
-                )
-            })
-        .padding(.vertical)
+        .navigationBarTitle("Create your profile", displayMode: .inline)
+        .navigationBarItems(
+            trailing:
+                Button(action: {
+                    novoUsuario()
+                }) {
+                    
+                    Text("Create")
+                }
+                .alert(
+                    isPresented: $showAlertNome,
+                    content: {
+                        Alert(
+                            title: Text("You cannot have an empty name!"),
+                            message: Text(""),
+                            dismissButton: .default(Text("Ok"))
+                        )
+                    })
+        )
     } //body
+    
+    func novoUsuario(){
+        if nome != "" {
+            let newUserId = UUID().hashValue
+            let novoUsuario = Usuario(id: newUserId, email: nil, senha: nil, nome: nome, foto_perfil: self.photoProfile, pais: nil, fluencia_ingles: Usuario.pegaFluenciaNome(idx: fluenciaSelecionada))
+            
+            dao.addNovoUsuario(novoUsuario)
+            dao.usuario_atual = novoUsuario
+            
+            //                let defaults = UserDefaults.standard
+            //                defaults.setValue(newUserId, forKey: "UserId")
+            enterMode = .logIn
+        } else {
+            showAlertNome = true
+        }
+    }
 }
 
 struct NewUserView_Previews: PreviewProvider {
