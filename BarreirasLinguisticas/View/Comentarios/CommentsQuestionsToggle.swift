@@ -91,7 +91,7 @@ struct CallQuestions: View {
                 }
             
             if questions.isEmpty {
-                EmptyView(message: "No questions for this post :(")
+                EmptyView(message: "No questions for this post 😕")
             }
             else {
                 ScrollView(.vertical, showsIndicators: false) {
@@ -198,7 +198,7 @@ struct CallComments: View {
                 }
 
             if comments.isEmpty {
-                EmptyView(message: "No comments for this post :(")
+                EmptyView(message: "No comments for this post 😕")
             }
             else {
                 

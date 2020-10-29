@@ -132,13 +132,16 @@ struct CreateCategorieView: View {
                 .padding(.bottom)
   
             Button(action: {
-                sala.novaCategoria(id: UUID().hashValue, nome: newCategoryName)
-                self.presentationMode.wrappedValue.dismiss()
+                if newCategoryName != "" && newCategoryName != " " {
+                    sala.novaCategoria(id: UUID().hashValue, nome: newCategoryName)
+                    self.presentationMode.wrappedValue.dismiss()
+                }
+                
             }) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
                         .frame(width: 250.0, height: 40.0)
-                        .foregroundColor(Color("lingoBlueBackgroundInverted"))
+                        .foregroundColor(LingoColors.lingoBlue)
                     Text("Save")
                         .foregroundColor(.white)
                 }

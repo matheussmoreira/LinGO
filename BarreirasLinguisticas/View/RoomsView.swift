@@ -14,7 +14,7 @@ struct RoomsView: View {
     @State private var showAvailableRooms = false
     @State private var myRooms_selected = true
     @State private var searchRooms_selected = false
-    @State private var myRoomsColor = Color.primary
+    @State private var myRoomsColor = Color.gray
     @State private var searchRoomsColor = Color.blue
     
     var usuario: Usuario
@@ -70,7 +70,7 @@ struct RoomsView: View {
                     }
                     
                     if myRooms_selected {
-                        SelectRoomsView(usuario: usuario)
+                        MyRoomsView(usuario: usuario)
                             .environmentObject(dao)
                             .padding(.top)
                     } else {
@@ -89,12 +89,12 @@ struct RoomsView: View {
             myRooms_selected.toggle()
             searchRooms_selected.toggle()
             if myRooms_selected {
-                myRoomsColor = Color.primary
+                myRoomsColor = Color.gray
                 searchRoomsColor = LingoColors.lingoBlue
             }
             else {
                 myRoomsColor = LingoColors.lingoBlue
-                searchRoomsColor = Color.primary
+                searchRoomsColor = Color.gray
             }
         }
     }
@@ -107,7 +107,7 @@ struct RoomsView_Previews: PreviewProvider {
     }
 }
 
-struct SelectRoomsView: View {
+struct MyRoomsView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var dao: DAO
     @State private var roomCreation = false
@@ -182,7 +182,7 @@ struct SelectRoomsView: View {
                     Spacer()
                     
                     Button(action: {
-                        if newRoomName != ""{
+                        if newRoomName != "" && newRoomName != " " {
                             roomCreation.toggle()
                             self.novaSala(
                                 nome: newRoomName,
