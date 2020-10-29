@@ -33,7 +33,7 @@ struct PostsOfCategorieView: View {
                     ZStack{
                         Capsule()
                             .frame(width: 250.0, height: 50.0)
-                            .foregroundColor(Color("lingoBlueBackgroundInverted"))
+                            .foregroundColor(LingoColors.lingoBlue)
                         
                         Text("Create a new one!")
                             .foregroundColor(.white)

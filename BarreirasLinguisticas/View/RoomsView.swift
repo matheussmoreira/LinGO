@@ -110,7 +110,8 @@ struct RoomsView_Previews: PreviewProvider {
 struct SelectRoomsView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var dao: DAO
-//    @State private var showAvailableRooms = false
+    @State private var roomCreation = false
+    @State private var newRoomName = ""
     var usuario: Usuario
     var minhasSalas: [Sala] {
         return dao.getSalasByUser(id: usuario.id)
@@ -118,57 +119,104 @@ struct SelectRoomsView: View {
     
     var body: some View {
         VStack {
-            Text("Select a room or create a new one!")
-                .font(.body)
-                .foregroundColor(.white)
-                .fontWeight(.bold)
-                .padding(.bottom, 50)
-            
-            if !minhasSalas.isEmpty {
-                ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(minhasSalas) { sala in
-                        Button(action: { self.presentationMode.wrappedValue.dismiss()
-                            self.dao.sala_atual = sala
-                        }) {
-                            ZStack {
-                                Capsule()
-                                    .frame(width: 300.0, height: 50.0)
+            if !roomCreation {
+                VStack {
+                    Text("Select a room or create a new one!")
+                        .font(.body)
+                        .foregroundColor(.white)
+                        .fontWeight(.bold)
+                        .padding(.bottom, 50)
+                    
+                    if !minhasSalas.isEmpty {
+                        ScrollView(.vertical, showsIndicators: false) {
+                            ForEach(minhasSalas) { sala in
+                                Button(action: { self.presentationMode.wrappedValue.dismiss()
+                                    self.dao.sala_atual = sala
+                                }) {
+                                    ZStack {
+                                        Capsule()
+                                            .frame(width: 300.0, height: 50.0)
+                                            .foregroundColor(.white)
+                                        Text(sala.nome)
+                                            .foregroundColor(LingoColors.lingoBlue)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    Spacer()
+                    
+                    // BOTAO DE ADD NEW ROOM
+                    Button(action: {
+                        roomCreation.toggle()
+                    }) {
+                        ZStack {
+                            Capsule()
+                                .frame(width: 200.0, height: 50.0)
+                                .foregroundColor(.green)
+                            HStack {
+                                Image(systemName: "plus.circle")
                                     .foregroundColor(.white)
-                                Text(sala.nome)
+                                Text("New Room")
+                                    .foregroundColor(.white)
+                            }
+                        }
+                    }
+                    .padding()
+                    
+                }
+            } else {
+                //MARK: - NEW ROM CREATION
+                VStack {
+                    Text("What is the name of the new room?")
+                        .foregroundColor(.white)
+                        .font(.body)
+                        .fontWeight(.bold)
+                    
+                    TextField("Name",text: $newRoomName)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .frame(width: UIScreen.width*0.85)
+                        .padding(.bottom)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        if newRoomName != ""{
+                            roomCreation.toggle()
+                            self.novaSala(
+                                nome: newRoomName,
+                                criador: self.usuario)
+                        }
+                    }) {
+                        ZStack {
+                            Capsule()
+                                .frame(width: 200.0, height: 50.0)
+                                .foregroundColor(.white)
+                            HStack {
+                                Text("Create!")
                                     .foregroundColor(LingoColors.lingoBlue)
                             }
                         }
                     }
-                }
-            }
-//            else {
-//                Spacer()
-//                Text("You don't belong\nto any room yet :(")
-//                    .multilineTextAlignment(.center)
-//            }
-            
-            Spacer()
-            
-            // BOTAO DE ADD NEW ROOM
-            Button(action: {
-                self.novaSala(
-                    nome: "Room \(self.dao.salas.count+1)",
-                    criador: self.usuario)
-            }) {
-                ZStack {
-                    Capsule()
-                        .frame(width: 200.0, height: 50.0)
-                        .foregroundColor(.green)
-                    HStack {
-                        Image(systemName: "plus.circle")
-                            .foregroundColor(.white)
-                        Text("New Room")
-                            .foregroundColor(.white)
+                    
+                    Button(action: {
+                        roomCreation.toggle()
+                    }) {
+                        ZStack {
+                            Capsule()
+                                .frame(width: 200.0, height: 50.0)
+                                .foregroundColor(.white)
+                            HStack {
+                                Text("Back")
+                                    .foregroundColor(LingoColors.lingoBlue)
+                            }
+                        }
                     }
+                    
+                    Spacer()
                 }
             }
-            .padding()
-            
         }
     }
     
@@ -206,7 +254,7 @@ struct AvailableRoomsView: View {
                                 .foregroundColor(.white)
                             
                             Button(action: {
-//                                self.dao.sala_atual = sala
+                                //                                self.dao.sala_atual = sala
                             }) {
                                 Text(sala.nome)
                                     .foregroundColor(LingoColors.lingoBlue)
@@ -227,5 +275,4 @@ struct AvailableRoomsView: View {
             
         }
     }
-    
 }

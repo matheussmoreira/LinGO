@@ -31,7 +31,7 @@ struct EditProfileView: View {
                         Circle().stroke(Color.primary, lineWidth: 8)
                             .colorInvert()
                             .shadow(radius: 8))
-                    .padding(.all, 32)
+                    .padding(.all)
                     .onTapGesture {
                         self.presentImageActionScheet.toggle()
                         self.presentImagePicker = true //essa linha so existe na ausencia de camera

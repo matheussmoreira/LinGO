@@ -142,15 +142,7 @@ class DAO: ObservableObject {
         self.usuarios.append(usuario)
     }
     
-    func removeSala(sala salaRemover: Sala) {
-        var idx = 0
-        for sala in salas {
-            if sala.id == salaRemover.id {
-                salas.remove(at: idx)
-            }
-            else {
-                idx += 1
-            }
-        }
+    func removeSala(_ sala: Sala) {
+        salas.removeAll(where: {$0.id == sala.id})
     }
 }

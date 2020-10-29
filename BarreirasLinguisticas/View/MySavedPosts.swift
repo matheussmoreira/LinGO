@@ -19,7 +19,7 @@ struct MySavedPosts: View {
             
             if self.salvos.isEmpty {
                 Spacer()
-                Text("You haven't saved any post yet :(")
+                Text("You haven't saved any post yet 😕")
                     .foregroundColor(Color.gray)
                 Spacer()
             }

@@ -18,7 +18,7 @@ struct SubscriptionsView: View {
             if (self.assinaturas.isEmpty) {
                 VStack {
                     Spacer()
-                    Text("You have no subscriptions :(")
+                    Text("You have no subscriptions 😕")
                         .foregroundColor(Color.gray)
                     Spacer()
                 }

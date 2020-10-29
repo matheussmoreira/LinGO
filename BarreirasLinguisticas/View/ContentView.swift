@@ -104,7 +104,7 @@ struct EmptyRoom: View {
                             .frame(width: 300.0, height: 50.0)
                             .foregroundColor(.white)
                         
-                        Text("Manage rooms")
+                        Text("Rooms")
                     }
                     
                 }
@@ -121,7 +121,7 @@ struct EmptyRoom: View {
                         Capsule()
                             .frame(width: 300.0, height: 50.0)
                             .foregroundColor(.white)
-                        Text("Manage my profile")
+                        Text("My Profile")
                     }
                 }
                 .sheet(isPresented: $showProfile) {

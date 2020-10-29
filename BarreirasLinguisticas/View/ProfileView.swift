@@ -145,11 +145,16 @@ struct ProfileView: View {
                                 )
                         }
                         .alert(isPresented: $showAlertLeave) {
-                            Alert(title: Text("Are you sure you want to leave this room?"),
+                            Alert(title:
+                                    Text("You won't be a member of this room anymore"
+                                    ),
                                   primaryButton: .default(Text("Leave")){
                                     self.sala.removeMembro(
                                         membro: self.membro.usuario.id
                                     )
+                                    if sala.membros.isEmpty{
+                                        dao.removeSala(sala)
+                                    }
                                     self.proxima_sala()
                                   },
                                   secondaryButton: .cancel())
@@ -208,9 +213,6 @@ struct ProfileView: View {
         else {
             dao.sala_atual = salas[0]
         }
-        if sala.membros.isEmpty {
-            dao.removeSala(sala: sala)
-        }
     }
 }
 
@@ -231,9 +233,14 @@ struct AdminView: View {
     var body: some View {
         
         VStack{
-            NavigationView{
-                
+            NavigationView {
                 VStack {
+                    Rectangle()
+                        .frame(width: 60, height: 6)
+                        .cornerRadius(3.0)
+                        .opacity(0.1)
+                        .padding(.top)
+                    Spacer()
                     Text("What do you want to do?")
                         .font(.system(.title, design: .rounded))
                         .fontWeight(.bold)
@@ -270,7 +277,9 @@ struct AdminView: View {
                                     .foregroundColor(.white)
                             )
                     }
-                }
+                    
+                    Spacer()
+                }.navigationBarHidden(true)
             }
         }
     }
@@ -283,7 +292,7 @@ struct PostsDenunciados: View {
     var body: some View {
         VStack{
             if posts.isEmpty{
-                Text("No reported posts :)")
+                Text("No reported posts 🙂")
                     .foregroundColor(.gray)
             }
             else {
@@ -296,7 +305,7 @@ struct PostsDenunciados: View {
         }
         .navigationBarTitle(
             Text("Reported Posts")
-//                .font(.system(.title, design: .rounded)),displayMode: .inline
+            //                .font(.system(.title, design: .rounded)),displayMode: .inline
         )
         .onAppear {
             self.posts = self.sala.posts.filter{!$0.denuncias.isEmpty}

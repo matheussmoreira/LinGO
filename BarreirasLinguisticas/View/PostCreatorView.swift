@@ -109,6 +109,7 @@ struct PostCreatorView: View {
                             }
                         }
                         
+                        
                     }
                     .padding(.bottom)
                     
@@ -174,7 +175,7 @@ struct PostCreatorView: View {
                            content: {
                             Alert(title: Text(publicationStatus),
                                   message: Text(""),
-                                  dismissButton: .default(Text("Ok")) {
+                                  dismissButton: .default(Text("Thanks")) {
                                     if self.publicationStatus == "Success!" {
                                         self.title = ""
                                         self.description = ""
@@ -274,10 +275,12 @@ struct SelectCategorieRow: View {
                 Spacer()
                 Image(systemName: "checkmark.circle.fill")
                     .renderingMode(.original)
+                    .imageScale(.large)
             }
             else {
                 Spacer()
                 Image(systemName: "checkmark.circle")
+                    .imageScale(.large)
             }
         }
     }
