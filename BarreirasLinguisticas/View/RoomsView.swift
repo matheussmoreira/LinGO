@@ -127,14 +127,13 @@ struct SelectRoomsView: View {
             if !minhasSalas.isEmpty {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(minhasSalas) { sala in
-                        ZStack {
-                            Capsule()
-                                .frame(width: 300.0, height: 50.0)
-                                .foregroundColor(.white)
-                            
-                            Button(action: { self.presentationMode.wrappedValue.dismiss()
-                                self.dao.sala_atual = sala
-                            }) {
+                        Button(action: { self.presentationMode.wrappedValue.dismiss()
+                            self.dao.sala_atual = sala
+                        }) {
+                            ZStack {
+                                Capsule()
+                                    .frame(width: 300.0, height: 50.0)
+                                    .foregroundColor(.white)
                                 Text(sala.nome)
                                     .foregroundColor(LingoColors.lingoBlue)
                             }
@@ -158,7 +157,7 @@ struct SelectRoomsView: View {
             }) {
                 ZStack {
                     Capsule()
-                        .frame(width: 150.0, height: 50.0)
+                        .frame(width: 200.0, height: 50.0)
                         .foregroundColor(.green)
                     HStack {
                         Image(systemName: "plus.circle")
@@ -218,7 +217,7 @@ struct AvailableRoomsView: View {
                 
             } else {
                 Spacer()
-                Text("No available rooms :(")
+                Text("No available rooms yet 😕")
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                 Spacer()

@@ -22,9 +22,9 @@ struct DiscoverView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 if fyPosts.isEmpty {
                     VStack {
-                        Text("No posts for you :(")
+                        Text("No posts for you 😕")
                             .foregroundColor(Color.gray)
-                        Text("Subscribe in a category :)")
+                        Text("Subscribe in a category!")
                             .foregroundColor(Color.gray)
                         
                     }.frame(height: 260)
@@ -53,7 +53,7 @@ struct DiscoverView: View {
                 
                 if sala.posts.isEmpty {
                     VStack {
-                        Text("No recent posts :(")
+                        Text("No recent posts 😕")
                             .foregroundColor(Color.gray)
                     }.frame(height: 260)
                 }

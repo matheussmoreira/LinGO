@@ -91,60 +91,60 @@ struct EmptyRoom: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
-                Text("You don't belong to any room yet 😕 \nCreate a new one or accept an invitation!")
+                Text("You don't belong to any room yet 😕\nCreate a new one or accept an invitation!")
                     .foregroundColor(Color.white)
                     .multilineTextAlignment(.center)
                     .padding(.bottom)
                 
-                ZStack {
-                    Capsule()
-                        .frame(width: 300.0, height: 50.0)
-                        .foregroundColor(.white)
-                    
-                    Button(action: {
-                        self.showRooms.toggle()
-                    }) {
+                Button(action: {
+                    self.showRooms.toggle()
+                }) {
+                    ZStack {
+                        Capsule()
+                            .frame(width: 300.0, height: 50.0)
+                            .foregroundColor(.white)
+                        
                         Text("Manage rooms")
                     }
-                    .sheet(isPresented: $showRooms) {
-                        RoomsView(usuario: self.usuario)
-                            .environmentObject(self.dao)
-                    }
+                    
                 }
-                ZStack {
-                    Capsule()
-                        .frame(width: 300.0, height: 50.0)
-                        .foregroundColor(.white)
-                    Button(action: {
-                        self.showProfile.toggle()
-                        
-                    }) {
-                        Text("Manage my profile")
-                    }
-                    .sheet(isPresented: $showProfile) {
-                        EditProfileView(usuario: self.usuario)
-                    }
+                .sheet(isPresented: $showRooms) {
+                    RoomsView(usuario: self.usuario)
+                        .environmentObject(self.dao)
                 }
                 
-                ZStack {
-                    Capsule()
-                        .frame(width: 300.0, height: 50.0)
-                        .foregroundColor(.white)
+                Button(action: {
+                    self.showProfile.toggle()
                     
-                    Button(action: {
-                        self.showAlertLogOut.toggle()
-                    }) {
+                }) {
+                    ZStack {
+                        Capsule()
+                            .frame(width: 300.0, height: 50.0)
+                            .foregroundColor(.white)
+                        Text("Manage my profile")
+                    }
+                }
+                .sheet(isPresented: $showProfile) {
+                    EditProfileView(usuario: self.usuario)
+                }
+                
+                Button(action: {
+                    self.showAlertLogOut.toggle()
+                }) {
+                    ZStack {
+                        Capsule()
+                            .frame(width: 300.0, height: 50.0)
+                            .foregroundColor(.white)
                         Text("Log Out")
                     }
-                    .alert(isPresented: $showAlertLogOut) {
-                        Alert(title: Text("Are you sure you want to log out?"),
-                              primaryButton: .default(Text("Log out")) {
-//                                self.loggedIn.toggle()
-                                self.enterMode = .none
-                              },
-                              secondaryButton: .cancel()
-                        )
-                    }
+                }
+                .alert(isPresented: $showAlertLogOut) {
+                    Alert(title: Text("Are you sure you want to log out?"),
+                          primaryButton: .default(Text("Log out")) {
+                            self.enterMode = .none
+                          },
+                          secondaryButton: .cancel()
+                    )
                 }
             }
         }

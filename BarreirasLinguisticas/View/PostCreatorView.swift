@@ -241,7 +241,10 @@ struct SelectCategories: View {
         List {
             ForEach(0..<sala.categorias.count) { idx in
                 SelectCategorieRow(
-                    isSelected: self.selectedCategories.contains(self.sala.categorias[idx]), idx: idx).environmentObject(self.sala)
+                    isSelected: self.selectedCategories.contains(self.sala.categorias[idx]),
+                    idx: idx
+                )
+                    .environmentObject(self.sala)
                     .onTapGesture {
                         if self.selectedCategories.contains(self.sala.categorias[idx]) {
                             self.selectedCategories.removeAll(where: { $0 == self.sala.categorias[idx]})

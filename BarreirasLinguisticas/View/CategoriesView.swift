@@ -23,7 +23,7 @@ struct CategoriesView: View {
                 if sala.categorias.isEmpty {
                     VStack {
                         Spacer()
-                        Text("There are no categories yet :(")
+                        Text("There are no categories yet 😕")
                             .foregroundColor(Color.gray)
                         Spacer()
                     }
@@ -128,18 +128,17 @@ struct CreateCategorieView: View {
             
             TextField("Name",text: $newCategoryName)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .frame(width: UIScreen.width*0.95)
+                .frame(width: UIScreen.width*0.85)
                 .padding(.bottom)
-            
-            ZStack {
-                RoundedRectangle(cornerRadius: 10)
-                    .frame(width: 250.0, height: 40.0)
-                    .foregroundColor(Color("lingoBlueBackgroundInverted"))
-                
-                Button(action: {
-                    sala.novaCategoria(id: UUID().hashValue, nome: newCategoryName)
-                    self.presentationMode.wrappedValue.dismiss()
-                }) {
+  
+            Button(action: {
+                sala.novaCategoria(id: UUID().hashValue, nome: newCategoryName)
+                self.presentationMode.wrappedValue.dismiss()
+            }) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10)
+                        .frame(width: 250.0, height: 40.0)
+                        .foregroundColor(Color("lingoBlueBackgroundInverted"))
                     Text("Save")
                         .foregroundColor(.white)
                 }

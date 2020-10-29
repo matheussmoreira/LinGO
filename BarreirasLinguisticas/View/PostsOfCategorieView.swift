@@ -24,7 +24,7 @@ struct PostsOfCategorieView: View {
         VStack {
             if loaded_posts.isEmpty {
                 Spacer()
-                Text("No posts in \(categoria.nome) :(")
+                Text("No posts in \(categoria.nome) 😕")
                     .foregroundColor(Color.gray)
                 
                 Button(action: {
