@@ -19,20 +19,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
         // Create the SwiftUI view that provides the window contents.
-        var dao: DAO?
-        DAO.ckLoadAll(then: { result in
-            switch result{
-                case .success(let fetchedDao):
-                    dao = fetchedDao as? DAO
-                case .failure(let error):
-                    print(error)
-            }
-        })
+//        var dao: DAO?
+//        DAO.ckLoadAll(then: { result in
+//            switch result{
+//                case .success(let fetchedDao):
+//                    dao = fetchedDao as? DAO
+//                case .failure(let error):
+//                    print(error)
+//            }
+//        })
         
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: FirstView().environmentObject(dao ?? DAO()))
+            window.rootViewController = UIHostingController(rootView: FirstView()/*.environmentObject(dao ?? DAO())*/)
             self.window = window
             window.makeKeyAndVisible()
         }

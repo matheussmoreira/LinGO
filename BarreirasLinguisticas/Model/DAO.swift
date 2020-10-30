@@ -9,12 +9,18 @@
 import Foundation
 import CloudKitMagicCRUD
 
-class DAO: ObservableObject, CKMRecord {
-    var recordName: String?
+var dao = DAO() //na main do sistema
+
+class DAO: ObservableObject {
     @Published var salas: [Sala] = []
     @Published var usuarios: [Usuario] = []
-    @Published var sala_atual: Sala?
+    @Published var sala_atual: Sala? //mover para Usuario
     @Published var usuario_atual: Usuario?
+    
+    fileprivate init(){
+        //Sala.loadAll
+        //Usuario.loadAll
+    }
     
     func getSala(id: Int) -> Sala? {
         for sala in self.salas {
