@@ -150,7 +150,7 @@ struct ProfileView: View {
                                     ),
                                   primaryButton: .default(Text("Leave")){
                                     self.sala.removeMembro(
-                                        membro: self.membro.usuario.id
+                                        membro: self.membro.usuario.id!
                                     )
                                     if sala.membros.isEmpty{
                                         dao.removeSala(sala)
@@ -206,22 +206,23 @@ struct ProfileView: View {
     } //body
     
     func proxima_sala(){
+        let usuario = membro.usuario
         let salas = dao.getSalasByUser(id: membro.usuario.id)
         if salas.isEmpty {
-            dao.sala_atual = nil
+            usuario.sala_atual = nil
         }
         else {
-            dao.sala_atual = salas[0]
+            usuario.sala_atual = salas[0]
         }
     }
 }
 
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileView(enterMode: .constant(.none))
-            .environmentObject(DAO().salas[0].membros[0])
-    }
-}
+//struct ProfileView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ProfileView(enterMode: .constant(.none))
+//            .environmentObject(DAO().salas[0].membros[0])
+//    }
+//}
 
 struct AdminView: View {
     @EnvironmentObject var sala: Sala

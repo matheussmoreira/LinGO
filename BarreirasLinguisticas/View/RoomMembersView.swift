@@ -40,7 +40,7 @@ struct RoomMembersView: View {
 
 struct RoomMembersView_Previews: PreviewProvider {
     static var previews: some View {
-        RoomMembersView(membro: DAO().salas[0].membros[0], sala: DAO().salas[0])
+        RoomMembersView(membro: dao.salas[0].membros[0], sala: dao.salas[0])
     }
 }
 
@@ -102,7 +102,7 @@ struct MemberButton: View {
                         self.membro_sala.is_admin.toggle()
                     },
                     .default(Text("Remove from room")){
-                        self.sala.removeMembro(membro: self.membro_sala.usuario.id)
+                        self.sala.removeMembro(membro: self.membro_sala.usuario.id!)
                     },
                     .cancel()
                 ])

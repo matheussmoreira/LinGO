@@ -11,16 +11,16 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var dao: DAO
     @Binding var enterMode: EnterMode
+    @Binding var usuario_atual: Usuario?
     @State private var showAlertLogOut = false
     @State private var showRooms = false
     @State private var showProfile = false
-    var sala_atual: Sala? { return dao.sala_atual }
-    var usuario: Usuario? { return dao.usuario_atual }
+    var sala_atual: Sala? { return usuario_atual!.sala_atual }
     var membro: Membro? {
-        if sala_atual != nil {
-            return sala_atual!.getMembro(id: usuario!.id)!
-        }
-        return nil
+//        if sala_atual != nil {
+            return sala_atual!.getMembro(id: usuario_atual!.id) ?? nil
+//        }
+//        return nil
     }
     
     var body: some View {
@@ -55,7 +55,7 @@ struct ContentView: View {
             }
             else {
                 EmptyRoom(
-                    usuario: usuario!,
+                    usuario: usuario_atual!,
                     showRooms: $showRooms,
                     showProfile: $showProfile,
                     showAlertLogOut: $showAlertLogOut,
@@ -71,11 +71,11 @@ struct ContentView: View {
     } //body
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView(enterMode: .constant(.none))
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView(enterMode: .constant(.none), usuario_atual: .constant(Usuario()))
+//    }
+//}
 
 struct EmptyRoom: View {
     @EnvironmentObject var dao: DAO

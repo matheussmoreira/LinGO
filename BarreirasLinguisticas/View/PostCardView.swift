@@ -122,6 +122,6 @@ struct PostCardView: View {
 
 struct PostCardImageView_Previews: PreviewProvider {
     static var previews: some View {
-        PostCardView(post: DAO().salas[0].posts[0], width: 0.80)
+        PostCardView(post: dao.salas[0].posts[0], width: 0.80)
     }
 }

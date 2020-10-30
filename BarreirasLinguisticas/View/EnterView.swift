@@ -11,7 +11,6 @@ import SwiftUI
 struct EnterView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var dao: DAO
-    @Binding var userId: Int
     @Binding var enterMode: EnterMode
     var body: some View {
         VStack{
@@ -69,6 +68,6 @@ struct EnterView: View {
 
 struct EnterView_Previews: PreviewProvider {
     static var previews: some View {
-        EnterView(userId: .constant(0), enterMode: .constant(.none))
+        EnterView(enterMode: .constant(.none))
     }
 }

@@ -101,11 +101,11 @@ struct RoomsView: View {
     
 }
 
-struct RoomsView_Previews: PreviewProvider {
-    static var previews: some View {
-        RoomsView(usuario: DAO().usuarios[2])
-    }
-}
+//struct RoomsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RoomsView(usuario: DAO().usuarios[2])
+//    }
+//}
 
 struct MyRoomsView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -131,7 +131,7 @@ struct MyRoomsView: View {
                         ScrollView(.vertical, showsIndicators: false) {
                             ForEach(minhasSalas) { sala in
                                 Button(action: { self.presentationMode.wrappedValue.dismiss()
-                                    self.dao.sala_atual = sala
+                                    self.usuario.sala_atual = sala
                                 }) {
                                     ZStack {
                                         Capsule()
@@ -222,7 +222,6 @@ struct MyRoomsView: View {
     
     func novaSala(nome: String, criador: Usuario) {
         let sala = Sala(
-            id: UUID().hashValue,
             nome: nome,
             criador: criador
         )

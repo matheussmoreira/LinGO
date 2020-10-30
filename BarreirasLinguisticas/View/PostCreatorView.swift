@@ -188,7 +188,7 @@ struct PostCreatorView: View {
         }
     } //body
     
-    func publica(id_membro: Int, titulo: String, descricao: String?, linkString: String, categs: [Int], tags: String) -> String {
+    func publica(id_membro: String?, titulo: String, descricao: String?, linkString: String, categs: [Int], tags: String) -> String {
         
         if !selectedCategories.isEmpty{
             if (titulo == "") {
@@ -228,11 +228,11 @@ struct PostCreatorView: View {
     }
 }
 
-struct PostEditorView_Previews: PreviewProvider {
-    static var previews: some View {
-        PostCreatorView().environmentObject(DAO().salas[0].membros[0])
-    }
-}
+//struct PostEditorView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PostCreatorView().environmentObject(DAO().salas[0].membros[0])
+//    }
+//}
 
 struct SelectCategories: View {
     @EnvironmentObject var sala: Sala

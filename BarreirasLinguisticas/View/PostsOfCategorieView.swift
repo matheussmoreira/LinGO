@@ -111,6 +111,6 @@ struct PostsOfCategorieView: View {
 struct PostsCategorieView_Previews: PreviewProvider {
     static var previews: some View {
         PostsOfCategorieView(
-            categoria: DAO().salas[0].categorias[0], sala: DAO().salas[0]).environmentObject(DAO().salas[0].membros[0])
+            categoria: dao.salas[0].categorias[0], sala: dao.salas[0]).environmentObject(dao.salas[0].membros[0])
     }
 }

@@ -203,7 +203,7 @@ struct PostView: View {
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
-        PostView(sala: DAO().salas[0], post:DAO().salas[0].posts[0])
-            .environmentObject(DAO().salas[0].membros[0])
+        PostView(sala: dao.salas[0], post:dao.salas[0].posts[0])
+            .environmentObject(dao.salas[0].membros[0])
     }
 }

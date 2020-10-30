@@ -106,22 +106,24 @@ struct NewUserView: View {
     func novoUsuario(){
         if nome != "" {
             let novoUsuario = Usuario(
-                id: UUID().hashValue,
-                email: nil,
-                senha: nil,
                 nome: nome,
                 foto_perfil: self.photoProfile,
-                pais: nil,
                 fluencia_ingles: Usuario.pegaFluenciaNome(idx: fluenciaSelecionada)
             )
+            novoUsuario.ckSave { (result) in
+                switch result {
+                    case .success(let savedUser):
+                        dao.addNovoUsuario(savedUser as? Usuario)
+                        dao.usuario_atual = savedUser as? Usuario
+                        enterMode = .logIn
+                    case .failure(let error):
+                        print(error)
+                }
+            }
+//            let defaults = UserDefaults.standard
+//            defaults.setValue(novoUsuario.id, forKey: "UserId")
+//            defaults.setValue(2, forKey: "LastEnterMode")
             
-            dao.addNovoUsuario(novoUsuario)
-            dao.usuario_atual = novoUsuario
-            
-            let defaults = UserDefaults.standard
-            defaults.setValue(novoUsuario.id, forKey: "UserId")
-            defaults.setValue(2, forKey: "LastEnterMode")
-            enterMode = .logIn
         } else {
             showAlertNome = true
         }

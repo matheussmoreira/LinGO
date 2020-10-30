@@ -109,11 +109,11 @@ struct CategoriesView: View {
     
 }
 
-struct CategoriesView_Previews: PreviewProvider {
-    static var previews: some View {
-        CategoriesView().environmentObject(DAO().salas[0].membros[0])
-    }
-}
+//struct CategoriesView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CategoriesView().environmentObject(DAO().salas[0].membros[0])
+//    }
+//}
 
 struct CreateCategorieView: View {
     @Environment(\.presentationMode) var presentationMode

@@ -32,12 +32,12 @@ struct CommentsQuestionsToggle: View {
     
 }
 
-struct CommentsQuestionsToggle_Previews: PreviewProvider {
-    static var previews: some View {
-        CommentsQuestionsToggle(post: DAO().salas[0].posts[0])
-            .environmentObject(DAO().salas[0].membros[0])
-    }
-}
+//struct CommentsQuestionsToggle_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CommentsQuestionsToggle(post: DAO().salas[0].posts[0])
+//            .environmentObject(DAO().salas[0].membros[0])
+//    }
+//}
 
 struct CallQuestions: View {
     @EnvironmentObject var membro: Membro

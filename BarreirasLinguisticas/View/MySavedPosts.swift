@@ -50,9 +50,9 @@ struct MySavedPosts: View {
     } //body
 }
 
-struct MySavedPosts_Previews: PreviewProvider {
-    static var previews: some View {
-        MySavedPosts(sala: DAO().salas[0])
-            .environmentObject(DAO().salas[0].membros[0])
-    }
-}
+//struct MySavedPosts_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MySavedPosts(sala: DAO().salas[0])
+//            .environmentObject(DAO().salas[0].membros[0])
+//    }
+//}

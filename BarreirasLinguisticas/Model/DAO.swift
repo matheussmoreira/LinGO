@@ -14,22 +14,35 @@ var dao = DAO() //na main do sistema
 class DAO: ObservableObject {
     @Published var salas: [Sala] = []
     @Published var usuarios: [Usuario] = []
-    @Published var sala_atual: Sala? //mover para Usuario
     @Published var usuario_atual: Usuario?
     
     fileprivate init(){
-        //Sala.loadAll
-        //Usuario.loadAll
+        Sala.ckLoadAll { result in
+            switch result {
+                case .success(let loadedSalas):
+                    self.salas = loadedSalas as? [Sala] ?? []
+                case .failure(let error):
+                    print(error)
+            }
+        }
+        Usuario.ckLoadAll { result in
+            switch result {
+                case .success(let loadedUsers):
+                    self.usuarios = loadedUsers as? [Usuario] ?? []
+                case .failure(let error):
+                    print(error)
+            }
+        }
     }
     
-    func getSala(id: Int) -> Sala? {
+    func getSala(id: String) -> Sala? {
         for sala in self.salas {
             if (id == sala.id) { return sala }
         }
         return nil
     }
     
-    func getSalasByUser(id: Int) -> [Sala] {
+    func getSalasByUser(id: String?) -> [Sala] {
         var salas: [Sala] = []
         for sala in self.salas {
             for membro in sala.membros {
@@ -39,7 +52,7 @@ class DAO: ObservableObject {
         return salas
     }
     
-    func getSalasWithoutUser(id: Int) -> [Sala] {
+    func getSalasWithoutUser(id: String?) -> [Sala] {
         var salasWithout: [Sala] = []
         for sala in salasWithout {
             for membro in sala.membros {
@@ -51,7 +64,7 @@ class DAO: ObservableObject {
         return salasWithout
     }
     
-    func getUsuario(id: Int) -> Usuario? {
+    func getUsuario(id: String) -> Usuario? {
         for user in self.usuarios {
             if (id == user.id) { return user }
         }
@@ -62,8 +75,14 @@ class DAO: ObservableObject {
         self.salas.append(sala)
     }
     
-    func addNovoUsuario(_ usuario: Usuario){
-        self.usuarios.append(usuario)
+    func addNovoUsuario(_ usuario: Usuario?){
+        if let usuario = usuario {
+            self.usuarios.append(usuario)
+        }
+        else {
+            print("dao.addNovoUsuario: usuario recebido = nil")
+        }
+        
     }
     
     func removeSala(_ sala: Sala) {

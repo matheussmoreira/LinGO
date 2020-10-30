@@ -130,7 +130,7 @@ struct DiscoverView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverView().environmentObject(DAO().salas[0].membros[0])
+        DiscoverView().environmentObject(dao.salas[0].membros[0])
     }
 }
 

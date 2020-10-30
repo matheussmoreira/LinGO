@@ -41,6 +41,6 @@ struct UsersView: View {
 
 struct UsersView_Previews: PreviewProvider {
     static var previews: some View {
-        UsersView().environmentObject(DAO())
+        UsersView()//.environmentObject(DAO())
     }
 }

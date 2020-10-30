@@ -44,9 +44,9 @@ struct MyPublications: View {
     } //body
 }
 
-struct MyPublishedPosts_Previews: PreviewProvider {
-    static var previews: some View {
-        MyPublications(sala: DAO().salas[0])
-            .environmentObject(DAO().salas[0].membros[0])
-    }
-}
+//struct MyPublishedPosts_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MyPublications(sala: DAO().salas[0])
+//            .environmentObject(DAO().salas[0].membros[0])
+//    }
+//}

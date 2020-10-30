@@ -60,9 +60,9 @@ struct SubscriptionsView: View {
     
 }
 
-struct SubscriptionsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SubscriptionsView(sala: DAO().salas[0])
-            .environmentObject(DAO().salas[0].membros[0])
-    }
-}
+//struct SubscriptionsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SubscriptionsView(sala: dao.salas[0])
+//            .environmentObject(dao.salas[0].membros[0])
+//    }
+//}

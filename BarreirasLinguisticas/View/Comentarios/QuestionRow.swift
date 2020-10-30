@@ -143,7 +143,7 @@ struct QuestionRow: View {
 
 struct QuestionRow_Previews: PreviewProvider {
     static var previews: some View {
-        QuestionRow(comentario: DAO().salas[0].posts[1].comentarios[0])
-            .environmentObject(DAO().salas[0].membros[0])
+        QuestionRow(comentario: dao.salas[0].posts[1].comentarios[0])
+            .environmentObject(dao.salas[0].membros[0])
     }
 }

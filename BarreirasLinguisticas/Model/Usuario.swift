@@ -17,14 +17,12 @@ enum Fluencia: String {
     case unknown = "Unknown English"
 }
 
-class Usuario: Equatable, Identifiable, ObservableObject, CKMRecord {
+class Usuario: Equatable, Identifiable, ObservableObject, CKMRecord, Codable {
     var recordName: String?
-    let id: Int
-//    var email: String
-//    var senha: String
+    var id: String? {self.recordName ?? String(self.hashValue)}
     @Published var nome: String
     @Published var foto_perfil: Image
-//    @Published var pais: String
+    @Published var sala_atual: Sala?
     @Published var fluencia_ingles: Fluencia
     var cor_fluencia: Color {
         switch fluencia_ingles {
@@ -35,13 +33,9 @@ class Usuario: Equatable, Identifiable, ObservableObject, CKMRecord {
         }
     }
     
-    init(id: Int, /*email: String?, senha: String?, */nome: String?, foto_perfil: Image?, /*pais: String?, */fluencia_ingles: Fluencia?) {
-        self.id = id
-//        self.email = email ?? "<membro@email.com>"
-//        self.senha = senha ?? "<senha>"
+    init(nome: String?, foto_perfil: Image?,fluencia_ingles: Fluencia?) {
         self.nome = nome ?? "<nome>"
         self.foto_perfil = foto_perfil ?? Image("perfil")
-//        self.pais = pais ?? "<pais>"
         self.fluencia_ingles = fluencia_ingles ?? Fluencia.unknown
     }
     
