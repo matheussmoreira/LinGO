@@ -136,6 +136,6 @@ struct NewUserView: View {
 
 struct NewUserView_Previews: PreviewProvider {
     static var previews: some View {
-        NewUserView(enterMode: .constant(.none))
+        NewUserView(enterMode: .constant(.logOut))
     }
 }

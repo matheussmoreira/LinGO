@@ -71,7 +71,7 @@ struct ContentView: View {
 
 //struct ContentView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        ContentView(enterMode: .constant(.none), usuario_atual: .constant(Usuario()))
+//        ContentView(enterMode: .constant(.logOut), usuario_atual: .constant(Usuario()))
 //    }
 //}
 
@@ -142,7 +142,7 @@ struct EmptyRoom: View {
                 .alert(isPresented: $showAlertLogOut) {
                     Alert(title: Text("Are you sure you want to log out?"),
                           primaryButton: .default(Text("Log out")) {
-                            self.enterMode = .none
+                            self.enterMode = .logOut
                             UserDefaults.standard.set(
                                 enterMode.rawValue,
                                 forKey: "LastEnterMode"

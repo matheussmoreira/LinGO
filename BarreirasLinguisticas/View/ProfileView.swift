@@ -174,7 +174,7 @@ struct ProfileView: View {
                         .alert(isPresented: $showAlertLogOut) {
                             Alert(title: Text("Are you sure you want to log out?"),
                                   primaryButton: .default(Text("Log out")) {
-                                    self.enterMode = .none
+                                    self.enterMode = .logOut
                                     UserDefaults.standard.set(
                                         enterMode.rawValue,
                                         forKey: "LastEnterMode"
@@ -223,7 +223,7 @@ struct ProfileView: View {
 
 //struct ProfileView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        ProfileView(enterMode: .constant(.none))
+//        ProfileView(enterMode: .constant(.logOut))
 //            .environmentObject(DAO().salas[0].membros[0])
 //    }
 //}

@@ -94,6 +94,6 @@ struct EnterView: View {
 
 struct EnterView_Previews: PreviewProvider {
     static var previews: some View {
-        EnterView(enterMode: .constant(.none))
+        EnterView(enterMode: .constant(.logOut))
     }
 }

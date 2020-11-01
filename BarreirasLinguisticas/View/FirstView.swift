@@ -11,12 +11,12 @@ import CloudKitMagicCRUD
 
 enum EnterMode: Int {
     case logIn = 1
-    case none = -1
+    case logOut = -1
 }
 
 struct FirstView: View {
     @ObservedObject var daoz = dao
-    @State private var enterMode = EnterMode.none
+    @State private var enterMode = EnterMode.logOut
     @State private var getStarted = false
     @State private var loading = true
     
@@ -25,7 +25,7 @@ struct FirstView: View {
             if loading {
                 Text("Loading...")
             } else{
-                if daoz.usuario_atual == nil || enterMode == .none {
+                if daoz.usuario_atual == nil || enterMode == .logOut {
                     OnboardView(enterMode: $enterMode)
                 } else {
                     ContentView(
@@ -69,7 +69,7 @@ struct FirstView: View {
         if storedEnterMode == 1 {
             enterMode = .logIn
         } else {
-            enterMode = .none
+            enterMode = .logOut
         }
     } //carregaEnterMode
 }

@@ -72,6 +72,6 @@ struct OnboardView: View {
 
 struct OnboardView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardView(enterMode: .constant(.none))
+        OnboardView(enterMode: .constant(.logOut))
     }
 }
