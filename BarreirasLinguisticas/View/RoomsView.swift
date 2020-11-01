@@ -40,6 +40,7 @@ struct RoomsView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 15))
                             .frame(width: UIScreen.width-20, height: 40)
                         
+                        //MARK: -  TOGGLE BUTTONS
                         HStack {
                             HStack {
                                 Button(action: {
@@ -69,6 +70,7 @@ struct RoomsView: View {
                         }
                     }
                     
+                    //MARK: -  VIEW SELECIONADA
                     if myRooms_selected {
                         MyRoomsView(usuario: usuario)
                             .environmentObject(dao)
@@ -127,6 +129,7 @@ struct MyRoomsView: View {
                         .fontWeight(.bold)
                         .padding(.bottom, 50)
                     
+                    //MARK: - MINHAS SALAS
                     if !minhasSalas.isEmpty {
                         ScrollView(.vertical, showsIndicators: false) {
                             ForEach(minhasSalas) { sala in
@@ -147,7 +150,7 @@ struct MyRoomsView: View {
                     
                     Spacer()
                     
-                    // BOTAO DE ADD NEW ROOM
+                    //MARK: -  BOTAO PLUS
                     Button(action: {
                         roomCreation.toggle()
                     }) {
@@ -167,7 +170,7 @@ struct MyRoomsView: View {
                     
                 }
             } else {
-                //MARK: - NEW ROM CREATION
+                //MARK: - TELA DE CRIACAO DE NOVA SALA
                 VStack {
                     Text("What is the name of the new room?")
                         .foregroundColor(.white)
@@ -181,6 +184,7 @@ struct MyRoomsView: View {
                     
                     Spacer()
                     
+                    // BOTAO PARA GERAR NOVA SALA
                     Button(action: {
                         if newRoomName != "" && newRoomName != " " {
                             roomCreation.toggle()
@@ -200,6 +204,7 @@ struct MyRoomsView: View {
                         }
                     }
                     
+                    // BOTAO PARA VOLTAR
                     Button(action: {
                         roomCreation.toggle()
                     }) {

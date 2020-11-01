@@ -16,6 +16,7 @@ struct OnboardView: View {
     var body: some View {
         
         VStack {
+            // FIGURINHAS
             TabView{
                 ForEach(0..<onboardPages.count){ idx in
                     VStack{
@@ -37,9 +38,10 @@ struct OnboardView: View {
                         .padding()
                     }
                 }
-                
-            }.tabViewStyle(PageTabViewStyle())
+            }
+            .tabViewStyle(PageTabViewStyle())
             
+            // BOTAO GET STARTED
             Button(action: {self.getStarted.toggle()}) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
@@ -58,11 +60,13 @@ struct OnboardView: View {
                         .navigationBarHidden(true)
                 }
             }
-        }
+            
+        } // VStack
         .background(
             Color("lingoBlueBackground")
                 .edgesIgnoringSafeArea(.all)
         )
+        
     }//body
 }
 

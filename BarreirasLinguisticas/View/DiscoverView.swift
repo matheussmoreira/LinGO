@@ -20,6 +20,7 @@ struct DiscoverView: View {
     var body: some View {
         NavigationView {
             ScrollView(.vertical, showsIndicators: false) {
+                //MARK: -  SCROLL HORIZONTAL DE CIMA
                 if fyPosts.isEmpty {
                     VStack {
                         Text("No posts for you 😕")
@@ -39,7 +40,7 @@ struct DiscoverView: View {
                     }
                 }
                 
-                //MARK: - RECENT POSTS
+                //MARK: - SCROLL HORIZONTAL DE BAIXO
                 HStack {
                     Text("Recent posts")
                         .font(.system(.title, design: .rounded))
@@ -102,17 +103,6 @@ struct DiscoverView: View {
                         }
                     })
         }
-        .onAppear {
-//            let novaclasse = NovaClasse(nome: "Ricardão")
-//            novaclasse.ckSave(then: { result in
-//                switch result {
-//                    case .success(let savedRecord):
-//                        dump(savedRecord)
-//                    case .failure(let error):
-//                        print(error)
-//                }
-//            })
-        }
     } //body
     
     func loadFY() {
@@ -128,11 +118,11 @@ struct DiscoverView: View {
     
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        DiscoverView().environmentObject(dao.salas[0].membros[0])
-    }
-}
+//struct HomeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DiscoverView().environmentObject(dao.salas[0].membros[0])
+//    }
+//}
 
 struct CardsView: View {
     @ObservedObject var post: Post

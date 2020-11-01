@@ -29,6 +29,7 @@ struct PostCreatorView: View {
     var body: some View {
         NavigationView {
             VStack {
+                // SELECIONAR AS CATEGORIAS
                 HStack {
                     if selectedCategories.isEmpty {
                         Text("Select the categories ->")
@@ -61,7 +62,7 @@ struct PostCreatorView: View {
                             .foregroundColor(LingoColors.lingoBlue)
                             .imageScale(.large)
                     }
-                }
+                } // HStack
                 .onTapGesture{
                     self.hideKeyboard()
                     if description == "" {
@@ -92,6 +93,7 @@ struct PostCreatorView: View {
                     }
                 }
                 
+                // INSERIR LINK E TAG
                 VStack {
                     HStack {
                         Image(systemName: "link")
@@ -185,7 +187,7 @@ struct PostCreatorView: View {
                                   })
                            })
             )
-        }
+        } // Navigation View
     } //body
     
     func publica(id_membro: String?, titulo: String, descricao: String?, linkString: String, categs: [Int], tags: String) -> String {

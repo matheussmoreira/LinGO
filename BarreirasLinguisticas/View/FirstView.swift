@@ -10,8 +10,7 @@ import SwiftUI
 import CloudKitMagicCRUD
 
 enum EnterMode: Int {
-    case signUp = 1
-    case logIn = 2
+    case logIn = 1
     case none = -1
 }
 
@@ -29,7 +28,10 @@ struct FirstView: View {
                 if daoz.usuario_atual == nil || enterMode == .none {
                     OnboardView(enterMode: $enterMode)
                 } else {
-                    ContentView(enterMode: $enterMode, usuario_atual: $daoz.usuario_atual)
+                    ContentView(
+                        enterMode: $enterMode,
+                        usuario_atual: $daoz.usuario_atual
+                    )
                         .environmentObject(dao)
                 }
             }
@@ -60,20 +62,16 @@ struct FirstView: View {
                 }
             }
         }
-    }
+    } //carregaUsuario
     
     func carregaEnterMode(){
-        let defaults = UserDefaults.standard
-        let storedEnterMode = defaults.integer(forKey: "LastEnterMode")
-        switch storedEnterMode {
-            case 1:
-                enterMode = .signUp
-            case 2:
-                enterMode = .logIn
-            default:
-                enterMode = .none
+        let storedEnterMode = UserDefaults.standard.integer(forKey: "LastEnterMode")
+        if storedEnterMode == 1 {
+            enterMode = .logIn
+        } else {
+            enterMode = .none
         }
-    }
+    } //carregaEnterMode
 }
 
 struct FirstView_Previews: PreviewProvider {

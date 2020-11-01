@@ -201,9 +201,9 @@ struct PostView: View {
 }
 
 
-struct PostView_Previews: PreviewProvider {
-    static var previews: some View {
-        PostView(sala: dao.salas[0], post:dao.salas[0].posts[0])
-            .environmentObject(dao.salas[0].membros[0])
-    }
-}
+//struct PostView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PostView(sala: dao.salas[0], post:dao.salas[0].posts[0])
+//            .environmentObject(dao.salas[0].membros[0])
+//    }
+//}

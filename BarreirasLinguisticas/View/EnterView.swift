@@ -7,14 +7,16 @@
 //
 
 import SwiftUI
+import CloudKitMagicCRUD
 
 struct EnterView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var dao: DAO
     @Binding var enterMode: EnterMode
+    
     var body: some View {
         VStack{
-            //TRACINHO DO SHEET
+            // TRACINHO DO MODAL
             Rectangle()
                 .frame(width: 60, height: 6)
                 .cornerRadius(3.0)
@@ -22,9 +24,12 @@ struct EnterView: View {
                 .padding(.top)
             
             Spacer()
+            
             Text("What do you want to do?")
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                 .fontWeight(.bold)
+            
+            // LOGIN
             Button(action: {
                 logIn()
             }) {
@@ -38,11 +43,12 @@ struct EnterView: View {
                 }
             }
             
+            // NOVO USUARIO
             NavigationLink(
                 destination:
                     NewUserView(enterMode: $enterMode)
                         .environmentObject(dao)
-                    .navigationBarHidden(false)
+                        .navigationBarHidden(false)
             ){
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
@@ -57,13 +63,33 @@ struct EnterView: View {
             Spacer()
         }
         
-    } //body
+    } // body
     
     func logIn(){
-        // Fazer a busca o usuario na cloud
-        // Definir dao.usuario_atual como o usuario encontrado
-//        enterMode = .logIn
-    }
+        CKMDefault.setRecordTypeFor(type: Usuario.self, recordName: "Users") // tabela Users do iCloud se torna o Usuario
+        CKMDefault.container.fetchUserRecordID { (recordID, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+            if let recordID = recordID {
+                Usuario.ckLoad(with: recordID.recordName) { result in
+                    switch result {
+                        case .success(let user):
+                            let usuario = user as? Usuario
+                            dao.usuario_atual = usuario
+                            enterMode = .logIn
+                            UserDefaults.standard.set(
+                                enterMode.rawValue,
+                                forKey: "LastEnterMode"
+                            )
+                        case .failure(let error):
+                            print(error)
+                    }
+                }
+            }
+        }
+    } //logIn
 }
 
 struct EnterView_Previews: PreviewProvider {

@@ -29,10 +29,10 @@ struct CategoriesView: View {
                     }
                 }
                 else {
-                    //MARK: - LIST
+                    //MARK: - LISTA
                     List (sala.categorias.sorted(by: { $0.nome < $1.nome })){ categ in
                         HStack {
-                            // ICON
+                            // ICONE
                             Image(systemName: "lightbulb")
                                 .imageScale(.medium)
                                 .foregroundColor(.yellow)

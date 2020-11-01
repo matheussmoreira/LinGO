@@ -17,15 +17,13 @@ struct ContentView: View {
     @State private var showProfile = false
     var sala_atual: Sala? { return usuario_atual!.sala_atual }
     var membro: Membro? {
-//        if sala_atual != nil {
-            return sala_atual!.getMembro(id: usuario_atual!.id) ?? nil
-//        }
-//        return nil
+        return sala_atual!.getMembro(id: usuario_atual!.id) ?? nil
     }
     
     var body: some View {
         VStack {
             if sala_atual != nil {
+                //MARK: -  TABVIEW
                 TabView() {
                     DiscoverView()
                         .environmentObject(membro!)
@@ -96,6 +94,7 @@ struct EmptyRoom: View {
                     .multilineTextAlignment(.center)
                     .padding(.bottom)
                 
+                //MARK: -  BOTAO ROOMS
                 Button(action: {
                     self.showRooms.toggle()
                 }) {
@@ -113,6 +112,7 @@ struct EmptyRoom: View {
                         .environmentObject(self.dao)
                 }
                 
+                //MARK: -  BOTAO PROFILE
                 Button(action: {
                     self.showProfile.toggle()
                     
@@ -128,6 +128,7 @@ struct EmptyRoom: View {
                     EditProfileView(usuario: self.usuario)
                 }
                 
+                //MARK: -  BOTAO LOGOUT
                 Button(action: {
                     self.showAlertLogOut.toggle()
                 }) {
@@ -142,11 +143,16 @@ struct EmptyRoom: View {
                     Alert(title: Text("Are you sure you want to log out?"),
                           primaryButton: .default(Text("Log out")) {
                             self.enterMode = .none
+                            UserDefaults.standard.set(
+                                enterMode.rawValue,
+                                forKey: "LastEnterMode"
+                            )
                           },
                           secondaryButton: .cancel()
                     )
                 }
-            }
-        }
+                
+            } // VStack
+        } // ZStack
     } //body
 }

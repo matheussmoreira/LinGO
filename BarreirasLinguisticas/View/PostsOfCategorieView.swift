@@ -27,6 +27,7 @@ struct PostsOfCategorieView: View {
                 Text("No posts in \(categoria.nome) 😕")
                     .foregroundColor(Color.gray)
                 
+                // BOTAO PARA CRIAR NOVA CATEGORIA
                 Button(action: {
                     self.showPostEditor.toggle()
                 }){
@@ -108,9 +109,9 @@ struct PostsOfCategorieView: View {
     }
 }
 
-struct PostsCategorieView_Previews: PreviewProvider {
-    static var previews: some View {
-        PostsOfCategorieView(
-            categoria: dao.salas[0].categorias[0], sala: dao.salas[0]).environmentObject(dao.salas[0].membros[0])
-    }
-}
+//struct PostsCategorieView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PostsOfCategorieView(
+//            categoria: dao.salas[0].categorias[0], sala: dao.salas[0]).environmentObject(dao.salas[0].membros[0])
+//    }
+//}

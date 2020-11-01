@@ -22,6 +22,7 @@ struct NewUserView: View {
     
     var body: some View {
         VStack{
+            //FOTO DE PERFIL
             photoProfile!
                 .resizable()
                 .aspectRatio(contentMode: .fill)
@@ -52,6 +53,7 @@ struct NewUserView: View {
                     self.hideKeyboard()
                 }
             
+            // FORMULARIO
             Form {
                 Section {
                     Text("Your Name")
@@ -101,6 +103,7 @@ struct NewUserView: View {
                         )
                     })
         )
+        
     } //body
     
     func novoUsuario(){
@@ -116,18 +119,19 @@ struct NewUserView: View {
                         dao.addNovoUsuario(savedUser as? Usuario)
                         dao.usuario_atual = savedUser as? Usuario
                         enterMode = .logIn
+                        UserDefaults.standard.set(
+                            enterMode.rawValue,
+                            forKey: "LastEnterMode"
+                        )
                     case .failure(let error):
                         print(error)
                 }
             }
-//            let defaults = UserDefaults.standard
-//            defaults.setValue(novoUsuario.id, forKey: "UserId")
-//            defaults.setValue(2, forKey: "LastEnterMode")
             
         } else {
             showAlertNome = true
         }
-    }
+    } // novoUsuario
 }
 
 struct NewUserView_Previews: PreviewProvider {
