@@ -151,4 +151,11 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
     func removeMembro(membro id_membro: String) {
         self.membros.removeAll(where: {$0.usuario.id == id_membro})
     }
+    
+    func encode(to: Encoder){
+    }
+    
+    required init(from: Decoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

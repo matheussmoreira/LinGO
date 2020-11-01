@@ -17,7 +17,7 @@ enum Fluencia: String {
     case unknown = "Unknown English"
 }
 
-class Usuario: Equatable, Identifiable, ObservableObject, CKMRecord, Codable {
+class Usuario: Equatable, Identifiable, ObservableObject, CKMRecord {
     var recordName: String?
     var id: String? {self.recordName ?? String(self.hashValue)}
     @Published var nome: String
@@ -67,5 +67,12 @@ class Usuario: Equatable, Identifiable, ObservableObject, CKMRecord, Codable {
             default:
                 return 0
         }
+    }
+    
+    func encode(to: Encoder){
+    }
+    
+    required init(from: Decoder){
+        fatalError("init(coder:) has not been implemented")
     }
 }
