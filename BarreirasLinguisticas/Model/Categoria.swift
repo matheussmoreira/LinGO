@@ -15,7 +15,6 @@ class Categoria: Equatable, Identifiable, ObservableObject, CKMRecord {
     @Published var nome: String
     @Published var tagsPosts: [String] = []
     @Published var posts: [Post] = []
-    var assinantes: [Membro] = []
     
     init(id: Int, nome: String?) {
         self.id = id
@@ -40,11 +39,6 @@ class Categoria: Equatable, Identifiable, ObservableObject, CKMRecord {
                 self.tagsPosts.append(tag)
             }
         }
-    }
-    
-    func addAssinantes(membro memb: Membro?) {
-        if (memb != nil) { self.assinantes.append(memb!)}
-        else { print("Problema na assinatura por membro inválido") }
     }
     
 }
