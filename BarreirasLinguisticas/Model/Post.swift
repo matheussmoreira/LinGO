@@ -20,11 +20,11 @@ class Post: Equatable, Identifiable, ObservableObject, CKMRecord {
     @Published var publicador: Membro
     @Published var perguntas: [Comentario] = []
     @Published var comentarios: [Comentario] = []
-    @Published var categorias: [Categoria] = []
+    @Published var categorias: [String] = [] //idCategorias
     @Published var tags: [String] = []
     @Published var denuncias: [Membro] = []
     
-    init(id: Int, titulo: String?, descricao: String?, link: Link?, categs: [Categoria], tags: String, publicador: Membro) {
+    init(id: Int, titulo: String?, descricao: String?, link: Link?, categs: [String], tags: String, publicador: Membro) {
         self.id = id
         self.titulo = titulo ?? "Post sem título"
         self.descricao = descricao ?? ""
@@ -38,7 +38,7 @@ class Post: Equatable, Identifiable, ObservableObject, CKMRecord {
         return lhs.id == rhs.id
     }
     
-    func addCategoria(categoria: Categoria?) {
+    func addCategoria(categoria: String?) {
         if (categoria != nil) { self.categorias.append(categoria!)}
         else { print("Post com categoria inválida") }
     }
