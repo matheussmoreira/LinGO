@@ -8,9 +8,10 @@
 
 import Foundation
 import LinkPresentation
+import CloudKitMagicCRUD
 
-class Post: Equatable, Identifiable, ObservableObject {
-    //var recordName: String?
+class Post: Equatable, Identifiable, ObservableObject, CKMRecord {
+    var recordName: String?
     let id: Int
     @Published var titulo: String
     @Published var descricao: String?

@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import CloudKitMagicCRUD
 
-class Comentario: Identifiable, ObservableObject {
+class Comentario: Identifiable, ObservableObject, CKMRecord {
+    var recordName: String?
     let id: Int
     var post: Post
     @Published var publicador: Membro

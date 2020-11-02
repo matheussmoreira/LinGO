@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import CloudKitMagicCRUD
 
-class Membro: Equatable, Identifiable, ObservableObject {
+class Membro: Equatable, Identifiable, ObservableObject, CKMRecord {
+    var recordName: String?
     var usuario: Usuario
     var sala: Sala
     var is_admin: Bool

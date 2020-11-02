@@ -68,11 +68,4 @@ class Usuario: Equatable, Identifiable, ObservableObject, CKMRecord {
                 return 0
         }
     }
-    
-    func encode(to: Encoder){
-    }
-    
-    required init(from: Decoder){
-        fatalError("init(coder:) has not been implemented")
-    }
 }

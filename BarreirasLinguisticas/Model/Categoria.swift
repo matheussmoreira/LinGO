@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import CloudKitMagicCRUD
 
-class Categoria: Equatable, Identifiable, ObservableObject {
+class Categoria: Equatable, Identifiable, ObservableObject, CKMRecord {
+    var recordName: String?
     let id: Int
     @Published var nome: String
     @Published var tagsPosts: [String] = []
