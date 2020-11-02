@@ -12,15 +12,15 @@ import CloudKitMagicCRUD
 class Membro: Equatable, Identifiable, ObservableObject, CKMRecord {
     var recordName: String?
     var usuario: Usuario
-    var sala: Sala
+    var idSala: String
     var is_admin: Bool
-    @Published var assinaturas: [Categoria] = []
-    @Published var posts_salvos: [Post] = []
-    @Published var posts_publicados: [Post] = []
+    @Published var assinaturas: [String] = [] //idCategorias
+    @Published var posts_salvos: [String] = [] //idPosts
+    @Published var posts_publicados: [String] = [] //idPosts
     
-    init (usuario: Usuario, sala: Sala, is_admin: Bool) {
+    init (usuario: Usuario, idSala: String, is_admin: Bool) {
         self.usuario = usuario
-        self.sala = sala
+        self.idSala = idSala
         self.is_admin = is_admin
     }
     
@@ -28,25 +28,25 @@ class Membro: Equatable, Identifiable, ObservableObject, CKMRecord {
         return lhs.usuario.id == rhs.usuario.id
     }
     
-    func salvaPost(post: Post?) {
+    func salvaPost(post: String?) {
         if (post != nil) { self.posts_salvos.append(post!)}
         else { print("Post a ser salvo não definido") }
     }
     
-    func publicaPost(post: Post?) {
+    func publicaPost(post: String?) {
         if (post != nil) { self.posts_publicados.append(post!)}
         else { print("Post a ser publicado inválido") }
     }
     
-    func assinaCategoria(categoria categ: Categoria?) {
+    func assinaCategoria(categoria categ: String?) {
         if (categ != nil) { self.assinaturas.append(categ!) }
         else { print("Categoria a ser assinada inválida") }
     }
     
-    func getAssinaturaIndex(id: Int) -> Int? {
+    func getAssinaturaIndex(id: String) -> Int? {
         var idx = 0
         for asst in assinaturas {
-            if asst.id == id {
+            if asst == id {
                 return idx
             }
             else {
@@ -56,9 +56,9 @@ class Membro: Equatable, Identifiable, ObservableObject, CKMRecord {
         return nil
     }
     
-    func removeAssinatura(categoria categ: Categoria?) {
+    func removeAssinatura(categoria categ: String?) {
         if (categ != nil) {
-            self.assinaturas.removeAll(where: {$0.id == categ!.id})
+            self.assinaturas.removeAll(where: {$0 == categ!})
             
         }
         else {
@@ -66,10 +66,10 @@ class Membro: Equatable, Identifiable, ObservableObject, CKMRecord {
         }
     }
     
-    func getPostSalvoIndex(id: Int) -> Int? {
+    func getPostSalvoIndex(id: String?) -> Int? {
         var idx = 0
         for salvo in posts_salvos {
-            if salvo.id == id {
+            if salvo == id {
                 return idx
             }
             else {
@@ -79,9 +79,9 @@ class Membro: Equatable, Identifiable, ObservableObject, CKMRecord {
         return nil
     }
     
-    func removePostSalvo(post: Post?) {
+    func removePostSalvo(post: String?) {
         if (post != nil) {
-            if let idx = getPostSalvoIndex(id: post!.id) {
+            if let idx = getPostSalvoIndex(id: post!) {
                 self.posts_salvos.remove(at: idx)
             }
             else {
