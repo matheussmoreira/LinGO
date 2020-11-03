@@ -27,13 +27,13 @@ struct FirstView: View {
             } else{
                 if daoz.usuario_atual == nil || enterMode == .logOut {
                     OnboardView(enterMode: $enterMode)
-                        .environmentObject(dao)
+                        .environmentObject(daoz)
                 } else {
                     ContentView(
                         enterMode: $enterMode,
                         usuario_atual: $daoz.usuario_atual
                     )
-                        .environmentObject(dao)
+                        .environmentObject(daoz)
                 }
             }
         }
