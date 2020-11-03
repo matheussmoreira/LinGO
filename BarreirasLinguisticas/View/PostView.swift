@@ -163,7 +163,7 @@ struct PostView: View {
     }
     
     func loadBookmark() {
-        bookmarked = membro.posts_salvos.contains(post)
+        bookmarked = membro.posts_salvos.contains(post.id)
         if bookmarked {
             bookmarkedImage = "bookmark.fill"
         }
@@ -176,11 +176,11 @@ struct PostView: View {
         bookmarked.toggle()
         if bookmarked {
             bookmarkedImage = "bookmark.fill"
-            membro.salvaPost(post: post)
+            membro.salvaPost(post: post.id)
         }
         else {
             bookmarkedImage = "bookmark"
-            membro.removePostSalvo(post: post)
+            membro.removePostSalvo(post: post.id)
         }
     }
     

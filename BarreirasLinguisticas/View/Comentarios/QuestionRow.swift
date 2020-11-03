@@ -47,7 +47,7 @@ struct QuestionRow: View {
                                     .frame(width: 10.0, height: 10.0)
                                     .padding(.trailing)
                             }
-                            Text(membro.sala.nome)
+                            Text(dao.getSala(id: membro.idSala)!.nome)
                                 .frame(height: 6.0)
                                 .font(.caption)
                                 .foregroundColor(Color.gray)

@@ -303,7 +303,7 @@ struct PostsDenunciados: View {
             else {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(posts) { post in
-                        PostCardView(post: post, width: 0.85)
+                        PostCardView(post: post, sala: sala, width: 0.85)
                     }
                 }
             }

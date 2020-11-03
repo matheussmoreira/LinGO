@@ -134,7 +134,7 @@ struct CallQuestions: View {
             .onAppear {self.loadQuestions()}
     } //body
     
-    func apagaPergunta(id: Int){
+    func apagaPergunta(id: String){
         post.apagaPergunta(id: id)
         loadQuestions()
     }
@@ -145,7 +145,7 @@ struct CallQuestions: View {
     
     func comenta() {
         if newComment != "" {
-            post.novoComentario(id: UUID().hashValue, publicador: membro, conteudo: newComment, is_question: true)
+            post.novoComentario(publicador: membro, conteudo: newComment, is_question: true)
                 loadQuestions()
                 newComment = ""
         }
@@ -241,7 +241,7 @@ struct CallComments: View {
         .onAppear {self.loadComments()}
     } //body
     
-    func apagaComentario(id: Int){
+    func apagaComentario(id: String){
         post.apagaComentario(id: id)
         loadComments()
     }
@@ -252,7 +252,7 @@ struct CallComments: View {
     
     func comenta() {
         if newComment != "" {
-            post.novoComentario(id: UUID().hashValue, publicador: membro, conteudo: newComment, is_question: false)
+            post.novoComentario(publicador: membro, conteudo: newComment, is_question: false)
                 loadComments()
                 newComment = ""
         }

@@ -54,7 +54,7 @@ struct SubscriptionsView: View {
                                         .imageScale(.large)
                                 })
         .onAppear {
-            self.assinaturas = self.membro.assinaturas
+            self.assinaturas = sala.getCategorias(ids: self.membro.assinaturas)
         }
     } //body
     

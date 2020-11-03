@@ -12,7 +12,7 @@ import CloudKitMagicCRUD
 
 class Post: Equatable, Identifiable, ObservableObject, CKMRecord {
     var recordName: String?
-    let id: Int
+    var id: String {self.recordName ?? String(self.hashValue)}
     @Published var titulo: String
     @Published var descricao: String?
     @Published var link: Link?
@@ -24,8 +24,7 @@ class Post: Equatable, Identifiable, ObservableObject, CKMRecord {
     @Published var tags: [String] = []
     @Published var denuncias: [Membro] = []
     
-    init(id: Int, titulo: String?, descricao: String?, link: Link?, categs: [String], tags: String, publicador: Membro) {
-        self.id = id
+    init(titulo: String?, descricao: String?, link: Link?, categs: [String], tags: String, publicador: Membro) {
         self.titulo = titulo ?? "Post sem título"
         self.descricao = descricao ?? ""
         self.categorias = categs
@@ -52,7 +51,7 @@ class Post: Equatable, Identifiable, ObservableObject, CKMRecord {
         else { print("Não deu pra adquirir o link pois está inválido\n") }
     }
 
-    func getComentarioOriginal(id: Int) -> Comentario? {
+    func getComentarioOriginal(id: String) -> Comentario? {
         for pergunta in self.perguntas {
             if (id == pergunta.id) { return pergunta }
         }
@@ -62,8 +61,8 @@ class Post: Equatable, Identifiable, ObservableObject, CKMRecord {
         return nil
     }
     
-    func novoComentario(id: Int, publicador: Membro, conteudo: String, is_question: Bool) {
-        let comentario = Comentario(id: id, post: self, publicador: publicador, conteudo: conteudo, is_question: is_question, original: nil)
+    func novoComentario(publicador: Membro, conteudo: String, is_question: Bool) {
+        let comentario = Comentario(post: self, publicador: publicador, conteudo: conteudo, is_question: is_question, original: nil)
         
         if is_question {
             self.perguntas.append(comentario)
@@ -73,9 +72,9 @@ class Post: Equatable, Identifiable, ObservableObject, CKMRecord {
         }
     }
     
-    func novoReply(id: Int, publicador id_publicador: Membro, conteudo: String, original id_original: Int) {
+    func novoReply(publicador id_publicador: Membro, conteudo: String, original id_original: String) {
         if let original = self.getComentarioOriginal(id: id_original) {
-            let comentario = Comentario(id: id, post: self, publicador: publicador, conteudo: conteudo, is_question: false, original: original)
+            let comentario = Comentario(post: self, publicador: publicador, conteudo: conteudo, is_question: false, original: original)
             original.replies.append(comentario)
         }
         else {
@@ -83,11 +82,11 @@ class Post: Equatable, Identifiable, ObservableObject, CKMRecord {
         }
     }
 
-    func apagaPergunta(id: Int) {
+    func apagaPergunta(id: String) {
         perguntas.removeAll(where: { $0.id == id})
     }
     
-    func apagaComentario(id: Int) {
+    func apagaComentario(id: String) {
         comentarios.removeAll(where: { $0.id == id})
     }
 }

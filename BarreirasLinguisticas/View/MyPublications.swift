@@ -23,12 +23,12 @@ struct MyPublications: View {
             }
             else {
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(membro.posts_publicados.reversed()) { post in
+                    ForEach(0..<membro.posts_publicados.count) { idx in
                         NavigationLink(
-                            destination: PostView(sala: sala, post: post)
+                            destination: PostView(sala: sala, post: sala.getPost(id: membro.posts_publicados[idx])!)
                                 .environmentObject(self.membro)
                         ){
-                            PostCardView(post: post, width: 0.85)
+                            PostCardView(post: sala.getPost(id: membro.posts_publicados[idx])!, sala: sala, width: 0.85)
                         }
                     }
                 }

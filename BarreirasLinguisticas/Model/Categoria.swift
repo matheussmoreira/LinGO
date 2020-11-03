@@ -11,13 +11,12 @@ import CloudKitMagicCRUD
 
 class Categoria: Equatable, Identifiable, ObservableObject, CKMRecord {
     var recordName: String?
-    let id: Int
+    var id: String {self.recordName ?? String(self.hashValue)}
     @Published var nome: String
     @Published var tagsPosts: [String] = []
     @Published var posts: [Post] = []
     
-    init(id: Int, nome: String?) {
-        self.id = id
+    init(nome: String?) {
         self.nome = nome ?? "<Nome Categoria>"
     }
     

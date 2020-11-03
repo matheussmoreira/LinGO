@@ -11,6 +11,7 @@ import SwiftUI
 struct PostCardView: View {
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var post: Post
+    @ObservedObject var sala: Sala
     @State private var link_image: UIImage?
     @State private var line_limit_title = 2
     @State private var font_size_title = Font.TextStyle.title
@@ -31,8 +32,8 @@ struct PostCardView: View {
                     //NOME DAS CATEGORIAS
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack{
-                            ForEach(post.categorias) { categ in
-                                Text(categ.nome)
+                            ForEach(0..<post.categorias.count) { idx in
+                                Text(sala.getCategoria(id: post.categorias[idx])!.nome)
                                     .fontWeight(.semibold)
                                     .foregroundColor(self.colorScheme == .dark ? Color.white : Color.gray)
                                     .lineLimit(1)

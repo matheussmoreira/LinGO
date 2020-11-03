@@ -108,7 +108,7 @@ struct DiscoverView: View {
     func loadFY() {
         fyPosts = []
         for assinatura in membro.assinaturas {
-            for post in sala.getPostsByCategorie(categ: assinatura.id) {
+            for post in sala.getPostsByCategorie(categ: assinatura) {
                 if !fyPosts.contains(post) {
                     fyPosts.append(post)
                 }
@@ -132,7 +132,7 @@ struct CardsView: View {
     var body: some View {
         //GeometryReader { geometry in
         NavigationLink(destination: PostView(sala: sala, post: self.post).environmentObject(self.membro)) {
-            PostCardView(post: self.post, width: 0.80)
+            PostCardView(post: self.post, sala: sala, width: 0.80)
                 .frame(width: UIScreen.width-30)
             //.rotation3DEffect(Angle(degrees: Double(geometry.frame(in:.global).minX)-40) / -20, axis: (x: 0, y: 10.0, z: 0))
         }

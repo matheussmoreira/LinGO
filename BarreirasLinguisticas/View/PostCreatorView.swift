@@ -221,8 +221,8 @@ struct PostCreatorView: View {
         
     }
     
-    func getCategsId() -> [Int] {
-        var categsId: [Int] = []
+    func getCategsId() -> [String] {
+        var categsId: [String] = []
         for categ in selectedCategories {
             categsId.append(categ.id)
         }

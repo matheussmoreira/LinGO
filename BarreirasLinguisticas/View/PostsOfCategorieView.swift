@@ -60,7 +60,7 @@ struct PostsOfCategorieView: View {
                             destination: PostView(sala: self.sala, post: post)
                                 .environmentObject(self.membro)
                         ) {
-                            PostCardView(post: post, width: 0.85)
+                            PostCardView(post: post, sala: sala, width: 0.85)
                         }
                     }
                 }
@@ -87,7 +87,7 @@ struct PostsOfCategorieView: View {
     
     func load() {
         loaded_posts = sala.getPostsByCategorie(categ: categoria.id)
-        subscribed = membro.assinaturas.contains(categoria)
+        subscribed = membro.assinaturas.contains(categoria.id)
         if subscribed {
             subscribedImage = "checkmark.circle.fill"
         }
@@ -100,11 +100,11 @@ struct PostsOfCategorieView: View {
         subscribed.toggle()
         if subscribed {
             subscribedImage = "checkmark.circle.fill"
-            membro.assinaCategoria(categoria: categoria)
+            membro.assinaCategoria(categoria: categoria.id)
         }
         else {
             subscribedImage = "checkmark.circle"
-            membro.removeAssinatura(categoria: categoria)
+            membro.removeAssinatura(categoria: categoria.id)
         }
     }
 }

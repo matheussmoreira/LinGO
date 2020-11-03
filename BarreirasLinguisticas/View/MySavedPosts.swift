@@ -30,7 +30,7 @@ struct MySavedPosts: View {
                             destination: PostView(sala: self.sala, post: post)
                                 .environmentObject(self.membro)
                         ){
-                            PostCardView(post: post, width: 0.85)
+                            PostCardView(post: post, sala: sala, width: 0.85)
                         }
                     }
                 }
@@ -45,7 +45,9 @@ struct MySavedPosts: View {
                         .imageScale(.large)
                 })
         .onAppear {
-            self.salvos = self.membro.posts_salvos
+            for i in 0..<self.membro.posts_salvos.count {
+                self.salvos.append(contentsOf: sala.getPostsByCategorie(categ: self.membro.posts_salvos[i]))
+            }
         }
     } //body
 }
