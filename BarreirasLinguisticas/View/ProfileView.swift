@@ -150,7 +150,7 @@ struct ProfileView: View {
                                     ),
                                   primaryButton: .default(Text("Leave")){
                                     self.sala.removeMembro(
-                                        membro: self.membro.usuario.id!
+                                        membro: self.membro.usuario.id
                                     )
                                     if sala.membros.isEmpty{
                                         dao.removeSala(sala)

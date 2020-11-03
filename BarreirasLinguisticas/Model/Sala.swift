@@ -18,7 +18,7 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
     @Published var posts: [Post] = []
     @Published var categorias: [Categoria] = []
     
-    init(nome: String, criador: Usuario/*, dao: DAO*/) {
+    init(nome: String, criador: Usuario) {
         self.nome = nome
         novoMembro(id: criador.id, usuario: criador, is_admin: true)
     } // init()
