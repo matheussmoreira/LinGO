@@ -13,7 +13,7 @@ import CloudKitMagicCRUD
 class Post: Equatable, Identifiable, ObservableObject, CKMRecord {
     var recordName: String?
     var id: String {self.recordName ?? String(self.hashValue)}
-    @Published var titulo: String
+    @Published var titulo: String = ""
     @Published var descricao: String?
     @Published var link: Link?
     @Published var link_image: UIImage?
@@ -88,5 +88,11 @@ class Post: Equatable, Identifiable, ObservableObject, CKMRecord {
     
     func apagaComentario(id: String) {
         comentarios.removeAll(where: { $0.id == id})
+    }
+    
+    func encode(to encoder: Encoder) throws {
+    }
+    
+    required init(from decoder: Decoder) throws {
     }
 }

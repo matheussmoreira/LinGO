@@ -12,8 +12,8 @@ import CloudKitMagicCRUD
 class Membro: Equatable, Identifiable, ObservableObject, CKMRecord {
     var recordName: String?
     var usuario: Usuario
-    var idSala: String
-    var is_admin: Bool
+    var idSala: String = ""
+    var is_admin: Bool = false
     @Published var assinaturas: [String] = [] //idCategorias
     @Published var posts_salvos: [String] = [] //idPosts
     @Published var posts_publicados: [String] = [] //idPosts
@@ -91,5 +91,11 @@ class Membro: Equatable, Identifiable, ObservableObject, CKMRecord {
         else {
             print("Posts salvo a ser removido inválido")
         }
+    }
+    
+    func encode(to encoder: Encoder) throws {
+    }
+    
+    required init(from decoder: Decoder) throws {
     }
 }
