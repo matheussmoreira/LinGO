@@ -8,11 +8,10 @@
 
 import Foundation
 import LinkPresentation
-import CloudKitMagicCRUD
 
-class Sala: Identifiable, ObservableObject, CKMRecord {
+class Sala: Identifiable, ObservableObject {
     var recordName: String?
-    var id: String {self.recordName ?? String(self.hashValue)}
+    var id: String {self.recordName ?? ""}//String(self.hashValue)}
     @Published var nome: String
     @Published var membros: [Membro] = []
     @Published var posts: [Post] = []
@@ -168,14 +167,6 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
     
     func removeMembro(membro id_membro: String) {
         self.membros.removeAll(where: {$0.usuario.id == id_membro})
-    }
-    
-    func encode(to encoder: Encoder) throws {
-    }
-    
-    required init(from decoder: Decoder) throws {
-        fatalError("required init(from decoder:)")
-
     }
     
 }

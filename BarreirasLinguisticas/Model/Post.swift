@@ -8,11 +8,10 @@
 
 import Foundation
 import LinkPresentation
-import CloudKitMagicCRUD
 
-class Post: Equatable, Identifiable, ObservableObject, CKMRecord {
+class Post: Equatable, Identifiable, ObservableObject {
     var recordName: String?
-    var id: String {self.recordName ?? String(self.hashValue)}
+    var id: String {self.recordName ?? ""}//String(self.hashValue)}
     @Published var titulo: String
     @Published var descricao: String?
     @Published var link: Link?
@@ -90,11 +89,4 @@ class Post: Equatable, Identifiable, ObservableObject, CKMRecord {
         comentarios.removeAll(where: { $0.id == id})
     }
     
-//    func encode(to encoder: Encoder) throws {
-//    }
-//    
-//    required init(from decoder: Decoder) throws {
-//        fatalError("required init(from decoder:)")
-//
-//    }
 }

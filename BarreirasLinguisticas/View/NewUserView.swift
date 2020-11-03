@@ -113,20 +113,20 @@ struct NewUserView: View {
                 foto_perfil: self.photoProfile,
                 fluencia_ingles: Usuario.pegaFluenciaNome(idx: fluenciaSelecionada)
             )
-            novoUsuario.ckSave { (result) in
-                switch result {
-                    case .success(let savedUser):
-                        dao.addNovoUsuario(savedUser as? Usuario)
-                        dao.usuario_atual = savedUser as? Usuario
+//            novoUsuario.ckSave { (result) in
+//                switch result {
+//                    case .success(let savedUser):
+                        dao.addNovoUsuario(novoUsuario)//(savedUser as? Usuario)
+                        dao.usuario_atual = novoUsuario//savedUser as? Usuario
                         enterMode = .logIn
                         UserDefaults.standard.set(
                             enterMode.rawValue,
                             forKey: "LastEnterMode"
                         )
-                    case .failure(let error):
-                        print(error)
-                }
-            }
+//                    case .failure(let error):
+//                        print(error)
+//                }
+//            }
             
         } else {
             showAlertNome = true

@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import CloudKitMagicCRUD
 
-class Membro: Equatable, Identifiable, ObservableObject, CKMRecord {
+class Membro: Equatable, Identifiable, ObservableObject {
     var recordName: String?
     var usuario: Usuario
     var idSala: String
@@ -93,10 +92,4 @@ class Membro: Equatable, Identifiable, ObservableObject, CKMRecord {
         }
     }
     
-//    func encode(to encoder: Encoder) throws {
-//    }
-//    
-//    required init(from decoder: Decoder) throws {
-//        fatalError("required init(from decoder:)")
-//    }
 }

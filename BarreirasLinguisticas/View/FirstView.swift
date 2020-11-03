@@ -18,7 +18,7 @@ struct FirstView: View {
     @ObservedObject var daoz = dao
     @State private var enterMode = EnterMode.logOut
     @State private var getStarted = false
-    @State private var loading = true
+    @State private var loading = false//true
     
     var body: some View {
         VStack {
@@ -27,6 +27,7 @@ struct FirstView: View {
             } else{
                 if daoz.usuario_atual == nil || enterMode == .logOut {
                     OnboardView(enterMode: $enterMode)
+                        .environmentObject(dao)
                 } else {
                     ContentView(
                         enterMode: $enterMode,
@@ -37,7 +38,7 @@ struct FirstView: View {
             }
         }
         .onAppear{
-            carregaUsuario()
+//            carregaUsuario()
             carregaEnterMode()
         }
     } //body

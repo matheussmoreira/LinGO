@@ -17,26 +17,26 @@ class DAO: ObservableObject {
     @Published var usuario_atual: Usuario?
     
     fileprivate init(){
-        Sala.ckLoadAll { result in
-            switch result {
-                case .success(let loadedSalas):
-                    DispatchQueue.main.async {
-                        self.salas = loadedSalas as? [Sala] ?? []
-                    }
-                case .failure(let error):
-                    print(error)
-            }
-        }
-        Usuario.ckLoadAll { result in
-            switch result {
-                case .success(let loadedUsers):
-                    DispatchQueue.main.async {
-                        self.usuarios = loadedUsers as? [Usuario] ?? []
-                    }
-                case .failure(let error):
-                    print(error)
-            }
-        }
+//        Sala.ckLoadAll { result in
+//            switch result {
+//                case .success(let loadedSalas):
+//                    DispatchQueue.main.async {
+//                        self.salas = loadedSalas as? [Sala] ?? []
+//                    }
+//                case .failure(let error):
+//                    print(error)
+//            }
+//        }
+//        Usuario.ckLoadAll { result in
+//            switch result {
+//                case .success(let loadedUsers):
+//                    DispatchQueue.main.async {
+//                        self.usuarios = loadedUsers as? [Usuario] ?? []
+//                    }
+//                case .failure(let error):
+//                    print(error)
+//            }
+//        }
     }
     
     func getSala(id: String) -> Sala? {
