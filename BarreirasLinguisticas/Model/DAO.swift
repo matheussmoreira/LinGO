@@ -20,7 +20,9 @@ class DAO: ObservableObject {
         Sala.ckLoadAll { result in
             switch result {
                 case .success(let loadedSalas):
-                    self.salas = loadedSalas as? [Sala] ?? []
+                    DispatchQueue.main.async {
+                        self.salas = loadedSalas as? [Sala] ?? []
+                    }
                 case .failure(let error):
                     print(error)
             }
@@ -28,7 +30,9 @@ class DAO: ObservableObject {
         Usuario.ckLoadAll { result in
             switch result {
                 case .success(let loadedUsers):
-                    self.usuarios = loadedUsers as? [Usuario] ?? []
+                    DispatchQueue.main.async {
+                        self.usuarios = loadedUsers as? [Usuario] ?? []
+                    }
                 case .failure(let error):
                     print(error)
             }

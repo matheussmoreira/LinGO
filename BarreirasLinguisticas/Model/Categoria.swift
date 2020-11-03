@@ -12,7 +12,7 @@ import CloudKitMagicCRUD
 class Categoria: Equatable, Identifiable, ObservableObject, CKMRecord {
     var recordName: String?
     var id: String {self.recordName ?? String(self.hashValue)}
-    @Published var nome: String = ""
+    @Published var nome: String
     @Published var tagsPosts: [String] = []
     @Published var posts: [Post] = []
     
@@ -40,10 +40,11 @@ class Categoria: Equatable, Identifiable, ObservableObject, CKMRecord {
         }
     }
     
-    func encode(to encoder: Encoder) throws {
-    }
-    
-    required init(from decoder: Decoder) throws {
-    }
+//    func encode(to encoder: Encoder) throws {
+//    }
+//    
+//    required init(from decoder: Decoder) throws {
+//        fatalError("required init(from decoder:)")
+//    }
     
 }

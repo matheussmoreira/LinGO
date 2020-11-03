@@ -17,13 +17,13 @@ enum Fluencia: String {
     case unknown = "Unknown English"
 }
 
-class Usuario: Equatable, Identifiable, ObservableObject, CKMRecord {
+class Usuario: Equatable, Identifiable, ObservableObject, CKMRecord{
     var recordName: String?
     var id: String? {self.recordName ?? String(self.hashValue)}
-    @Published var nome: String = "<nome>"
-    @Published var foto_perfil: Image = Image("perfil")
+    @Published var nome: String
+    @Published var foto_perfil: Image
     @Published var sala_atual: Sala?
-    @Published var fluencia_ingles: Fluencia = .unknown
+    @Published var fluencia_ingles: Fluencia
     var cor_fluencia: Color {
         switch fluencia_ingles {
         case .advanced: return .blue
@@ -69,9 +69,10 @@ class Usuario: Equatable, Identifiable, ObservableObject, CKMRecord {
         }
     }
     
-    func encode(to encoder: Encoder) throws {
-    }
-    
-    required init(from decoder: Decoder) throws {
-    }
+//    func encode(to encoder: Encoder) throws {
+//    }
+//
+//    required init(from decoder: Decoder) throws {
+//        fatalError("required init(from decoder:)")
+//    }
 }

@@ -12,8 +12,8 @@ import CloudKitMagicCRUD
 class Membro: Equatable, Identifiable, ObservableObject, CKMRecord {
     var recordName: String?
     var usuario: Usuario
-    var idSala: String = ""
-    var is_admin: Bool = false
+    var idSala: String
+    var is_admin: Bool
     @Published var assinaturas: [String] = [] //idCategorias
     @Published var posts_salvos: [String] = [] //idPosts
     @Published var posts_publicados: [String] = [] //idPosts
@@ -93,9 +93,10 @@ class Membro: Equatable, Identifiable, ObservableObject, CKMRecord {
         }
     }
     
-    func encode(to encoder: Encoder) throws {
-    }
-    
-    required init(from decoder: Decoder) throws {
-    }
+//    func encode(to encoder: Encoder) throws {
+//    }
+//    
+//    required init(from decoder: Decoder) throws {
+//        fatalError("required init(from decoder:)")
+//    }
 }

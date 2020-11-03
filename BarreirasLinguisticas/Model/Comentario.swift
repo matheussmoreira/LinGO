@@ -46,9 +46,10 @@ class Comentario: Identifiable, ObservableObject, CKMRecord {
         return false
     }
     
-    func encode(to encoder: Encoder) throws {
-    }
-    
-    required init(from decoder: Decoder) throws {
-    }
+//    func encode(to encoder: Encoder) throws {
+//    }
+//    
+//    required init(from decoder: Decoder) throws {
+//        fatalError("required init(from decoder:)")
+//    }
 }

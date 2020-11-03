@@ -13,7 +13,7 @@ import CloudKitMagicCRUD
 class Sala: Identifiable, ObservableObject, CKMRecord {
     var recordName: String?
     var id: String {self.recordName ?? String(self.hashValue)}
-    @Published var nome: String = ""
+    @Published var nome: String
     @Published var membros: [Membro] = []
     @Published var posts: [Post] = []
     @Published var categorias: [Categoria] = []
@@ -174,6 +174,8 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
     }
     
     required init(from decoder: Decoder) throws {
+        fatalError("required init(from decoder:)")
+
     }
     
 }
