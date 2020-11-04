@@ -39,7 +39,7 @@ struct PostView: View {
                         
                         Spacer()
                         
-                        Text(post.publicador.usuario.fluencia_ingles.rawValue)
+                        Text(post.publicador.usuario.fluencia_ingles/*.rawValue*/)
                             .foregroundColor(Color.gray)
                             .lineLimit(1)
                         Image(systemName: "circle.fill")

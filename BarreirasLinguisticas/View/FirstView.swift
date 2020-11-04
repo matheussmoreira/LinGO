@@ -38,10 +38,36 @@ struct FirstView: View {
             }
         }
         .onAppear{
-            carregaUsuario()
+            carregaUsuario2()
             carregaEnterMode()
         }
     } //body
+    
+    func carregaUsuario2(){
+        CKMDefault.setRecordTypeFor(type: Usuario.self, recordName: "Users") // tabela Users do iCloud se torna o Usuario
+        CKMDefault.container.fetchUserRecordID { (recordID, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+            if let recordID = recordID {
+                CKManager.fetchUser(recordName: recordID.recordName) { (result) in
+                    switch result{
+                        case .success(let fetchedUser):
+                            DispatchQueue.main.async {
+                                dump(fetchedUser)
+                                dao.usuario_atual = fetchedUser
+                                loading = false
+//                                print(fetchedUser.nome)
+//                                print(fetchedUser.fluencia_ingles)
+                            }
+                        case .failure(let error):
+                            print(error)
+                    }
+                }
+            }
+        }
+    }
     
     func carregaUsuario(){
         CKMDefault.setRecordTypeFor(type: Usuario.self, recordName: "Users") // tabela Users do iCloud se torna o Usuario
@@ -51,15 +77,20 @@ struct FirstView: View {
                 return
             }
             if let recordID = recordID {
+                print("recordName: \(recordID.recordName)")
                 Usuario.ckLoad(with: recordID.recordName) { result in
                     switch result {
                         case .success(let user):
                             DispatchQueue.main.async {
                                 print("carregaUsuario: case.success")
-                                let usuario = user as? Usuario
-                                print("recordName: \(String(describing: usuario?.recordName))")
-                                dao.usuario_atual = usuario
-                                loading = false
+                                if let usuario = user as? Usuario{
+                                    print("recordName: \(String(describing: usuario.recordName))")
+                                    dao.usuario_atual = usuario
+                                    loading = false
+                                } else {
+                                    print("Usuario nao pode ser carregado")
+                                }
+                                
                             }
                         case .failure(let error):
                             print("carregaUsuario: case.error")

@@ -37,7 +37,7 @@ struct QuestionRow: View {
                                 
                                 Spacer()
                                 
-                                Text(comentario.publicador.usuario.fluencia_ingles.rawValue)
+                                Text(comentario.publicador.usuario.fluencia_ingles/*.rawValue*/)
                                     .foregroundColor(.gray)
                                     .font(.footnote)
                                 .lineLimit(1)

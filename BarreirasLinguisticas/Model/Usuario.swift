@@ -19,28 +19,42 @@ enum Fluencia: String {
 
 class Usuario: Equatable, Identifiable, ObservableObject, CKMRecord {
     var recordName: String?
-    var id: String {self.recordName ?? String(self.hashValue)}
+    var id: String = ""//{self.recordName ?? String(self.hashValue)}
     @Published var nome: String = ""
     @Published var foto_perfil: Image = Image("perfil")
     @Published var sala_atual: Sala?
-    @Published var fluencia_ingles: Fluencia = .unknown
+    @Published var fluencia_ingles: String = ""// = .unknown
     var cor_fluencia: Color {
+        
         switch fluencia_ingles {
-        case .advanced: return .blue
-        case .intermed: return .yellow
-        case .basic: return .green
-        default: return .gray
+            case Fluencia.advanced.rawValue: return .blue
+            case Fluencia.intermed.rawValue: return .yellow
+            case Fluencia.basic.rawValue : return .green
+            default: return .gray
         }
     }
     
     init(nome: String?, foto_perfil: Image?,fluencia_ingles: Fluencia?) {
         self.nome = nome ?? "<nome>"
         self.foto_perfil = foto_perfil ?? Image("perfil")
-        self.fluencia_ingles = fluencia_ingles ?? Fluencia.unknown
+        self.fluencia_ingles = fluencia_ingles?.rawValue ?? Fluencia.unknown.rawValue
     }
     
     static func == (lhs: Usuario, rhs: Usuario) -> Bool {
         return lhs.id == rhs.id
+    }
+    
+    static func pegaFluencia(nome: String) -> Fluencia {
+        switch nome {
+            case "Basic English":
+                return Fluencia.basic
+            case "Intermediate English":
+                return Fluencia.intermed
+            case "Advanced English":
+                return Fluencia.advanced
+            default:
+                return Fluencia.unknown
+        }
     }
     
     static func pegaFluenciaNome(idx: Int) -> Fluencia {
@@ -73,6 +87,7 @@ class Usuario: Equatable, Identifiable, ObservableObject, CKMRecord {
     }
 
     required init(from decoder: Decoder) throws {
+        print("required init(from decoder:)")
 //        fatalError("required init(from decoder:)")
     }
 }

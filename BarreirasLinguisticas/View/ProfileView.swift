@@ -52,7 +52,7 @@ struct ProfileView: View {
                         .foregroundColor(Color.primary)
                     
                     HStack {
-                        Text(membro.usuario.fluencia_ingles.rawValue)
+                        Text(membro.usuario.fluencia_ingles/*.rawValue*/)
                             .foregroundColor(Color.gray)
                         Circle()
                             .fill(membro.usuario.cor_fluencia)

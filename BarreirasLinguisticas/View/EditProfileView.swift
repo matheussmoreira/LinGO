@@ -102,31 +102,56 @@ struct EditProfileView: View {
                     },
                 trailing:
                     Button(action: {
-                        if self.nome != "" { self.usuario.nome = self.nome }
-                        self.usuario.foto_perfil = self.photoProfile ?? self.usuario.foto_perfil
-                        self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada)
-                        
-                        DispatchQueue.main.async {
-                            self.usuario.ckSave { (result) in
-                                switch result{
-                                    case .success(_):
-                                        print("EditProfile: case.success")
-                                    case .failure(let error):
-                                        print("EditProfile: case.error")
-                                        print(error) 
-                                }
-                            }
-                        }
-                        self.presentationMode.wrappedValue.dismiss()
+                        editaUsuario2()
                     }){
                         Text("Save")
                     })
         }
         .onAppear {
             self.photoProfile = self.usuario.foto_perfil
-            self.fluenciaSelecionada = Usuario.pegaFluenciaIdx(fluencia: self.usuario.fluencia_ingles)
+//            self.fluenciaSelecionada = Usuario.pegaFluenciaIdx(fluencia: self.usuario.fluencia_ingles)
+            self.fluenciaSelecionada = Usuario.pegaFluenciaIdx(fluencia: Usuario.pegaFluencia(nome: self.usuario.fluencia_ingles))
         }
     } //body
+    
+    mutating func editaUsuario2(){
+        let usuarioAtualizado: Usuario
+        usuarioAtualizado.id = self.usuario.id
+        if self.nome != "" { usuarioAtualizado.nome = self.nome }
+        usuarioAtualizado.sala_atual = self.usuario.sala_atual
+        usuarioAtualizado.foto_perfil = self.photoProfile ?? self.usuario.foto_perfil
+        usuarioAtualizado.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada).rawValue
+        
+        CKManager.saveUser(user: usuarioAtualizado) { (result) in
+            switch result {
+                case .success(let savedUser):
+                    print("EditProfile case.success")
+//                    self.usuario = savedUser
+                case .failure(let error):
+                    print(error)
+            }
+        }
+    }
+    
+    func editaUsuario(usuario: Usuario){
+//        if self.nome != "" { self.usuario.nome = self.nome }
+//        self.usuario.foto_perfil = self.photoProfile ?? self.usuario.foto_perfil
+////                        self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada)
+//        self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada).rawValue
+        
+        DispatchQueue.main.async {
+            self.usuario.ckSave { (result) in
+                switch result{
+                    case .success(_):
+                        print("EditProfile: case.success")
+                    case .failure(let error):
+                        print("EditProfile: case.error")
+                        print(error)
+                }
+            }
+        }
+        self.presentationMode.wrappedValue.dismiss()
+    }
     
 }
 
