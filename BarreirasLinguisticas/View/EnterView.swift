@@ -31,7 +31,7 @@ struct EnterView: View {
             
             // LOGIN
             Button(action: {
-                logIn()
+                logIn2()
             }) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
@@ -65,6 +65,35 @@ struct EnterView: View {
         
     } // body
     
+    func logIn2(){
+        CKMDefault.setRecordTypeFor(type: Usuario.self, recordName: "Users")
+        CKMDefault.container.fetchUserRecordID { (recordID, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+            if let recordID = recordID {
+                CKManager.fetchUser(recordName: recordID.recordName) { (result) in
+                    switch result{
+                        case .success(let fetchedUser):
+                            DispatchQueue.main.async {
+                                print("login: case.success")
+                                dao.usuario_atual = fetchedUser
+                                enterMode = .logIn
+                                UserDefaults.standard.set(
+                                    enterMode.rawValue,
+                                    forKey: "LastEnterMode"
+                                )
+                            }
+                        case .failure(let error):
+                            print("login: case.failure")
+                            print(error)
+                    }
+                }
+            }
+        }
+    }
+    
     func logIn(){
         CKMDefault.setRecordTypeFor(type: Usuario.self, recordName: "Users") // tabela Users do iCloud se torna o Usuario
         CKMDefault.container.fetchUserRecordID { (recordID, error) in
@@ -88,7 +117,7 @@ struct EnterView: View {
                                 )
                             }
                         case .failure(let error):
-                            print("login: case.error")
+                            print("login: case.failure")
                             print(error)
                     }
                 }

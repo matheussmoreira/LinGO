@@ -44,7 +44,7 @@ struct FirstView: View {
     } //body
     
     func carregaUsuario2(){
-        CKMDefault.setRecordTypeFor(type: Usuario.self, recordName: "Users") // tabela Users do iCloud se torna o Usuario
+        CKMDefault.setRecordTypeFor(type: Usuario.self, recordName: "Users")
         CKMDefault.container.fetchUserRecordID { (recordID, error) in
             if let error = error {
                 print(error)
@@ -55,14 +55,15 @@ struct FirstView: View {
                     switch result{
                         case .success(let fetchedUser):
                             DispatchQueue.main.async {
-                                dump(fetchedUser)
+                                print("first view: case.success")
                                 dao.usuario_atual = fetchedUser
+                                enterMode = .logIn
                                 loading = false
-//                                print(fetchedUser.nome)
-//                                print(fetchedUser.fluencia_ingles)
                             }
                         case .failure(let error):
+                            print("first view: case.failure")
                             print(error)
+                            return
                     }
                 }
             }

@@ -88,7 +88,7 @@ struct NewUserView: View {
         .navigationBarItems(
             trailing:
                 Button(action: {
-                    novoUsuario()
+                    novoUsuario2()
                 }) {
                     
                     Text("Create")
@@ -105,6 +105,32 @@ struct NewUserView: View {
         )
         
     } //body
+    
+    func novoUsuario2(){
+        let usuarioAtualizado = Usuario(
+            nome: (self.nome != "") ? self.nome : nil,
+            foto_perfil: self.photoProfile,
+            fluencia_ingles: Usuario.pegaFluenciaNome(idx: fluenciaSelecionada))
+        
+        CKManager.saveUser(user: usuarioAtualizado) { (result) in
+            switch result {
+                case .success(let savedUser):
+                    DispatchQueue.main.async {
+                        print("NewUser: case.success")
+                        dao.addNovoUsuario(savedUser)
+                        dao.usuario_atual = savedUser
+                        enterMode = .logIn
+                        UserDefaults.standard.set(
+                            enterMode.rawValue,
+                            forKey: "LastEnterMode"
+                        )
+                    }
+                case .failure(let error):
+                    print("NewUser: case.failure")
+                    print(error)
+            }
+        }
+    }
     
     func novoUsuario(){
         if nome != "" {

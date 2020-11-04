@@ -114,30 +114,40 @@ struct EditProfileView: View {
         }
     } //body
     
-    mutating func editaUsuario2(){
-        let usuarioAtualizado: Usuario
-        usuarioAtualizado.id = self.usuario.id
-        if self.nome != "" { usuarioAtualizado.nome = self.nome }
-        usuarioAtualizado.sala_atual = self.usuario.sala_atual
-        usuarioAtualizado.foto_perfil = self.photoProfile ?? self.usuario.foto_perfil
-        usuarioAtualizado.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada).rawValue
-        
-        CKManager.saveUser(user: usuarioAtualizado) { (result) in
-            switch result {
-                case .success(let savedUser):
-                    print("EditProfile case.success")
-//                    self.usuario = savedUser
-                case .failure(let error):
-                    print(error)
+    func editaUsuario2() {
+        if self.nome != ""{
+            let usuario = Usuario(
+                nome: self.nome,
+                foto_perfil: self.photoProfile ?? self.usuario.foto_perfil,
+                fluencia_ingles: Usuario.pegaFluenciaNome(idx: fluenciaSelecionada))
+            usuario.id = self.usuario.id
+            usuario.sala_atual = self.usuario.sala_atual
+            
+            CKManager.updateUser(user: usuario) { (result) in
+                switch result {
+                    case .success(let updatedUser):
+                        DispatchQueue.main.async {
+                            print("editaUsuario: case.success")
+                            self.usuario.id = updatedUser.id
+                            self.usuario.nome = updatedUser.nome
+                            self.usuario.foto_perfil = updatedUser.foto_perfil
+                            self.usuario.sala_atual = updatedUser.sala_atual
+                            self.usuario.fluencia_ingles = updatedUser.fluencia_ingles
+                            self.presentationMode.wrappedValue.dismiss()
+                        }
+                    case .failure(let error):
+                        print("editaUsuario: case.error")
+                        print(error)
+                }
             }
         }
     }
     
-    func editaUsuario(usuario: Usuario){
-//        if self.nome != "" { self.usuario.nome = self.nome }
-//        self.usuario.foto_perfil = self.photoProfile ?? self.usuario.foto_perfil
-////                        self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada)
-//        self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada).rawValue
+    func editaUsuario(){
+        if self.nome != "" { self.usuario.nome = self.nome }
+        self.usuario.foto_perfil = self.photoProfile ?? self.usuario.foto_perfil
+//                        self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada)
+        self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada).rawValue
         
         DispatchQueue.main.async {
             self.usuario.ckSave { (result) in

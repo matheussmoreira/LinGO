@@ -25,7 +25,6 @@ class Usuario: Equatable, Identifiable, ObservableObject, CKMRecord {
     @Published var sala_atual: Sala?
     @Published var fluencia_ingles: String = ""// = .unknown
     var cor_fluencia: Color {
-        
         switch fluencia_ingles {
             case Fluencia.advanced.rawValue: return .blue
             case Fluencia.intermed.rawValue: return .yellow
