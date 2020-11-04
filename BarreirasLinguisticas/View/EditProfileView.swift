@@ -105,6 +105,11 @@ struct EditProfileView: View {
                         if self.nome != "" { self.usuario.nome = self.nome }
                         self.usuario.foto_perfil = self.photoProfile ?? self.usuario.foto_perfil
                         self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada)
+                        
+                        DispatchQueue.main.async {
+                            self.usuario.ckSave { (result) in
+                            }
+                        }
                         self.presentationMode.wrappedValue.dismiss()
                     }){
                         Text("Save")

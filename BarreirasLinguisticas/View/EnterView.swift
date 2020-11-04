@@ -76,14 +76,18 @@ struct EnterView: View {
                 Usuario.ckLoad(with: recordID.recordName) { result in
                     switch result {
                         case .success(let user):
-                            let usuario = user as? Usuario
-                            dao.usuario_atual = usuario
-                            enterMode = .logIn
-                            UserDefaults.standard.set(
-                                enterMode.rawValue,
-                                forKey: "LastEnterMode"
-                            )
+                            DispatchQueue.main.async {
+                                print("login: case.success")
+                                let usuario = user as? Usuario
+                                dao.usuario_atual = usuario
+                                enterMode = .logIn
+                                UserDefaults.standard.set(
+                                    enterMode.rawValue,
+                                    forKey: "LastEnterMode"
+                                )
+                            }
                         case .failure(let error):
+                            print("login: case.error")
                             print(error)
                     }
                 }

@@ -18,7 +18,7 @@ struct FirstView: View {
     @ObservedObject var daoz = dao
     @State private var enterMode = EnterMode.logOut
     @State private var getStarted = false
-    @State private var loading = false//true
+    @State private var loading = true
     
     var body: some View {
         VStack {
@@ -38,7 +38,7 @@ struct FirstView: View {
             }
         }
         .onAppear{
-//            carregaUsuario()
+            carregaUsuario()
             carregaEnterMode()
         }
     } //body
@@ -54,11 +54,16 @@ struct FirstView: View {
                 Usuario.ckLoad(with: recordID.recordName) { result in
                     switch result {
                         case .success(let user):
-                            let usuario = user as? Usuario
-                            dao.usuario_atual = usuario
-                            loading = false
+                            print("carregaUsuario: case.success")
+                            DispatchQueue.main.async {
+                                let usuario = user as? Usuario
+                                dao.usuario_atual = usuario
+                                loading = false
+                            }
                         case .failure(let error):
+                            print("carregaUsuario: case.error")
                             print(error)
+                            loading = false
                     }
                 }
             }
