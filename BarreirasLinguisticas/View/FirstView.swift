@@ -54,9 +54,10 @@ struct FirstView: View {
                 Usuario.ckLoad(with: recordID.recordName) { result in
                     switch result {
                         case .success(let user):
-                            print("carregaUsuario: case.success")
                             DispatchQueue.main.async {
+                                print("carregaUsuario: case.success")
                                 let usuario = user as? Usuario
+                                print("recordName: \(String(describing: usuario?.recordName))")
                                 dao.usuario_atual = usuario
                                 loading = false
                             }

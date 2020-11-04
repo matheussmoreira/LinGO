@@ -108,6 +108,13 @@ struct EditProfileView: View {
                         
                         DispatchQueue.main.async {
                             self.usuario.ckSave { (result) in
+                                switch result{
+                                    case .success(_):
+                                        print("EditProfile: case.success")
+                                    case .failure(let error):
+                                        print("EditProfile: case.error")
+                                        print(error) 
+                                }
                             }
                         }
                         self.presentationMode.wrappedValue.dismiss()

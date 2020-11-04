@@ -79,6 +79,7 @@ struct EnterView: View {
                             DispatchQueue.main.async {
                                 print("login: case.success")
                                 let usuario = user as? Usuario
+                                print("recordName: \(String(describing: usuario?.recordName))")
                                 dao.usuario_atual = usuario
                                 enterMode = .logIn
                                 UserDefaults.standard.set(
