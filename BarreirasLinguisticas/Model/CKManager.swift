@@ -71,10 +71,10 @@ extension CKManager {
                     print("fetchUser: problema ao baixar o nome")
                     return
                 }
-                guard let foto = record["foto_perfil"] as? UIImage else {
-                    print("fetchUser: problema ao baixar a foto")
-                    return
-                }
+//                guard let foto = record["foto_perfil"] as? UIImage else {
+//                    print("fetchUser: problema ao baixar a foto")
+//                    return
+//                }
                 guard let fluencia = record["fluencia_ingles"] as? String else {
                     print("fetchUser: problema ao baixar a fluencia")
                     return
@@ -84,7 +84,7 @@ extension CKManager {
                 // Devolvendo os dados
                 let fetchedUser = Usuario(
                     nome: nome,
-                    foto_perfil: Image(uiImage: foto ),
+                    foto_perfil: Image(uiImage: UIImage(named: "perfil")!),//foto ),
                     fluencia_ingles: Usuario.pegaFluencia(nome: fluencia ))
                 fetchedUser.id = id
                 fetchedUser.sala_atual = sala_atual
@@ -149,15 +149,6 @@ extension CKManager {
         let salaRecord = CKRecord(recordType: "Sala")
         salaRecord["nome"] = sala.nome
         
-        var membros_array: [CKRecord.Reference] = []
-        for m in sala.membros {
-            if let name = m.recordName {
-            membros_array.append(CKRecord.Reference(recordID: CKRecord.ID(recordName: name), action: .deleteSelf))
-            }
-        }
-        
-        salaRecord["membros"] = membros_array
-        
         CKContainer.default().publicCloudDatabase.save(salaRecord){ (record, error) in
             DispatchQueue.main.async {
                 if let error = error {
@@ -169,16 +160,53 @@ extension CKManager {
                         print("saveSala: problema ao baixar o nome")
                         return
                     }
-                    guard let membros = record["membros"] as? [Membro] else {
-                        print("saveSala: problema ao baixar os membros")
-                        return
-                    }
-                    let savedSala = Sala(nome: nome, criador: membros[0].usuario)
-                    savedSala.membros.append(contentsOf: membros)
+                    let savedSala = Sala(nome: nome)
+                    savedSala.id = record.recordID.recordName
+                    completion(.success(savedSala))
                 }
             }
         }
     }
+    
+    static func updateSala(sala: Sala, completion: @escaping (Result<Sala, Error>) -> ()){
+        let publicDB = CKContainer.default().publicCloudDatabase
+        publicDB.fetch(withRecordID: CKRecord.ID(recordName: sala.id)) { (record, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            if let fetchedRecord = record {
+                // POR ENQUANTO ESTAMOS ALTERANDO SO A RELACAO DOS MEMBROS NA SALA
+                var membros_array: [CKRecord.Reference] = []
+                for m in sala.membros {
+                    if let name = m.recordName {
+                        membros_array.append(CKRecord.Reference(recordID: CKRecord.ID(recordName: name), action: .deleteSelf))
+                    }
+                }
+                fetchedRecord["membros"] = membros_array
+                publicDB.save(fetchedRecord) { (record, error) in
+                    if let error = error {
+                        completion(.failure(error))
+                        return
+                    }
+                    if let savedRecord = record {
+                        guard let nome = savedRecord["nome"] as? String else {
+                            print("updateSala: problema ao baixar o nome")
+                            return
+                        }
+                        guard let membros = savedRecord["membros"] as? [CKRecord.Reference] else {
+                            print("updateSala: problema ao baixar os membros")
+                            return
+                        }
+                        let sala = Sala(nome: nome)
+                        sala.id = savedRecord.recordID.recordName
+                        sala.membros = membros
+                        completion(.success(sala))
+                    }
+                }
+            }
+        }
+    } //update
 }
 
 // MARK: - MEMBRO
@@ -199,25 +227,30 @@ extension CKManager {
                 }
                 
                 if let record = record {
-                    guard let usuario = record["usuario"] as? Usuario else {
-                        print("saveMembro: Problema ao baixar o usuario do membro")
-                        return
-                    }
-                    guard let idSala = record["idSala"] as? String else {
-                        print("saveMembro: Problema ao baixar a idSala do membro")
-                        return
-                    }
-                    guard let admin = record["is_admin"] as? Int else {
-                        print("saveMembro: Problema ao baixar o is_admin do membro")
-                        return
-                    }
-                    let is_admin: Bool
-                    if admin == 1 { is_admin = true}
-                    else { is_admin = false }
-                    
-                    let membro = Membro(usuario: usuario, idSala: idSala, is_admin: is_admin)
-                    membro.recordName = record.recordID.recordName
-                    completion(.success(membro))
+                    if let usuarioReference = record["usuario"] as? CKRecord.Reference {
+                        fetchUser(recordName: usuarioReference.recordID.recordName) { (result) in
+                            switch result {
+                                case .success(let fetchedUser):
+                                    guard let idSala = record["idSala"] as? String else {
+                                        print("saveMembro: Problema ao baixar a idSala do membro")
+                                        return
+                                    }
+                                    guard let admin = record["is_admin"] as? Int else {
+                                        print("saveMembro: Problema ao baixar o is_admin do membro")
+                                        return
+                                    }
+                                    let is_admin: Bool
+                                    if admin == 1 { is_admin = true}
+                                    else { is_admin = false }
+                                    
+                                    let membro = Membro(usuario: fetchedUser, idSala: idSala, is_admin: is_admin)
+                                    membro.recordName = record.recordID.recordName
+                                    completion(.success(membro))
+                                case .failure(let error):
+                                    print(error)
+                            }
+                        }
+                    } 
                 }
             }
         }

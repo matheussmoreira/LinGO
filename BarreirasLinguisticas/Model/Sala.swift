@@ -11,15 +11,15 @@ import LinkPresentation
 
 class Sala: Identifiable, ObservableObject {
     var recordName: String?
-    var id: String {self.recordName ?? ""}//String(self.hashValue)}
+    var id: String = ""//{self.recordName ?? ""}//String(self.hashValue)}
     @Published var nome: String
     @Published var membros: [Membro] = []
     @Published var posts: [Post] = []
     @Published var categorias: [Categoria] = []
     
-    init(nome: String, criador: Usuario) {
+    init(nome: String) {
         self.nome = nome
-        novoMembro(id: criador.id, usuario: criador, is_admin: true)
+        
     } // init()
     
     //MARK: - FUNCOES GET
@@ -90,27 +90,16 @@ class Sala: Identifiable, ObservableObject {
     func novoMembro(id id_membro: String?, usuario: Usuario, is_admin: Bool) {
         if getMembro(id: usuario.id) == nil { //para nao adicionar membro repetido
             let membro = Membro(usuario: usuario, idSala: self.id, is_admin: is_admin)
-            
-            CKManager.saveMembro(membro: membro) { (result) in
-                switch result {
-                    case .success(let savedMembro):
-                        self.membros.append(savedMembro)
-                    case .failure(let error):
-                        print("novoMembro: case.failure")
-                        print(error)
-                }
-            }
-            CKManager.saveSala(sala: self) { (result) in
-                switch result {
-                    case .success(let savedSala):
-                        membro.idSala = savedSala.id
-                    case .failure(let error):
-                        print("novoMembro, saveSala: casa.failure")
-                        print(error)
-                }
-                        
-                    
+            self.membros.append(membro)
         }
+    }
+    
+    func getNovoMembro(id id_membro: String?, usuario: Usuario, is_admin: Bool) -> Membro? {
+        if getMembro(id: usuario.id) == nil { //para nao adicionar membro repetido
+            let membro = Membro(usuario: usuario, idSala: self.id, is_admin: is_admin)
+            return membro
+        }
+        return nil
     }
     
     func novoAdmin(membro: Membro) {
