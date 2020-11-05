@@ -88,10 +88,21 @@ class Sala: Identifiable, ObservableObject {
     //MARK: - NOVOS OBJETOS
     
     func novoMembro(id id_membro: String?, usuario: Usuario, is_admin: Bool) {
-            if getMembro(id: usuario.id) == nil { //para nao adicionar membro repetido
-                let membro = Membro(usuario: usuario, idSala: self.id, is_admin: is_admin)
-                self.membros.append(membro)
+        if getMembro(id: usuario.id) == nil { //para nao adicionar membro repetido
+            let membro = Membro(usuario: usuario, idSala: self.id, is_admin: is_admin)
+            
+            CKManager.saveMembro(membro: membro) { (result) in
+                switch result {
+                    case .success(let savedMembro):
+                        self.membros.append(savedMembro)
+                    case .failure(let error):
+                        print("novoMembro: case.failure")
+                        print(error)
+                }
             }
+            
+            //CKManager.saveSala
+        }
     }
     
     func novoAdmin(membro: Membro) {
