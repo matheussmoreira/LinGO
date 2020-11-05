@@ -100,8 +100,16 @@ class Sala: Identifiable, ObservableObject {
                         print(error)
                 }
             }
-            
-            //CKManager.saveSala
+            CKManager.saveSala(sala: self) { (result) in
+                switch result {
+                    case .success(let savedSala):
+                        membro.idSala = savedSala.id
+                    case .failure(let error):
+                        print("novoMembro, saveSala: casa.failure")
+                        print(error)
+                }
+                        
+                    
         }
     }
     
