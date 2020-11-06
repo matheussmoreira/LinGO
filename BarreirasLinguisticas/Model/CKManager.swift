@@ -13,52 +13,93 @@ import UIKit
 
 struct CKManager {
     
-    private static func getUserFromDictionary(_ userDictionary: Dictionary<String, Any>?) -> Usuario? {
+    private static func getUserFromDictionary(_ userDictionaryOpt: Dictionary<String, Any>?) -> Usuario? {
+        if let usuarioDictionary = userDictionaryOpt {
+            let id = usuarioDictionary["recordName"] as! String
+            let nome = usuarioDictionary["nome"] as? String
+            let foto = Image(uiImage: UIImage(named: "perfil")!)
+            let fluencia = Usuario.pegaFluencia(
+                nome: usuarioDictionary["fluencia_ingles"] as! String)
+            
+            let usuario = Usuario(
+                nome: nome,
+                foto_perfil: foto,
+                fluencia_ingles: fluencia
+            )
+            usuario.id = id
+            
+            return usuario
+        } else {
+            print(#function)
+            print("usuarioDictionary is nil")
+        }
         return nil
     }
     
     private static func getMembroFromDictionary(_ membroDictionaryOpt: Dictionary<String, Any>?) -> Membro? {
+        if let membroDictionary = membroDictionaryOpt {
+            let usuario = getUserFromDictionary( membroDictionary["usuario"]! as? Dictionary<String,Any>)
+            
+            let recordName = membroDictionary["recordName"] as! String
+            let idSala = membroDictionary["idSala"] as! String
+            let admin = membroDictionary["is_admin"] as! Int
+            let is_admin: Bool
+            if admin == 1 { is_admin = true }
+                else { is_admin = false }
+            
+            let membro = Membro(usuario: usuario!, idSala: idSala, is_admin: is_admin)
+            membro.recordName = recordName
+            return membro
+        
+        } else {
+            print(#function)
+            print("membroDictionary is nil")
+        }
         return nil
     }
     
-    static func loadSalas(/*completion: @escaping (Result<[Sala], Error>) -> ()*/){
+    static func getSalaFromRecord(salaRecord: CKRecord) -> Sala? {
+        guard let salaRecordName = salaRecord.asDictionary["recordName"] as? String else {
+            print(#function)
+            print("Erro ao capturar o recordName de uma sala")
+            return nil
+        }
+        guard let salaNome = salaRecord.asDictionary["nome"] as? String else{
+            print(#function)
+            print("Erro ao capturar o nome de uma sala")
+            return nil
+        }
+        guard let membrosDictionaries = salaRecord.asDictionary["membros"] as? Array<Optional<Dictionary<String, Any>> >else {
+            print(#function)
+            print("Erro no cast do vetor de membros")
+            return nil
+        }
+        
+        var membros: [Membro] = []
+        for membroDictionary in membrosDictionaries {
+            if let membro = getMembroFromDictionary(membroDictionary) {
+                membros.append(membro)
+            } else {
+                print("Nao adquiriu membro do dicionario!")
+            }
+        }
+        
+        let sala = Sala(id: salaRecordName, nome: salaNome)
+        sala.membros.append(contentsOf: membros)
+        return sala
+    }
+    
+    static func loadSalasRecords(completion: @escaping (Result<[CKRecord], Error>) -> ()){
         let publicDB = CKContainer.default().publicCloudDatabase
         let querySalas = CKQuery(recordType: "Sala", predicate: NSPredicate(value: true))
         publicDB.perform(querySalas, inZoneWith: nil) { (records, error) in
-            if error != nil {
+            if let  error = error {
                 print(#function)
                 print("Erro ao carregar salas")
-//                completion(.failure(error))
+                completion(.failure(error))
             }
             if let loadedSalas = records {
-                var salas: [Sala] = []
-                for salaRecord in loadedSalas {
-                    guard let salaRecordName = salaRecord.asDictionary["recordName"] as? String else {
-                        print(#function)
-                        print("Erro ao capturar o recordName de uma sala")
-                        return
-                    }
-                    guard let salaNome = salaRecord.asDictionary["nome"] as? String else{
-                        print(#function)
-                        print("Erro ao capturar o nome de uma sala")
-                        return
-                    }
-                    guard let membrosDictionaries = salaRecord.asDictionary["membros"] as? Array<Optional<Dictionary<String, Any>> >else {
-                        print(#function)
-                        print("Erro no cast do vetor de membros")
-                        return
-                    }
-                    
-                    var membros: [Membro] = []
-                    for membroDictionary in membrosDictionaries {
-                        if let membro = getMembroFromDictionary(membroDictionary) {
-                            membros.append(membro)
-                        }
-                    }
-                    let sala = Sala(id: salaRecordName, nome: salaNome)
-                    sala.membros.append(contentsOf: membros)
-                    salas.append(sala)
-                }
+                completion(.success(loadedSalas))
             }
         }
     } // funcao
@@ -129,7 +170,8 @@ extension CKManager {
                     print("fetchUser: problema ao baixar a fluencia")
                     return
                 }
-                let sala_atual = record["sala_atual"] as? Sala // MUDAR PARA GUARD LET DEPOIS
+                let sala_atual = record["sala_atual"] as? String 
+//                let sala_atual = record["sala_atual"] as? Sala // MUDAR PARA GUARD LET DEPOIS
                 
                 // Devolvendo os dados
                 let fetchedUser = Usuario(

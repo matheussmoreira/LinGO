@@ -216,7 +216,7 @@ struct ProfileView: View {
             usuario.sala_atual = nil
         }
         else {
-            usuario.sala_atual = salas[0]
+            usuario.sala_atual = salas[0].id //salas[0].id
         }
     }
 }

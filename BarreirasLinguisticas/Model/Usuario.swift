@@ -22,7 +22,7 @@ class Usuario: Equatable, Identifiable, ObservableObject, CKMRecord {
     var id: String = ""//{self.recordName ?? String(self.hashValue)}
     @Published var nome: String = ""
     @Published var foto_perfil: Image = Image("perfil")
-    @Published var sala_atual: Sala?
+    @Published var sala_atual: String?//Sala?
     @Published var fluencia_ingles: String = ""// = .unknown
     var cor_fluencia: Color {
         switch fluencia_ingles {

@@ -17,7 +17,7 @@ class DAO: ObservableObject {
     @Published var usuario_atual: Usuario?
     
     fileprivate init(){
-//        CKManager.loadSalas()
+        carregaSalasFromCloud()
 //        Sala.ckLoadAll { result in
 //            switch result {
 //                case .success(let loadedSalas):
@@ -41,6 +41,25 @@ class DAO: ObservableObject {
 //        }
     }
     
+    func carregaSalasFromCloud(){
+        CKManager.loadSalasRecords { (result) in
+            switch result {
+                case .success(let records):
+                    DispatchQueue.main.async {
+                        for rec in records {
+                            if let sala = CKManager.getSalaFromRecord(salaRecord: rec) {
+                                self.salas.append(sala)
+                            }
+                        }
+//                        print("dao init - salas: \(self.salas.count)")
+                    }
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
+        }
+    }
+    
     func getSala(id: String) -> Sala? {
         for sala in self.salas {
             if (id == sala.id) { return sala }
@@ -49,8 +68,10 @@ class DAO: ObservableObject {
     }
     
     func getSalasByUser(id: String?) -> [Sala] {
+//        print(#function)
         var salas: [Sala] = []
         for sala in self.salas {
+//            dump(sala)
             for membro in sala.membros {
                 if (id == membro.usuario.id) { salas.append(sala) } 
             }

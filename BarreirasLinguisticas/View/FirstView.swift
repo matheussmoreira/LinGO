@@ -38,6 +38,7 @@ struct FirstView: View {
             }
         }
         .onAppear{
+//            print("first view appear - salas: \(dao.salas.count)")
             buscaUsuario()
             carregaEnterMode()
         }

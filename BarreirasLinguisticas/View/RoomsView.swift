@@ -135,7 +135,7 @@ struct MyRoomsView: View {
                         ScrollView(.vertical, showsIndicators: false) {
                             ForEach(minhasSalas) { sala in
                                 Button(action: { self.presentationMode.wrappedValue.dismiss()
-                                    self.usuario.sala_atual = sala
+                                    self.usuario.sala_atual = sala.id//sala
                                 }) {
                                     ZStack {
                                         Capsule()
