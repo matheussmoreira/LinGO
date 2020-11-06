@@ -38,12 +38,12 @@ struct FirstView: View {
             }
         }
         .onAppear{
-            carregaUsuario2()
+            buscaUsuario()
             carregaEnterMode()
         }
     } //body
     
-    func carregaUsuario2(){
+    func buscaUsuario(){
         CKMDefault.setRecordTypeFor(type: Usuario.self, recordName: "Users")
         CKMDefault.container.fetchUserRecordID { (recordID, error) in
             if let error = error {
@@ -69,7 +69,7 @@ struct FirstView: View {
         }
     }
     
-    func carregaUsuario(){
+    func buscaUsuarioMagic(){
         CKMDefault.setRecordTypeFor(type: Usuario.self, recordName: "Users") // tabela Users do iCloud se torna o Usuario
         CKMDefault.container.fetchUserRecordID { (recordID, error) in
             if let error = error {

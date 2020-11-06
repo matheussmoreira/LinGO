@@ -17,6 +17,7 @@ class DAO: ObservableObject {
     @Published var usuario_atual: Usuario?
     
     fileprivate init(){
+//        CKManager.loadSalas()
 //        Sala.ckLoadAll { result in
 //            switch result {
 //                case .success(let loadedSalas):
@@ -24,6 +25,7 @@ class DAO: ObservableObject {
 //                        self.salas = loadedSalas as? [Sala] ?? []
 //                    }
 //                case .failure(let error):
+//                    print("DAO init .failure")
 //                    print(error)
 //            }
 //        }

@@ -13,6 +13,56 @@ import UIKit
 
 struct CKManager {
     
+    private static func getUserFromDictionary(_ userDictionary: Dictionary<String, Any>?) -> Usuario? {
+        return nil
+    }
+    
+    private static func getMembroFromDictionary(_ membroDictionaryOpt: Dictionary<String, Any>?) -> Membro? {
+        return nil
+    }
+    
+    static func loadSalas(/*completion: @escaping (Result<[Sala], Error>) -> ()*/){
+        let publicDB = CKContainer.default().publicCloudDatabase
+        let querySalas = CKQuery(recordType: "Sala", predicate: NSPredicate(value: true))
+        publicDB.perform(querySalas, inZoneWith: nil) { (records, error) in
+            if error != nil {
+                print(#function)
+                print("Erro ao carregar salas")
+//                completion(.failure(error))
+            }
+            if let loadedSalas = records {
+                var salas: [Sala] = []
+                for salaRecord in loadedSalas {
+                    guard let salaRecordName = salaRecord.asDictionary["recordName"] as? String else {
+                        print(#function)
+                        print("Erro ao capturar o recordName de uma sala")
+                        return
+                    }
+                    guard let salaNome = salaRecord.asDictionary["nome"] as? String else{
+                        print(#function)
+                        print("Erro ao capturar o nome de uma sala")
+                        return
+                    }
+                    guard let membrosDictionaries = salaRecord.asDictionary["membros"] as? Array<Optional<Dictionary<String, Any>> >else {
+                        print(#function)
+                        print("Erro no cast do vetor de membros")
+                        return
+                    }
+                    
+                    var membros: [Membro] = []
+                    for membroDictionary in membrosDictionaries {
+                        if let membro = getMembroFromDictionary(membroDictionary) {
+                            membros.append(membro)
+                        }
+                    }
+                    let sala = Sala(id: salaRecordName, nome: salaNome)
+                    sala.membros.append(contentsOf: membros)
+                    salas.append(sala)
+                }
+            }
+        }
+    } // funcao
+    
 }
 
 // MARK: - USUARIO
