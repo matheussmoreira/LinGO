@@ -134,8 +134,10 @@ struct MyRoomsView: View {
                     if !minhasSalas.isEmpty {
                         ScrollView(.vertical, showsIndicators: false) {
                             ForEach(minhasSalas) { sala in
-                                Button(action: { self.presentationMode.wrappedValue.dismiss()
-                                    self.usuario.sala_atual = sala.id//sala
+                                Button(action: {
+                                    alteraSalaAtual(sala: sala)
+//                                    self.presentationMode.wrappedValue.dismiss()
+//                                    self.usuario.sala_atual = sala.id//sala
                                 }) {
                                     ZStack {
                                         Capsule()
@@ -265,6 +267,24 @@ struct MyRoomsView: View {
                     }
                 case .failure(let error):
                     print("salaGanhaPrimeiroMembro: case.error")
+                    print(error)
+            }
+        }
+    }
+    
+    func alteraSalaAtual(sala: Sala){
+        self.presentationMode.wrappedValue.dismiss()
+        self.usuario.sala_atual = sala.id//sala
+        
+        CKManager.ckModifyUsuario(user: self.usuario) { (result) in
+            switch result {
+                case .success(_):
+                    print(#function)
+                    print("Sala atual salva com sucesso")
+                    self.presentationMode.wrappedValue.dismiss()
+                    break
+                case .failure(let error):
+                    print(#function)
                     print(error)
             }
         }

@@ -108,10 +108,11 @@ struct CKManager {
 
 // MARK: - USUARIO
 extension CKManager {
-    static func ckCreateUsuario(user: Usuario, completion: @escaping (Result<Usuario, Error>) -> ()) {
-        let userRecord = CKRecord(recordType: "Usuario")
+    static func ckSaveUsuario(user: Usuario, completion: @escaping (Result<Usuario, Error>) -> ()) {
+        let userRecord = CKRecord(recordType: "Users")
         userRecord["nome"] = user.nome as CKRecordValue
         userRecord["fluencia_ingles"] = user.fluencia_ingles as CKRecordValue
+        
         // falta a foto de perfil
         
         CKContainer.default().publicCloudDatabase.save(userRecord) { (record, err) in
@@ -197,6 +198,7 @@ extension CKManager {
             if let fetchedRecord = record {
                 fetchedRecord["nome"] = user.nome as CKRecordValue
                 fetchedRecord["fluencia_ingles"] = user.fluencia_ingles as CKRecordValue
+                fetchedRecord["sala_atual"] = (user.sala_atual ?? "") as CKRecordValue
                 // FALTA A FOTO DE PERFIL !!!
                 
                 publicDB.save(fetchedRecord) { (record, error) in
@@ -217,13 +219,17 @@ extension CKManager {
                             print("updateUser: problema ao baixar a fluencia")
                             return
                         }
+                        guard let sala_atual = savedRecord["sala_atual"] as? String else {
+                            print("saveUser: problema ao baixar a sala atual")
+                            return
+                        }
                         
                         let savedUser = Usuario(
                             nome: nome,
                             foto_perfil: Image(uiImage: /*foto ?? */UIImage(named: "perfil")!),
                             fluencia_ingles: Usuario.pegaFluencia(nome: fluencia))
                         savedUser.id = user.id
-                        savedUser.sala_atual = user.sala_atual
+                        savedUser.sala_atual = sala_atual
                         
                         completion(.success(savedUser))
                     }
@@ -289,7 +295,8 @@ extension CKManager {
                     }
                     if let savedRecord = record {
                         guard let membrosReferences = savedRecord["membros"] as? [CKRecord.Reference] else {
-                            print("saveNovoMembroSala: problema ao baixar os membros")
+                            print(#function)
+                            print("Problema ao baixar os membros")
                             return
                         }
                         completion(.success(membrosReferences))
