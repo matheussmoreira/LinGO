@@ -17,7 +17,7 @@ struct CKManager {
 
 // MARK: - USUARIO
 extension CKManager {
-    static func saveUser(user: Usuario, completion: @escaping (Result<Usuario, Error>) -> ()) {
+    static func ckCreateUsuario(user: Usuario, completion: @escaping (Result<Usuario, Error>) -> ()) {
         let userRecord = CKRecord(recordType: "Usuario")
         userRecord["nome"] = user.nome as CKRecordValue
         userRecord["fluencia_ingles"] = user.fluencia_ingles as CKRecordValue
@@ -57,7 +57,7 @@ extension CKManager {
         }
     }
     
-    static func fetchUser(recordName: String, completion: @escaping (Result<Usuario, Error>) -> ()) {
+    static func ckFetchUsuario(recordName: String, completion: @escaping (Result<Usuario, Error>) -> ()) {
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: recordName)) { (record, error) in
             if let error = error {
@@ -94,7 +94,7 @@ extension CKManager {
         }
     }
     
-    static func updateUser(user: Usuario, completion: @escaping (Result<Usuario, Error>) -> ()){
+    static func ckModifyUsuario(user: Usuario, completion: @escaping (Result<Usuario, Error>) -> ()){
         
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: user.id)){ (record, error) in
@@ -231,7 +231,7 @@ extension CKManager {
             // RECEBENDO OS DADOS SALVOS
             if let savedMembro = record {
                 if let userReference = savedMembro["usuario"] as? CKRecord.Reference {
-                    fetchUser(recordName: userReference.recordID.recordName) { (result) in
+                    ckFetchUsuario(recordName: userReference.recordID.recordName) { (result) in
                         switch result {
                             case .success(let fetchedUser):
                                 DispatchQueue.main.async {
@@ -266,7 +266,7 @@ extension CKManager {
 
     } // funcao
     
-    static func fetchMembro(recordName: String, completion: @escaping (Result<Membro, Error>) -> ()) {
+    static func ckFetchMembro(recordName: String, completion: @escaping (Result<Membro, Error>) -> ()) {
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: recordName)) { (record, error) in
             if let error = error {
@@ -275,7 +275,7 @@ extension CKManager {
             }
             if let fetchedMembro = record {
                 if let usuarioReference = fetchedMembro["usuario"] as? CKRecord.Reference {
-                    fetchUser(recordName: usuarioReference.recordID.recordName) { (result) in
+                    ckFetchUsuario(recordName: usuarioReference.recordID.recordName) { (result) in
                         switch result {
                             case .success(let fetchedUser):
                                 guard let idSala = fetchedMembro["idSala"] as? String else {

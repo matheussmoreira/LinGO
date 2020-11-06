@@ -112,7 +112,7 @@ struct NewUserView: View {
             foto_perfil: self.photoProfile,
             fluencia_ingles: Usuario.pegaFluenciaNome(idx: fluenciaSelecionada))
         
-        CKManager.saveUser(user: usuarioAtualizado) { (result) in
+        CKManager.ckCreateUsuario(user: usuarioAtualizado) { (result) in
             switch result {
                 case .success(let savedUser):
                     DispatchQueue.main.async {

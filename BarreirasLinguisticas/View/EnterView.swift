@@ -73,7 +73,7 @@ struct EnterView: View {
                 return
             }
             if let recordID = recordID {
-                CKManager.fetchUser(recordName: recordID.recordName) { (result) in
+                CKManager.ckFetchUsuario(recordName: recordID.recordName) { (result) in
                     switch result{
                         case .success(let fetchedUser):
                             DispatchQueue.main.async {
