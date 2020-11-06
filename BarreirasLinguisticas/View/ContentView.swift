@@ -23,7 +23,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            if sala_atual != nil {
+            if sala_atual != nil && membro != nil {
                 //MARK: -  TABVIEW
                 TabView() {
                     DiscoverView()

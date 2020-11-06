@@ -17,7 +17,6 @@ struct RoomsView: View {
     @State private var searchRooms_selected = false
     @State private var myRoomsColor = Color.gray
     @State private var searchRoomsColor = Color.blue
-    
     var usuario: Usuario
     var salas: [Sala] {
         return dao.getSalasByUser(id: usuario.id)
@@ -273,14 +272,12 @@ struct MyRoomsView: View {
     }
     
     func alteraSalaAtual(sala: Sala){
-        self.presentationMode.wrappedValue.dismiss()
         self.usuario.sala_atual = sala.id//sala
         
         CKManager.ckModifyUsuario(user: self.usuario) { (result) in
             switch result {
                 case .success(_):
                     self.presentationMode.wrappedValue.dismiss()
-                    break
                 case .failure(let error):
                     print(#function)
                     print(error)
@@ -290,6 +287,7 @@ struct MyRoomsView: View {
 }
 
 struct AvailableRoomsView: View {
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var dao: DAO
     var usuario: Usuario
     var salasDisponiveis: [Sala] {
@@ -313,7 +311,7 @@ struct AvailableRoomsView: View {
                                 .foregroundColor(.white)
                             
                             Button(action: {
-                                //                                self.dao.sala_atual = sala
+                                novoMembro(sala: sala, usuario: usuario)
                             }) {
                                 Text(sala.nome)
                                     .foregroundColor(LingoColors.lingoBlue)
@@ -332,6 +330,51 @@ struct AvailableRoomsView: View {
             
             Spacer()
             
+        }
+    }
+    
+    func novoMembro(sala: Sala, usuario criador: Usuario){
+        let membro = Membro(usuario: criador, idSala: sala.id, is_admin: false)
+        CKManager.ckCreateMembro(membro: membro) { (result) in
+            switch result {
+                case .success(let savedMembro):
+                    DispatchQueue.main.async {
+                        salaGanhaNovoMembro(sala: sala, membro: savedMembro)
+                    }
+                case .failure(let error):
+                    print("primeiroMembro: case.failure")
+                    print(error)
+            }
+        }
+    }
+    
+    func salaGanhaNovoMembro(sala: Sala, membro: Membro){
+        sala.membros.append(membro)
+        CKManager.ckSalaNovoMembro(sala: sala) { (result) in
+            switch result {
+                case .success( _):
+                    DispatchQueue.main.async {
+                        alteraSalaAtual(sala: sala)
+                    }
+                    
+                case .failure(let error):
+                    print("salaGanhaPrimeiroMembro: case.error")
+                    print(error)
+            }
+        }
+    }
+    
+    func alteraSalaAtual(sala: Sala){
+        self.usuario.sala_atual = sala.id
+        
+        CKManager.ckModifyUsuario(user: self.usuario) { (result) in
+            switch result {
+                case .success(_):
+                    self.presentationMode.wrappedValue.dismiss()
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
         }
     }
 }
