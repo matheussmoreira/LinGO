@@ -279,8 +279,6 @@ struct MyRoomsView: View {
         CKManager.ckModifyUsuario(user: self.usuario) { (result) in
             switch result {
                 case .success(_):
-                    print(#function)
-                    print("Sala atual salva com sucesso")
                     self.presentationMode.wrappedValue.dismiss()
                     break
                 case .failure(let error):
