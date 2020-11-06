@@ -7,15 +7,16 @@
 //
 
 import Foundation
+import CloudKitMagicCRUD
 
 class Membro: Equatable, Identifiable, ObservableObject {
     var recordName: String?
     var usuario: Usuario
     var idSala: String
     var is_admin: Bool
-    @Published var assinaturas: [String] = [] //idCategorias
-    @Published var posts_salvos: [String] = [] //idPosts
-    @Published var posts_publicados: [String] = [] //idPosts
+    @Published var assinaturas: [String] = [] //id das Categorias
+    @Published var posts_salvos: [String] = [] //id dos Posts
+    @Published var posts_publicados: [String] = [] //id dos Posts
     
     init (usuario: Usuario, idSala: String, is_admin: Bool) {
         self.usuario = usuario

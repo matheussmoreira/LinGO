@@ -55,7 +55,6 @@ struct FirstView: View {
                     switch result{
                         case .success(let fetchedUser):
                             DispatchQueue.main.async {
-                                print("first view: case.success")
                                 dao.usuario_atual = fetchedUser
                                 enterMode = .logIn
                                 loading = false

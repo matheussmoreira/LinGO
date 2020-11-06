@@ -8,19 +8,20 @@
 
 import Foundation
 import LinkPresentation
+import CloudKitMagicCRUD
 
 class Sala: Identifiable, ObservableObject {
     var recordName: String?
-    var id: String = ""//{self.recordName ?? ""}//String(self.hashValue)}
+    var id: String
     @Published var nome: String
     @Published var membros: [Membro] = []
     @Published var posts: [Post] = []
     @Published var categorias: [Categoria] = []
     
-    init(nome: String) {
+    init(id: String, nome: String) {
+        self.id = id
         self.nome = nome
-        
-    } // init()
+    }
     
     //MARK: - FUNCOES GET
     func getMembro(id: String?) -> Membro? {

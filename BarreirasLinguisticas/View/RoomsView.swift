@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import CloudKit
 
 struct RoomsView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -226,12 +227,10 @@ struct MyRoomsView: View {
     }
     
     func novaSala(nome: String, criador: Usuario) {
-        let sala = Sala(nome: nome)
-        CKManager.saveSala(sala: sala) { (result) in
+        CKManager.ckCreateSala(nome: nome) { (result) in
             switch result {
                 case .success(let savedSala):
                     DispatchQueue.main.async {
-                        print("saveSala: case.success")
                         primeiroMembro(sala: savedSala, usuario: criador)
                     }
                 case .failure(let error):
@@ -242,34 +241,30 @@ struct MyRoomsView: View {
     }
     
     func primeiroMembro(sala savedSala: Sala, usuario criador: Usuario){
-        if let membro = savedSala.getNovoMembro(id: criador.id, usuario: criador, is_admin: true) {
-            CKManager.saveMembro(membro: membro) { (result) in
-                switch result {
-                    case .success(let savedMembro):
-                        DispatchQueue.main.async {
-                            print("primeiroMembro: case.success")
-                            atualizaSala(sala: savedSala, membro: savedMembro)
-                        }
-                    case .failure(let error):
-                        print("primeiroMembro: case.failure")
-                        print(error)
-                }
+        let membro = Membro(usuario: criador, idSala: savedSala.id, is_admin: true)
+        CKManager.ckCreateMembro(membro: membro) { (result) in
+            switch result {
+                case .success(let savedMembro):
+                    DispatchQueue.main.async {
+                        salaGanhaPrimeiroMembro(sala: savedSala, membro: savedMembro)
+                    }
+                case .failure(let error):
+                    print("primeiroMembro: case.failure")
+                    print(error)
             }
         }
     }
     
-    func atualizaSala(sala: Sala, membro: Membro){
+    func salaGanhaPrimeiroMembro(sala: Sala, membro: Membro){
         sala.membros.append(membro)
-        CKManager.updateSala(sala: sala) { (result) in
+        CKManager.ckSalaNovoMembro(sala: sala) { (result) in
             switch result {
-                case .success(let updatedSala):
+                case .success( _):
                     DispatchQueue.main.async {
-                        print("atualizaSala: case.success")
-                        sala.membros = updatedSala.membros
                         self.dao.addNovaSala(sala)
                     }
                 case .failure(let error):
-                    print("atualizaSala: case.error")
+                    print("salaGanhaPrimeiroMembro: case.error")
                     print(error)
             }
         }

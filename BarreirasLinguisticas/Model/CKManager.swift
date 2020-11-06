@@ -145,63 +145,62 @@ extension CKManager {
 
 // MARK: - SALA
 extension CKManager {
-    static func saveSala(sala: Sala, completion: @escaping (Result<Sala, Error>) -> ()) {
+    static func ckCreateSala(nome: String, completion: @escaping (Result<Sala, Error>) -> ()) {
         let salaRecord = CKRecord(recordType: "Sala")
-        salaRecord["nome"] = sala.nome
+        salaRecord["nome"] = nome
         
         CKContainer.default().publicCloudDatabase.save(salaRecord){ (record, error) in
-            DispatchQueue.main.async {
-                if let error = error {
-                    completion(.failure(error))
+            if let error = error {
+                print(#function)
+                print("Erro ao salvar sala no publicDB")
+                completion(.failure(error))
+                return
+            }
+            if let savedRecord = record {
+                guard let nome = savedRecord["nome"] as? String else {
+                    print(#function)
+                    print("Problema ao baixar o nome")
                     return
                 }
-                if let record = record {
-                    guard let nome = record["nome"] as? String else {
-                        print("saveSala: problema ao baixar o nome")
-                        return
-                    }
-                    let savedSala = Sala(nome: nome)
-                    savedSala.id = record.recordID.recordName
-                    completion(.success(savedSala))
-                }
+                let savedSala = Sala(id: savedRecord.recordID.recordName, nome: nome)
+                completion(.success(savedSala))
             }
         }
     }
     
-    static func updateSala(sala: Sala, completion: @escaping (Result<Sala, Error>) -> ()){
+    static func ckSalaNovoMembro(sala: Sala, completion: @escaping (Result<[CKRecord.Reference], Error>) -> ()){
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: sala.id)) { (record, error) in
+            // BUSCA PELA SALA
             if let error = error {
+                print(#function)
+                print("Erro ao buscar sala")
                 completion(.failure(error))
                 return
             }
-            if let fetchedRecord = record {
+            if let fetchedSala = record {
                 // POR ENQUANTO ESTAMOS ALTERANDO SO A RELACAO DOS MEMBROS NA SALA
+                // PREPARA OS DADOS
                 var membros_array: [CKRecord.Reference] = []
                 for m in sala.membros {
                     if let name = m.recordName {
                         membros_array.append(CKRecord.Reference(recordID: CKRecord.ID(recordName: name), action: .deleteSelf))
                     }
                 }
-                fetchedRecord["membros"] = membros_array
-                publicDB.save(fetchedRecord) { (record, error) in
+                fetchedSala["membros"] = membros_array
+                
+                // ATUALIZA
+                publicDB.save(fetchedSala) { (record, error) in
                     if let error = error {
                         completion(.failure(error))
                         return
                     }
                     if let savedRecord = record {
-                        guard let nome = savedRecord["nome"] as? String else {
-                            print("updateSala: problema ao baixar o nome")
+                        guard let membrosReferences = savedRecord["membros"] as? [CKRecord.Reference] else {
+                            print("saveNovoMembroSala: problema ao baixar os membros")
                             return
                         }
-                        guard let membros = savedRecord["membros"] as? [CKRecord.Reference] else {
-                            print("updateSala: problema ao baixar os membros")
-                            return
-                        }
-                        let sala = Sala(nome: nome)
-                        sala.id = savedRecord.recordID.recordName
-                        sala.membros = membros
-                        completion(.success(sala))
+                        completion(.success(membrosReferences))
                     }
                 }
             }
@@ -211,7 +210,8 @@ extension CKManager {
 
 // MARK: - MEMBRO
 extension CKManager {
-    static func saveMembro(membro: Membro, completion: @escaping (Result<Membro, Error>) -> ()) {
+    static func ckCreateMembro(membro: Membro, completion: @escaping (Result<Membro, Error>) -> ()) {
+        // PREPARANDO OS DADOS
         let membroRecord = CKRecord(recordType: "Membro")
         membroRecord["usuario"] = CKRecord.Reference(
             recordID: CKRecord.ID(recordName: membro.usuario.id), action: .deleteSelf
@@ -219,43 +219,87 @@ extension CKManager {
         membroRecord["idSala"] = membro.idSala
         membroRecord["is_admin"] = membro.is_admin ? 1 : 0
         
+        // MANDANDO SALVAR
         CKContainer.default().publicCloudDatabase.save(membroRecord) { (record, err) in
-            DispatchQueue.main.async {
-                if let err = err {
-                    completion(.failure(err))
-                    return
-                }
-                
-                if let record = record {
-                    if let usuarioReference = record["usuario"] as? CKRecord.Reference {
-                        fetchUser(recordName: usuarioReference.recordID.recordName) { (result) in
-                            switch result {
-                                case .success(let fetchedUser):
-                                    guard let idSala = record["idSala"] as? String else {
-                                        print("saveMembro: Problema ao baixar a idSala do membro")
+            if let err = err {
+                print(#function)
+                print("Erro ao salvar membro")
+                completion(.failure(err))
+                return
+            }
+            
+            // RECEBENDO OS DADOS SALVOS
+            if let savedMembro = record {
+                if let userReference = savedMembro["usuario"] as? CKRecord.Reference {
+                    fetchUser(recordName: userReference.recordID.recordName) { (result) in
+                        switch result {
+                            case .success(let fetchedUser):
+                                DispatchQueue.main.async {
+                                    guard let idSala = savedMembro["idSala"] as? String else {
+                                        print(#function)
+                                        print("Problema ao baixar a idSala do membro")
                                         return
                                     }
-                                    guard let admin = record["is_admin"] as? Int else {
-                                        print("saveMembro: Problema ao baixar o is_admin do membro")
+                                    guard let admin = savedMembro["is_admin"] as? Int else {
+                                        print(#function)
+                                        print("Problema ao baixar o is_admin do membro")
                                         return
                                     }
+                                    
                                     let is_admin: Bool
                                     if admin == 1 { is_admin = true}
                                     else { is_admin = false }
                                     
                                     let membro = Membro(usuario: fetchedUser, idSala: idSala, is_admin: is_admin)
-                                    membro.recordName = record.recordID.recordName
+                                    membro.recordName = savedMembro.recordID.recordName
                                     completion(.success(membro))
-                                case .failure(let error):
-                                    print(error)
-                            }
+                                }
+                            case .failure(let error):
+                                print(#function)
+                                print("fetchUser")
+                                print(error)
                         }
-                    } 
+                    }
+                }
+            }
+        } // .save
+
+    } // funcao
+    
+    static func fetchMembro(recordName: String, completion: @escaping (Result<Membro, Error>) -> ()) {
+        let publicDB = CKContainer.default().publicCloudDatabase
+        publicDB.fetch(withRecordID: CKRecord.ID(recordName: recordName)) { (record, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            if let fetchedMembro = record {
+                if let usuarioReference = fetchedMembro["usuario"] as? CKRecord.Reference {
+                    fetchUser(recordName: usuarioReference.recordID.recordName) { (result) in
+                        switch result {
+                            case .success(let fetchedUser):
+                                guard let idSala = fetchedMembro["idSala"] as? String else {
+                                    print("saveMembro: Problema ao baixar a idSala do membro")
+                                    return
+                                }
+                                guard let admin = fetchedMembro["is_admin"] as? Int else {
+                                    print("saveMembro: Problema ao baixar o is_admin do membro")
+                                    return
+                                }
+                                let is_admin: Bool
+                                if admin == 1 { is_admin = true}
+                                else { is_admin = false }
+                                
+                                let membro = Membro(usuario: fetchedUser, idSala: idSala, is_admin: is_admin)
+                                membro.recordName = fetchedMembro.recordID.recordName
+                                completion(.success(membro))
+                            case .failure(let error):
+                                print(error)
+                        }
+                    }
                 }
             }
         }
-
-    }
-    
+    } //fetchMembro
     
 }
