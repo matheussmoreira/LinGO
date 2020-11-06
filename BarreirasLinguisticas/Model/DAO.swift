@@ -81,7 +81,7 @@ class DAO: ObservableObject {
     
     func getSalasWithoutUser(id: String?) -> [Sala] {
         var salasWithout: [Sala] = []
-        for sala in salasWithout {
+        for sala in salas {
             for membro in sala.membros {
                 if (membro == sala.membros.last! && membro.usuario.id != id) {
                     salasWithout.append(sala)
