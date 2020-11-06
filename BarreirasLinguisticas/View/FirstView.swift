@@ -49,6 +49,7 @@ struct FirstView: View {
         CKMDefault.container.fetchUserRecordID { (recordID, error) in
             if let error = error {
                 print(error)
+                loading = false
                 return
             }
             if let recordID = recordID {
@@ -68,7 +69,7 @@ struct FirstView: View {
                 }
             }
         }
-    }
+    } // funcao
     
     func buscaUsuarioMagic(){
         CKMDefault.setRecordTypeFor(type: Usuario.self, recordName: "Users") // tabela Users do iCloud se torna o Usuario

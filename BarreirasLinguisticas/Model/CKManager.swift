@@ -159,18 +159,20 @@ extension CKManager {
             if let record = record {
                 // Pegando os dados do usuario
                 let id = record.recordID.recordName
-                guard let nome = record["nome"] as? String else {
-                    print("fetchUser: problema ao baixar o nome")
-                    return
-                }
+                let nome = record["nome"] as? String
+//                guard let nome = record["nome"] as? String else {
+//                    print("fetchUser: problema ao baixar o nome")
+//                    return
+//                }
 //                guard let foto = record["foto_perfil"] as? UIImage else {
 //                    print("fetchUser: problema ao baixar a foto")
 //                    return
 //                }
-                guard let fluencia = record["fluencia_ingles"] as? String else {
-                    print("fetchUser: problema ao baixar a fluencia")
-                    return
-                }
+                let fluencia = record["fluencia_ingles"] as? String
+//                guard let fluencia = record["fluencia_ingles"] as? String else {
+//                    print("fetchUser: problema ao baixar a fluencia")
+//                    return
+//                }
                 let sala_atual = record["sala_atual"] as? String 
 //                let sala_atual = record["sala_atual"] as? Sala // MUDAR PARA GUARD LET DEPOIS
                 
@@ -178,7 +180,7 @@ extension CKManager {
                 let fetchedUser = Usuario(
                     nome: nome,
                     foto_perfil: Image(uiImage: UIImage(named: "perfil")!),//foto ),
-                    fluencia_ingles: Usuario.pegaFluencia(nome: fluencia ))
+                    fluencia_ingles: Usuario.pegaFluencia(nome: fluencia ?? ""))
                 fetchedUser.id = id
                 fetchedUser.sala_atual = sala_atual
                 
