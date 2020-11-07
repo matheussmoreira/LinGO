@@ -39,7 +39,11 @@ struct CategoriesView: View {
                             
                             // CATEGORIAS E TAGS
                             VStack(alignment: .leading) {
-                                NavigationLink(destination: PostsOfCategorieView(categoria: categ, sala: self.sala).environmentObject(self.membro)) {
+                                NavigationLink(
+                                    destination:
+                                        PostsOfCategorieView(categoria: categ, sala: self.sala)
+                                        .environmentObject(self.membro)
+                                ) {
                                     Text(categ.nome)
                                         .font(.headline)
                                         .multilineTextAlignment(.leading)

@@ -9,11 +9,10 @@
 import Foundation
 
 class Categoria: Equatable, Identifiable, ObservableObject {
-    var recordName: String?
-    var id: String {self.recordName ?? ""}//String(self.hashValue)}
+    var id: String?// {self.recordName ?? ""}//String(self.hashValue)}
     @Published var nome: String
     @Published var tagsPosts: [String] = []
-    @Published var posts: [Post] = []
+//    @Published var posts: [String] = []
     
     init(nome: String?) {
         self.nome = nome ?? "<Nome Categoria>"
@@ -23,15 +22,15 @@ class Categoria: Equatable, Identifiable, ObservableObject {
         return lhs.id == rhs.id
     }
     
-    func addPost(post: Post?) {
-        if (post != nil) {
-            self.posts.append(post!)
-            addPostsTags(post: post!)
-        }
-        else { print("Categoria com post inválido") }
-    }
+//    func addPost(post: String?) {
+//        if (post != nil) {
+//            self.posts.append(post!)
+//            addPostsTags(post: post!)
+//        }
+//        else { print("Categoria com post inválido") }
+//    }
     
-    func addPostsTags(post: Post) {
+    func addPostTags(post: Post) {
         for tag in post.tags{
             if !self.tagsPosts.contains(tag) {
                 self.tagsPosts.append(tag)

@@ -58,7 +58,7 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
         var categorias: [String] = []
         for id in ids {
             for categ in self.categorias {
-                if (id == categ.id) { categorias.append(categ.id) }
+                if (id == categ.id) { categorias.append(categ.id!) }
             }
         }
         return categorias
@@ -119,25 +119,26 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
 
     func novoPost(publicador id_membro: String?, post id_post: Int, titulo: String, descricao: String?, link: Link?, categs: [String], tags: String) {
         let membro = getMembro(id: id_membro)
-        let idsCategorias = getIdsCategorias(ids: categs)
-        let categorias = getCategorias(ids: idsCategorias)
+//        let idsCategorias = getIdsCategorias(ids: categs)
+//        let categorias = getCategorias(ids: idsCategorias)
         
         if membro != nil {
-            if idsCategorias.count != 0 {
-                let post = Post(titulo: titulo, descricao: descricao, link: link, categs: idsCategorias, tags: tags, publicador: membro!)
+//            if idsCategorias.count != 0 {
+            if categs.count != 0 {
+                let post = Post(titulo: titulo, descricao: descricao, link: link, categs: categs, tags: tags, publicador: membro!)
                 
                 self.posts.append(post)
                 membro?.publicaPost(post: post.id)
                 for categ in categorias {
-                    categ.addPost(post: post)
+                    categ.addPostTags(post: post)
                 }
             }
             else {
-                print("Impossível criar o post pois nenhuma categoria é válida")
+                print("Sala novoPost: Impossível criar o post pois nenhuma categoria é válida")
             }
         }
         else {
-            print("Impossível criar o post pois o membro publicador não existe")
+            print("Sala novoPost: Impossível criar o post pois o membro publicador não existe")
         }
         
     }
