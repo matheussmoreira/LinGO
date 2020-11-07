@@ -277,7 +277,10 @@ struct MyRoomsView: View {
         CKManager.ckModifyUsuario(user: self.usuario) { (result) in
             switch result {
                 case .success(_):
-                    self.presentationMode.wrappedValue.dismiss()
+                    DispatchQueue.main.async {
+                        dao.sala_atual = sala.id
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
                 case .failure(let error):
                     print(#function)
                     print(error)
@@ -370,7 +373,10 @@ struct AvailableRoomsView: View {
         CKManager.ckModifyUsuario(user: self.usuario) { (result) in
             switch result {
                 case .success(_):
-                    self.presentationMode.wrappedValue.dismiss()
+                    DispatchQueue.main.async {
+                        dao.sala_atual = sala.id
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
                 case .failure(let error):
                     print(#function)
                     print(error)

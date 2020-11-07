@@ -15,6 +15,7 @@ class DAO: ObservableObject {
     @Published var salas: [Sala] = []
     @Published var usuarios: [Usuario] = []
     @Published var usuario_atual: Usuario?
+    @Published var sala_atual: String?
     
     fileprivate init(){
         carregaSalasFromCloud()
