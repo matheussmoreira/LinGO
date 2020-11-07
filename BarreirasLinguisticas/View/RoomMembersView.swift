@@ -52,7 +52,7 @@ struct MemberButton: View {
     
     var body: some View {
         Button(action: {
-            if self.membro.usuario.id != self.membro_sala.usuario.id {
+            if (self.membro.usuario.id != self.membro_sala.usuario.id) && self.membro.is_admin {
                 self.showMembro.toggle()
             }
         }) {
