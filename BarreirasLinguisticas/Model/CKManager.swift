@@ -48,7 +48,7 @@ struct CKManager {
                 else { is_admin = false }
             
             let membro = Membro(usuario: usuario!, idSala: idSala, is_admin: is_admin)
-            membro.recordName = recordName
+            membro.id = recordName
             return membro
         
         } else {
@@ -282,7 +282,7 @@ extension CKManager {
                 // PREPARA OS DADOS
                 var membros_array: [CKRecord.Reference] = []
                 for m in sala.membros {
-                    if let name = m.recordName {
+                    if let name = m.id {
                         membros_array.append(CKRecord.Reference(recordID: CKRecord.ID(recordName: name), action: .deleteSelf))
                     }
                 }
@@ -351,7 +351,7 @@ extension CKManager {
                                     else { is_admin = false }
                                     
                                     let membro = Membro(usuario: fetchedUser, idSala: idSala, is_admin: is_admin)
-                                    membro.recordName = savedMembro.recordID.recordName
+                                    membro.id = savedMembro.recordID.recordName
                                     completion(.success(membro))
                                 }
                             case .failure(let error):
@@ -391,7 +391,7 @@ extension CKManager {
                                 else { is_admin = false }
                                 
                                 let membro = Membro(usuario: fetchedUser, idSala: idSala, is_admin: is_admin)
-                                membro.recordName = fetchedMembro.recordID.recordName
+                                membro.id = fetchedMembro.recordID.recordName
                                 completion(.success(membro))
                             case .failure(let error):
                                 print(error)

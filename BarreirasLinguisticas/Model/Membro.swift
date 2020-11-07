@@ -10,7 +10,7 @@ import Foundation
 import CloudKitMagicCRUD
 
 class Membro: Equatable, Identifiable, ObservableObject {
-    var recordName: String?
+    var id: String?
     var usuario: Usuario
     var idSala: String
     var is_admin: Bool
