@@ -11,14 +11,14 @@ import Foundation
 class Comentario: Identifiable, ObservableObject {
     var recordName: String?
     var id: String {self.recordName ?? ""}//String(self.hashValue)}
-    var post: Post
+    @Published var post: Post
     @Published var publicador: Membro
     @Published var conteudo: String
-    var is_question: Bool
+    @Published var is_question: Bool
     @Published var votos: [Membro] = []
     @Published var original: Comentario?
     @Published var replies: [Comentario] = []
-    var improprio = false
+    @Published var improprio = false
     
     init(post: Post, publicador: Membro, conteudo: String, is_question: Bool, original: Comentario?) {
         self.post = post
