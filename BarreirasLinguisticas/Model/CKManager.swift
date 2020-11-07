@@ -221,15 +221,14 @@ extension CKManager {
                             print("updateUser: problema ao baixar a fluencia")
                             return
                         }
-                        guard let sala_atual = savedRecord["sala_atual"] as? String else {
-                            print("saveUser: problema ao baixar a sala atual")
-                            return
-                        }
+                        var sala_atual = savedRecord["sala_atual"] as? String
+                        if sala_atual == "" { sala_atual = nil }
                         
                         let savedUser = Usuario(
                             nome: nome,
                             foto_perfil: Image(uiImage: /*foto ?? */UIImage(named: "perfil")!),
-                            fluencia_ingles: Usuario.pegaFluencia(nome: fluencia))
+                            fluencia_ingles: Usuario.pegaFluencia(nome: fluencia)
+                        )
                         savedUser.id = user.id
                         savedUser.sala_atual = sala_atual
                         
@@ -268,7 +267,7 @@ extension CKManager {
         }
     }
     
-    static func ckSalaNovoMembro(sala: Sala, completion: @escaping (Result<[CKRecord.Reference], Error>) -> ()){
+    static func ckSalaUpdateMembros(sala: Sala, completion: @escaping (Result<[CKRecord.Reference], Error>) -> ()){
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: sala.id)) { (record, error) in
             // BUSCA PELA SALA
@@ -402,5 +401,21 @@ extension CKManager {
             }
         }
     } //fetchMembro
+    
+    //MARK: - Delete Qualquer Coisa
+    
+    static func deleteRecord(recordName: String, completion: @escaping (Result<CKRecord.ID, Error>) -> ()) {
+        CKContainer.default().publicCloudDatabase.delete(withRecordID: CKRecord.ID(recordName: recordName)) { (recordID, err) in
+            DispatchQueue.main.async {
+                if let err = err {
+                    completion(.failure(err))
+                    return
+                }
+                if let recordID = recordID {
+                    completion(.success(recordID))
+                }
+            }
+        }
+    } // delete
     
 }

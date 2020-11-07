@@ -149,13 +149,7 @@ struct ProfileView: View {
                                     Text("You won't be a member of this room anymore"
                                     ),
                                   primaryButton: .default(Text("Leave")){
-                                    self.sala.removeMembro(
-                                        membro: self.membro.usuario.id
-                                    )
-                                    if sala.membros.isEmpty{
-                                        dao.removeSala(sala)
-                                    }
-                                    self.proxima_sala()
+                                    sai_sala()
                                   },
                                   secondaryButton: .cancel())
                         }
@@ -209,15 +203,58 @@ struct ProfileView: View {
         }
     } //body
     
+    func sai_sala(){
+        sala.removeMembro(membro: self.membro.usuario.id)
+        CKManager.ckSalaUpdateMembros(sala: sala) { (result) in
+            // eu poderia apagar o membro do iCloud, mas optei por nao fazer isso ainda
+            switch result {
+                case .success(let membrosReferences):
+                    DispatchQueue.main.async {
+                        if membrosReferences.isEmpty {
+                            apagaSalaFromCloud(sala: sala)
+                        }
+                    }
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
+        }
+        
+    }
+    
+    func apagaSalaFromCloud(sala: Sala){
+        dao.removeSala(sala)
+        CKManager.deleteRecord(recordName: sala.id) { (result) in
+            switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        self.proxima_sala()
+                    }
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
+        }
+    }
+    
     func proxima_sala(){
         let usuario = membro.usuario
         let salas = dao.getSalasByUser(id: membro.usuario.id)
-        if salas.isEmpty {
-            usuario.sala_atual = nil
+        if salas.isEmpty { usuario.sala_atual = nil }
+            else { usuario.sala_atual = salas[0].id }
+        
+        CKManager.ckModifyUsuario(user: usuario) { (result) in
+            switch result {
+                case .success(let modifiedUser):
+                    DispatchQueue.main.async {
+                        dao.sala_atual = modifiedUser.sala_atual
+                    }
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
         }
-        else {
-            usuario.sala_atual = salas[0].id //salas[0].id
-        }
+        
     }
 }
 

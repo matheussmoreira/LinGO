@@ -258,7 +258,7 @@ struct MyRoomsView: View {
     
     func salaGanhaPrimeiroMembro(sala: Sala, membro: Membro){
         sala.membros.append(membro)
-        CKManager.ckSalaNovoMembro(sala: sala) { (result) in
+        CKManager.ckSalaUpdateMembros(sala: sala) { (result) in
             switch result {
                 case .success( _):
                     DispatchQueue.main.async {
@@ -276,9 +276,9 @@ struct MyRoomsView: View {
         
         CKManager.ckModifyUsuario(user: self.usuario) { (result) in
             switch result {
-                case .success(_):
+                case .success(let savedUser):
                     DispatchQueue.main.async {
-                        dao.sala_atual = sala.id
+                        dao.sala_atual = savedUser.sala_atual
                         self.presentationMode.wrappedValue.dismiss()
                     }
                 case .failure(let error):
@@ -353,7 +353,7 @@ struct AvailableRoomsView: View {
     
     func salaGanhaNovoMembro(sala: Sala, membro: Membro){
         sala.membros.append(membro)
-        CKManager.ckSalaNovoMembro(sala: sala) { (result) in
+        CKManager.ckSalaUpdateMembros(sala: sala) { (result) in
             switch result {
                 case .success( _):
                     DispatchQueue.main.async {
@@ -372,9 +372,9 @@ struct AvailableRoomsView: View {
         
         CKManager.ckModifyUsuario(user: self.usuario) { (result) in
             switch result {
-                case .success(_):
+                case .success(let savedUser):
                     DispatchQueue.main.async {
-                        dao.sala_atual = sala.id
+                        dao.sala_atual = savedUser.sala_atual
                         self.presentationMode.wrappedValue.dismiss()
                     }
                 case .failure(let error):

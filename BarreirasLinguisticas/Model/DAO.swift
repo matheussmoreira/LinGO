@@ -110,7 +110,6 @@ class DAO: ObservableObject {
         else {
             print("dao.addNovoUsuario: usuario recebido = nil")
         }
-        
     }
     
     func removeSala(_ sala: Sala) {
