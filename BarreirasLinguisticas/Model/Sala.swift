@@ -113,8 +113,8 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
         membro.is_admin = true
     }
     
-    func novaCategoria(id: Int, nome: String) {
-        self.categorias.append(Categoria(nome: nome))
+    func novaCategoria(_ categoria: Categoria) {
+        self.categorias.append(categoria)
     }
 
     func novoPost(publicador id_membro: String?, post id_post: Int, titulo: String, descricao: String?, link: Link?, categs: [String], tags: String) {

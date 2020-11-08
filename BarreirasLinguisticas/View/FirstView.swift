@@ -23,8 +23,8 @@ struct FirstView: View {
     var body: some View {
         VStack {
             if loading {
-                Text("Loading...")
-            } else{
+                ProgressView("Loading")
+            } else {
                 if daoz.usuario_atual == nil || enterMode == .logOut {
                     OnboardView(enterMode: $enterMode)
                         .environmentObject(daoz)

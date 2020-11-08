@@ -136,11 +136,7 @@ struct CreateCategorieView: View {
                 .padding(.bottom)
   
             Button(action: {
-                if newCategoryName != "" && newCategoryName != " " {
-                    sala.novaCategoria(id: UUID().hashValue, nome: newCategoryName)
-                    self.presentationMode.wrappedValue.dismiss()
-                }
-                
+                createNovaCategoria()
             }) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
@@ -152,4 +148,12 @@ struct CreateCategorieView: View {
             }
         }
     } //body
+    
+    func createNovaCategoria(){
+        if newCategoryName != "" && newCategoryName != " " {
+            let novaCategoria = Categoria(nome: newCategoryName)
+            sala.novaCategoria(novaCategoria)
+            self.presentationMode.wrappedValue.dismiss()
+        }
+    }
 }

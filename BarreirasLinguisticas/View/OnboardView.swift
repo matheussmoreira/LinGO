@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import CloudKitMagicCRUD
 
 struct OnboardView: View {
     @EnvironmentObject var dao: DAO
@@ -42,7 +43,7 @@ struct OnboardView: View {
             .tabViewStyle(PageTabViewStyle())
             
             // BOTAO GET STARTED
-            Button(action: {self.getStarted.toggle()}) {
+            Button(action: {carregaUsuario()/*self.getStarted.toggle()*/}) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
                         .frame(width: 250.0, height: 40.0)
@@ -53,13 +54,13 @@ struct OnboardView: View {
                 }
             }
             .padding(.vertical)
-            .sheet(isPresented: $getStarted){
-                NavigationView {
-                    EnterView(enterMode: $enterMode)
-                        .environmentObject(dao)
-                        .navigationBarHidden(true)
-                }
-            }
+//            .sheet(isPresented: $getStarted){
+//                NavigationView {
+//                    EnterView(enterMode: $enterMode)
+//                        .environmentObject(dao)
+//                        .navigationBarHidden(true)
+//                }
+//            }
             
         } // VStack
         .background(
@@ -68,6 +69,35 @@ struct OnboardView: View {
         )
         
     }//body
+    
+    func carregaUsuario(){
+        CKMDefault.setRecordTypeFor(type: Usuario.self, recordName: "Users")
+        CKMDefault.container.fetchUserRecordID { (recordID, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+            if let recordID = recordID {
+                CKManager.ckFetchUsuario(recordName: recordID.recordName) { (result) in
+                    switch result{
+                        case .success(let fetchedUser):
+                            DispatchQueue.main.async {
+                                dao.usuario_atual = fetchedUser
+                                dao.sala_atual = fetchedUser.sala_atual
+                                enterMode = .logIn
+                                UserDefaults.standard.set(
+                                    enterMode.rawValue,
+                                    forKey: "LastEnterMode"
+                                )
+                            }
+                        case .failure(let error):
+                            print(#function)
+                            print(error)
+                    }
+                }
+            }
+        }
+    }
 }
 
 struct OnboardView_Previews: PreviewProvider {

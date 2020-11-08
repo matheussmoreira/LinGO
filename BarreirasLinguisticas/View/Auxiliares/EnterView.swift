@@ -79,6 +79,7 @@ struct EnterView: View {
                             DispatchQueue.main.async {
                                 print("login: case.success")
                                 dao.usuario_atual = fetchedUser
+                                dao.sala_atual = fetchedUser.sala_atual
                                 enterMode = .logIn
                                 UserDefaults.standard.set(
                                     enterMode.rawValue,

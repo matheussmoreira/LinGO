@@ -75,6 +75,8 @@ struct CKManager {
             return nil
         }
         
+        // FALTAM OS POSTS E CATEGORIAS
+        
         var membros: [Membro] = []
         for membroDictionary in membrosDictionaries {
             if let membro = getMembroFromDictionary(membroDictionary) {
@@ -104,6 +106,20 @@ struct CKManager {
         }
     } // funcao
     
+    static func deleteRecord(recordName: String, completion: @escaping (Result<CKRecord.ID, Error>) -> ()) {
+        CKContainer.default().publicCloudDatabase.delete(withRecordID: CKRecord.ID(recordName: recordName)) { (recordID, err) in
+            DispatchQueue.main.async {
+                if let err = err {
+                    completion(.failure(err))
+                    return
+                }
+                if let recordID = recordID {
+                    completion(.success(recordID))
+                }
+            }
+        }
+    } // delete
+    
 }
 
 // MARK: - USUARIO
@@ -113,7 +129,7 @@ extension CKManager {
         userRecord["nome"] = user.nome as CKRecordValue
         userRecord["fluencia_ingles"] = user.fluencia_ingles as CKRecordValue
         
-        // falta a foto de perfil
+        // FALTA A FOTO DE PERFIL
         
         CKContainer.default().publicCloudDatabase.save(userRecord) { (record, err) in
             DispatchQueue.main.async {
@@ -157,7 +173,7 @@ extension CKManager {
                 return
             }
             if let record = record {
-                // Pegando os dados do usuario
+                // SEM GUARD LET POR CONTA DA CRIACAO DE UM NOVO USUARIO
                 let id = record.recordID.recordName
                 let nome = record["nome"] as? String
 //                guard let nome = record["nome"] as? String else {
@@ -174,9 +190,8 @@ extension CKManager {
 //                    return
 //                }
                 let sala_atual = record["sala_atual"] as? String 
-//                let sala_atual = record["sala_atual"] as? Sala // MUDAR PARA GUARD LET DEPOIS
+//                let sala_atual = record["sala_atual"] as? Sala
                 
-                // Devolvendo os dados
                 let fetchedUser = Usuario(
                     nome: nome,
                     foto_perfil: Image(uiImage: UIImage(named: "perfil")!),//foto ),
@@ -320,12 +335,11 @@ extension CKManager {
         membroRecord["is_admin"] = membro.is_admin ? 1 : 0
         
         // MANDANDO SALVAR
-        CKContainer.default().publicCloudDatabase.save(membroRecord) { (record, err) in
-            if let err = err {
+        CKContainer.default().publicCloudDatabase.save(membroRecord) { (record, error) in
+            if let error = error {
                 print(#function)
                 print("Erro ao salvar membro")
-                completion(.failure(err))
-                return
+                completion(.failure(error))
             }
             
             // RECEBENDO OS DADOS SALVOS
@@ -394,6 +408,7 @@ extension CKManager {
                                 membro.id = fetchedMembro.recordID.recordName
                                 completion(.success(membro))
                             case .failure(let error):
+                                print(#function)
                                 print(error)
                         }
                     }
@@ -401,21 +416,32 @@ extension CKManager {
             }
         }
     } //fetchMembro
-    
-    //MARK: - Delete Qualquer Coisa
-    
-    static func deleteRecord(recordName: String, completion: @escaping (Result<CKRecord.ID, Error>) -> ()) {
-        CKContainer.default().publicCloudDatabase.delete(withRecordID: CKRecord.ID(recordName: recordName)) { (recordID, err) in
-            DispatchQueue.main.async {
-                if let err = err {
-                    completion(.failure(err))
+}
+
+extension CKManager {
+    static func ckSaveCategoria(categoria: Categoria, completion: @escaping (Result<Categoria, Error>) -> ()) {
+        // PREPARANDO OS DADOS
+        let categoriaRecord = CKRecord(recordType: "Categoria")
+        categoriaRecord["nome"] = categoria.nome
+        
+        // SALVANDO NO BANCO
+        CKContainer.default().publicCloudDatabase.save(categoriaRecord){ (record,error) in
+            if let error = error {
+                print(#function)
+                print("Erro ao salvar categoria")
+                completion(.failure(error))
+            }
+            if let savedCategRecord = record {
+                guard let nome = savedCategRecord["nome"] as? String else {
+                    print(#function)
+                    print("Problema ao baixar o nome")
                     return
                 }
-                if let recordID = recordID {
-                    completion(.success(recordID))
-                }
+                
+                let categoria = Categoria(nome: nome)
+                completion(.success(categoria))
             }
+            
         }
-    } // delete
-    
+    }
 }

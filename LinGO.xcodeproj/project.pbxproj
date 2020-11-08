@@ -153,6 +153,8 @@
 		6674DDFD252FADE80044E9C7 /* Auxiliares */ = {
 			isa = PBXGroup;
 			children = (
+				66C35043254768E300E3CA26 /* NewUserView.swift */,
+				66F51D82254891680020D55A /* EnterView.swift */,
 				EA6CA39C24DA006600FAD6F6 /* MultilineTextField.swift */,
 				6675881724D3789B00C9B805 /* UsersView.swift */,
 				663C8ECF24CCB7F5000936FF /* LinkView.swift */,
@@ -235,8 +237,6 @@
 				6674DDFA252FAD4D0044E9C7 /* OnboardAntigo */,
 				6629EBA224EC45B4009802A5 /* FirstView.swift */,
 				66E744682547AC4400B33131 /* OnboardView.swift */,
-				66F51D82254891680020D55A /* EnterView.swift */,
-				66C35043254768E300E3CA26 /* NewUserView.swift */,
 				66D7AA6824CB5135001CEA3A /* ContentView.swift */,
 				667D8BAC24D302B4005D51F4 /* RoomsView.swift */,
 				66D7AA8424CB80B2001CEA3A /* DiscoverView.swift */,
