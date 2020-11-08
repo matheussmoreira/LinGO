@@ -123,7 +123,7 @@ struct EditProfileView: View {
             usuario.id = self.usuario.id
             usuario.sala_atual = self.usuario.sala_atual
             
-            CKManager.ckModifyUsuario(user: usuario) { (result) in
+            CKManager.modifyUsuario(user: usuario) { (result) in
                 switch result {
                     case .success(let updatedUser):
                         DispatchQueue.main.async {

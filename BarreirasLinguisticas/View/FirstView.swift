@@ -53,7 +53,7 @@ struct FirstView: View {
                 return
             }
             if let recordID = recordID {
-                CKManager.ckFetchUsuario(recordName: recordID.recordName) { (result) in
+                CKManager.fetchUsuario(recordName: recordID.recordName) { (result) in
                     switch result{
                         case .success(let fetchedUser):
                             DispatchQueue.main.async {

@@ -228,7 +228,7 @@ struct MyRoomsView: View {
     }
     
     func novaSala(nome: String, criador: Usuario) {
-        CKManager.ckCreateSala(nome: nome) { (result) in
+        CKManager.saveSala(nome: nome) { (result) in
             switch result {
                 case .success(let savedSala):
                     DispatchQueue.main.async {
@@ -243,7 +243,7 @@ struct MyRoomsView: View {
     
     func primeiroMembro(sala savedSala: Sala, usuario criador: Usuario){
         let membro = Membro(usuario: criador, idSala: savedSala.id, is_admin: true)
-        CKManager.ckCreateMembro(membro: membro) { (result) in
+        CKManager.saveMembro(membro: membro) { (result) in
             switch result {
                 case .success(let savedMembro):
                     DispatchQueue.main.async {
@@ -258,7 +258,7 @@ struct MyRoomsView: View {
     
     func salaGanhaPrimeiroMembro(sala: Sala, membro: Membro){
         sala.membros.append(membro)
-        CKManager.ckSalaUpdateMembros(sala: sala) { (result) in
+        CKManager.modifySalaMembros(sala: sala) { (result) in
             switch result {
                 case .success( _):
                     DispatchQueue.main.async {
@@ -274,7 +274,7 @@ struct MyRoomsView: View {
     func alteraSalaAtual(sala: Sala){
         self.usuario.sala_atual = sala.id//sala
         
-        CKManager.ckModifyUsuario(user: self.usuario) { (result) in
+        CKManager.modifyUsuario(user: self.usuario) { (result) in
             switch result {
                 case .success(let savedUser):
                     DispatchQueue.main.async {
@@ -338,7 +338,7 @@ struct AvailableRoomsView: View {
     
     func novoMembro(sala: Sala, usuario criador: Usuario){
         let membro = Membro(usuario: criador, idSala: sala.id, is_admin: false)
-        CKManager.ckCreateMembro(membro: membro) { (result) in
+        CKManager.saveMembro(membro: membro) { (result) in
             switch result {
                 case .success(let savedMembro):
                     DispatchQueue.main.async {
@@ -353,7 +353,7 @@ struct AvailableRoomsView: View {
     
     func salaGanhaNovoMembro(sala: Sala, membro: Membro){
         sala.membros.append(membro)
-        CKManager.ckSalaUpdateMembros(sala: sala) { (result) in
+        CKManager.modifySalaMembros(sala: sala) { (result) in
             switch result {
                 case .success( _):
                     DispatchQueue.main.async {
@@ -370,7 +370,7 @@ struct AvailableRoomsView: View {
     func alteraSalaAtual(sala: Sala){
         self.usuario.sala_atual = sala.id
         
-        CKManager.ckModifyUsuario(user: self.usuario) { (result) in
+        CKManager.modifyUsuario(user: self.usuario) { (result) in
             switch result {
                 case .success(let savedUser):
                     DispatchQueue.main.async {

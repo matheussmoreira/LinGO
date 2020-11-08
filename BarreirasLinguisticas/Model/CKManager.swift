@@ -58,54 +58,6 @@ struct CKManager {
         return nil
     }
     
-    static func getSalaFromRecord(salaRecord: CKRecord) -> Sala? {
-        guard let salaRecordName = salaRecord.asDictionary["recordName"] as? String else {
-            print(#function)
-            print("Erro ao capturar o recordName de uma sala")
-            return nil
-        }
-        guard let salaNome = salaRecord.asDictionary["nome"] as? String else{
-            print(#function)
-            print("Erro ao capturar o nome de uma sala")
-            return nil
-        }
-        guard let membrosDictionaries = salaRecord.asDictionary["membros"] as? Array<Optional<Dictionary<String, Any>> >else {
-            print(#function)
-            print("Erro no cast do vetor de membros")
-            return nil
-        }
-        
-        // FALTAM OS POSTS E CATEGORIAS
-        
-        var membros: [Membro] = []
-        for membroDictionary in membrosDictionaries {
-            if let membro = getMembroFromDictionary(membroDictionary) {
-                membros.append(membro)
-            } else {
-                print("Nao adquiriu membro do dicionario!")
-            }
-        }
-        
-        let sala = Sala(id: salaRecordName, nome: salaNome)
-        sala.membros.append(contentsOf: membros)
-        return sala
-    }
-    
-    static func loadSalasRecords(completion: @escaping (Result<[CKRecord], Error>) -> ()){
-        let publicDB = CKContainer.default().publicCloudDatabase
-        let querySalas = CKQuery(recordType: "Sala", predicate: NSPredicate(value: true))
-        publicDB.perform(querySalas, inZoneWith: nil) { (records, error) in
-            if let  error = error {
-                print(#function)
-                print("Erro ao carregar salas")
-                completion(.failure(error))
-            }
-            if let loadedSalas = records {
-                completion(.success(loadedSalas))
-            }
-        }
-    } // funcao
-    
     static func deleteRecord(recordName: String, completion: @escaping (Result<CKRecord.ID, Error>) -> ()) {
         CKContainer.default().publicCloudDatabase.delete(withRecordID: CKRecord.ID(recordName: recordName)) { (recordID, err) in
             DispatchQueue.main.async {
@@ -124,7 +76,7 @@ struct CKManager {
 
 // MARK: - USUARIO
 extension CKManager {
-    static func ckSaveUsuario(user: Usuario, completion: @escaping (Result<Usuario, Error>) -> ()) {
+    static func saveUsuario(user: Usuario, completion: @escaping (Result<Usuario, Error>) -> ()) {
         let userRecord = CKRecord(recordType: "Users")
         userRecord["nome"] = user.nome as CKRecordValue
         userRecord["fluencia_ingles"] = user.fluencia_ingles as CKRecordValue
@@ -165,7 +117,7 @@ extension CKManager {
         }
     }
     
-    static func ckFetchUsuario(recordName: String, completion: @escaping (Result<Usuario, Error>) -> ()) {
+    static func fetchUsuario(recordName: String, completion: @escaping (Result<Usuario, Error>) -> ()) {
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: recordName)) { (record, error) in
             if let error = error {
@@ -204,8 +156,7 @@ extension CKManager {
         }
     }
     
-    static func ckModifyUsuario(user: Usuario, completion: @escaping (Result<Usuario, Error>) -> ()){
-        
+    static func modifyUsuario(user: Usuario, completion: @escaping (Result<Usuario, Error>) -> ()){
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: user.id)){ (record, error) in
             if let error = error {
@@ -259,7 +210,59 @@ extension CKManager {
 
 // MARK: - SALA
 extension CKManager {
-    static func ckCreateSala(nome: String, completion: @escaping (Result<Sala, Error>) -> ()) {
+    static func loadSalasRecords(completion: @escaping (Result<[CKRecord], Error>) -> ()){
+        let publicDB = CKContainer.default().publicCloudDatabase
+        let querySalas = CKQuery(recordType: "Sala", predicate: NSPredicate(value: true))
+        publicDB.perform(querySalas, inZoneWith: nil) { (records, error) in
+            if let  error = error {
+                print(#function)
+                print("Erro ao carregar salas")
+                completion(.failure(error))
+            }
+            if let loadedSalas = records {
+                completion(.success(loadedSalas))
+            }
+        }
+    } // funcao
+    
+    static func getSalaFromRecord(salaRecord: CKRecord) -> Sala? {
+        guard let salaRecordName = salaRecord.asDictionary["recordName"] as? String else {
+            print(#function)
+            print("Erro ao capturar o recordName de uma sala")
+            return nil
+        }
+        guard let salaNome = salaRecord.asDictionary["nome"] as? String else {
+            print(#function)
+            print("Erro ao capturar o nome de uma sala")
+            return nil
+        }
+        guard let membrosDictionaries = salaRecord.asDictionary["membros"] as? Array<Optional<Dictionary<String, Any>>> else {
+            print(#function)
+            print("Erro no cast do vetor de membros")
+            return nil
+        }
+        var membros: [Membro] = []
+        for membroDictionary in membrosDictionaries {
+            if let membro = getMembroFromDictionary(membroDictionary) {
+                membros.append(membro)
+            } else {
+                print("Nao adquiriu membro do dicionario!")
+            }
+        }
+        
+//        guard let categoriasDictionaries = salaRecord.asDictionary["categorias"] as? Array<Optional<Dictionary<String, Any>>> else {
+//            print(#function)
+//            print("Erro no cast do vetor de categorias")
+//            return nil
+//        }
+        
+        // FALTAM OS POSTS
+        let sala = Sala(id: salaRecordName, nome: salaNome)
+        sala.membros.append(contentsOf: membros)
+        return sala
+    }
+    
+    static func saveSala(nome: String, completion: @escaping (Result<Sala, Error>) -> ()) {
         let salaRecord = CKRecord(recordType: "Sala")
         salaRecord["nome"] = nome
         
@@ -276,13 +279,14 @@ extension CKManager {
                     print("Problema ao baixar o nome")
                     return
                 }
-                let savedSala = Sala(id: savedRecord.recordID.recordName, nome: nome)
-                completion(.success(savedSala))
+                
+                let sala = Sala(id: savedRecord.recordID.recordName, nome: nome)
+                completion(.success(sala))
             }
         }
     }
     
-    static func ckSalaUpdateMembros(sala: Sala, completion: @escaping (Result<[CKRecord.Reference], Error>) -> ()){
+    static func modifySalaMembros(sala: Sala, completion: @escaping (Result<[CKRecord.Reference], Error>) -> ()){
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: sala.id)) { (record, error) in
             // BUSCA PELA SALA
@@ -293,7 +297,6 @@ extension CKManager {
                 return
             }
             if let fetchedSala = record {
-                // POR ENQUANTO ESTAMOS ALTERANDO SO A RELACAO DOS MEMBROS NA SALA
                 // PREPARA OS DADOS
                 var membros_array: [CKRecord.Reference] = []
                 for m in sala.membros {
@@ -320,12 +323,49 @@ extension CKManager {
                 }
             }
         }
-    } //update
+    }
+    
+    static func modifySalaCategorias(sala: Sala, completion: @escaping (Result<[CKRecord.Reference], Error>) -> ()) {
+        let publicDB = CKContainer.default().publicCloudDatabase
+        publicDB.fetch(withRecordID: CKRecord.ID(recordName: sala.id)) { (record, error) in
+            // BUSCA PELA SALA
+            if let error = error {
+                print(#function)
+                print("Erro ao buscar sala")
+                completion(.failure(error))
+                return
+            }
+            if let fetchedSala = record {
+                var categorias_array: [CKRecord.Reference] = []
+                for categ in sala.categorias {
+                    if let name = categ.id {
+                        categorias_array.append(CKRecord.Reference(recordID: CKRecord.ID(recordName: name), action: .deleteSelf))
+                    }
+                }
+                fetchedSala["categorias"] = categorias_array
+                
+                publicDB.save(fetchedSala) { (record, error) in
+                    if let error = error {
+                        completion(.failure(error))
+                        return
+                    }
+                    if let savedSalaRecord = record {
+                        guard let categoriasReferences = savedSalaRecord["categorias"] as? [CKRecord.Reference] else {
+                            print(#function)
+                            print("Problema ao baixar as categorias")
+                            return
+                        }
+                        completion(.success(categoriasReferences))
+                    }
+                }
+            }
+        }
+    }
 }
 
 // MARK: - MEMBRO
 extension CKManager {
-    static func ckCreateMembro(membro: Membro, completion: @escaping (Result<Membro, Error>) -> ()) {
+    static func saveMembro(membro: Membro, completion: @escaping (Result<Membro, Error>) -> ()) {
         // PREPARANDO OS DADOS
         let membroRecord = CKRecord(recordType: "Membro")
         membroRecord["usuario"] = CKRecord.Reference(
@@ -345,7 +385,7 @@ extension CKManager {
             // RECEBENDO OS DADOS SALVOS
             if let savedMembro = record {
                 if let userReference = savedMembro["usuario"] as? CKRecord.Reference {
-                    ckFetchUsuario(recordName: userReference.recordID.recordName) { (result) in
+                    fetchUsuario(recordName: userReference.recordID.recordName) { (result) in
                         switch result {
                             case .success(let fetchedUser):
                                 DispatchQueue.main.async {
@@ -380,7 +420,7 @@ extension CKManager {
 
     } // funcao
     
-    static func ckFetchMembro(recordName: String, completion: @escaping (Result<Membro, Error>) -> ()) {
+    static func fetchMembro(recordName: String, completion: @escaping (Result<Membro, Error>) -> ()) {
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: recordName)) { (record, error) in
             if let error = error {
@@ -389,7 +429,7 @@ extension CKManager {
             }
             if let fetchedMembro = record {
                 if let usuarioReference = fetchedMembro["usuario"] as? CKRecord.Reference {
-                    ckFetchUsuario(recordName: usuarioReference.recordID.recordName) { (result) in
+                    fetchUsuario(recordName: usuarioReference.recordID.recordName) { (result) in
                         switch result {
                             case .success(let fetchedUser):
                                 guard let idSala = fetchedMembro["idSala"] as? String else {
@@ -418,8 +458,9 @@ extension CKManager {
     } //fetchMembro
 }
 
+// MARK: - CATEGORIA
 extension CKManager {
-    static func ckSaveCategoria(categoria: Categoria, completion: @escaping (Result<Categoria, Error>) -> ()) {
+    static func saveCategoria(categoria: Categoria, completion: @escaping (Result<Categoria, Error>) -> ()) {
         // PREPARANDO OS DADOS
         let categoriaRecord = CKRecord(recordType: "Categoria")
         categoriaRecord["nome"] = categoria.nome
@@ -439,6 +480,7 @@ extension CKManager {
                 }
                 
                 let categoria = Categoria(nome: nome)
+                categoria.id = savedCategRecord.recordID.recordName
                 completion(.success(categoria))
             }
             

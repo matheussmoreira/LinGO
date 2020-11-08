@@ -152,8 +152,32 @@ struct CreateCategorieView: View {
     func createNovaCategoria(){
         if newCategoryName != "" && newCategoryName != " " {
             let novaCategoria = Categoria(nome: newCategoryName)
-            sala.novaCategoria(novaCategoria)
-            self.presentationMode.wrappedValue.dismiss()
+            CKManager.saveCategoria(categoria: novaCategoria) { (result) in
+                switch result {
+                    case .success(let savedCategoria):
+                        addCategoriaNaSala(categoria: savedCategoria)
+                    case .failure(let error):
+                        print(#function)
+                        print(error)
+                }
+            }
+        }
+    }
+    
+    func addCategoriaNaSala(categoria savedCategoria: Categoria){
+        DispatchQueue.main.async {
+            sala.novaCategoria(savedCategoria)
+            CKManager.modifySalaCategorias(sala: sala) { (result2) in
+                switch result2 {
+                    case .success(_):
+                        DispatchQueue.main.async {
+                            self.presentationMode.wrappedValue.dismiss()
+                        }
+                    case .failure(let error):
+                        print(#function)
+                        print(error)
+                }
+            }
         }
     }
 }

@@ -205,7 +205,7 @@ struct ProfileView: View {
     
     func sai_sala(){
         sala.removeMembro(membro: self.membro.usuario.id)
-        CKManager.ckSalaUpdateMembros(sala: sala) { (result) in
+        CKManager.modifySalaMembros(sala: sala) { (result) in
             // eu poderia apagar o membro do iCloud, mas optei por nao fazer isso ainda
             switch result {
                 case .success(let membrosReferences):
@@ -243,7 +243,7 @@ struct ProfileView: View {
         if salas.isEmpty { usuario.sala_atual = nil }
             else { usuario.sala_atual = salas[0].id }
         
-        CKManager.ckModifyUsuario(user: usuario) { (result) in
+        CKManager.modifyUsuario(user: usuario) { (result) in
             switch result {
                 case .success(let modifiedUser):
                     DispatchQueue.main.async {
