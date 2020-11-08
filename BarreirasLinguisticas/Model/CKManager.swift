@@ -226,16 +226,19 @@ extension CKManager {
     } // funcao
     
     static func getSalaFromRecord(salaRecord: CKRecord) -> Sala? {
+        // RECORD NAME
         guard let salaRecordName = salaRecord.asDictionary["recordName"] as? String else {
             print(#function)
             print("Erro ao capturar o recordName de uma sala")
             return nil
         }
+        // NOME
         guard let salaNome = salaRecord.asDictionary["nome"] as? String else {
             print(#function)
             print("Erro ao capturar o nome de uma sala")
             return nil
         }
+        // MEMBROS
         guard let membrosDictionaries = salaRecord.asDictionary["membros"] as? Array<Optional<Dictionary<String, Any>>> else {
             print(#function)
             print("Erro no cast do vetor de membros")
@@ -246,6 +249,7 @@ extension CKManager {
             if let membro = getMembroFromDictionary(membroDictionary) {
                 membros.append(membro)
             } else {
+                print(#function)
                 print("Nao adquiriu membro do dicionario!")
             }
         }
@@ -255,8 +259,21 @@ extension CKManager {
 //            print("Erro no cast do vetor de categorias")
 //            return nil
 //        }
+//        
+//        print(categoriasDictionaries)
         
+        // CATEGORIAS
+//        guard let categoriasDictionaries = salaRecord.asDictionary["categorias"] as? Array<Optional<Dictionary<String, Any>>> else {
+//            print(#function)
+//            print("Erro no cast do vetor de categorias")
+//            return nil
+//        }
+//        for categDictionary in categoriasDictionaries {
+//            print(categDictionary!)
+//        }
+ 
         // FALTAM OS POSTS
+        
         let sala = Sala(id: salaRecordName, nome: salaNome)
         sala.membros.append(contentsOf: membros)
         return sala
