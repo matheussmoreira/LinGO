@@ -58,6 +58,25 @@ struct CKManager {
         return nil
     }
     
+    private static func getCategoriaFromDictionary(_ categDictionaryOpt:Dictionary<String, Any>?) -> Categoria? {
+        
+        if let categDictionary = categDictionaryOpt {
+            let id = categDictionary["recordName"] as! String
+            let nome = categDictionary["nome"] as! String
+            let tagsPosts = categDictionary["tagsPosts"] as? [String] ?? []
+            
+            let categoria = Categoria(nome: nome)
+            categoria.id = id
+            categoria.tagsPosts = tagsPosts
+            return categoria
+            
+        } else {
+            print(#function)
+            print("categDictionary is nil")
+            return nil
+        }
+    }
+    
     static func deleteRecord(recordName: String, completion: @escaping (Result<CKRecord.ID, Error>) -> ()) {
         CKContainer.default().publicCloudDatabase.delete(withRecordID: CKRecord.ID(recordName: recordName)) { (recordID, err) in
             DispatchQueue.main.async {
@@ -259,8 +278,20 @@ extension CKManager {
 //            print("Erro no cast do vetor de categorias")
 //            return nil
 //        }
-//        
-//        print(categoriasDictionaries)
+        
+        var categorias: [Categoria] = []
+        if let categoriasDictionaries = salaRecord.asDictionary["categorias"] as? Array<Optional<Dictionary<String, Any>>> {
+            
+            for categoriaDictionary in categoriasDictionaries {
+//                print(categoriaDictionary)
+                if let categ = getCategoriaFromDictionary(categoriaDictionary) {
+                    categorias.append(categ)
+                } else {
+                    print(#function)
+                    print("Nao adquiriu categoria do dicionario!")
+                }
+            }
+        }
         
         // CATEGORIAS
 //        guard let categoriasDictionaries = salaRecord.asDictionary["categorias"] as? Array<Optional<Dictionary<String, Any>>> else {
@@ -276,6 +307,7 @@ extension CKManager {
         
         let sala = Sala(id: salaRecordName, nome: salaNome)
         sala.membros.append(contentsOf: membros)
+        sala.categorias.append(contentsOf: categorias)
         return sala
     }
     
