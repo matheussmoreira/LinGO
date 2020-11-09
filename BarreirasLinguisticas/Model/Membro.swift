@@ -10,7 +10,7 @@ import Foundation
 import CloudKitMagicCRUD
 
 class Membro: Equatable, Identifiable, ObservableObject {
-    var id: String?
+    var id: String = ""
     var usuario: Usuario
     var idSala: String
     var is_admin: Bool
@@ -34,7 +34,19 @@ class Membro: Equatable, Identifiable, ObservableObject {
     }
     
     func publicaPost(post: String?) {
-        if (post != nil) { self.posts_publicados.append(post!)}
+        if (post != nil) {
+            self.posts_publicados.append(post!)
+            CKManager.modifyMembroPublicados(membro: self) { (result) in
+                switch result {
+                    case .success(_):
+                        break
+                    case .failure(let error):
+                        print(#function)
+                        print(error)
+                }
+            }
+            
+        }
         else { print("Post a ser publicado inválido") }
     }
     

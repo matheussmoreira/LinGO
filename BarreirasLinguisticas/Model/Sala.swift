@@ -58,7 +58,7 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
         var categorias: [String] = []
         for id in ids {
             for categ in self.categorias {
-                if (id == categ.id) { categorias.append(categ.id!) }
+                if (id == categ.id) { categorias.append(categ.id) }
             }
         }
         return categorias
@@ -125,13 +125,21 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
         if membro != nil {
 //            if idsCategorias.count != 0 {
             if categs.count != 0 {
+                
                 let post = Post(titulo: titulo, descricao: descricao, link: link, categs: categs, tags: tags, publicador: membro!)
                 
-                self.posts.append(post)
-                membro?.publicaPost(post: post.id)
-                for categ in categorias {
-                    categ.addPostTags(post: post)
+                CKManager.savePost(post: post) { (result) in
+                    switch result {
+                        case .success(let savedPost):
+                            DispatchQueue.main.async {
+                                self.updatePostsCloud(post: savedPost, membro: membro!)
+                            }
+                        case .failure(let error):
+                            print(#function)
+                            print(error)
+                    }
                 }
+                
             }
             else {
                 print("Sala novoPost: Impossível criar o post pois nenhuma categoria é válida")
@@ -141,6 +149,30 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
             print("Sala novoPost: Impossível criar o post pois o membro publicador não existe")
         }
         
+    }
+    
+    private func updatePostsCloud(post savedPost: Post, membro: Membro){
+        self.posts.append(savedPost)
+        // ATUALIZA O VETOR DE POSTS DA SALA
+        CKManager.modifySalaPosts(sala: self) { (result) in
+            switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        // ATUALIZA O VETOR DE POSTS PUBLICADOS DO MEMBROS
+                        // atualiza no CK dentro da funcao
+                        membro.publicaPost(post: savedPost.id)
+                        
+                        // ATUALIZA O VETOR DE TAGS DA CATEGORIA
+                        // atualiza no CK dentro da funcao
+                        for categ in self.categorias {
+                            categ.addPostTags(post: savedPost)
+                        }
+                    }
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
+        }
     }
     
     func excluiPost(id_post: String){

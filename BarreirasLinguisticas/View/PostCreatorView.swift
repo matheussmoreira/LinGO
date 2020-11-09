@@ -224,7 +224,7 @@ struct PostCreatorView: View {
     func getCategsId() -> [String] {
         var categsId: [String] = []
         for categ in selectedCategories {
-            categsId.append(categ.id!) // as categorias existem, logo id eh nao-nulo
+            categsId.append(categ.id) // as categorias existem, logo id eh nao-nulo
         }
         return categsId
     }

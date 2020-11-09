@@ -44,7 +44,7 @@ struct PostsOfCategorieView: View {
                 .sheet(
                     isPresented: $showPostEditor,
                     onDismiss: {
-                        self.loaded_posts = self.sala.getPostsByCategorie(categ: self.categoria.id!) //categoria existe entao pode o !
+                        self.loaded_posts = self.sala.getPostsByCategorie(categ: self.categoria.id) //categoria existe entao pode o !
                     }){
                     PostCreatorView()
                         .environmentObject(self.membro)
@@ -87,8 +87,8 @@ struct PostsOfCategorieView: View {
     
     func load() {
         //categoria exist e tem id, logo os ! abaixo
-        loaded_posts = sala.getPostsByCategorie(categ: categoria.id!)
-        subscribed = membro.assinaturas.contains(categoria.id!)
+        loaded_posts = sala.getPostsByCategorie(categ: categoria.id)
+        subscribed = membro.assinaturas.contains(categoria.id)
         if subscribed {
             subscribedImage = "checkmark.circle.fill"
         }

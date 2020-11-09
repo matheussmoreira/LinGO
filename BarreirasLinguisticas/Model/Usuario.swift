@@ -19,9 +19,9 @@ enum Fluencia: String {
 
 class Usuario: Equatable, Identifiable, ObservableObject, CKMRecord {
     var recordName: String?
-    var id: String = ""//{self.recordName ?? String(self.hashValue)}
+    var id: String = ""
     @Published var nome: String = ""
-    @Published var foto_perfil: Image = Image("perfil")
+    @Published var foto_perfil: Image = Image("perfil") // trocar pra Data
     @Published var sala_atual: String?//Sala?
     @Published var fluencia_ingles: String = ""// = .unknown
     var cor_fluencia: Color {

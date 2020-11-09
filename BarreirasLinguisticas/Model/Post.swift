@@ -11,7 +11,7 @@ import LinkPresentation
 
 class Post: Equatable, Identifiable, ObservableObject {
     var recordName: String?
-    var id: String {self.recordName ?? ""}//String(self.hashValue)}
+    var id: String = ""//{self.recordName ?? ""}//String(self.hashValue)}
     @Published var titulo: String
     @Published var descricao: String?
     @Published var link: Link?
@@ -29,7 +29,9 @@ class Post: Equatable, Identifiable, ObservableObject {
         self.categorias = categs
         self.publicador = publicador
         addLink(link)
-        self.tags = splitTags(tags)
+        if tags != "" {
+            self.tags = splitTags(tags)
+        }
     }
     
     static func == (lhs: Post, rhs: Post) -> Bool {

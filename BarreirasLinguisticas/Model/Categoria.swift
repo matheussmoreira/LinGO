@@ -9,7 +9,7 @@
 import Foundation
 
 class Categoria: Equatable, Identifiable, ObservableObject {
-    var id: String?// {self.recordName ?? ""}//String(self.hashValue)}
+    var id: String = ""// {self.recordName ?? ""}//String(self.hashValue)}
     @Published var nome: String
     @Published var tagsPosts: [String] = []
 //    @Published var posts: [String] = []
@@ -34,6 +34,15 @@ class Categoria: Equatable, Identifiable, ObservableObject {
         for tag in post.tags{
             if !self.tagsPosts.contains(tag) {
                 self.tagsPosts.append(tag)
+                CKManager.modifyCategoriaTagsPosts(categoria: self) { (result) in
+                    switch result {
+                        case .success(_):
+                            break
+                        case .failure(let error):
+                            print(#function)
+                            print(error)
+                    }
+                }
             }
         }
     }
