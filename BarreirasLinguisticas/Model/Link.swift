@@ -34,13 +34,16 @@ class Link: NSObject, NSSecureCoding {
     
     init? (urlString: String, completion: @escaping (Result<Link, Error>) -> ()) {
         super.init()
+        print("Construindo link...")
 //        LinkManager().getLink(url: urlString, to: self)
         Link.fetchMetadata(for: urlString) { (result) in
             switch result {
                 case .success(let metadata):
+                    print("Sucesso ao pegar metadados")
                     self.update(from: metadata)
                     completion(.success(self))
                 case .failure(let error):
+                    print("Falha ao pegar metadados")
                     print(error)
                     completion(.failure(error))
             }

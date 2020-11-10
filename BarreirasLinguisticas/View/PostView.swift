@@ -185,17 +185,17 @@ struct PostView: View {
     }
     
     func report(){
-        if !post.denuncias.contains(membro) {
-            post.denuncias.append(membro)
+        if !post.denuncias.contains(membro.id) {
+            post.denuncias.append(membro.id)
         }
         else {
-            post.denuncias.removeAll(where: {$0.usuario.id == membro.usuario.id})
+            post.denuncias.removeAll(where: {$0 == membro.id})
         }
-        reported = post.denuncias.contains(membro)
+        reported = post.denuncias.contains(membro.id)
     }
     
     func loadReport(){
-        reported = post.denuncias.contains(membro)
+        reported = post.denuncias.contains(membro.id)
     }
     
 }

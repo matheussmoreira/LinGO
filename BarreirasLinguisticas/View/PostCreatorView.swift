@@ -203,7 +203,6 @@ struct PostCreatorView: View {
                 } else {
                     sala.novoPost(
                         publicador: id_membro,
-                        post: UUID().hashValue,
                         titulo: titulo,
                         descricao: descricao,
                         linkString: linkString,

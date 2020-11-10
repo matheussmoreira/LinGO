@@ -10,8 +10,7 @@ import Foundation
 import LinkPresentation
 
 class Post: Equatable, Identifiable, ObservableObject {
-    var recordName: String?
-    var id: String = ""//{self.recordName ?? ""}//String(self.hashValue)}
+    var id: String = ""
     @Published var titulo: String
     @Published var descricao: String?
     @Published var link: Link?
@@ -21,7 +20,7 @@ class Post: Equatable, Identifiable, ObservableObject {
     @Published var comentarios: [Comentario] = []
     @Published var categorias: [String] = [] //idCategorias
     @Published var tags: [String] = []
-    @Published var denuncias: [Membro] = []
+    @Published var denuncias: [String] = []
     
     init(titulo: String?, descricao: String?, link: Link?, categs: [String], tags: String, publicador: Membro) {
         self.titulo = titulo ?? "Post sem título"

@@ -116,29 +116,40 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
     func novaCategoria(_ categoria: Categoria) {
         self.categorias.append(categoria)
     }
-
-    func novoPost(publicador id_membro: String?, post id_post: Int, titulo: String, descricao: String?, linkString: String, categs: [String], tags: String) {
+    
+    func novoPost(publicador id_membro: String?, titulo: String, descricao: String?, linkString: String, categs: [String], tags: String) {
+        print(#function)
         
         guard let membro = getMembro(id: id_membro) else {
             print("Sala novoPost: Impossível criar o post pois o membro publicador não existe")
             return
         }
         
-        let _ = Link(urlString: linkString) { linkResult in
-            switch linkResult {
-                case .success(let savedLink):
-                    let post = Post(titulo: titulo, descricao: descricao, link: savedLink, categs: categs, tags: tags, publicador: membro)
-                    
-                    CKManager.savePost(post: post) { (result) in
-                        switch result {
-                            case .success(let savedPost):
-                                DispatchQueue.main.async {
-                                    self.addPostSalaMembro(post: savedPost, membro: membro)
-                                }
-                            case .failure(let error):
-                                print(#function)
-                                print(error)
-                        }
+        if linkString == "" || linkString == " " {
+            salvaNovoPost(membro: membro, titulo: titulo, descricao: descricao, link: nil, categs: categs, tags: tags)
+        }
+        else {
+            let _ = Link(urlString: linkString) { linkResult in
+                switch linkResult {
+                    case .success(let savedLink):
+                        self.salvaNovoPost(membro: membro, titulo: titulo, descricao: descricao, link: savedLink, categs: categs, tags: tags)
+                    case .failure(let error):
+                        print(#function)
+                        print(error)
+                }
+            }
+        }
+    }
+    
+    private func salvaNovoPost(membro: Membro, titulo: String, descricao: String?, link: Link?, categs: [String], tags: String){
+        
+        let post = Post(titulo: titulo, descricao: descricao, link: link, categs: categs, tags: tags, publicador: membro)
+        
+        CKManager.savePost(post: post) { (result) in
+            switch result {
+                case .success(let savedPost):
+                    DispatchQueue.main.async {
+                        self.addPostSalaMembro(post: savedPost, membro: membro)
                     }
                 case .failure(let error):
                     print(#function)
@@ -186,12 +197,23 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
     }
     
     private func removePostSalaMembro(id_post: String, membro: Membro){
+        let post_resgatado = self.getPost(id: id_post)
         posts.removeAll(where: { $0.id == id_post})
         CKManager.modifySalaPosts(sala: self) { (result) in
             switch result {
                 case .success(_):
                     DispatchQueue.main.async {
+                        // ATUALIZA O VETOR DE POSTS PUBLICADOS DO MEMBROS
+                        // atualiza no CK dentro da funcao
                         membro.apagaPost(post: id_post)
+                        
+                        // ATUALIZA O VETOR DE TAGS DA CATEGORIA
+                        // atualiza no CK dentro da funcao
+                        if let post = post_resgatado {
+                            for categ in self.categorias {
+                                categ.removePostTags(tags: post.tags)
+                            }
+                        }
                     }
                 case .failure(let error2):
                     print(#function)
@@ -224,7 +246,7 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
         let categ = getCategoria(id: categoria)
         
         membro?.assinaCategoria(categoria: categ?.id)
-//        categ?.addAssinantes(membro: membro)
+        //        categ?.addAssinantes(membro: membro)
     }
     
     func salvaPost(membro id_membro: String, post id_post: String) {

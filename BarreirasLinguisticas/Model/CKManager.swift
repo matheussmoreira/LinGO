@@ -84,13 +84,21 @@ struct CKManager {
              @Published var comentarios: [Comentario] = []
              @Published var denuncias: [Membro] = []
              */
-            let id = postDictionary["recordName"] as! String
-            let titulo = postDictionary["titulo"] as! String
-            let descricao = postDictionary["descricao"] as! String
-            let idLink = postDictionary["idLink"] as! Int
-            let membro = getMembroFromDictionary(postDictionary["publicador"] as! Dictionary<String, Any>)
-            let categs = postDictionary["categorias"] as! [String]
-            let tags = postDictionary["tags"] as! [String]
+            if let publicador = getMembroFromDictionary(postDictionary["publicador"] as? Dictionary<String, Any>) {
+                let id = postDictionary["recordName"] as! String
+                let titulo = postDictionary["titulo"] as! String
+                let descricao = postDictionary["descricao"] as! String
+                let idLink = postDictionary["idLink"] as? Int
+                
+                let categs = postDictionary["categorias"] as! [String]
+                let tags = postDictionary["tags"] as! [String]
+                
+                let post = Post(titulo: titulo, descricao: descricao, link: Link.loadLink(idLink), categs: categs, tags: "", publicador: publicador)
+                post.tags = tags
+                post.id = id
+                return post
+            }
+            return nil
         }
         return nil
     }
@@ -308,7 +316,7 @@ extension CKManager {
         // POSTS
         var posts: [Post] = []
         if let postsDictionaries = salaRecord.asDictionary["posts"] as? Array<Optional<Dictionary<String, Any>>> {
-            
+
             for postDictionary in postsDictionaries {
                 if let post = getPostFromDictionary(postDictionary) {
                     posts.append(post)
@@ -317,12 +325,12 @@ extension CKManager {
                     print("Nao adquiriu post do dicionario!")
                 }
             }
-            
         }
         
         let sala = Sala(id: salaRecordName, nome: salaNome)
         sala.membros.append(contentsOf: membros)
         sala.categorias.append(contentsOf: categorias)
+        sala.posts.append(contentsOf: posts)
         return sala
     }
     
@@ -551,6 +559,7 @@ extension CKManager {
     } //fetchMembro
     
     static func modifyMembroPublicados(membro: Membro, completion: @escaping (Result<[String], Error>) -> ()) {
+        
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: membro.id)) { (record, error) in
             if let error = error {
