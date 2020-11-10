@@ -117,41 +117,37 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
         self.categorias.append(categoria)
     }
 
-    func novoPost(publicador id_membro: String?, post id_post: Int, titulo: String, descricao: String?, link: Link?, categs: [String], tags: String) {
-        let membro = getMembro(id: id_membro)
-//        let idsCategorias = getIdsCategorias(ids: categs)
-//        let categorias = getCategorias(ids: idsCategorias)
+    func novoPost(publicador id_membro: String?, post id_post: Int, titulo: String, descricao: String?, linkString: String, categs: [String], tags: String) {
         
-        if membro != nil {
-//            if idsCategorias.count != 0 {
-            if categs.count != 0 {
-                
-                let post = Post(titulo: titulo, descricao: descricao, link: link, categs: categs, tags: tags, publicador: membro!)
-                
-                CKManager.savePost(post: post) { (result) in
-                    switch result {
-                        case .success(let savedPost):
-                            DispatchQueue.main.async {
-                                self.updatePostsCloud(post: savedPost, membro: membro!)
-                            }
-                        case .failure(let error):
-                            print(#function)
-                            print(error)
-                    }
-                }
-                
-            }
-            else {
-                print("Sala novoPost: Impossível criar o post pois nenhuma categoria é válida")
-            }
-        }
-        else {
+        guard let membro = getMembro(id: id_membro) else {
             print("Sala novoPost: Impossível criar o post pois o membro publicador não existe")
+            return
         }
         
+        let _ = Link(urlString: linkString) { linkResult in
+            switch linkResult {
+                case .success(let savedLink):
+                    let post = Post(titulo: titulo, descricao: descricao, link: savedLink, categs: categs, tags: tags, publicador: membro)
+                    
+                    CKManager.savePost(post: post) { (result) in
+                        switch result {
+                            case .success(let savedPost):
+                                DispatchQueue.main.async {
+                                    self.addPostSalaMembro(post: savedPost, membro: membro)
+                                }
+                            case .failure(let error):
+                                print(#function)
+                                print(error)
+                        }
+                    }
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
+        }
     }
     
-    private func updatePostsCloud(post savedPost: Post, membro: Membro){
+    private func addPostSalaMembro(post savedPost: Post, membro: Membro){
         self.posts.append(savedPost)
         // ATUALIZA O VETOR DE POSTS DA SALA
         CKManager.modifySalaPosts(sala: self) { (result) in
@@ -175,8 +171,33 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
         }
     }
     
-    func excluiPost(id_post: String){
+    func excluiPost(id_post: String, membro: Membro){
+        CKManager.deleteRecord(recordName: id_post) { (result) in
+            switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        self.removePostSalaMembro(id_post: id_post, membro: membro)
+                    }
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
+        }
+    }
+    
+    private func removePostSalaMembro(id_post: String, membro: Membro){
         posts.removeAll(where: { $0.id == id_post})
+        CKManager.modifySalaPosts(sala: self) { (result) in
+            switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        membro.apagaPost(post: id_post)
+                    }
+                case .failure(let error2):
+                    print(#function)
+                    print(error2)
+            }
+        }
     }
     
     //MARK: - RELACIONAMENTOS

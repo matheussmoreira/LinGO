@@ -50,6 +50,23 @@ class Membro: Equatable, Identifiable, ObservableObject {
         else { print("Post a ser publicado inválido") }
     }
     
+    func apagaPost(post: String?) {
+        if (post != nil) {
+            posts_publicados.removeAll(where: {$0 == post})
+            CKManager.modifyMembroPublicados(membro: self) { (result) in
+                switch result {
+                    case .success(_):
+                        break
+                    case .failure(let error):
+                        print(#function)
+                        print(error)
+                }
+            }
+            
+        }
+        else { print("Post a ser publicado inválido") }
+    }
+    
     func assinaCategoria(categoria categ: String?) {
         if (categ != nil) { self.assinaturas.append(categ!) }
         else { print("Categoria a ser assinada inválida") }

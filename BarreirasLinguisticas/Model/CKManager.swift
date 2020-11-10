@@ -77,6 +77,24 @@ struct CKManager {
         }
     }
     
+    private static func getPostFromDictionary(_ postDictionaryOpt:Dictionary<String, Any>?) -> Post? {
+        if let postDictionary = postDictionaryOpt {
+            /*
+             @Published var perguntas: [Comentario] = []
+             @Published var comentarios: [Comentario] = []
+             @Published var denuncias: [Membro] = []
+             */
+            let id = postDictionary["recordName"] as! String
+            let titulo = postDictionary["titulo"] as! String
+            let descricao = postDictionary["descricao"] as! String
+            let idLink = postDictionary["idLink"] as! Int
+            let membro = getMembroFromDictionary(postDictionary["publicador"] as! Dictionary<String, Any>)
+            let categs = postDictionary["categorias"] as! [String]
+            let tags = postDictionary["tags"] as! [String]
+        }
+        return nil
+    }
+    
     static func deleteRecord(recordName: String, completion: @escaping (Result<CKRecord.ID, Error>) -> ()) {
         CKContainer.default().publicCloudDatabase.delete(withRecordID: CKRecord.ID(recordName: recordName)) { (recordID, err) in
             DispatchQueue.main.async {
@@ -287,7 +305,20 @@ extension CKManager {
             }
         }
         
-        // FALTAM OS POSTS
+        // POSTS
+        var posts: [Post] = []
+        if let postsDictionaries = salaRecord.asDictionary["posts"] as? Array<Optional<Dictionary<String, Any>>> {
+            
+            for postDictionary in postsDictionaries {
+                if let post = getPostFromDictionary(postDictionary) {
+                    posts.append(post)
+                } else {
+                    print(#function)
+                    print("Nao adquiriu post do dicionario!")
+                }
+            }
+            
+        }
         
         let sala = Sala(id: salaRecordName, nome: salaNome)
         sala.membros.append(contentsOf: membros)
@@ -403,7 +434,7 @@ extension CKManager {
             if let fetchedSalaRecord = record {
                 var posts_array: [CKRecord.Reference] = []
                 for post in sala.posts {
-                    posts_array.append(CKRecord.Reference(recordID: CKRecord.ID(recordName: post.id), action: .deleteSelf))
+                    posts_array.append(CKRecord.Reference(recordID: CKRecord.ID(recordName: post.id), action: .none))
                 }
                 fetchedSalaRecord["posts"] = posts_array
                 publicDB.save(fetchedSalaRecord) { (record2, error2) in
@@ -607,6 +638,7 @@ extension CKManager {
     }
 }
 
+//MARK: - POST
 extension CKManager {
     static func savePost(post: Post, completion: @escaping (Result<Post, Error>) -> ()) {
         // PREPARANDO OS DADOS
@@ -646,6 +678,7 @@ extension CKManager {
                     switch result {
                         case .success(let fetchedMembro):
                             DispatchQueue.main.async {
+                                print(#function)
                                 let post = Post(titulo: titulo, descricao: desc, link: Link.loadLink(idLink), categs: categs, tags: "", publicador: fetchedMembro)
                                 post.tags = tags ?? []
                                 post.id = savedPostRecord.recordID.recordName

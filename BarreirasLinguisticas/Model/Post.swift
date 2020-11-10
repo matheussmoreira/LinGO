@@ -49,7 +49,7 @@ class Post: Equatable, Identifiable, ObservableObject {
     
     func addLink(_ link: Link?) {
         if (link != nil) { self.link = link! }
-        else { print("Não deu pra adquirir o link pois está inválido\n") }
+        else { print("Post: Não deu pra adquirir o link pois está inválido\n") }
     }
 
     func getComentarioOriginal(id: String) -> Comentario? {

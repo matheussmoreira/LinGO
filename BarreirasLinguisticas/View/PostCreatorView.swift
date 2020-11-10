@@ -206,7 +206,7 @@ struct PostCreatorView: View {
                         post: UUID().hashValue,
                         titulo: titulo,
                         descricao: descricao,
-                        link: Link(urlString: linkString),
+                        linkString: linkString,
                         categs: getCategsId(),
                         tags: tags
                     )

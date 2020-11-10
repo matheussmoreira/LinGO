@@ -28,11 +28,31 @@ class Link: NSObject, NSSecureCoding {
         metadata = coder.decodeObject(of: LPLinkMetadata.self, forKey: "metadata")
     }
     
+    override init() {
+        super.init()
+    }
+    
+    init? (urlString: String, completion: @escaping (Result<Link, Error>) -> ()) {
+        super.init()
+//        LinkManager().getLink(url: urlString, to: self)
+        Link.fetchMetadata(for: urlString) { (result) in
+            switch result {
+                case .success(let metadata):
+                    self.update(from: metadata)
+                    completion(.success(self))
+                case .failure(let error):
+                    print(error)
+                    completion(.failure(error))
+            }
+        }
+    }
+    
     func update(from metadata: LPLinkMetadata) {
+        print("link update")
         self.id = UUID().hashValue
         self.metadata = metadata
         getImage(metadata)
-        saveLink(self.id) //para o Cache Management
+        saveLink(self.id) //para o cache
     }
     
     func getImage(_ metadata: LPLinkMetadata){
@@ -44,16 +64,27 @@ class Link: NSObject, NSSecureCoding {
         })
     }
     
-    override init() {
-        super.init()
+}
+
+extension Link {
+    static func fetchMetadata(for link: String, completion: @escaping (Result<LPLinkMetadata, Error>) -> Void) {
+        guard let url = URL(string: link) else { return }
+        let metadataProvider = LPMetadataProvider()
+        
+        print("Fetching...")
+        metadataProvider.startFetchingMetadata(for: url) { (metadata, error) in
+            if let error = error  {
+                //print("\nFetched error")
+                completion(.failure(error))
+                return
+            }
+            if let metadata = metadata {
+                //print("\nFetched metadata")
+                completion(.success(metadata))
+                return
+            }
+        } //startFetchingMetadata
     }
-    
-    init (urlString: String) {
-        super.init()
-        LinkManager().getLink(url: urlString, to: self)
-    }
-    
-    
 }
 
 //MARK: - Cache Management
@@ -61,7 +92,7 @@ extension Link {
     
     fileprivate func saveLink(_ id_link: Int?) {
         guard let id_link = id_link else {
-            print("\nSaveLink: Received id as nil\n")
+            print("SaveLink: Received id as nil")
             return
         }
         
@@ -77,7 +108,7 @@ extension Link {
     
     static func loadLink(_ id_link: Int?) -> Link? {
         guard let id_link = id_link else {
-            print("\nLoadLink: Received id as nil\n")
+            print("LoadLink: Received id as nil")
             return nil
         }
         
