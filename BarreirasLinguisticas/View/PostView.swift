@@ -158,7 +158,7 @@ struct PostView: View {
     func carregaLink(){
         if let link = post.link {
             //stored_link = post.link
-            stored_link = Link.loadLink(link.id) // do cache
+            stored_link = Link.fetchLinkFromCache(link.id) // do cache
         }
     }
     

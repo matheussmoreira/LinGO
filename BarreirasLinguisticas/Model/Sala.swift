@@ -37,6 +37,14 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
         return nil
     }
     
+    func getNovoMembro(id id_membro: String?, usuario: Usuario, is_admin: Bool) -> Membro? {
+        if getMembro(id: usuario.id) == nil { //para nao adicionar membro repetido
+            let membro = Membro(usuario: usuario, idSala: self.id, is_admin: is_admin)
+            return membro
+        }
+        return nil
+    }
+    
     func getCategoria(id: String) -> Categoria? {
         for categ in self.categorias {
             if (id == categ.id) { return categ }
@@ -101,14 +109,6 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
         }
     }
     
-    func getNovoMembro(id id_membro: String?, usuario: Usuario, is_admin: Bool) -> Membro? {
-        if getMembro(id: usuario.id) == nil { //para nao adicionar membro repetido
-            let membro = Membro(usuario: usuario, idSala: self.id, is_admin: is_admin)
-            return membro
-        }
-        return nil
-    }
-    
     func novoAdmin(membro: Membro) {
         membro.is_admin = true
     }
@@ -125,7 +125,7 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
             return
         }
         
-        if linkString == "" || linkString == " " {
+        if linkString == "" {
             salvaNovoPost(membro: membro, titulo: titulo, descricao: descricao, link: nil, categs: categs, tags: tags)
         }
         else {

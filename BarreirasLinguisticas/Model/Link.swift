@@ -13,7 +13,9 @@ import LinkPresentation
 class Link: NSObject, NSSecureCoding {
     var id: Int?
     var metadata: LPLinkMetadata?
-    var image_provider: UIImage?
+    var title: String?
+    var url: String?
+    var image: UIImage?
     
     static var supportsSecureCoding = true
     
@@ -35,65 +37,60 @@ class Link: NSObject, NSSecureCoding {
     init? (urlString: String, completion: @escaping (Result<Link, Error>) -> ()) {
         super.init()
         print("Construindo link...")
-//        LinkManager().getLink(url: urlString, to: self)
         Link.fetchMetadata(for: urlString) { (result) in
             switch result {
                 case .success(let metadata):
                     print("Sucesso ao pegar metadados")
-                    self.update(from: metadata)
+                    self.id = UUID().hashValue
+            //        self.metadata = metadata
+                    self.title = metadata.title
+                    self.url = metadata.originalURL?.asString
+                    self.getImage(metadata)
+                    self.saveLinkInCache(self.id)
                     completion(.success(self))
                 case .failure(let error):
-                    print("Falha ao pegar metadados")
                     print(error)
                     completion(.failure(error))
             }
         }
     }
     
-    func update(from metadata: LPLinkMetadata) {
-        print("link update")
-        self.id = UUID().hashValue
-        self.metadata = metadata
-        getImage(metadata)
-        saveLink(self.id) //para o cache
-    }
-    
     func getImage(_ metadata: LPLinkMetadata){
         let md = metadata
-        let _ = md.imageProvider?.loadObject(ofClass: UIImage.self, completionHandler: { (image, err) in
+        let _ = md.imageProvider?.loadObject(
+            ofClass: UIImage.self,
+            completionHandler: { (image, err) in
             DispatchQueue.main.async {
-                self.image_provider = image as? UIImage
+                self.image = image as? UIImage
             }
         })
     }
     
 }
 
+//MARK: - Link Manager
 extension Link {
     static func fetchMetadata(for link: String, completion: @escaping (Result<LPLinkMetadata, Error>) -> Void) {
         guard let url = URL(string: link) else { return }
         let metadataProvider = LPMetadataProvider()
         
-        print("Fetching...")
         metadataProvider.startFetchingMetadata(for: url) { (metadata, error) in
             if let error = error  {
-                //print("\nFetched error")
                 completion(.failure(error))
                 return
             }
             if let metadata = metadata {
-                //print("\nFetched metadata")
                 completion(.success(metadata))
                 return
             }
-        } //startFetchingMetadata
+        }
     }
 }
 
-//MARK: - Cache Management
+//MARK: - Cache Manager
 extension Link {
     
-    fileprivate func saveLink(_ id_link: Int?) {
+    fileprivate func saveLinkInCache(_ id_link: Int?) {
         guard let id_link = id_link else {
             print("SaveLink: Received id as nil")
             return
@@ -109,7 +106,7 @@ extension Link {
         }
     }
     
-    static func loadLink(_ id_link: Int?) -> Link? {
+    static func fetchLinkFromCache(_ id_link: Int?) -> Link? {
         guard let id_link = id_link else {
             print("LoadLink: Received id as nil")
             return nil
