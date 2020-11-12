@@ -768,10 +768,10 @@ extension CKManager {
             }
             if let fetchedPostRecord = fetchedRecord {
                 for pergunta in post.perguntas {
-                    fetchedPostRecord["perguntas"] = CKRecord.Reference(recordID: CKRecord.ID(recordName: pergunta.id), action: .deleteSelf)
+                    fetchedPostRecord["perguntas"] = CKRecord.Reference(recordID: CKRecord.ID(recordName: pergunta.id), action: .none)
                 }
                 for comentario in post.comentarios {
-                    fetchedPostRecord["comentarios"] = CKRecord.Reference(recordID: CKRecord.ID(recordName: comentario.id), action: .deleteSelf)
+                    fetchedPostRecord["comentarios"] = CKRecord.Reference(recordID: CKRecord.ID(recordName: comentario.id), action: .none)
                 }
                 publicDB.save(fetchedPostRecord) { (savedRecord, error2) in
                     if let error2 = error2 {
@@ -794,7 +794,7 @@ extension CKManager {
         // PREPARANDO OS DADOS
         let comentarioRecord = CKRecord(recordType: "Comentario")
         comentarioRecord["post"] = comentario.post
-        comentarioRecord["publicador"] = CKRecord.Reference(recordID: CKRecord.ID(recordName: comentario.publicador.id), action: .deleteSelf) // ou action: .none ????
+        comentarioRecord["publicador"] = CKRecord.Reference(recordID: CKRecord.ID(recordName: comentario.publicador.id), action: .none) // ou action: .none ????
         comentarioRecord["conteudo"] = comentario.conteudo
         comentarioRecord["is_question"] = comentario.is_question ? 1 : 0
 
