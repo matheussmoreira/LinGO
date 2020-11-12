@@ -78,12 +78,6 @@ struct CallQuestions: View {
                 .cornerRadius(10)
                 .shadow(radius: 5)
             
-//            MultilineTextField(placeholder: "", text: self.$newComment, minHeight: self.textFieldMinHeight, calculatedHeight: self.$textFieldMinHeight)
-//                .frame(minHeight: self.textFieldMinHeight, maxHeight: self.textFieldMinHeight)
-//                .frame(width: UIScreen.width - 20)
-//                .cornerRadius(10)
-//                .shadow(radius: 5)
-//
             Divider()
                 .padding(.vertical)
                 .onTapGesture {
@@ -140,7 +134,9 @@ struct CallQuestions: View {
     }
     
     func loadQuestions() {
-        questions = post.perguntas
+        DispatchQueue.main.async {
+            questions = post.perguntas
+        }
     }
     
     func comenta() {
@@ -247,7 +243,9 @@ struct CallComments: View {
     }
     
     func loadComments() {
-        comments = post.comentarios
+        DispatchQueue.main.async {
+            comments = post.comentarios
+        }
     }
     
     func comenta() {

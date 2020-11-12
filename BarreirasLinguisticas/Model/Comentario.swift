@@ -10,34 +10,33 @@ import Foundation
 
 class Comentario: Identifiable, ObservableObject {
     var id: String = ""
-    @Published var post: Post
+    @Published var post: String
     @Published var publicador: Membro
     @Published var conteudo: String
     @Published var is_question: Bool
-    @Published var votos: [Membro] = []
-    @Published var original: Comentario?
-    @Published var replies: [Comentario] = []
+    @Published var votos: [String] = []
+//    @Published var original: Comentario?
+//    @Published var replies: [Comentario] = []
     @Published var improprio = false
     
-    init(post: Post, publicador: Membro, conteudo: String, is_question: Bool, original: Comentario?) {
+    init(post: String, publicador: Membro, conteudo: String, is_question: Bool) {
         self.post = post
         self.publicador = publicador
         self.conteudo = conteudo
         self.is_question = is_question
-        self.original = original
     }
     
     func ganhaVoto(de membro: Membro){
-        votos.append(membro)
+        votos.append(membro.id)
     }
     
     func perdeVoto(de membro: Membro){
-        self.votos.removeAll(where: {$0.usuario.id == membro.usuario.id})
+        self.votos.removeAll(where: {$0 == membro.id})
     }
     
     func checkVotoExists(membro: Membro) -> Bool {
         for membro_voto in votos {
-            if membro_voto.usuario.id == membro.usuario.id {
+            if membro_voto == membro.id {
                 return true
             }
         }

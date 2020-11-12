@@ -18,7 +18,7 @@ class Post: Equatable, Identifiable, ObservableObject {
     @Published var publicador: Membro
     @Published var perguntas: [Comentario] = []
     @Published var comentarios: [Comentario] = []
-    @Published var categorias: [String] = [] //idCategorias
+    @Published var categorias: [String] = []
     @Published var tags: [String] = []
     @Published var denuncias: [String] = []
     
@@ -62,32 +62,93 @@ class Post: Equatable, Identifiable, ObservableObject {
     }
     
     func novoComentario(publicador: Membro, conteudo: String, is_question: Bool) {
-        let comentario = Comentario(post: self, publicador: publicador, conteudo: conteudo, is_question: is_question, original: nil)
+        let comentario = Comentario(post: self.id, publicador: publicador, conteudo: conteudo, is_question: is_question)
         
-        if is_question {
-            self.perguntas.append(comentario)
+        CKManager.saveComentario(comentario: comentario) { (result) in
+            switch result {
+                case .success(let id):
+                    DispatchQueue.main.async {
+                        comentario.id = id
+                        if is_question {
+                            self.perguntas.append(comentario)
+                        }
+                        else {
+                            self.comentarios.append(comentario)
+                        }
+                        
+                        CKManager.modifyPostComentarios(post: self) { (result2) in
+                            switch result2 {
+                                case .success(_):
+                                    break
+                                case .failure(let error2):
+                                    print(#function)
+                                    print(error2)
+                            }
+                        }
+                    }
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
         }
-        else {
-            self.comentarios.append(comentario)
-        }
+        
     }
     
-    func novoReply(publicador id_publicador: Membro, conteudo: String, original id_original: String) {
-        if let original = self.getComentarioOriginal(id: id_original) {
-            let comentario = Comentario(post: self, publicador: publicador, conteudo: conteudo, is_question: false, original: original)
-            original.replies.append(comentario)
-        }
-        else {
-            print("Reply não adicionado por comentário original não identificado")
-        }
-    }
+//    func novoReply(publicador id_publicador: Membro, conteudo: String, original id_original: String) {
+//        if let original = self.getComentarioOriginal(id: id_original) {
+//            let comentario = Comentario(post: self, publicador: publicador, conteudo: conteudo, is_question: false)
+//            comentario.original = original
+//            original.replies.append(comentario)
+//        }
+//        else {
+//            print("Reply não adicionado por comentário original não identificado")
+//        }
+//    }
 
     func apagaPergunta(id: String) {
-        perguntas.removeAll(where: { $0.id == id})
+        CKManager.deleteRecord(recordName: id) { (result) in
+            switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        self.perguntas.removeAll(where: { $0.id == id })
+                        CKManager.modifyPostComentarios(post: self) { (result2) in
+                            switch result2 {
+                                case .success(_):
+                                    break
+                                case .failure(let error2):
+                                    print(#function)
+                                    print(error2)
+                            }
+                        }
+                    }
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
+        }
     }
     
     func apagaComentario(id: String) {
-        comentarios.removeAll(where: { $0.id == id})
+        CKManager.deleteRecord(recordName: id) { (result) in
+            switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        self.comentarios.removeAll(where: { $0.id == id })
+                        CKManager.modifyPostComentarios(post: self) { (result2) in
+                            switch result2 {
+                                case .success(_):
+                                    break
+                                case .failure(let error2):
+                                    print(#function)
+                                    print(error2)
+                            }
+                        }
+                    }
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
+        }
     }
     
 }

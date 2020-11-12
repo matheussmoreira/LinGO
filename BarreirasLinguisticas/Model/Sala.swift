@@ -225,14 +225,14 @@ class Sala: Identifiable, ObservableObject {
         }
     }
     
-    func novoReply(id: Int, publicador id_publicador: String?, post id_post: String, conteudo: String, original id_original: String) {
-        if let publicador = getMembro(id: id_publicador), let post = getPost(id: id_post) {
-            post.novoReply(publicador: publicador, conteudo: conteudo, original: id_original)
-        }
-        else {
-            print("Comentário não adicionado por publicador ou post não identificado")
-        }
-    }
+//    func novoReply(id: Int, publicador id_publicador: String?, post id_post: String, conteudo: String, original id_original: String) {
+//        if let publicador = getMembro(id: id_publicador), let post = getPost(id: id_post) {
+//            post.novoReply(publicador: publicador, conteudo: conteudo, original: id_original)
+//        }
+//        else {
+//            print("Comentário não adicionado por publicador ou post não identificado")
+//        }
+//    }
     
     func novaAssinatura(membro id_membro: String?, categoria: String) {
         let membro = getMembro(id: id_membro)
