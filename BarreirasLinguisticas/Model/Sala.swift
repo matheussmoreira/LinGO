@@ -10,8 +10,7 @@ import Foundation
 import LinkPresentation
 import CloudKitMagicCRUD
 
-class Sala: Identifiable, ObservableObject, CKMRecord {
-    var recordName: String?
+class Sala: Identifiable, ObservableObject {
     var id: String = ""
     @Published var nome: String = ""
     @Published var membros: [Membro] = []
@@ -21,12 +20,6 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
     init(id: String, nome: String) {
         self.id = id
         self.nome = nome
-    }
-    
-    func encode(to encoder: Encoder) throws {
-    }
-    required init(from decoder: Decoder) throws {
-        print("required init Sala")
     }
     
     //MARK: - FUNCOES GET

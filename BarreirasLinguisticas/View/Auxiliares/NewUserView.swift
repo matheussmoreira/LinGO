@@ -109,7 +109,7 @@ struct NewUserView: View {
     func novoUsuario2(){
         let usuarioAtualizado = Usuario(
             nome: (self.nome != "") ? self.nome : nil,
-            foto_perfil: self.photoProfile,
+            foto_perfil: self.photoProfile?.asUIImage(),
             fluencia_ingles: Usuario.pegaFluenciaNome(idx: fluenciaSelecionada))
         
         CKManager.saveUsuario(user: usuarioAtualizado) { (result) in
@@ -132,36 +132,36 @@ struct NewUserView: View {
         }
     }
     
-    func novoUsuario(){
-        if nome != "" {
-            let novoUsuario = Usuario(
-                nome: nome,
-                foto_perfil: self.photoProfile,
-                fluencia_ingles: Usuario.pegaFluenciaNome(idx: fluenciaSelecionada)
-            )
-            novoUsuario.ckSave { (result) in
-                switch result {
-                    case .success(let savedUser):
-                        DispatchQueue.main.async {
-                            print("NewUser: case.success")
-                            dao.addNovoUsuario(savedUser as? Usuario)
-                            dao.usuario_atual = savedUser as? Usuario
-                            enterMode = .logIn
-                            UserDefaults.standard.set(
-                                enterMode.rawValue,
-                                forKey: "LastEnterMode"
-                            )
-                        }
-                    case .failure(let error):
-                        print("NewUser: case.error")
-                        print(error)
-                }
-            }
-            
-        } else {
-            showAlertNome = true
-        }
-    } // novoUsuario
+//    func novoUsuario(){
+//        if nome != "" {
+//            let novoUsuario = Usuario(
+//                nome: nome,
+//                foto_perfil: self.photoProfile,
+//                fluencia_ingles: Usuario.pegaFluenciaNome(idx: fluenciaSelecionada)
+//            )
+//            novoUsuario.ckSave { (result) in
+//                switch result {
+//                    case .success(let savedUser):
+//                        DispatchQueue.main.async {
+//                            print("NewUser: case.success")
+//                            dao.addNovoUsuario(savedUser as? Usuario)
+//                            dao.usuario_atual = savedUser as? Usuario
+//                            enterMode = .logIn
+//                            UserDefaults.standard.set(
+//                                enterMode.rawValue,
+//                                forKey: "LastEnterMode"
+//                            )
+//                        }
+//                    case .failure(let error):
+//                        print("NewUser: case.error")
+//                        print(error)
+//                }
+//            }
+//            
+//        } else {
+//            showAlertNome = true
+//        }
+//    } // novoUsuario
 }
 
 struct NewUserView_Previews: PreviewProvider {

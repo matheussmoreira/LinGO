@@ -20,7 +20,7 @@ struct QuestionRow: View {
             ZStack {
                 VStack {
                     HStack(alignment: .top) {
-                        comentario.publicador.usuario.foto_perfil
+                        Image(uiImage: comentario.publicador.usuario.foto_perfil)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 40.0, height: 40.0)

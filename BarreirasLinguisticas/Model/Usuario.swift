@@ -17,13 +17,12 @@ enum Fluencia: String {
     case unknown = "Unknown English"
 }
 
-class Usuario: Equatable, Identifiable, ObservableObject, CKMRecord {
-    var recordName: String?
+class Usuario: Equatable, Identifiable, ObservableObject {
     var id: String = ""
     @Published var nome: String = ""
-    @Published var foto_perfil: Image = Image("perfil") // trocar pra Data
-    @Published var sala_atual: String?//Sala?
-    @Published var fluencia_ingles: String = ""// = .unknown
+    @Published var foto_perfil: UIImage
+    @Published var sala_atual: String?
+    @Published var fluencia_ingles: String = ""
     var cor_fluencia: Color {
         switch fluencia_ingles {
             case Fluencia.advanced.rawValue: return .blue
@@ -33,9 +32,9 @@ class Usuario: Equatable, Identifiable, ObservableObject, CKMRecord {
         }
     }
     
-    init(nome: String?, foto_perfil: Image?,fluencia_ingles: Fluencia?) {
+    init(nome: String?, foto_perfil: UIImage?,fluencia_ingles: Fluencia?) {
         self.nome = nome ?? "<nome>"
-        self.foto_perfil = foto_perfil ?? Image("perfil")
+        self.foto_perfil = foto_perfil ?? UIImage(named: "perfil")!
         self.fluencia_ingles = fluencia_ingles?.rawValue ?? Fluencia.unknown.rawValue
     }
     
@@ -80,13 +79,5 @@ class Usuario: Equatable, Identifiable, ObservableObject, CKMRecord {
             default:
                 return 0
         }
-    }
-    
-    func encode(to encoder: Encoder) throws {
-    }
-
-    required init(from decoder: Decoder) throws {
-        print("required init(from decoder:)")
-//        fatalError("required init(from decoder:)")
     }
 }

@@ -17,7 +17,7 @@ struct CKManager {
         if let usuarioDictionary = userDictionaryOpt {
             let id = usuarioDictionary["recordName"] as! String
             let nome = usuarioDictionary["nome"] as? String
-            let foto = Image(uiImage: UIImage(named: "perfil")!)
+            let foto = UIImage(named: "perfil")!
             let fluencia = Usuario.pegaFluencia(
                 nome: usuarioDictionary["fluencia_ingles"] as! String)
             
@@ -167,7 +167,7 @@ extension CKManager {
                     
                     let savedUser = Usuario(
                         nome: nome,
-                        foto_perfil: Image(uiImage: /*foto ?? */UIImage(named: "perfil")!),
+                        foto_perfil: UIImage(named: "perfil")!,
                         fluencia_ingles: Usuario.pegaFluencia(nome: fluencia))
                     savedUser.id = id
                     
@@ -206,7 +206,7 @@ extension CKManager {
                 
                 let fetchedUser = Usuario(
                     nome: nome,
-                    foto_perfil: Image(uiImage: UIImage(named: "perfil")!),//foto ),
+                    foto_perfil: UIImage(named: "perfil")!,
                     fluencia_ingles: Usuario.pegaFluencia(nome: fluencia ?? ""))
                 fetchedUser.id = id
                 fetchedUser.sala_atual = sala_atual
@@ -252,7 +252,7 @@ extension CKManager {
                         
                         let savedUser = Usuario(
                             nome: nome,
-                            foto_perfil: Image(uiImage: /*foto ?? */UIImage(named: "perfil")!),
+                            foto_perfil: UIImage(named: "perfil")!,
                             fluencia_ingles: Usuario.pegaFluencia(nome: fluencia)
                         )
                         savedUser.id = user.id
@@ -688,7 +688,7 @@ extension CKManager {
             if let savedPostRecord = record {
                 let titulo = savedPostRecord["titulo"] as? String
                 let desc = savedPostRecord["descricao"] as? String
-                let idLink = savedPostRecord["idLink"] as? Int
+//                let idLink = savedPostRecord["idLink"] as? Int
                 guard let categs = savedPostRecord["categorias"] as? [String] else {
                     print(#function)
                     print("Problema ao baixar categorias")
@@ -704,17 +704,20 @@ extension CKManager {
                     switch result {
                         case .success(let fetchedMembro):
                             DispatchQueue.main.async {
-                                print(#function)
-//                                let post = Post(titulo: titulo, descricao: desc, link: LinkPost.fetchLinkFromCache(idLink), categs: categs, tags: "", publicador: fetchedMembro)
-//                                post.tags = tags ?? []
-                                let newPost  = Post(titulo: post.titulo, descricao: post.descricao, link: post.link, categs: post.categorias, tags: "", publicador: post.publicador)
-                                newPost.tags = post.tags
+                                let newPost  = Post(
+                                    titulo: titulo,
+                                    descricao: desc,
+                                    link: post.link,
+                                    categs: categs,
+                                    tags: "",
+                                    publicador: fetchedMembro
+                                )
+                                newPost.tags = tags ?? []
                                 post.id = savedPostRecord.recordID.recordName
                                 completion(.success(post))
                             }
                         case .failure(let error2):
                             print(#function)
-                            print("Não resgatou publicador")
                             print(error2)
                     }
                 }

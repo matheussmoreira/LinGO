@@ -9,8 +9,7 @@
 import Foundation
 
 class Comentario: Identifiable, ObservableObject {
-    var recordName: String?
-    var id: String {self.recordName ?? ""}//String(self.hashValue)}
+    var id: String = ""
     @Published var post: Post
     @Published var publicador: Membro
     @Published var conteudo: String

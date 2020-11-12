@@ -95,36 +95,36 @@ struct EnterView: View {
         }
     }
     
-    func logIn(){
-        CKMDefault.setRecordTypeFor(type: Usuario.self, recordName: "Users") // tabela Users do iCloud se torna o Usuario
-        CKMDefault.container.fetchUserRecordID { (recordID, error) in
-            if let error = error {
-                print(error)
-                return
-            }
-            if let recordID = recordID {
-                Usuario.ckLoad(with: recordID.recordName) { result in
-                    switch result {
-                        case .success(let user):
-                            DispatchQueue.main.async {
-                                print("login: case.success")
-                                let usuario = user as? Usuario
-                                print("recordName: \(String(describing: usuario?.recordName))")
-                                dao.usuario_atual = usuario
-                                enterMode = .logIn
-                                UserDefaults.standard.set(
-                                    enterMode.rawValue,
-                                    forKey: "LastEnterMode"
-                                )
-                            }
-                        case .failure(let error):
-                            print("login: case.failure")
-                            print(error)
-                    }
-                }
-            }
-        }
-    } //logIn
+//    func logIn(){
+//        CKMDefault.setRecordTypeFor(type: Usuario.self, recordName: "Users") // tabela Users do iCloud se torna o Usuario
+//        CKMDefault.container.fetchUserRecordID { (recordID, error) in
+//            if let error = error {
+//                print(error)
+//                return
+//            }
+//            if let recordID = recordID {
+//                Usuario.ckLoad(with: recordID.recordName) { result in
+//                    switch result {
+//                        case .success(let user):
+//                            DispatchQueue.main.async {
+//                                print("login: case.success")
+//                                let usuario = user as? Usuario
+//                                print("recordName: \(String(describing: usuario?.recordName))")
+//                                dao.usuario_atual = usuario
+//                                enterMode = .logIn
+//                                UserDefaults.standard.set(
+//                                    enterMode.rawValue,
+//                                    forKey: "LastEnterMode"
+//                                )
+//                            }
+//                        case .failure(let error):
+//                            print("login: case.failure")
+//                            print(error)
+//                    }
+//                }
+//            }
+//        }
+//    } //logIn
 }
 
 struct EnterView_Previews: PreviewProvider {

@@ -61,7 +61,7 @@ struct MemberButton: View {
                 .frame(width: UIScreen.width*0.95, height: 50)
                 .overlay(
                     HStack{
-                        membro_sala.usuario.foto_perfil
+                        Image(uiImage: membro_sala.usuario.foto_perfil)
                             .renderingMode(.original)
                             .resizable()
                             .aspectRatio(contentMode: .fill)

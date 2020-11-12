@@ -16,7 +16,6 @@ class LinkPost: NSObject, NSSecureCoding {
     var title: String?
     var url: String?
     var image: UIImage?
-    
     static var supportsSecureCoding = true
     
     func encode(with coder: NSCoder) {
@@ -36,17 +35,14 @@ class LinkPost: NSObject, NSSecureCoding {
     
     init? (urlString: String, completion: @escaping (Result<LinkPost, Error>) -> ()) {
         super.init()
-        print("Construindo link...")
         LinkPost.fetchMetadata(for: urlString) { (result) in
             switch result {
                 case .success(let metadata):
-                    print("Sucesso ao pegar metadados")
                     self.id = UUID().hashValue
                     self.metadata = metadata
                     self.title = metadata.title
-                    self.url = urlString//metadata.originalURL?.asString
-                    self.getImage(metadata)
-//                    self.saveLinkInCache(self.id)
+                    self.url = urlString
+                    self.getImage(from: metadata)
                     completion(.success(self))
                 case .failure(let error):
                     print(error)
@@ -55,9 +51,8 @@ class LinkPost: NSObject, NSSecureCoding {
         }
     }
     
-    func getImage(_ metadata: LPLinkMetadata){
-        let md = metadata
-        let _ = md.imageProvider?.loadObject(
+    func getImage(from metadata: LPLinkMetadata){
+        let _ = metadata.imageProvider?.loadObject(
             ofClass: UIImage.self,
             completionHandler: { (image, err) in
             DispatchQueue.main.async {
@@ -128,41 +123,4 @@ extension LinkPost {
         return nil
     }
     
-    /*fileprivate func saveImage(_ id_link: Int?) {
-        guard let id_link = id_link else {
-            print("\nSaveImage: Received id as nil\n")
-            return
-        }
-        
-        do {
-            let data = try NSKeyedArchiver.archivedData(withRootObject: UIImage.self, requiringSecureCoding: true)
-            guard let docDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-            try data.write(to: docDirURL.appendingPathComponent("Image \(id_link)"))
-            print(docDirURL.appendingPathComponent("Image \(id_link)"))
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    static func loadImage(_ id_link: Int?) -> UImage? {
-        guard let id_link = id_link else {
-            print("\nLoadImage: Received id as nil\n")
-            return nil
-        }
-        
-        guard let docDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
-        let linksURL = docDirURL.appendingPathComponent("Image \(id_link)")
-        
-        if FileManager.default.fileExists(atPath: linksURL.path) {
-            do {
-                let data = try Data(contentsOf: linksURL)
-                guard let unarchived = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? UIImage else { return nil }
-                return unarchived
-            } catch {
-                print(error.localizedDescription)
-                return nil
-            }
-        }
-        return nil
-    }*/
 }

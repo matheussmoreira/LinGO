@@ -108,8 +108,7 @@ struct EditProfileView: View {
                     })
         }
         .onAppear {
-            self.photoProfile = self.usuario.foto_perfil
-//            self.fluenciaSelecionada = Usuario.pegaFluenciaIdx(fluencia: self.usuario.fluencia_ingles)
+            self.photoProfile = Image(uiImage: self.usuario.foto_perfil)
             self.fluenciaSelecionada = Usuario.pegaFluenciaIdx(fluencia: Usuario.pegaFluencia(nome: self.usuario.fluencia_ingles))
         }
     } //body
@@ -118,7 +117,7 @@ struct EditProfileView: View {
         if self.nome != ""{
             let usuario = Usuario(
                 nome: self.nome,
-                foto_perfil: self.photoProfile ?? self.usuario.foto_perfil,
+                foto_perfil: self.photoProfile?.asUIImage() ?? self.usuario.foto_perfil,
                 fluencia_ingles: Usuario.pegaFluenciaNome(idx: fluenciaSelecionada))
             usuario.id = self.usuario.id
             usuario.sala_atual = self.usuario.sala_atual
@@ -143,25 +142,25 @@ struct EditProfileView: View {
         }
     }
     
-    func editaUsuario(){
-        if self.nome != "" { self.usuario.nome = self.nome }
-        self.usuario.foto_perfil = self.photoProfile ?? self.usuario.foto_perfil
-//                        self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada)
-        self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada).rawValue
-        
-        DispatchQueue.main.async {
-            self.usuario.ckSave { (result) in
-                switch result{
-                    case .success(_):
-                        print("EditProfile: case.success")
-                    case .failure(let error):
-                        print("EditProfile: case.error")
-                        print(error)
-                }
-            }
-        }
-        self.presentationMode.wrappedValue.dismiss()
-    }
+//    func editaUsuario(){
+//        if self.nome != "" { self.usuario.nome = self.nome }
+//        self.usuario.foto_perfil = self.photoProfile ?? self.usuario.foto_perfil
+////                        self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada)
+//        self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada).rawValue
+//        
+//        DispatchQueue.main.async {
+//            self.usuario.ckSave { (result) in
+//                switch result{
+//                    case .success(_):
+//                        print("EditProfile: case.success")
+//                    case .failure(let error):
+//                        print("EditProfile: case.error")
+//                        print(error)
+//                }
+//            }
+//        }
+//        self.presentationMode.wrappedValue.dismiss()
+//    }
     
 }
 

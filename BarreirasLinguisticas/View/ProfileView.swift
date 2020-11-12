@@ -35,7 +35,7 @@ struct ProfileView: View {
                 
                 //MARK: - DADOS DO MEMBRO
                 VStack {
-                    membro.usuario.foto_perfil
+                    Image(uiImage: membro.usuario.foto_perfil )
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 150.0, height: 150.0)
