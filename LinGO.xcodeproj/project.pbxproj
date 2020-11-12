@@ -16,13 +16,14 @@
 		6629EBAF24EC7442009802A5 /* OnboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6629EBAE24EC7442009802A5 /* OnboardViewController.swift */; };
 		6629EBB124EC7EA9009802A5 /* OnboardPageIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6629EBB024EC7EA9009802A5 /* OnboardPageIndicator.swift */; };
 		662B018924D9F3FC008BF2D7 /* Comentario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662B018824D9F3FC008BF2D7 /* Comentario.swift */; };
-		663C8ECC24CC6C2E000936FF /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663C8ECB24CC6C2E000936FF /* Link.swift */; };
+		663C8ECC24CC6C2E000936FF /* LinkPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663C8ECB24CC6C2E000936FF /* LinkPost.swift */; };
 		663C8ED024CCB7F5000936FF /* LinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663C8ECF24CCB7F5000936FF /* LinkView.swift */; };
 		664973C724E4C7BC00D01BAC /* UIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664973C624E4C7BC00D01BAC /* UIManager.swift */; };
 		665A157624DC2DE500D94359 /* MyPublications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A157524DC2DE500D94359 /* MyPublications.swift */; };
 		665A157824DC30A000D94359 /* MySavedPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A157724DC30A000D94359 /* MySavedPosts.swift */; };
 		665A157A24DC315100D94359 /* RoomMembersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A157924DC315100D94359 /* RoomMembersView.swift */; };
 		665BD8742553125600077679 /* CKManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665BD8732553125600077679 /* CKManager.swift */; };
+		666A11AE255C9AD000A3B7BF /* LinkPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A11AD255C9AD000A3B7BF /* LinkPreview.swift */; };
 		666C803224DCA329001A7148 /* SubscriptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666C803124DCA329001A7148 /* SubscriptionsView.swift */; };
 		6675881624D3667400C9B805 /* Usuario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6675881524D3667400C9B805 /* Usuario.swift */; };
 		6675881824D3789B00C9B805 /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6675881724D3789B00C9B805 /* UsersView.swift */; };
@@ -66,13 +67,14 @@
 		6629EBAE24EC7442009802A5 /* OnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardViewController.swift; sourceTree = "<group>"; };
 		6629EBB024EC7EA9009802A5 /* OnboardPageIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardPageIndicator.swift; sourceTree = "<group>"; };
 		662B018824D9F3FC008BF2D7 /* Comentario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comentario.swift; sourceTree = "<group>"; };
-		663C8ECB24CC6C2E000936FF /* Link.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
+		663C8ECB24CC6C2E000936FF /* LinkPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkPost.swift; sourceTree = "<group>"; };
 		663C8ECF24CCB7F5000936FF /* LinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkView.swift; sourceTree = "<group>"; };
 		664973C624E4C7BC00D01BAC /* UIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIManager.swift; sourceTree = "<group>"; };
 		665A157524DC2DE500D94359 /* MyPublications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPublications.swift; sourceTree = "<group>"; };
 		665A157724DC30A000D94359 /* MySavedPosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySavedPosts.swift; sourceTree = "<group>"; };
 		665A157924DC315100D94359 /* RoomMembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomMembersView.swift; sourceTree = "<group>"; };
 		665BD8732553125600077679 /* CKManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKManager.swift; sourceTree = "<group>"; };
+		666A11AD255C9AD000A3B7BF /* LinkPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkPreview.swift; sourceTree = "<group>"; };
 		666C803124DCA329001A7148 /* SubscriptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionsView.swift; sourceTree = "<group>"; };
 		6675881524D3667400C9B805 /* Usuario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Usuario.swift; sourceTree = "<group>"; };
 		6675881724D3789B00C9B805 /* UsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersView.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				EA6CA39C24DA006600FAD6F6 /* MultilineTextField.swift */,
 				6675881724D3789B00C9B805 /* UsersView.swift */,
 				663C8ECF24CCB7F5000936FF /* LinkView.swift */,
+				666A11AD255C9AD000A3B7BF /* LinkPreview.swift */,
 			);
 			path = Auxiliares;
 			sourceTree = "<group>";
@@ -221,7 +224,7 @@
 				662B018824D9F3FC008BF2D7 /* Comentario.swift */,
 				66D7AA7B24CB59E1001CEA3A /* Categoria.swift */,
 				6629EBAA24EC671D009802A5 /* Onboard.swift */,
-				663C8ECB24CC6C2E000936FF /* Link.swift */,
+				663C8ECB24CC6C2E000936FF /* LinkPost.swift */,
 				668D55FF24D43ED900EBDD15 /* LinkManager.swift */,
 				664973C624E4C7BC00D01BAC /* UIManager.swift */,
 				665BD8732553125600077679 /* CKManager.swift */,
@@ -337,6 +340,7 @@
 				66D7AA8524CB80B2001CEA3A /* DiscoverView.swift in Sources */,
 				6629EBB124EC7EA9009802A5 /* OnboardPageIndicator.swift in Sources */,
 				6629EBA324EC45B4009802A5 /* FirstView.swift in Sources */,
+				666A11AE255C9AD000A3B7BF /* LinkPreview.swift in Sources */,
 				6603984D24DB516800C5629B /* PostCardView.swift in Sources */,
 				664973C724E4C7BC00D01BAC /* UIManager.swift in Sources */,
 				66D7AA8224CB5A1D001CEA3A /* Sala.swift in Sources */,
@@ -346,7 +350,7 @@
 				EAF98EF424DDAEF80087FA3A /* CommentsQuestionsToggle.swift in Sources */,
 				66D7AA8B24CB8140001CEA3A /* ProfileView.swift in Sources */,
 				6629EBAF24EC7442009802A5 /* OnboardViewController.swift in Sources */,
-				663C8ECC24CC6C2E000936FF /* Link.swift in Sources */,
+				663C8ECC24CC6C2E000936FF /* LinkPost.swift in Sources */,
 				668903A824D5B7F60062C8CA /* PostView.swift in Sources */,
 				666C803224DCA329001A7148 /* SubscriptionsView.swift in Sources */,
 				667D8BAF24D30469005D51F4 /* DAO.swift in Sources */,

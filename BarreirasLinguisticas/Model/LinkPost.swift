@@ -42,11 +42,11 @@ class LinkPost: NSObject, NSSecureCoding {
                 case .success(let metadata):
                     print("Sucesso ao pegar metadados")
                     self.id = UUID().hashValue
-            //        self.metadata = metadata
+                    self.metadata = metadata
                     self.title = metadata.title
-                    self.url = metadata.originalURL?.asString
+                    self.url = urlString//metadata.originalURL?.asString
                     self.getImage(metadata)
-                    self.saveLinkInCache(self.id)
+//                    self.saveLinkInCache(self.id)
                     completion(.success(self))
                 case .failure(let error):
                     print(error)

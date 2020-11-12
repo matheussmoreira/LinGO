@@ -14,7 +14,7 @@ struct PostView: View {
     @EnvironmentObject var membro: Membro
     @ObservedObject var sala: Sala
     @ObservedObject var post: Post
-    @State private var stored_link: Link?
+//    @State private var stored_link: LinkPost?
     @State private var bookmarked = false
     @State private var bookmarkedImage = "bookmark"
     @State private var showComments = false
@@ -24,13 +24,7 @@ struct PostView: View {
     var body: some View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
-                VStack(alignment: .leading){
-                    
-                    //                    Text(post.titulo)
-                    //                        .fontWeight(.bold)
-                    //                        .font(.title)
-                    //                        .padding(.top)
-                    
+                VStack{
                     //AUTOR E NIVEL DE FLUENCIA
                     HStack {
                         Text("Shared by \(post.publicador.usuario.nome)")
@@ -60,107 +54,164 @@ struct PostView: View {
                     //DESCRICAO
                     Text(post.descricao!)
                         .padding(.bottom)
+                        .multilineTextAlignment(.leading)
                     
                     //LINK PREVIEW
-                    if (stored_link != nil && stored_link?.metadata != nil) {
-                        LinkView(metadata: stored_link!.metadata!)
+                    //                    if (stored_link != nil && stored_link?.metadata != nil) {
+                    //                        LinkView(metadata: stored_link!.metadata!)
+                    //                    }
+                    if post.link != nil {
+                        LinkPreview(link: post.link!)
+                    }
+                    
+                    //MARK: - COMENTARIOS
+                    Button(action: {self.showComments.toggle()}) {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .frame(width: UIScreen.width*0.95, height: 40.0)
+                                .foregroundColor(LingoColors.lingoBlue)
+                            HStack {
+                                Spacer()
+                                Text("Ask or Comment")
+                                    .foregroundColor(.primary)
+                                    .colorInvert()
+                                Spacer()
+                            }
+                        }
+                    }
+                    .sheet(isPresented: $showComments) {
+                        CommentsQuestionsToggle(post: self.post)
+                            .environmentObject(self.membro)
+                    }
+                    //MARK: - REPORT
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .frame(width: UIScreen.width*0.95, height: 40.0)
+                            .foregroundColor(LingoColors.lingoBlue)
+                        Button(action:{
+                            self.report()
+                        }) {
+                            Text(reported ? "Dismiss" : "Report")
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                            
+                        }
+                    }
+                    //MARK: - EXCLUIR POST
+                    if membro.id == post.publicador.id{
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .frame(width: UIScreen.width*0.95, height: 40.0)
+                                .foregroundColor(LingoColors.lingoBlue)
+                            Button(action: {
+                                showAlterExcluiPost.toggle()
+                                
+                            }) {
+                                Text("Delete")
+                                    .cornerRadius(8)
+                                    .foregroundColor(.white)
+                            }
+                            .alert(isPresented: $showAlterExcluiPost) {
+                                Alert(title: Text("Are you sure you want to delete this?"),
+                                      primaryButton: .default(Text("Delete")){
+                                        sala.excluiPost(id_post: post.id, membro: membro)
+                                        self.presentationMode.wrappedValue.dismiss()
+                                      },
+                                      secondaryButton: .cancel())
+                            }
+                        }.padding(.bottom)
                     }
                     
                 } //VStack
             } //ScrollView
             .frame(width: UIScreen.width*0.95)
             .onAppear {
-                self.carregaLink()
+//                self.carregaLink()
                 self.loadBookmark()
             }
             .navigationBarTitle(
                 Text(post.titulo)
-                //                    .font(.system(.title, design: .rounded)),displayMode: .inline
             )
             .padding(.horizontal)
-            .navigationBarItems(trailing:
-                                    Button(action: {self.changeBookmark()
-                                    }){
-                                        Image(systemName: bookmarkedImage)
-                                            .imageScale(.large)
-                                            .foregroundColor(.red)
-                                    }
+            .navigationBarItems(
+                trailing:
+                    Button(action: {
+                        self.changeBookmark()
+                    }){
+                        Image(systemName: bookmarkedImage)
+                            .imageScale(.large)
+                            .foregroundColor(.red)
+                    }
             )
             
-            VStack {
-                //MARK: - COMENTARIOS
-                Button(action: {self.showComments.toggle()}) {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .frame(width: UIScreen.width*0.95, height: 40.0)
-                            .foregroundColor(LingoColors.lingoBlue)
-                        HStack {
-                            Spacer()
-                            Text("Ask or Comment")
-                                .foregroundColor(.primary)
-                                .colorInvert()
-//                            Image(systemName: "pencil.circle.fill")
-//                                .font(.system(size: 32, weight: .regular))
+//            VStack {
+//                //MARK: - COMENTARIOS
+//                Button(action: {self.showComments.toggle()}) {
+//                    ZStack {
+//                        RoundedRectangle(cornerRadius: 10)
+//                            .frame(width: UIScreen.width*0.95, height: 40.0)
+//                            .foregroundColor(LingoColors.lingoBlue)
+//                        HStack {
+//                            Spacer()
+//                            Text("Ask or Comment")
 //                                .foregroundColor(.primary)
 //                                .colorInvert()
-                                
-                            Spacer()
-                        }
-                    }
-                }
-                .sheet(isPresented: $showComments) {
-                    CommentsQuestionsToggle(post: self.post)
-                        .environmentObject(self.membro)
-                }
-                //MARK: - REPORT
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .frame(width: UIScreen.width*0.95, height: 40.0)
-                        .foregroundColor(LingoColors.lingoBlue)
-                    Button(action:{
-                        self.report()
-                    }) {
-                        Text(reported ? "Dismiss" : "Report")
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                            
-                    }
-                }
-                //MARK: - EXCLUIR POST
-                if membro.id == post.publicador.id{
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .frame(width: UIScreen.width*0.95, height: 40.0)
-                            .foregroundColor(LingoColors.lingoBlue)
-                        Button(action: {
-                            showAlterExcluiPost.toggle()
-                            
-                        }) {
-                            Text("Delete")
-                                .cornerRadius(8)
-                                .foregroundColor(.white)
-                        }
-                        .alert(isPresented: $showAlterExcluiPost) {
-                            Alert(title: Text("Are you sure you want to delete this?"),
-                                  primaryButton: .default(Text("Delete")){
-                                    sala.excluiPost(id_post: post.id, membro: membro)
-                                    self.presentationMode.wrappedValue.dismiss()
-                                  },
-                                  secondaryButton: .cancel())
-                        }
-                    }.padding(.bottom)
-                }
-            }
+//                            Spacer()
+//                        }
+//                    }
+//                }
+//                .sheet(isPresented: $showComments) {
+//                    CommentsQuestionsToggle(post: self.post)
+//                        .environmentObject(self.membro)
+//                }
+//                //MARK: - REPORT
+//                ZStack {
+//                    RoundedRectangle(cornerRadius: 10)
+//                        .frame(width: UIScreen.width*0.95, height: 40.0)
+//                        .foregroundColor(LingoColors.lingoBlue)
+//                    Button(action:{
+//                        self.report()
+//                    }) {
+//                        Text(reported ? "Dismiss" : "Report")
+//                            .foregroundColor(.white)
+//                            .cornerRadius(8)
+//
+//                    }
+//                }
+//                //MARK: - EXCLUIR POST
+//                if membro.id == post.publicador.id{
+//                    ZStack {
+//                        RoundedRectangle(cornerRadius: 10)
+//                            .frame(width: UIScreen.width*0.95, height: 40.0)
+//                            .foregroundColor(LingoColors.lingoBlue)
+//                        Button(action: {
+//                            showAlterExcluiPost.toggle()
+//
+//                        }) {
+//                            Text("Delete")
+//                                .cornerRadius(8)
+//                                .foregroundColor(.white)
+//                        }
+//                        .alert(isPresented: $showAlterExcluiPost) {
+//                            Alert(title: Text("Are you sure you want to delete this?"),
+//                                  primaryButton: .default(Text("Delete")){
+//                                    sala.excluiPost(id_post: post.id, membro: membro)
+//                                    self.presentationMode.wrappedValue.dismiss()
+//                                  },
+//                                  secondaryButton: .cancel())
+//                        }
+//                    }.padding(.bottom)
+//                }
+//            }
         }
         .onAppear{self.loadReport()}
     } //body
     
-    func carregaLink(){
-        if let link = post.link {
-            //stored_link = post.link
-            stored_link = Link.fetchLinkFromCache(link.id) // do cache
-        }
-    }
+//    func carregaLink(){
+//        if let _ = post.link {
+//            stored_link = post.link
+//        }
+//    }
     
     func loadBookmark() {
         bookmarked = membro.posts_salvos.contains(post.id)

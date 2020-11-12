@@ -111,7 +111,7 @@ struct PostCardView: View {
         } //body
     }
     
-    func getLinkImage(from link: Link?) {
+    func getLinkImage(from link: LinkPost?) {
         if let image = post.link?.image {
             self.link_image = image
             self.line_limit_title = 1

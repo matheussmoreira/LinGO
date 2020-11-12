@@ -13,7 +13,7 @@ class Post: Equatable, Identifiable, ObservableObject {
     var id: String = ""
     @Published var titulo: String
     @Published var descricao: String?
-    @Published var link: Link?
+    @Published var link: LinkPost?
     @Published var link_image: UIImage?
     @Published var publicador: Membro
     @Published var perguntas: [Comentario] = []
@@ -22,7 +22,7 @@ class Post: Equatable, Identifiable, ObservableObject {
     @Published var tags: [String] = []
     @Published var denuncias: [String] = []
     
-    init(titulo: String?, descricao: String?, link: Link?, categs: [String], tags: String, publicador: Membro) {
+    init(titulo: String?, descricao: String?, link: LinkPost?, categs: [String], tags: String, publicador: Membro) {
         self.titulo = titulo ?? "Post sem título"
         self.descricao = descricao ?? ""
         self.categorias = categs
@@ -46,7 +46,7 @@ class Post: Equatable, Identifiable, ObservableObject {
         return tags.components(separatedBy: " ")
     }
     
-    func addLink(_ link: Link?) {
+    func addLink(_ link: LinkPost?) {
         if (link != nil) { self.link = link! }
         else { print("Post: Não deu pra adquirir o link pois está inválido\n") }
     }

@@ -89,41 +89,28 @@ struct CKManager {
                 let titulo = postDictionary["titulo"] as! String
                 let descricao = postDictionary["descricao"] as! String
                 let categs = postDictionary["categorias"] as! [String]
-                let tags = postDictionary["tags"] as! [String]
+                let tags = postDictionary["tags"] as? [String]
                 let idLink = postDictionary["idLink"] as? Int
                 let titleLink = postDictionary["titleLink"] as? String
-                let urlLink = postDictionary["urlLink"] as! String
-                let linkFromCache = Link.fetchLinkFromCache(idLink)
-
-                if linkFromCache != nil {
-                    let post = Post(
-                        titulo: titulo,
-                        descricao: descricao,
-                        link: linkFromCache,
-                        categs: categs,
-                        tags: "",
-                        publicador: publicador
-                    )
-                    post.tags = tags
-                    post.id = id
-                    return post
-                } else {
-                    let newLink = Link()
-                    newLink.id = idLink
-                    newLink.title = titleLink
-                    newLink.url = urlLink
-                    let post = Post(
-                        titulo: titulo,
-                        descricao: descricao,
-                        link: newLink,
-                        categs: categs,
-                        tags: "",
-                        publicador: publicador
-                    )
-                    post.tags = tags
-                    post.id = id
-                    return post
-                }
+                let urlLink = postDictionary["urlLink"] as? String
+                
+                let newLink = LinkPost()
+                newLink.id = idLink
+                newLink.title = titleLink
+                newLink.url = urlLink
+                // faltando a imagem
+                
+                let post = Post(
+                    titulo: titulo,
+                    descricao: descricao,
+                    link: newLink,
+                    categs: categs,
+                    tags: "",
+                    publicador: publicador
+                )
+                post.tags = tags ?? []
+                post.id = id
+                return post
                 
             }
             return nil
@@ -684,7 +671,7 @@ extension CKManager {
         postRecord["descricao"] = post.descricao
         postRecord["idLink"] = post.link?.id
         postRecord["titleLink"] = post.link?.title
-        postRecord["urlLink"] = post.link?.url//post.link?.metadata?.originalURL?.absoluteString
+        postRecord["urlLink"] = post.link?.url
         postRecord["publicador"] = CKRecord.Reference(
             recordID: CKRecord.ID(recordName: post.publicador.id), action: .deleteSelf
         )
@@ -718,8 +705,10 @@ extension CKManager {
                         case .success(let fetchedMembro):
                             DispatchQueue.main.async {
                                 print(#function)
-                                let post = Post(titulo: titulo, descricao: desc, link: Link.fetchLinkFromCache(idLink), categs: categs, tags: "", publicador: fetchedMembro)
-                                post.tags = tags ?? []
+//                                let post = Post(titulo: titulo, descricao: desc, link: LinkPost.fetchLinkFromCache(idLink), categs: categs, tags: "", publicador: fetchedMembro)
+//                                post.tags = tags ?? []
+                                let newPost  = Post(titulo: post.titulo, descricao: post.descricao, link: post.link, categs: post.categorias, tags: "", publicador: post.publicador)
+                                newPost.tags = post.tags
                                 post.id = savedPostRecord.recordID.recordName
                                 completion(.success(post))
                             }

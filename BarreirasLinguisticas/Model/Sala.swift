@@ -129,7 +129,7 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
             salvaNovoPost(membro: membro, titulo: titulo, descricao: descricao, link: nil, categs: categs, tags: tags)
         }
         else {
-            let _ = Link(urlString: linkString) { linkResult in
+            let _ = LinkPost(urlString: linkString) { linkResult in
                 switch linkResult {
                     case .success(let savedLink):
                         self.salvaNovoPost(membro: membro, titulo: titulo, descricao: descricao, link: savedLink, categs: categs, tags: tags)
@@ -141,7 +141,7 @@ class Sala: Identifiable, ObservableObject, CKMRecord {
         }
     }
     
-    private func salvaNovoPost(membro: Membro, titulo: String, descricao: String?, link: Link?, categs: [String], tags: String){
+    private func salvaNovoPost(membro: Membro, titulo: String, descricao: String?, link: LinkPost?, categs: [String], tags: String){
         
         let post = Post(titulo: titulo, descricao: descricao, link: link, categs: categs, tags: tags, publicador: membro)
         
