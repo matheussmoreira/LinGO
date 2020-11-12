@@ -77,19 +77,19 @@ struct CKManager {
         }
     }
     
-    private static func getComentarioFromDictionary(_ comentarioDictionaryOpt:Dictionary<String, Any>?) -> Comentario?  {
+    private static func getComentarioFromDictionary(_ comentarioDictionaryOpt:Dictionary<String, Any>?, with membros: [Membro]) -> Comentario?  {
         if let comentarioDictionary = comentarioDictionaryOpt{
             let recordName = comentarioDictionary["recordName"] as! String
             let conteudo = comentarioDictionary["conteudo"] as! String
             let post = comentarioDictionary["post"] as! String
+            let id_publicador = comentarioDictionary["id_publicador"] as! String
             let is_question = comentarioDictionary["is_question"] as! Int == 1 ? true : false
-            guard let publicador = getMembroFromDictionary(comentarioDictionary["publicador"] as! Dictionary<String,Any>?) else {
-                return nil
-            }
+            
+            let publicador = membros.filter({$0.id == id_publicador})
             
             let comentario = Comentario(
                 post: post,
-                publicador: publicador,
+                publicador: publicador[0],
                 conteudo: conteudo,
                 is_question: is_question
             )
@@ -99,8 +99,7 @@ struct CKManager {
         return nil
     }
     
-    private static func getPostFromDictionary(_ postDictionaryOpt:Dictionary<String, Any>?) -> Post? {
-        print(#function)
+    private static func getPostFromDictionary(_ postDictionaryOpt:Dictionary<String, Any>?, with membros: [Membro]) -> Post? {
         if let postDictionary = postDictionaryOpt {
             /*
              @Published var denuncias: [String] = []
@@ -124,10 +123,23 @@ struct CKManager {
                 // faltando a imagem
                 
                 // Perguntas e comentarios
-//                print(postDictionary["perguntas"])
-//                print("\n")
-//                print(postDictionary["comentarios"])
+                var comentarios: [Comentario] = []
+                let comentariosDicts = postDictionary["comentarios"] as! Array<Dictionary<String,Any>>
+                for comentarioDict in comentariosDicts {
+                    if let comentario = getComentarioFromDictionary(comentarioDict, with: membros) {
+                        comentarios.append(comentario)
+                    }
+                }
                 
+                var perguntas: [Comentario] = []
+                let perguntasDicts = postDictionary["perguntas"] as! Array<Dictionary<String,Any>>
+                for perguntaDict in perguntasDicts {
+                    if let pergunta = getComentarioFromDictionary(perguntaDict, with: membros) {
+                        perguntas.append(pergunta)
+                    }
+                }
+                
+                // Montagem do post
                 let post = Post(
                     titulo: titulo,
                     descricao: descricao,
@@ -137,6 +149,8 @@ struct CKManager {
                     publicador: publicador
                 )
                 post.tags = tags ?? []
+                post.perguntas = perguntas
+                post.comentarios = comentarios
                 post.id = id
                 return post
                 
@@ -315,22 +329,18 @@ extension CKManager {
     
     static func getSalaFromRecord(salaRecord: CKRecord) -> Sala? {
         // RECORD NAME
-        print(#function)
-        print("Loading recordName")
         guard let salaRecordName = salaRecord.asDictionary["recordName"] as? String else {
             print(#function)
             print("Erro ao capturar o recordName de uma sala")
             return nil
         }
         // NOME
-        print("Loading nome")
         guard let salaNome = salaRecord.asDictionary["nome"] as? String else {
             print(#function)
             print("Erro ao capturar o nome de uma sala")
             return nil
         }
         // MEMBROS
-        print("Loading membros")
         guard let membrosDictionaries = salaRecord.asDictionary["membros"] as? Array<Optional<Dictionary<String, Any>>> else {
             print(#function)
             print("Erro no cast do vetor de membros")
@@ -347,7 +357,6 @@ extension CKManager {
         }
         
         // CATEGORIAS
-        print("Loading categorias")
         var categorias: [Categoria] = []
         if let categoriasDictionaries = salaRecord.asDictionary["categorias"] as? Array<Optional<Dictionary<String, Any>>> {
             
@@ -362,12 +371,11 @@ extension CKManager {
         }
         
         // POSTS
-        print("Loading posts")
         var posts: [Post] = []
         if let postsDictionaries = salaRecord.asDictionary["posts"] as? Array<Optional<Dictionary<String, Any>>> {
 
             for postDictionary in postsDictionaries {
-                if let post = getPostFromDictionary(postDictionary) {
+                if let post = getPostFromDictionary(postDictionary, with: membros) {
                     posts.append(post)
                 } else {
                     print(#function)
@@ -767,12 +775,27 @@ extension CKManager {
                 return
             }
             if let fetchedPostRecord = fetchedRecord {
+                var perguntas: [CKRecord.Reference] = []
                 for pergunta in post.perguntas {
-                    fetchedPostRecord["perguntas"] = CKRecord.Reference(recordID: CKRecord.ID(recordName: pergunta.id), action: .none)
+                    perguntas.append(
+                        CKRecord.Reference(
+                                        recordID: CKRecord.ID(recordName: pergunta.id),
+                                        action: .none
+                        )
+                    )
                 }
+                fetchedPostRecord["perguntas"] = perguntas
+                
+                var comentarios: [CKRecord.Reference] = []
                 for comentario in post.comentarios {
-                    fetchedPostRecord["comentarios"] = CKRecord.Reference(recordID: CKRecord.ID(recordName: comentario.id), action: .none)
+                    comentarios.append(
+                        CKRecord.Reference(
+                            recordID: CKRecord.ID(recordName: comentario.id),
+                            action: .none)
+                    )
                 }
+                fetchedPostRecord["comentarios"] = comentarios
+                
                 publicDB.save(fetchedPostRecord) { (savedRecord, error2) in
                     if let error2 = error2 {
                         completion(.failure(error2))
@@ -794,7 +817,8 @@ extension CKManager {
         // PREPARANDO OS DADOS
         let comentarioRecord = CKRecord(recordType: "Comentario")
         comentarioRecord["post"] = comentario.post
-        comentarioRecord["publicador"] = CKRecord.Reference(recordID: CKRecord.ID(recordName: comentario.publicador.id), action: .none) // ou action: .none ????
+        comentarioRecord["id_publicador"] = comentario.publicador.id
+            //CKRecord.Reference(recordID: CKRecord.ID(recordName: comentario.publicador.id), action: .none) // ou action: .none ????
         comentarioRecord["conteudo"] = comentario.conteudo
         comentarioRecord["is_question"] = comentario.is_question ? 1 : 0
 
