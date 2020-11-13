@@ -84,6 +84,8 @@ struct CKManager {
             let post = comentarioDictionary["post"] as! String
             let id_publicador = comentarioDictionary["id_publicador"] as! String
             let is_question = comentarioDictionary["is_question"] as! Int == 1 ? true : false
+            let votos = comentarioDictionary["votos"] as? [String] ?? []
+            print("Numero de votos: \(votos.count)")
             
             let publicador = membros.filter({$0.id == id_publicador})
             
@@ -93,6 +95,7 @@ struct CKManager {
                 conteudo: conteudo,
                 is_question: is_question
             )
+            comentario.votos = votos
             comentario.id = recordName
             return comentario
         }
@@ -111,6 +114,7 @@ struct CKManager {
                 let descricao = postDictionary["descricao"] as! String
                 let categs = postDictionary["categorias"] as! [String]
                 let tags = postDictionary["tags"] as? [String]
+                let denuncias = postDictionary["denuncias"] as? [String]
                 
                 // Atributos do link do post
                 let idLink = postDictionary["idLink"] as? Int
@@ -122,7 +126,7 @@ struct CKManager {
                 newLink.url = urlLink
                 // faltando a imagem
                 
-                // Perguntas e comentarios
+                // PERGUNTAS E COMENTARIOS
                 var comentarios: [Comentario] = []
                 let comentariosDicts = postDictionary["comentarios"] as! Array<Dictionary<String,Any>>
                 for comentarioDict in comentariosDicts {
@@ -139,7 +143,7 @@ struct CKManager {
                     }
                 }
                 
-                // Montagem do post
+                // MONTAGEM DO POST
                 let post = Post(
                     titulo: titulo,
                     descricao: descricao,
@@ -149,6 +153,7 @@ struct CKManager {
                     publicador: publicador
                 )
                 post.tags = tags ?? []
+                post.denuncias = denuncias ?? []
                 post.perguntas = perguntas
                 post.comentarios = comentarios
                 post.id = id
@@ -615,7 +620,7 @@ extension CKManager {
         }
     } //fetchMembro
     
-    static func modifyMembroPublicados(membro: Membro, completion: @escaping (Result<[String], Error>) -> ()) {
+    static func modifyMembro(membro: Membro, completion: @escaping (Result<String, Error>) -> ()) {
         
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: membro.id)) { (record, error) in
@@ -626,7 +631,9 @@ extension CKManager {
                 return
             }
             if let fetchedMembroRecord = record {
+                fetchedMembroRecord["is_admin"] = membro.is_admin ? 1 : 0
                 fetchedMembroRecord["posts_publicados"] = membro.posts_publicados
+                
                 publicDB.save(fetchedMembroRecord) { (record2, error2) in
                     if let error2 = error2 {
                         print(#function)
@@ -635,11 +642,7 @@ extension CKManager {
                         return
                     }
                     if let savedMembroRecord = record2 {
-                        guard let publicados = savedMembroRecord["posts_publicados"] as? [String] else {
-                            print("Nao pode baixar posts publicados")
-                            return
-                        }
-                        completion(.success(publicados))
+                        completion(.success(savedMembroRecord.recordID.recordName))
                     }
                 }
             }
@@ -676,7 +679,7 @@ extension CKManager {
         }
     }
     
-    static func modifyCategoriaTagsPosts(categoria: Categoria, completion: @escaping (Result<[String], Error>) -> ()){
+    static func modifyCategoria(categoria: Categoria, completion: @escaping (Result<[String], Error>) -> ()){
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: categoria.id)){ (record, error) in
             if let error = error {
@@ -767,7 +770,7 @@ extension CKManager {
         }
     }
     
-    static func modifyPostComentarios(post: Post, completion: @escaping (Result<String, Error>) -> ()) {
+    static func modifyPost(post: Post, completion: @escaping (Result<String, Error>) -> ()) {
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: post.id)) { (fetchedRecord, error) in
             if let error = error {
@@ -775,6 +778,7 @@ extension CKManager {
                 return
             }
             if let fetchedPostRecord = fetchedRecord {
+                // LISTA DE PERGUNTAS
                 var perguntas: [CKRecord.Reference] = []
                 for pergunta in post.perguntas {
                     perguntas.append(
@@ -786,6 +790,7 @@ extension CKManager {
                 }
                 fetchedPostRecord["perguntas"] = perguntas
                 
+                // LISTA DE COMENTARIOS
                 var comentarios: [CKRecord.Reference] = []
                 for comentario in post.comentarios {
                     comentarios.append(
@@ -795,6 +800,9 @@ extension CKManager {
                     )
                 }
                 fetchedPostRecord["comentarios"] = comentarios
+                
+                // LISTA DE REPORTS
+                fetchedPostRecord["denuncias"] = post.denuncias
                 
                 publicDB.save(fetchedPostRecord) { (savedRecord, error2) in
                     if let error2 = error2 {
@@ -832,6 +840,30 @@ extension CKManager {
                 let recordName = comentarioRecord.recordID.recordName
                 completion(.success(recordName))
                 return
+            }
+        }
+    }
+    
+    static func modifyComentario(comentario: Comentario, completion: @escaping (Result<String, Error>) -> ()){
+        // BUSCA O COMENTARIO
+        let publicDB = CKContainer.default().publicCloudDatabase
+        publicDB.fetch(withRecordID: CKRecord.ID(recordName: comentario.id)) { (fetchedRecord, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            if let fetchedComentarioRecord = fetchedRecord {
+                // PREPARA OS DADOS
+                fetchedComentarioRecord["votos"] = comentario.votos
+                publicDB.save(fetchedComentarioRecord) { (savedRecord, error2) in
+                    if let error2 = error2 {
+                        completion(.failure(error2))
+                        return
+                    }
+                    if let savedComentarioRecord = savedRecord {
+                        completion(.success(savedComentarioRecord.recordID.recordName))
+                    }
+                }
             }
         }
     }

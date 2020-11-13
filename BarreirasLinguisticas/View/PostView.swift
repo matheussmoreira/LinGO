@@ -91,7 +91,7 @@ struct PostView: View {
                         Button(action:{
                             self.report()
                         }) {
-                            Text(reported ? "Dismiss" : "Report")
+                            Text(reported ? "Dismiss Report" : "Report Post")
                                 .foregroundColor(.white)
                                 .cornerRadius(8)
                             
@@ -143,75 +143,9 @@ struct PostView: View {
                             .foregroundColor(.red)
                     }
             )
-            
-//            VStack {
-//                //MARK: - COMENTARIOS
-//                Button(action: {self.showComments.toggle()}) {
-//                    ZStack {
-//                        RoundedRectangle(cornerRadius: 10)
-//                            .frame(width: UIScreen.width*0.95, height: 40.0)
-//                            .foregroundColor(LingoColors.lingoBlue)
-//                        HStack {
-//                            Spacer()
-//                            Text("Ask or Comment")
-//                                .foregroundColor(.primary)
-//                                .colorInvert()
-//                            Spacer()
-//                        }
-//                    }
-//                }
-//                .sheet(isPresented: $showComments) {
-//                    CommentsQuestionsToggle(post: self.post)
-//                        .environmentObject(self.membro)
-//                }
-//                //MARK: - REPORT
-//                ZStack {
-//                    RoundedRectangle(cornerRadius: 10)
-//                        .frame(width: UIScreen.width*0.95, height: 40.0)
-//                        .foregroundColor(LingoColors.lingoBlue)
-//                    Button(action:{
-//                        self.report()
-//                    }) {
-//                        Text(reported ? "Dismiss" : "Report")
-//                            .foregroundColor(.white)
-//                            .cornerRadius(8)
-//
-//                    }
-//                }
-//                //MARK: - EXCLUIR POST
-//                if membro.id == post.publicador.id{
-//                    ZStack {
-//                        RoundedRectangle(cornerRadius: 10)
-//                            .frame(width: UIScreen.width*0.95, height: 40.0)
-//                            .foregroundColor(LingoColors.lingoBlue)
-//                        Button(action: {
-//                            showAlterExcluiPost.toggle()
-//
-//                        }) {
-//                            Text("Delete")
-//                                .cornerRadius(8)
-//                                .foregroundColor(.white)
-//                        }
-//                        .alert(isPresented: $showAlterExcluiPost) {
-//                            Alert(title: Text("Are you sure you want to delete this?"),
-//                                  primaryButton: .default(Text("Delete")){
-//                                    sala.excluiPost(id_post: post.id, membro: membro)
-//                                    self.presentationMode.wrappedValue.dismiss()
-//                                  },
-//                                  secondaryButton: .cancel())
-//                        }
-//                    }.padding(.bottom)
-//                }
-//            }
         }
         .onAppear{self.loadReport()}
     } //body
-    
-//    func carregaLink(){
-//        if let _ = post.link {
-//            stored_link = post.link
-//        }
-//    }
     
     func loadBookmark() {
         bookmarked = membro.posts_salvos.contains(post.id)
@@ -236,12 +170,7 @@ struct PostView: View {
     }
     
     func report(){
-        if !post.denuncias.contains(membro.id) {
-            post.denuncias.append(membro.id)
-        }
-        else {
-            post.denuncias.removeAll(where: {$0 == membro.id})
-        }
+        post.updateReportStatus(membro: membro)
         reported = post.denuncias.contains(membro.id)
     }
     

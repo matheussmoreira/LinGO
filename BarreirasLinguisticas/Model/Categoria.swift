@@ -25,7 +25,7 @@ class Categoria: Equatable, Identifiable, ObservableObject {
         for tag in post.tags{
             if !self.tagsPosts.contains(tag) {
                 self.tagsPosts.append(tag)
-                CKManager.modifyCategoriaTagsPosts(categoria: self) { (result) in
+                CKManager.modifyCategoria(categoria: self) { (result) in
                     switch result {
                         case .success(_):
                             break
@@ -46,7 +46,7 @@ class Categoria: Equatable, Identifiable, ObservableObject {
                 }
             }
         }
-        CKManager.modifyCategoriaTagsPosts(categoria: self) { (result) in
+        CKManager.modifyCategoria(categoria: self) { (result) in
             switch result {
                 case .success(_):
                     break

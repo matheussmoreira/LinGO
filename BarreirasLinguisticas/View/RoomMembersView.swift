@@ -99,7 +99,7 @@ struct MemberButton: View {
                             Text("Dismiss as admin") :
                             Text("Turn admin")
                     ){
-                        self.membro_sala.is_admin.toggle()
+                        self.membro_sala.updateAdminStatus()
                     },
                     .default(Text("Remove from room")){
                         self.sala.removeMembro(membro: self.membro_sala.usuario.id)

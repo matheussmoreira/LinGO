@@ -15,9 +15,6 @@ class Comentario: Identifiable, ObservableObject {
     @Published var conteudo: String
     @Published var is_question: Bool
     @Published var votos: [String] = []
-//    @Published var original: Comentario?
-//    @Published var replies: [Comentario] = []
-    @Published var improprio = false
     
     init(post: String, publicador: Membro, conteudo: String, is_question: Bool) {
         self.post = post
@@ -28,10 +25,24 @@ class Comentario: Identifiable, ObservableObject {
     
     func ganhaVoto(de membro: Membro){
         votos.append(membro.id)
+        updateVotoCK()
     }
     
     func perdeVoto(de membro: Membro){
-        self.votos.removeAll(where: {$0 == membro.id})
+        votos.removeAll(where: {$0 == membro.id})
+        updateVotoCK()
+    }
+    
+    func updateVotoCK(){
+        CKManager.modifyComentario(comentario: self) { (result) in
+            switch result {
+                case .success(_):
+                    break
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
+        }
     }
     
     func checkVotoExists(membro: Membro) -> Bool {

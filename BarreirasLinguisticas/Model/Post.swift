@@ -50,6 +50,24 @@ class Post: Equatable, Identifiable, ObservableObject {
         if (link != nil) { self.link = link! }
         else { print("Post: Não deu pra adquirir o link pois está inválido\n") }
     }
+    
+    func updateReportStatus(membro: Membro){
+        if !denuncias.contains(membro.id) {
+            denuncias.append(membro.id)
+        }
+        else {
+            denuncias.removeAll(where: {$0 == membro.id})
+        }
+        CKManager.modifyPost(post: self) { (result) in
+            switch result {
+                case .success(_):
+                    break
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
+        }
+    }
 
     func getComentarioOriginal(id: String) -> Comentario? {
         for pergunta in self.perguntas {
@@ -76,7 +94,7 @@ class Post: Equatable, Identifiable, ObservableObject {
                             self.comentarios.append(comentario)
                         }
                         
-                        CKManager.modifyPostComentarios(post: self) { (result2) in
+                        CKManager.modifyPost(post: self) { (result2) in
                             switch result2 {
                                 case .success(_):
                                     break
@@ -111,7 +129,7 @@ class Post: Equatable, Identifiable, ObservableObject {
                 case .success(_):
                     DispatchQueue.main.async {
                         self.perguntas.removeAll(where: { $0.id == id })
-                        CKManager.modifyPostComentarios(post: self) { (result2) in
+                        CKManager.modifyPost(post: self) { (result2) in
                             switch result2 {
                                 case .success(_):
                                     break
@@ -134,7 +152,7 @@ class Post: Equatable, Identifiable, ObservableObject {
                 case .success(_):
                     DispatchQueue.main.async {
                         self.comentarios.removeAll(where: { $0.id == id })
-                        CKManager.modifyPostComentarios(post: self) { (result2) in
+                        CKManager.modifyPost(post: self) { (result2) in
                             switch result2 {
                                 case .success(_):
                                     break

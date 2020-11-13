@@ -36,7 +36,7 @@ class Membro: Equatable, Identifiable, ObservableObject {
     func publicaPost(post: String?) {
         if (post != nil) {
             self.posts_publicados.append(post!)
-            CKManager.modifyMembroPublicados(membro: self) { (result) in
+            CKManager.modifyMembro(membro: self) { (result) in
                 switch result {
                     case .success(_):
                         break
@@ -53,7 +53,7 @@ class Membro: Equatable, Identifiable, ObservableObject {
     func apagaPost(post: String?) {
         if (post != nil) {
             posts_publicados.removeAll(where: {$0 == post})
-            CKManager.modifyMembroPublicados(membro: self) { (result) in
+            CKManager.modifyMembro(membro: self) { (result) in
                 switch result {
                     case .success(_):
                         break
@@ -119,6 +119,19 @@ class Membro: Equatable, Identifiable, ObservableObject {
         }
         else {
             print("Posts salvo a ser removido inválido")
+        }
+    }
+    
+    func updateAdminStatus(){
+        is_admin.toggle()
+        CKManager.modifyMembro(membro: self) { (result) in
+            switch result {
+                case .success(_):
+                    break
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
         }
     }
     
