@@ -269,7 +269,7 @@ class Sala: Identifiable, ObservableObject {
     }
     
     func removeMembro(membro id_membro: String) {
-        self.membros.removeAll(where: {$0.usuario.id == id_membro})
+        self.membros.removeAll(where: {$0.id == id_membro})
     }
     
 }

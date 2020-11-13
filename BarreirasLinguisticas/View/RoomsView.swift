@@ -355,8 +355,10 @@ struct AvailableRoomsView: View {
                 case .success(let retrievedMembroOpt):
                     DispatchQueue.main.async {
                         if let retrievedMembro = retrievedMembroOpt {
+                            print("Sala ganha novo membro direto")
                             salaGanhaNovoMembro(sala: sala, membro: retrievedMembro)
                         } else {
+                            print("Sala cria novo membro e add ele")
                             criaNovoMembro(sala: sala)
                         }
                     }
