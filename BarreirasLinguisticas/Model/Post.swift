@@ -73,17 +73,19 @@ class Post: Equatable, Identifiable, ObservableObject {
     func novoComentario(publicador: Membro, conteudo: String, is_question: Bool) {
         let comentario = Comentario(post: self.id, publicador: publicador, conteudo: conteudo, is_question: is_question)
         
+        if is_question { self.perguntas.append(comentario) }
+            else { self.comentarios.append(comentario) }
+        
         CKManager.saveComentario(comentario: comentario) { (result) in
             switch result {
                 case .success(let id):
                     DispatchQueue.main.async {
+                        if is_question { self.perguntas.removeLast() }
+                            else { self.comentarios.removeLast() }
+                        
                         comentario.id = id
-                        if is_question {
-                            self.perguntas.append(comentario)
-                        }
-                        else {
-                            self.comentarios.append(comentario)
-                        }
+                        if is_question { self.perguntas.append(comentario) }
+                            else { self.comentarios.append(comentario) }
                         
                         CKManager.modifyPost(post: self) { (result2) in
                             switch result2 {
@@ -96,6 +98,8 @@ class Post: Equatable, Identifiable, ObservableObject {
                         }
                     }
                 case .failure(let error):
+                    if is_question { self.perguntas.removeLast() }
+                        else { self.comentarios.removeLast() }
                     print(#function)
                     print(error)
             }

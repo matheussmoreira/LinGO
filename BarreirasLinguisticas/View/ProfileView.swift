@@ -298,27 +298,27 @@ struct AdminView: View {
                             )
                     }
                     
-                    NavigationLink(destination: ComentariosDenunciados()) {
+//                    Button(action: {}) {
                         RoundedRectangle(cornerRadius: corner)
-                            .foregroundColor(lingoBlue)
+                            .foregroundColor(.gray)
                             .frame(height: btn_height)
                             .frame(width: btn_width)
                             .overlay(
                                 Text("Check reported comments")
                                     .foregroundColor(.white)
                             )
-                    }
+//                    }
                     
-                    Button(action: {}){
+//                    Button(action: {}){
                         RoundedRectangle(cornerRadius: corner)
-                            .foregroundColor(lingoBlue)
+                            .foregroundColor(.gray)
                             .frame(height: btn_height)
                             .frame(width: btn_width)
                             .overlay(
                                 Text("Invite a new member")
                                     .foregroundColor(.white)
                             )
-                    }
+//                    }
                     
                     Spacer()
                 }.navigationBarHidden(true)

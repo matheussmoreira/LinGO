@@ -85,7 +85,6 @@ struct CKManager {
             let id_publicador = comentarioDictionary["id_publicador"] as! String
             let is_question = comentarioDictionary["is_question"] as! Int == 1 ? true : false
             let votos = comentarioDictionary["votos"] as? [String] ?? []
-            print("Numero de votos: \(votos.count)")
             
             let publicador = membros.filter({$0.id == id_publicador})
             

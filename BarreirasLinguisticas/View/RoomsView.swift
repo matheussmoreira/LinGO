@@ -29,9 +29,11 @@ struct RoomsView: View {
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack{
-                    Image("lingoLogoWhite")
+                    Image("lingoLogoWhiteCrop")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
                         .padding()
-                        .frame(width: 300, height: 200)
+                        .frame(width: 250)
                     
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
@@ -114,6 +116,7 @@ struct MyRoomsView: View {
     @EnvironmentObject var dao: DAO
     @State private var roomCreation = false
     @State private var newRoomName = ""
+    @State private var alertRoomName = false
     var usuario: Usuario
     var minhasSalas: [Sala] {
         return dao.getSalasByUser(id: usuario.id)
@@ -188,11 +191,13 @@ struct MyRoomsView: View {
                     
                     // BOTAO PARA GERAR NOVA SALA
                     Button(action: {
-                        if newRoomName != "" && newRoomName != " " {
+                        if newRoomName != "" {
                             roomCreation.toggle()
                             self.novaSala(
                                 nome: newRoomName,
                                 criador: self.usuario)
+                        } else {
+                            self.alertRoomName.toggle()
                         }
                     }) {
                         ZStack {
@@ -204,7 +209,16 @@ struct MyRoomsView: View {
                                     .foregroundColor(LingoColors.lingoBlue)
                             }
                         }
-                    }
+                    }.alert(
+                        isPresented: $alertRoomName,
+                        content: {
+                            Alert(
+                                title: Text("The room cannot have an empty name!"),
+                                message: nil,
+                                dismissButton: .default(Text("Ok"))
+                            )
+                        }
+                    )
                     
                     // BOTAO PARA VOLTAR
                     Button(action: {

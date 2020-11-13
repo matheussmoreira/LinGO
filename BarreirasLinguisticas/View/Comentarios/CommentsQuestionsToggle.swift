@@ -16,6 +16,12 @@ struct CommentsQuestionsToggle: View {
     
     var body: some View {
         VStack {
+            Rectangle()
+                .frame(width: 60, height: 6)
+                .cornerRadius(3.0)
+                .opacity(0.1)
+                .padding(.top)
+            
             Toggle(questions_selected: $questions_selected)
             
             if questions_selected {
