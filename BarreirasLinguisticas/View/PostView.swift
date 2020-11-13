@@ -73,8 +73,7 @@ struct PostView: View {
                             HStack {
                                 Spacer()
                                 Text("Ask or Comment")
-                                    .foregroundColor(.primary)
-                                    .colorInvert()
+                                    .foregroundColor(.white)
                                 Spacer()
                             }
                         }
@@ -98,7 +97,7 @@ struct PostView: View {
                         }
                     }
                     //MARK: - EXCLUIR POST
-                    if membro.id == post.publicador.id{
+                    if (membro.id == post.publicador.id) || (post.denuncias.count>0 && membro.is_admin) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
                                 .frame(width: UIScreen.width*0.95, height: 40.0)
@@ -114,7 +113,7 @@ struct PostView: View {
                             .alert(isPresented: $showAlterExcluiPost) {
                                 Alert(title: Text("Are you sure you want to delete this?"),
                                       primaryButton: .default(Text("Delete")){
-                                        sala.excluiPost(id_post: post.id, membro: membro)
+                                        sala.excluiPost(post: post, membro: membro)
                                         self.presentationMode.wrappedValue.dismiss()
                                       },
                                       secondaryButton: .cancel())

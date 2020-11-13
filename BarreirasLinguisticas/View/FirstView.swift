@@ -23,7 +23,12 @@ struct FirstView: View {
     var body: some View {
         VStack {
             if loading {
-                ProgressView("Loading")
+                ZStack {
+                    Color("cardColor")
+                        .edgesIgnoringSafeArea(.all)
+                    ProgressView("Loading")
+                }
+                
             } else {
                 if daoz.usuario_atual == nil || enterMode == .logOut {
                     OnboardView(enterMode: $enterMode)
@@ -38,7 +43,6 @@ struct FirstView: View {
             }
         }
         .onAppear{
-//            print("first view appear - salas: \(dao.salas.count)")
             buscaUsuario()
             carregaEnterMode()
         }

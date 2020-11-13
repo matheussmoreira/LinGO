@@ -7,25 +7,25 @@
 //
 
 import Foundation
-//import UIKit
 import LinkPresentation
 
 class LinkPost: NSObject, NSSecureCoding {
-    var id: Int?
+    var ckRecordName: String = ""
+    var localId: Int?
     var metadata: LPLinkMetadata?
-    var title: String?
-    var url: String?
-    var image: UIImage?
+    var titulo: String?
+    var urlString: String?
+    var imagem: UIImage?
     static var supportsSecureCoding = true
     
     func encode(with coder: NSCoder) {
-        guard let id = id, let metadata = metadata else { return }
+        guard let id = localId, let metadata = metadata else { return }
         coder.encode(NSNumber(integerLiteral: id), forKey: "id")
         coder.encode(metadata as NSObject, forKey: "metadata")
     }
     
     required init?(coder: NSCoder) {
-        id = coder.decodeObject(of: NSNumber.self, forKey: "id")?.intValue
+        localId = coder.decodeObject(of: NSNumber.self, forKey: "id")?.intValue
         metadata = coder.decodeObject(of: LPLinkMetadata.self, forKey: "metadata")
     }
     
@@ -38,11 +38,11 @@ class LinkPost: NSObject, NSSecureCoding {
         LinkPost.fetchMetadata(for: urlString) { (result) in
             switch result {
                 case .success(let metadata):
-                    self.id = UUID().hashValue
-                    self.metadata = metadata
-                    self.title = metadata.title
-                    self.url = urlString
-                    self.getImage(from: metadata)
+                    self.localId = UUID().hashValue
+                    //self.metadata = metadata
+                    self.titulo = metadata.title
+                    self.urlString = urlString
+                    self.setImage(from: metadata)
                     completion(.success(self))
                 case .failure(let error):
                     print(error)
@@ -51,12 +51,12 @@ class LinkPost: NSObject, NSSecureCoding {
         }
     }
     
-    func getImage(from metadata: LPLinkMetadata){
+    func setImage(from metadata: LPLinkMetadata){
         let _ = metadata.imageProvider?.loadObject(
             ofClass: UIImage.self,
             completionHandler: { (image, err) in
             DispatchQueue.main.async {
-                self.image = image as? UIImage
+                self.imagem = image as? UIImage
             }
         })
     }

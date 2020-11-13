@@ -110,7 +110,7 @@ class Sala: Identifiable, ObservableObject {
         self.categorias.append(categoria)
     }
     
-    func novoPost(publicador id_membro: String?, titulo: String, descricao: String?, linkString: String, categs: [String], tags: String) {
+    func preparaNovoPost(publicador id_membro: String?, titulo: String, descricao: String?, linkString: String, categs: [String], tags: String) {
         print(#function)
         
         guard let membro = getMembro(id: id_membro) else {
@@ -124,8 +124,17 @@ class Sala: Identifiable, ObservableObject {
         else {
             let _ = LinkPost(urlString: linkString) { linkResult in
                 switch linkResult {
-                    case .success(let savedLink):
-                        self.salvaNovoPost(membro: membro, titulo: titulo, descricao: descricao, link: savedLink, categs: categs, tags: tags)
+                    case .success(let linkMontado):
+                        CKManager.saveLink(link: linkMontado) { (result) in
+                            switch result {
+                                case .success(let savedLinkRecordName):
+                                    linkMontado.ckRecordName = savedLinkRecordName
+                                    self.salvaNovoPost(membro: membro, titulo: titulo, descricao: descricao, link: linkMontado, categs: categs, tags: tags)
+                                case .failure(let error2):
+                                    print(#function)
+                                    print(error2)
+                            }
+                        }
                     case .failure(let error):
                         print(#function)
                         print(error)
@@ -191,18 +200,48 @@ class Sala: Identifiable, ObservableObject {
     }
     
     //MARK: - DELECOES
-    func excluiPost(id_post: String, membro: Membro){
-        CKManager.deleteRecord(recordName: id_post) { (result) in
-            switch result {
-                case .success(_):
-                    DispatchQueue.main.async {
-                        self.removePostSalaMembro(id_post: id_post, membro: membro)
-                    }
-                case .failure(let error):
-                    print(#function)
-                    print(error)
+    func excluiPost(post: Post, membro: Membro){
+        if post.link != nil {
+            CKManager.deleteRecord(recordName: post.link!.ckRecordName) { (result) in
+                switch result {
+                    case .success(_):
+                        DispatchQueue.main.async {
+                            CKManager.deleteRecord(recordName: post.id) { (result2) in
+                                switch result2 {
+                                    case .success(_):
+                                        self.removePostSalaMembro(
+                                            id_post: post.id,
+                                            membro: membro
+                                        )
+                                    case .failure(let error2):
+                                        print(#function)
+                                        print(error2)
+                                }
+                            }
+                        }
+                    case .failure(let error):
+                        print(#function)
+                        print(error)
+                }
+            }
+        } else {
+            CKManager.deleteRecord(recordName: post.id) { (result) in
+                switch result {
+                    case .success(_):
+                        DispatchQueue.main.async {
+                            self.removePostSalaMembro(
+                                id_post: post.id,
+                                membro: membro
+                            )
+                        }
+                    case .failure(let error):
+                        print(#function)
+                        print(error)
+                }
             }
         }
+        
+        
     }
     
     private func removePostSalaMembro(id_post: String, membro: Membro){

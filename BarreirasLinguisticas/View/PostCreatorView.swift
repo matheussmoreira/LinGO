@@ -120,10 +120,9 @@ struct PostCreatorView: View {
                             .foregroundColor(.blue)
                             .font(.headline)
                         
-                        TextField("Add tags! Eg.: ''SwiftUI, UX, English'' etc. ", text: $tags)
+                        TextField("Add tags!", text: $tags)
                             .font(.headline)
                             .foregroundColor(.blue)
-                            .autocapitalization(.allCharacters)
                             .onTapGesture {
                                 if description == "" {
                                     showPlaceholder = true
@@ -201,7 +200,7 @@ struct PostCreatorView: View {
                     return "The post need a description text or an embeded link!"
                     
                 } else {
-                    sala.novoPost(
+                    sala.preparaNovoPost(
                         publicador: id_membro,
                         titulo: titulo,
                         descricao: descricao,

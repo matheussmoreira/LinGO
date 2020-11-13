@@ -13,15 +13,15 @@ struct LinkPreview: View {
     private var height: CGFloat { return width*0.4 }
     let link: LinkPost
     var imagem: Image? {
-        if link.image != nil {
-            return Image(uiImage: link.image!)
+        if link.imagem != nil {
+            return Image(uiImage: link.imagem!)
         } else {
             return nil
         }
     }
     
     var body: some View {
-        if let linkurl = link.url {
+        if let linkurl = link.urlString {
             if let url = URL(string: linkurl) {
                 Link(
                     destination: url,
@@ -33,8 +33,8 @@ struct LinkPreview: View {
                                     .aspectRatio(contentMode: .fill)
                             }
                             
-                            if link.title != nil {
-                                Text(link.title!)
+                            if link.titulo != nil {
+                                Text(link.titulo!)
                                     .font(.subheadline)
                                     .bold()
                                     .foregroundColor(.primary)
@@ -45,7 +45,7 @@ struct LinkPreview: View {
                                     .padding(.bottom,1)
                             }
                             
-                            Text(link.url!)
+                            Text(link.urlString!)
                                 .font(.footnote)
                                 .foregroundColor(.gray)
                                 .multilineTextAlignment(.leading)

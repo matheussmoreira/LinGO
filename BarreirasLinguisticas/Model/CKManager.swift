@@ -101,44 +101,53 @@ struct CKManager {
         return nil
     }
     
+    private static func getLinkFromDictionary(_ linkDictionaryOpt:Dictionary<String, Any>?) -> LinkPost?  {
+        if let linkDictionary = linkDictionaryOpt{
+            let ckRecordName = linkDictionary["recordName"] as! String
+            let localId = linkDictionary["localId"] as? Int
+            let titulo = linkDictionary["titulo"] as? String
+            let urlString = linkDictionary["urlString"] as? String
+            // FALTA A IMAGEM !!!
+            
+            let link = LinkPost()
+            link.ckRecordName = ckRecordName
+            link.localId = localId
+            link.titulo = titulo
+            link.urlString = urlString
+            return link
+        }
+        return nil
+    }
+    
     private static func getPostFromDictionary(_ postDictionaryOpt:Dictionary<String, Any>?, with membros: [Membro]) -> Post? {
         if let postDictionary = postDictionaryOpt {
-            /*
-             @Published var denuncias: [String] = []
-             */
             if let publicador = getMembroFromDictionary(postDictionary["publicador"] as? Dictionary<String, Any>) {
-                // Atributos gerais do post
+                // ATRIBUTOS GERAIS DO POST
                 let id = postDictionary["recordName"] as! String
                 let titulo = postDictionary["titulo"] as! String
                 let descricao = postDictionary["descricao"] as! String
                 let categs = postDictionary["categorias"] as! [String]
                 let tags = postDictionary["tags"] as? [String]
                 let denuncias = postDictionary["denuncias"] as? [String]
+                let link = getLinkFromDictionary(postDictionary["link"] as? Dictionary<String, Any>)
                 
-                // Atributos do link do post
-                let idLink = postDictionary["idLink"] as? Int
-                let titleLink = postDictionary["titleLink"] as? String
-                let urlLink = postDictionary["urlLink"] as? String
-                let newLink = LinkPost()
-                newLink.id = idLink
-                newLink.title = titleLink
-                newLink.url = urlLink
-                // faltando a imagem
-                
-                // PERGUNTAS E COMENTARIOS
-                var comentarios: [Comentario] = []
-                let comentariosDicts = postDictionary["comentarios"] as! Array<Dictionary<String,Any>>
-                for comentarioDict in comentariosDicts {
-                    if let comentario = getComentarioFromDictionary(comentarioDict, with: membros) {
-                        comentarios.append(comentario)
+                // PERGUNTAS
+                var perguntas: [Comentario] = []
+                if let perguntasDicts = postDictionary["perguntas"] as? Array<Dictionary<String,Any>> {
+                    for perguntaDict in perguntasDicts {
+                        if let pergunta = getComentarioFromDictionary(perguntaDict, with: membros) {
+                            perguntas.append(pergunta)
+                        }
                     }
                 }
                 
-                var perguntas: [Comentario] = []
-                let perguntasDicts = postDictionary["perguntas"] as! Array<Dictionary<String,Any>>
-                for perguntaDict in perguntasDicts {
-                    if let pergunta = getComentarioFromDictionary(perguntaDict, with: membros) {
-                        perguntas.append(pergunta)
+                // COMENTARIOS
+                var comentarios: [Comentario] = []
+                if let comentariosDicts = postDictionary["comentarios"] as? Array<Dictionary<String,Any>> {
+                    for comentarioDict in comentariosDicts {
+                        if let comentario = getComentarioFromDictionary(comentarioDict, with: membros) {
+                            comentarios.append(comentario)
+                        }
                     }
                 }
                 
@@ -146,7 +155,7 @@ struct CKManager {
                 let post = Post(
                     titulo: titulo,
                     descricao: descricao,
-                    link: newLink,
+                    link: link,
                     categs: categs,
                     tags: "",
                     publicador: publicador
@@ -433,7 +442,7 @@ extension CKManager {
                 // PREPARA OS DADOS
                 var membros_array: [CKRecord.Reference] = []
                 for m in sala.membros {
-                    membros_array.append(CKRecord.Reference(recordID: CKRecord.ID(recordName: m.id), action: .deleteSelf))
+                    membros_array.append(CKRecord.Reference(recordID: CKRecord.ID(recordName: m.id), action: .none))
                 }
                 fetchedSala["membros"] = membros_array
                 
@@ -469,7 +478,7 @@ extension CKManager {
             if let fetchedSala = record {
                 var categorias_array: [CKRecord.Reference] = []
                 for categ in sala.categorias {
-                    categorias_array.append(CKRecord.Reference(recordID: CKRecord.ID(recordName: categ.id), action: .deleteSelf))
+                    categorias_array.append(CKRecord.Reference(recordID: CKRecord.ID(recordName: categ.id), action: .none))
                 }
                 fetchedSala["categorias"] = categorias_array
                 
@@ -647,6 +656,22 @@ extension CKManager {
             }
         }
     }
+    
+//    static func retrieveMembroOf(sala: Sala, usuario: Usuario, completion: @escaping (Result<Membro, Error>) -> ()) {
+//        let publicDB = CKContainer.default().publicCloudDatabase
+//        let predSala = NSPredicate(format: "idSala == %@", sala.id)
+//        let queryMembros = CKQuery(recordType: "Membro", predicate: predSala)
+//        
+//        publicDB.perform(queryMembros, inZoneWith: nil) { (records, error) in
+//            if let error = error {
+//                completion(.failure(error))
+//                return
+//            }
+//            if let membrosRecords = records {
+//                
+//            }
+//        }
+//    }
 }
 
 // MARK: - CATEGORIA
@@ -713,9 +738,11 @@ extension CKManager {
         let postRecord = CKRecord(recordType: "Post")
         postRecord["titulo"] = post.titulo
         postRecord["descricao"] = post.descricao
-        postRecord["idLink"] = post.link?.id
-        postRecord["titleLink"] = post.link?.title
-        postRecord["urlLink"] = post.link?.url
+        if post.link != nil {
+            postRecord["link"] = CKRecord.Reference(
+                recordID: CKRecord.ID(recordName: post.link!.ckRecordName), action: .none
+            )
+        }
         postRecord["publicador"] = CKRecord.Reference(
             recordID: CKRecord.ID(recordName: post.publicador.id), action: .deleteSelf
         )
@@ -732,7 +759,6 @@ extension CKManager {
             if let savedPostRecord = record {
                 let titulo = savedPostRecord["titulo"] as? String
                 let desc = savedPostRecord["descricao"] as? String
-//                let idLink = savedPostRecord["idLink"] as? Int
                 guard let categs = savedPostRecord["categorias"] as? [String] else {
                     print(#function)
                     print("Problema ao baixar categorias")
@@ -813,6 +839,29 @@ extension CKManager {
                         return
                     }
                 }
+            }
+        }
+    }
+}
+
+//MARK: - LINK
+extension CKManager {
+    static func saveLink(link: LinkPost, completion: @escaping (Result<String, Error>) -> ()) {
+        let linkRecord = CKRecord(recordType: "Link")
+        linkRecord["localId"] = link.localId
+        linkRecord["titulo"] = link.titulo
+        linkRecord["urlString"] = link.urlString
+        // IMAGEM PENDENTE !!
+        
+        let publicDB = CKContainer.default().publicCloudDatabase
+        publicDB.save(linkRecord) { (savedRecord, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            if let savedLinkRecord = savedRecord {
+                completion(.success(savedLinkRecord.recordID.recordName))
+                return
             }
         }
     }
