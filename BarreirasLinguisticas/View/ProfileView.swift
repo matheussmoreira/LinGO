@@ -204,7 +204,7 @@ struct ProfileView: View {
     } //body
     
     func sai_sala(){
-        sala.removeMembro(membro: self.membro.usuario.id)
+        sala.removeMembro(membro: self.membro.id)
         CKManager.modifySalaMembros(sala: sala) { (result) in
             // eu poderia apagar o membro do iCloud, mas optei por nao fazer isso ainda
             switch result {
