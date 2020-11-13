@@ -158,12 +158,10 @@ class Sala: Identifiable, ObservableObject {
             switch result {
                 case .success(_):
                     DispatchQueue.main.async {
-                        // ATUALIZA O VETOR DE POSTS PUBLICADOS DO MEMBROS
-                        // atualiza no CK dentro da funcao
+                        // atualiza no CK dentro dessa funcao
                         membro.publicaPost(post: savedPost.id)
                         
-                        // ATUALIZA O VETOR DE TAGS DA CATEGORIA
-                        // atualiza no CK dentro da funcao
+                        // atualiza no CK dentro dessa funcao
                         for categ in self.categorias {
                             categ.addPostTags(post: savedPost)
                         }
@@ -175,6 +173,24 @@ class Sala: Identifiable, ObservableObject {
         }
     }
     
+    func novoComentario(id: Int, publicador id_publicador: String?, post id_post: String, conteudo: String, is_question: Bool) {
+        if let publicador = getMembro(id: id_publicador), let post = getPost(id: id_post)  {
+            post.novoComentario(publicador: publicador, conteudo: conteudo, is_question: is_question)
+        }
+        else {
+            print("Comentário não adicionado por publicador não identificado")
+        }
+    }
+    
+    func novaAssinatura(membro id_membro: String?, categoria: String) {
+        let membro = getMembro(id: id_membro)
+        let categ = getCategoria(id: categoria)
+        
+        membro?.assinaCategoria(categoria: categ?.id)
+        //        categ?.addAssinantes(membro: membro)
+    }
+    
+    //MARK: - DELECOES
     func excluiPost(id_post: String, membro: Membro){
         CKManager.deleteRecord(recordName: id_post) { (result) in
             switch result {
@@ -196,12 +212,10 @@ class Sala: Identifiable, ObservableObject {
             switch result {
                 case .success(_):
                     DispatchQueue.main.async {
-                        // ATUALIZA O VETOR DE POSTS PUBLICADOS DO MEMBROS
-                        // atualiza no CK dentro da funcao
+                        // atualiza no CK dentro dessa funcao
                         membro.apagaPost(post: id_post)
                         
-                        // ATUALIZA O VETOR DE TAGS DA CATEGORIA
-                        // atualiza no CK dentro da funcao
+                        // atualiza no CK dentro dessa funcao
                         if let post = post_resgatado {
                             for categ in self.categorias {
                                 categ.removePostTags(tags: post.tags)
@@ -213,40 +227,6 @@ class Sala: Identifiable, ObservableObject {
                     print(error2)
             }
         }
-    }
-    
-    //MARK: - RELACIONAMENTOS
-    func novoComentario(id: Int, publicador id_publicador: String?, post id_post: String, conteudo: String, is_question: Bool) {
-        if let publicador = getMembro(id: id_publicador), let post = getPost(id: id_post)  {
-            post.novoComentario(publicador: publicador, conteudo: conteudo, is_question: is_question)
-        }
-        else {
-            print("Comentário não adicionado por publicador não identificado")
-        }
-    }
-    
-//    func novoReply(id: Int, publicador id_publicador: String?, post id_post: String, conteudo: String, original id_original: String) {
-//        if let publicador = getMembro(id: id_publicador), let post = getPost(id: id_post) {
-//            post.novoReply(publicador: publicador, conteudo: conteudo, original: id_original)
-//        }
-//        else {
-//            print("Comentário não adicionado por publicador ou post não identificado")
-//        }
-//    }
-    
-    func novaAssinatura(membro id_membro: String?, categoria: String) {
-        let membro = getMembro(id: id_membro)
-        let categ = getCategoria(id: categoria)
-        
-        membro?.assinaCategoria(categoria: categ?.id)
-        //        categ?.addAssinantes(membro: membro)
-    }
-    
-    func salvaPost(membro id_membro: String, post id_post: String) {
-        let membro = getMembro(id: id_membro)
-        let post = getPost(id: id_post)
-        
-        membro?.salvaPost(post: post?.id)
     }
     
     func removeMembro(membro id_membro: String) {

@@ -28,6 +28,25 @@ class Membro: Equatable, Identifiable, ObservableObject {
         return lhs.usuario.id == rhs.usuario.id
     }
     
+    // MARK: - NOVOS
+    func updateAdminStatus(){
+        is_admin.toggle()
+        CKManager.modifyMembro(membro: self) { (result) in
+            switch result {
+                case .success(_):
+                    break
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
+        }
+    }
+    
+    func assinaCategoria(categoria categ: String?) {
+        if (categ != nil) { self.assinaturas.append(categ!) }
+        else { print("Categoria a ser assinada inválida") }
+    }
+    
     func salvaPost(post: String?) {
         if (post != nil) { self.posts_salvos.append(post!)}
         else { print("Post a ser salvo não definido") }
@@ -50,6 +69,18 @@ class Membro: Equatable, Identifiable, ObservableObject {
         else { print("Post a ser publicado inválido") }
     }
     
+    //MARK: - DELECOES
+    
+    func removeAssinatura(categoria categ: String?) {
+        if (categ != nil) {
+            self.assinaturas.removeAll(where: {$0 == categ!})
+            
+        }
+        else {
+            print("Categoria a ser removida inválida")
+        }
+    }
+    
     func apagaPost(post: String?) {
         if (post != nil) {
             posts_publicados.removeAll(where: {$0 == post})
@@ -67,47 +98,6 @@ class Membro: Equatable, Identifiable, ObservableObject {
         else { print("Post a ser publicado inválido") }
     }
     
-    func assinaCategoria(categoria categ: String?) {
-        if (categ != nil) { self.assinaturas.append(categ!) }
-        else { print("Categoria a ser assinada inválida") }
-    }
-    
-    func getAssinaturaIndex(id: String) -> Int? {
-        var idx = 0
-        for asst in assinaturas {
-            if asst == id {
-                return idx
-            }
-            else {
-                idx += 1
-            }
-        }
-        return nil
-    }
-    
-    func removeAssinatura(categoria categ: String?) {
-        if (categ != nil) {
-            self.assinaturas.removeAll(where: {$0 == categ!})
-            
-        }
-        else {
-            print("Categoria a ser removida inválida")
-        }
-    }
-    
-    func getPostSalvoIndex(id: String?) -> Int? {
-        var idx = 0
-        for salvo in posts_salvos {
-            if salvo == id {
-                return idx
-            }
-            else {
-                idx += 1
-            }
-        }
-        return nil
-    }
-    
     func removePostSalvo(post: String?) {
         if (post != nil) {
             if let idx = getPostSalvoIndex(id: post!) {
@@ -122,17 +112,31 @@ class Membro: Equatable, Identifiable, ObservableObject {
         }
     }
     
-    func updateAdminStatus(){
-        is_admin.toggle()
-        CKManager.modifyMembro(membro: self) { (result) in
-            switch result {
-                case .success(_):
-                    break
-                case .failure(let error):
-                    print(#function)
-                    print(error)
+    //MARK: - FUNCOES GET
+    func getPostSalvoIndex(id: String?) -> Int? {
+        var idx = 0
+        for salvo in posts_salvos {
+            if salvo == id {
+                return idx
+            }
+            else {
+                idx += 1
             }
         }
+        return nil
+    }
+    
+    func getAssinaturaIndex(id: String) -> Int? {
+        var idx = 0
+        for asst in assinaturas {
+            if asst == id {
+                return idx
+            }
+            else {
+                idx += 1
+            }
+        }
+        return nil
     }
     
 }

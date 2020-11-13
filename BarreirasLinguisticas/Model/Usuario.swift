@@ -8,7 +8,6 @@
 
 import Foundation
 import SwiftUI
-import CloudKitMagicCRUD
 
 enum Fluencia: String {
     case advanced = "Advanced English"

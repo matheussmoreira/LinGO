@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import CloudKitMagicCRUD
 
-var dao = DAO() //na main do sistema
+var dao = DAO()
 
 class DAO: ObservableObject {
     @Published var salas: [Sala] = []
@@ -19,27 +18,6 @@ class DAO: ObservableObject {
     
     fileprivate init(){
         carregaSalasFromCloud()
-//        Sala.ckLoadAll { result in
-//            switch result {
-//                case .success(let loadedSalas):
-//                    DispatchQueue.main.async {
-//                        self.salas = loadedSalas as? [Sala] ?? []
-//                    }
-//                case .failure(let error):
-//                    print("DAO init .failure")
-//                    print(error)
-//            }
-//        }
-//        Usuario.ckLoadAll { result in
-//            switch result {
-//                case .success(let loadedUsers):
-//                    DispatchQueue.main.async {
-//                        self.usuarios = loadedUsers as? [Usuario] ?? []
-//                    }
-//                case .failure(let error):
-//                    print(error)
-//            }
-//        }
     }
     
     func carregaSalasFromCloud(){
@@ -52,7 +30,6 @@ class DAO: ObservableObject {
                                 self.salas.append(sala)
                             }
                         }
-//                        print("dao init - salas: \(self.salas.count)")
                     }
                 case .failure(let error):
                     print(#function)
@@ -69,10 +46,8 @@ class DAO: ObservableObject {
     }
     
     func getSalasByUser(id: String?) -> [Sala] {
-//        print(#function)
         var salas: [Sala] = []
         for sala in self.salas {
-//            dump(sala)
             for membro in sala.membros {
                 if (id == membro.usuario.id) { salas.append(sala) } 
             }

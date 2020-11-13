@@ -37,6 +37,7 @@ class Post: Equatable, Identifiable, ObservableObject {
         return lhs.id == rhs.id
     }
     
+    //MARK: - NOVOS E OUTRAS ACOES
     func addCategoria(categoria: String?) {
         if (categoria != nil) { self.categorias.append(categoria!)}
         else { print("Post com categoria inválida") }
@@ -69,16 +70,6 @@ class Post: Equatable, Identifiable, ObservableObject {
         }
     }
 
-    func getComentarioOriginal(id: String) -> Comentario? {
-        for pergunta in self.perguntas {
-            if (id == pergunta.id) { return pergunta }
-        }
-        for coment in self.comentarios {
-            if (id == coment.id) { return coment }
-        }
-        return nil
-    }
-    
     func novoComentario(publicador: Membro, conteudo: String, is_question: Bool) {
         let comentario = Comentario(post: self.id, publicador: publicador, conteudo: conteudo, is_question: is_question)
         
@@ -123,6 +114,7 @@ class Post: Equatable, Identifiable, ObservableObject {
 //        }
 //    }
 
+    //MARK: - DELECOES
     func apagaPergunta(id: String) {
         CKManager.deleteRecord(recordName: id) { (result) in
             switch result {
@@ -167,6 +159,17 @@ class Post: Equatable, Identifiable, ObservableObject {
                     print(error)
             }
         }
+    }
+    
+    //MARK: - FUNCOES GET
+    func getComentarioOriginal(id: String) -> Comentario? {
+        for pergunta in self.perguntas {
+            if (id == pergunta.id) { return pergunta }
+        }
+        for coment in self.comentarios {
+            if (id == coment.id) { return coment }
+        }
+        return nil
     }
     
 }
