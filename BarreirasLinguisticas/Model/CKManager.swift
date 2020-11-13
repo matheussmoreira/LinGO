@@ -676,6 +676,7 @@ extension CKManager {
                         fetchMembro(recordName: membroRecord.recordID.recordName) { (result) in
                             switch result {
                                 case .success(let fetchedMembro):
+                                    print("Membro já existe")
                                     completion(.success(fetchedMembro))
                                     return
                                 case .failure(let error2):
@@ -685,8 +686,9 @@ extension CKManager {
                         }
                     }
                 }
-//                completion(.success(nil))
-//                return
+                print("Membro não existe e será criado")
+                completion(.success(nil))
+                return
             }
         }
     }
