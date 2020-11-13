@@ -212,6 +212,8 @@ struct ProfileView: View {
                     DispatchQueue.main.async {
                         if membrosReferences.isEmpty {
                             apagaSalaFromCloud(sala: sala)
+                        } else if membrosReferences.count == 1 {
+                            unicoMembroIsAdmin(sala: sala)
                         }
                     }
                 case .failure(let error):
@@ -220,6 +222,19 @@ struct ProfileView: View {
             }
         }
         
+    }
+    
+    func unicoMembroIsAdmin(sala: Sala) {
+        sala.membros[0].is_admin = true
+        CKManager.modifyMembro(membro: sala.membros[0]) { (result) in
+            switch result {
+                case .success(_):
+                    break
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
+        }
     }
     
     func apagaSalaFromCloud(sala: Sala){

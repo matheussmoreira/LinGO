@@ -327,7 +327,7 @@ struct AvailableRoomsView: View {
                                 .foregroundColor(.white)
                             
                             Button(action: {
-                                novoMembro(sala: sala, usuario: usuario)
+                                verificaNovoMembro(sala: sala, usuario: usuario)
                             }) {
                                 Text(sala.nome)
                                     .foregroundColor(LingoColors.lingoBlue)
@@ -349,10 +349,26 @@ struct AvailableRoomsView: View {
         }
     }
     
-    func novoMembro(sala: Sala, usuario criador: Usuario){
-        //CKManager.fetchMembro(recordName: <#T##String#>, completion: <#T##(Result<Membro, Error>) -> ()#>)
-        
-        let membro = Membro(usuario: criador, idSala: sala.id, is_admin: false)
+    func verificaNovoMembro(sala: Sala, usuario: Usuario){
+        CKManager.retrieveMembroOf(sala: sala, usuario: usuario) { (result) in
+            switch result {
+                case .success(let retrievedMembroOpt):
+                    DispatchQueue.main.async {
+                        if let retrievedMembro = retrievedMembroOpt {
+                            salaGanhaNovoMembro(sala: sala, membro: retrievedMembro)
+                        } else {
+                            criaNovoMembro(sala: sala)
+                        }
+                    }
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
+        }
+    }
+    
+    func criaNovoMembro(sala: Sala){
+        let membro = Membro(usuario: usuario, idSala: sala.id, is_admin: false)
         CKManager.saveMembro(membro: membro) { (result) in
             switch result {
                 case .success(let savedMembro):
@@ -360,7 +376,7 @@ struct AvailableRoomsView: View {
                         salaGanhaNovoMembro(sala: sala, membro: savedMembro)
                     }
                 case .failure(let error):
-                    print("primeiroMembro: case.failure")
+                    print(#function)
                     print(error)
             }
         }
@@ -376,7 +392,7 @@ struct AvailableRoomsView: View {
                     }
                     
                 case .failure(let error):
-                    print("salaGanhaPrimeiroMembro: case.error")
+                    print(#function)
                     print(error)
             }
         }

@@ -657,21 +657,39 @@ extension CKManager {
         }
     }
     
-//    static func retrieveMembroOf(sala: Sala, usuario: Usuario, completion: @escaping (Result<Membro, Error>) -> ()) {
-//        let publicDB = CKContainer.default().publicCloudDatabase
-//        let predSala = NSPredicate(format: "idSala == %@", sala.id)
-//        let queryMembros = CKQuery(recordType: "Membro", predicate: predSala)
-//        
-//        publicDB.perform(queryMembros, inZoneWith: nil) { (records, error) in
-//            if let error = error {
-//                completion(.failure(error))
-//                return
-//            }
-//            if let membrosRecords = records {
-//                
-//            }
-//        }
-//    }
+    static func retrieveMembroOf(sala: Sala, usuario: Usuario, completion: @escaping (Result<Membro?, Error>) -> ()) {
+        let predSala = NSPredicate(format: "idSala == %@", sala.id)
+        let queryMembros = CKQuery(recordType: "Membro", predicate: predSala)
+        
+        // BUSCA TODOS OS MEMBROS DA SALA INFORMADA
+        let publicDB = CKContainer.default().publicCloudDatabase
+        publicDB.perform(queryMembros, inZoneWith: nil) { (records, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            if let membrosRecords = records {
+                for membroRecord in membrosRecords {
+                    // PEGA O MEMBRO DO USUARIO INFORMADO
+                    let usuarioDoMembro = membroRecord["usuario"] as? CKRecord.Reference
+                    if usuarioDoMembro?.recordID.recordName == usuario.id {
+                        fetchMembro(recordName: membroRecord.recordID.recordName) { (result) in
+                            switch result {
+                                case .success(let fetchedMembro):
+                                    completion(.success(fetchedMembro))
+                                    return
+                                case .failure(let error2):
+                                    completion(.failure(error2))
+                                    return
+                            }
+                        }
+                    }
+                }
+                completion(.success(nil))
+                return
+            }
+        }
+    }
 }
 
 // MARK: - CATEGORIA
