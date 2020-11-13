@@ -685,8 +685,8 @@ extension CKManager {
                         }
                     }
                 }
-                completion(.success(nil))
-                return
+//                completion(.success(nil))
+//                return
             }
         }
     }

@@ -258,7 +258,6 @@ struct SelectCategories: View {
         }.listStyle(InsetGroupedListStyle())
         .navigationBarTitle(
             Text("Select the categories")
-            //.font(.system(.title, design: .rounded)),displayMode: .inline
         )
     }
 }
