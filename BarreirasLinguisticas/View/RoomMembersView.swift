@@ -102,15 +102,15 @@ struct MemberButton: View {
                         self.membro_sala.updateAdminStatus()
                     },
                     .default(Text("Remove from room")){
-                        self.removeDaSala(sala: sala)
+                        self.removeDaSala(sala: sala, membro_sala: membro_sala)
                     },
                     .cancel()
                 ])
         } //actionSheet
     } //body
     
-    func removeDaSala(sala: Sala){
-        sala.removeMembro(membro: self.membro.id)
+    func removeDaSala(sala: Sala, membro_sala: Membro){
+        sala.removeMembro(membro: self.membro_sala.id)
         CKManager.modifySalaMembros(sala: sala) { (result) in
             // eu poderia apagar o membro do iCloud, mas optei por nao fazer isso ainda
             switch result {
