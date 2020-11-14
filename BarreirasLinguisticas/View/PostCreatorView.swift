@@ -239,26 +239,35 @@ struct SelectCategories: View {
     @Binding var selectedCategories: [Categoria]
     
     var body: some View {
-        List {
-            ForEach(0..<sala.categorias.count) { idx in
-                SelectCategorieRow(
-                    isSelected: self.selectedCategories.contains(self.sala.categorias[idx]),
-                    idx: idx
-                )
-                    .environmentObject(self.sala)
-                    .onTapGesture {
-                        if self.selectedCategories.contains(self.sala.categorias[idx]) {
-                            self.selectedCategories.removeAll(where: { $0 == self.sala.categorias[idx]})
-                        }
-                        else {
-                            self.selectedCategories.append(self.sala.categorias[idx])
-                        }
-                    }
+        if sala.categorias.isEmpty {
+            VStack {
+                Spacer()
+                Text("There are no categories yet 😕")
+                    .foregroundColor(Color.gray)
+                Spacer()
             }
-        }.listStyle(InsetGroupedListStyle())
-        .navigationBarTitle(
-            Text("Select the categories")
-        )
+        } else {
+            List {
+                ForEach(0..<sala.categorias.count) { idx in
+                    SelectCategorieRow(
+                        isSelected: self.selectedCategories.contains(self.sala.categorias[idx]),
+                        idx: idx
+                    )
+                        .environmentObject(self.sala)
+                        .onTapGesture {
+                            if self.selectedCategories.contains(self.sala.categorias[idx]) {
+                                self.selectedCategories.removeAll(where: { $0 == self.sala.categorias[idx]})
+                            }
+                            else {
+                                self.selectedCategories.append(self.sala.categorias[idx])
+                            }
+                        }
+                }
+            }.listStyle(InsetGroupedListStyle())
+            .navigationBarTitle(
+                Text("Select the categories")
+            )
+        }
     }
 }
 

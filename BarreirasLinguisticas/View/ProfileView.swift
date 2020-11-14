@@ -130,6 +130,7 @@ struct ProfileView: View {
                             .sheet(isPresented: $showAdminSheet) {
                                 AdminView()
                                     .environmentObject(self.sala)
+                                    .environmentObject(self.membro)
                             }
                         }
                         
@@ -221,7 +222,6 @@ struct ProfileView: View {
                     print(error)
             }
         }
-        
     }
     
     func unicoMembroIsAdmin(sala: Sala) {
@@ -282,6 +282,7 @@ struct ProfileView: View {
 
 struct AdminView: View {
     @EnvironmentObject var sala: Sala
+    @EnvironmentObject var membro: Membro
     let btn_height: CGFloat = 50
     let btn_width: CGFloat = 230
     let corner: CGFloat = 45
@@ -302,7 +303,11 @@ struct AdminView: View {
                         .font(.system(.title, design: .rounded))
                         .fontWeight(.bold)
                     
-                    NavigationLink(destination: PostsDenunciados().environmentObject(sala)) {
+                    NavigationLink(destination:
+                                    PostsDenunciados()
+                                    .environmentObject(sala)
+                                    .environmentObject(membro)
+                    ) {
                         RoundedRectangle(cornerRadius: corner)
                             .foregroundColor(lingoBlue)
                             .frame(height: btn_height)
@@ -344,6 +349,7 @@ struct AdminView: View {
 
 struct PostsDenunciados: View {
     @EnvironmentObject var sala: Sala
+    @EnvironmentObject var membro: Membro
     @State var posts: [Post] = []
     
     var body: some View {
@@ -355,14 +361,18 @@ struct PostsDenunciados: View {
             else {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(posts) { post in
-                        PostCardView(post: post, sala: sala, width: 0.85)
+                        NavigationLink(
+                            destination: PostView(sala: sala, post: post)
+                        ){
+                            PostCardView(post: post, sala: sala, width: 0.85)
+                                .environmentObject(membro)
+                        }
                     }
                 }
             }
         }
         .navigationBarTitle(
             Text("Reported Posts")
-            //                .font(.system(.title, design: .rounded)),displayMode: .inline
         )
         .onAppear {
             self.posts = self.sala.posts.filter{!$0.denuncias.isEmpty}

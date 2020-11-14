@@ -25,10 +25,13 @@ struct DiscoverView: View {
                     VStack {
                         Text("No posts for you 😕")
                             .foregroundColor(Color.gray)
-                        Text("Subscribe in a category!")
+                        Text("\nSubscribe in a category")
+                            .foregroundColor(Color.gray)
+                        Text("or wait for a new post!")
                             .foregroundColor(Color.gray)
                         
-                    }.frame(height: 260)
+                    }
+                    .frame(height: 260)
                 }
                 else {
                     ScrollView(.horizontal, showsIndicators: false) {
