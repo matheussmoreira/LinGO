@@ -113,7 +113,8 @@ struct PostView: View {
                             .alert(isPresented: $showAlterExcluiPost) {
                                 Alert(title: Text("Are you sure you want to delete this?"),
                                       primaryButton: .default(Text("Delete")){
-                                        sala.excluiPost(post: post, membro: membro)
+//                                        sala.excluiPost(post: post, membro: membro)
+                                        sala.excluiPost2(post: post, membro: membro)
                                         self.presentationMode.wrappedValue.dismiss()
                                       },
                                       secondaryButton: .cancel())

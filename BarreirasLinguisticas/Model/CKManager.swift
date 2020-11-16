@@ -187,6 +187,21 @@ struct CKManager {
         }
     } // delete
     
+    static func deleteRecord2(recordName: String) {
+        let publicDB = CKContainer.default().publicCloudDatabase
+        publicDB.delete(withRecordID: CKRecord.ID(recordName: recordName)) { (recordID, error) in
+            if let error = error {
+                print(#function)
+                print(error)
+                return
+            }
+            if recordID != nil {
+                print("Deletion success!")
+                return
+            }
+        }
+    }
+    
 }
 
 // MARK: - USUARIO

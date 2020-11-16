@@ -200,6 +200,56 @@ class Sala: Identifiable, ObservableObject {
     }
     
     //MARK: - DELECOES
+    func excluiPost3(post: Post) {
+        // Apaga os atributos do post
+        if post.link != nil {
+            CKManager.deleteRecord2(recordName: post.link!.ckRecordName)
+        }
+        for comentario in post.comentarios {
+            CKManager.deleteRecord2(recordName: comentario.id)
+        }
+        for pergunta in post.perguntas {
+            CKManager.deleteRecord2(recordName: pergunta.id)
+        }
+        CKManager.deleteRecord2(recordName: post.id)
+    }
+    
+    func excluiPost2(post: Post, membro: Membro) {
+        // Apaga os atributos do post
+        if post.link != nil {
+            CKManager.deleteRecord2(recordName: post.link!.ckRecordName)
+        }
+        for comentario in post.comentarios {
+            CKManager.deleteRecord2(recordName: comentario.id)
+        }
+        for pergunta in post.perguntas {
+            CKManager.deleteRecord2(recordName: pergunta.id)
+        }
+        CKManager.deleteRecord2(recordName: post.id)
+
+        // Atualiza vetores em que este post esta
+        posts.removeAll(where: { $0.id == post.id})
+        CKManager.modifySalaPosts(sala: self) { (result) in
+            switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        // atualiza no CK dentro dessa funcao
+                        membro.apagaPost(post: post.id)
+                        
+                        // atualiza no CK dentro dessa funcao
+                        for categ in self.categorias {
+                            categ.removePostTags(tags: post.tags)
+                        }
+                        
+                    }
+                case .failure(let error2):
+                    print(#function)
+                    print(error2)
+            }
+        }
+
+    }
+    
     func excluiPost(post: Post, membro: Membro){
         if post.link != nil {
             CKManager.deleteRecord(recordName: post.link!.ckRecordName) { (result) in

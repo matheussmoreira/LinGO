@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import CloudKitMagicCRUD
 
 struct ProfileView: View {
     @EnvironmentObject var dao: DAO
@@ -238,10 +239,20 @@ struct ProfileView: View {
     
     func apagaSalaFromCloud(sala: Sala){
         dao.removeSala(sala)
+        
         CKManager.deleteRecord(recordName: sala.id) { (result) in
             switch result {
                 case .success(_):
                     DispatchQueue.main.async {
+                        for membro in sala.membros {
+                            CKManager.deleteRecord2(recordName: membro.id)
+                        }
+                        for categ in sala.categorias {
+                            CKManager.deleteRecord2(recordName: categ.id)
+                        }
+                        for post in sala.posts {
+                            sala.excluiPost3(post: post)
+                        }
                         self.proxima_sala()
                     }
                 case .failure(let error):
