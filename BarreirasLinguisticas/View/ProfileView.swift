@@ -206,14 +206,13 @@ struct ProfileView: View {
     
     func sai_sala(){
         sala.removeMembro(membro: self.membro.id)
-        CKManager.modifySalaMembros(sala: sala) { (result) in
-            // eu poderia apagar o membro do iCloud, mas optei por nao fazer isso ainda
+        CKManager.deleteRecord(recordName: self.membro.id) { (result) in
             switch result {
-                case .success(let membrosReferences):
+                case .success(_):
                     DispatchQueue.main.async {
-                        if membrosReferences.isEmpty {
+                        if sala.membros.isEmpty {
                             apagaSalaFromCloud(sala: sala)
-                        } else if membrosReferences.count == 1 {
+                        } else if sala.membros.count == 1 {
                             unicoMembroIsAdmin(sala: sala)
                         }
                     }

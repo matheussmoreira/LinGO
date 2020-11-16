@@ -327,7 +327,8 @@ struct AvailableRoomsView: View {
                                 .foregroundColor(.white)
                             
                             Button(action: {
-                                verificaNovoMembro(sala: sala, usuario: usuario)
+                                criaNovoMembro(sala: sala)
+//                                verificaNovoMembro(sala: sala, usuario: usuario)
                             }) {
                                 Text(sala.nome)
                                     .foregroundColor(LingoColors.lingoBlue)
