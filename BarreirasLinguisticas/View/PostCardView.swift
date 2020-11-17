@@ -113,7 +113,7 @@ struct PostCardView: View {
     
     func getLinkImage(from link: LinkPost?) {
         if let image = post.link?.imagem {
-            self.link_image = image
+            self.link_image = image.asUIImage()
             self.line_limit_title = 1
             self.line_limit_desc = 2
             self.font_size_title = Font.TextStyle.body

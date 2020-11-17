@@ -108,7 +108,7 @@ struct EditProfileView: View {
                     })
         }
         .onAppear {
-            self.photoProfile = Image(uiImage: self.usuario.foto_perfil)
+            self.photoProfile = Image(uiImage: self.usuario.foto_perfil?.asUIImage() ?? UIImage(named: "perfil")!)
             self.fluenciaSelecionada = Usuario.pegaFluenciaIdx(fluencia: Usuario.pegaFluencia(nome: self.usuario.fluencia_ingles))
         }
     } //body
@@ -117,7 +117,7 @@ struct EditProfileView: View {
         if self.nome != ""{
             let usuario = Usuario(
                 nome: self.nome,
-                foto_perfil: self.photoProfile?.asUIImage() ?? self.usuario.foto_perfil,
+                foto_perfil: self.photoProfile?.asUIImage() ?? self.usuario.foto_perfil?.asUIImage(),
                 fluencia_ingles: Usuario.pegaFluenciaNome(idx: fluenciaSelecionada))
             usuario.id = self.usuario.id
             usuario.sala_atual = self.usuario.sala_atual

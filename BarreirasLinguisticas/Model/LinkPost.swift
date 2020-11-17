@@ -15,7 +15,7 @@ class LinkPost: NSObject, NSSecureCoding {
     var metadata: LPLinkMetadata?
     var titulo: String?
     var urlString: String?
-    var imagem: UIImage?
+    var imagem: Data?
     static var supportsSecureCoding = true
     
     func encode(with coder: NSCoder) {
@@ -56,7 +56,7 @@ class LinkPost: NSObject, NSSecureCoding {
             ofClass: UIImage.self,
             completionHandler: { (image, err) in
             DispatchQueue.main.async {
-                self.imagem = image as? UIImage
+                self.imagem = (image as? UIImage)?.toData()
             }
         })
     }

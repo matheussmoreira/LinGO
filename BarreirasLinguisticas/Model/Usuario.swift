@@ -19,7 +19,7 @@ enum Fluencia: String {
 class Usuario: Equatable, Identifiable, ObservableObject {
     var id: String = ""
     @Published var nome: String = ""
-    @Published var foto_perfil: UIImage
+    @Published var foto_perfil: Data?
     @Published var sala_atual: String?
     @Published var fluencia_ingles: String = ""
     var cor_fluencia: Color {
@@ -33,7 +33,7 @@ class Usuario: Equatable, Identifiable, ObservableObject {
     
     init(nome: String?, foto_perfil: UIImage?,fluencia_ingles: Fluencia?) {
         self.nome = nome ?? "<nome>"
-        self.foto_perfil = foto_perfil ?? UIImage(named: "perfil")!
+        self.foto_perfil = foto_perfil?.toData() ?? UIImage(named: "perfil")!.toData()
         self.fluencia_ingles = fluencia_ingles?.rawValue ?? Fluencia.unknown.rawValue
     }
     

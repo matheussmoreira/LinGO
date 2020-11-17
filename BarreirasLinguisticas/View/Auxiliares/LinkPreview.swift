@@ -14,7 +14,7 @@ struct LinkPreview: View {
     let link: LinkPost
     var imagem: Image? {
         if link.imagem != nil {
-            return Image(uiImage: link.imagem!)
+            return Image(uiImage: link.imagem!.asUIImage()!)
         } else {
             return nil
         }
