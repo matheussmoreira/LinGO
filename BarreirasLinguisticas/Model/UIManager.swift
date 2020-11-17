@@ -49,12 +49,6 @@ extension Data {
     }
 }
 
-extension UIImage {
-    public func toData() -> Data? {
-        return self.pngData()
-    }
-}
-
 extension UIScreen {
    static let width = UIScreen.main.bounds.size.width
    static let height = UIScreen.main.bounds.size.height

@@ -56,7 +56,7 @@ class LinkPost: NSObject, NSSecureCoding {
             ofClass: UIImage.self,
             completionHandler: { (image, err) in
             DispatchQueue.main.async {
-                self.imagem = (image as? UIImage)?.toData()
+                self.imagem = (image as? UIImage)?.pngData()
             }
         })
     }

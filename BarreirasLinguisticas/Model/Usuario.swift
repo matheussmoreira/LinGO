@@ -33,7 +33,7 @@ class Usuario: Equatable, Identifiable, ObservableObject {
     
     init(nome: String?, foto_perfil: UIImage?,fluencia_ingles: Fluencia?) {
         self.nome = nome ?? "<nome>"
-        self.foto_perfil = foto_perfil?.toData() ?? UIImage(named: "perfil")!.toData()
+        self.foto_perfil = foto_perfil?.pngData() ?? UIImage(named: "perfil")!.pngData()
         self.fluencia_ingles = fluencia_ingles?.rawValue ?? Fluencia.unknown.rawValue
     }
     

@@ -116,7 +116,7 @@ struct EditProfileView: View {
     func editaUsuario2() {
         self.usuario.nome = self.nome == "" ? self.usuario.nome : self.nome
         self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada).rawValue
-        self.usuario.foto_perfil = self.photoProfile?.asUIImage().toData() ?? self.usuario.foto_perfil
+        self.usuario.foto_perfil = self.photoProfile?.asUIImage().pngData() ?? self.usuario.foto_perfil
         
         dao.usuario_atual = self.usuario
         dao.editaPublicadores(usuario: self.usuario)
