@@ -626,19 +626,41 @@ extension CKManager {
                         switch result {
                             case .success(let fetchedUser):
                                 guard let idSala = fetchedMembro["idSala"] as? String else {
-                                    print("saveMembro: Problema ao baixar a idSala do membro")
+                                    print(#function)
+                                    print("Problema ao baixar a idSala do membro")
                                     return
                                 }
                                 guard let admin = fetchedMembro["is_admin"] as? Int else {
-                                    print("saveMembro: Problema ao baixar o is_admin do membro")
+                                    print(#function)
+                                    print("Problema ao baixar o is_admin do membro")
                                     return
                                 }
+                                guard let publicados = fetchedMembro["posts_publicados"] as? [String] else {
+                                    print(#function)
+                                    print("Problema ao baixar posts publicados do membro")
+                                    return
+                                }
+                                guard let salvos = fetchedMembro["posts_salvos"] as? [String] else {
+                                    print(#function)
+                                    print("Problema ao baixar posts salvos do membro")
+                                    return
+                                }
+                                guard let assinaturas = fetchedMembro["assinaturas"] as? [String] else {
+                                    print(#function)
+                                    print("Problema ao baixar assinaturas do membro")
+                                    return
+                                }
+                                
                                 let is_admin: Bool
                                 if admin == 1 { is_admin = true}
                                 else { is_admin = false }
                                 
                                 let membro = Membro(usuario: fetchedUser, idSala: idSala, is_admin: is_admin)
                                 membro.id = fetchedMembro.recordID.recordName
+                                membro.posts_publicados = publicados
+                                membro.posts_salvos = salvos
+                                membro.assinaturas = assinaturas
+                                
                                 completion(.success(membro))
                             case .failure(let error):
                                 print(#function)
