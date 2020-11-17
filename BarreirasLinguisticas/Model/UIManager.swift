@@ -43,6 +43,18 @@ extension UIView {
     }
 }
 
+extension Data {
+    public func asUIImage() -> UIImage? {
+        return UIImage(data: self)
+    }
+}
+
+extension UIImage {
+    public func toData() -> Data? {
+        return self.pngData()
+    }
+}
+
 extension UIScreen {
    static let width = UIScreen.main.bounds.size.width
    static let height = UIScreen.main.bounds.size.height
