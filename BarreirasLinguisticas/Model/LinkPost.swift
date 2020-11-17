@@ -57,6 +57,12 @@ class LinkPost: NSObject, NSSecureCoding {
             completionHandler: { (image, err) in
             DispatchQueue.main.async {
                 self.imagem = (image as? UIImage)?.pngData()
+                let url = FileSystem.filePath(forId: String(describing: self.localId))
+                FileSystem.storeImage(
+                    data: self.imagem,
+                    url: url,
+                    forId: String(describing: self.localId)
+                )
             }
         })
     }

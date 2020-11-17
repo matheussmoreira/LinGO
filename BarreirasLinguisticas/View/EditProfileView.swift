@@ -118,6 +118,14 @@ struct EditProfileView: View {
         self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada).rawValue
         self.usuario.foto_perfil = self.photoProfile?.asUIImage().pngData() ?? self.usuario.foto_perfil
         
+        let url = FileSystem.filePath(forId: self.usuario.id)
+        FileSystem.storeImage(
+            data: self.usuario.foto_perfil,
+            url: url,
+            forId: self.usuario.id
+        )
+        self.usuario.url_foto = url
+        
         dao.usuario_atual = self.usuario
         dao.editaPublicadores(usuario: self.usuario)
         self.presentationMode.wrappedValue.dismiss()

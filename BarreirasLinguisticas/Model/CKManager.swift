@@ -17,9 +17,17 @@ struct CKManager {
         if let usuarioDictionary = userDictionaryOpt {
             let id = usuarioDictionary["recordName"] as! String
             let nome = usuarioDictionary["nome"] as? String
-            let foto = UIImage(named: "perfil")!
             let fluencia = Usuario.pegaFluencia(
-                nome: usuarioDictionary["fluencia_ingles"] as! String)
+                nome: usuarioDictionary["fluencia_ingles"] as! String
+            )
+            let foto: UIImage
+            if let fotoData = usuarioDictionary["foto_perfil"] as? Data {
+                print("fotoData = Data")
+                foto = UIImage(data: fotoData)!
+            } else {
+                print("fotoData = nil")
+                foto = UIImage(named: "perfil")!
+            }
             
             let usuario = Usuario(
                 nome: nome,
@@ -114,13 +122,14 @@ struct CKManager {
             let localId = linkDictionary["localId"] as? Int
             let titulo = linkDictionary["titulo"] as? String
             let urlString = linkDictionary["urlString"] as? String
-            // FALTA A IMAGEM !!!
+            let fotoData = FileSystem.retrieveImage(forId: String(describing: localId))
             
             let link = LinkPost()
             link.ckRecordName = ckRecordName
             link.localId = localId
             link.titulo = titulo
             link.urlString = urlString
+            link.imagem = fotoData
             return link
         }
         return nil
@@ -265,25 +274,25 @@ extension CKManager {
                 // SEM GUARD LET POR CONTA DA CRIACAO DE UM NOVO USUARIO
                 let id = record.recordID.recordName
                 let nome = record["nome"] as? String
-//                guard let nome = record["nome"] as? String else {
-//                    print("fetchUser: problema ao baixar o nome")
-//                    return
-//                }
-//                guard let foto = record["foto_perfil"] as? UIImage else {
-//                    print("fetchUser: problema ao baixar a foto")
-//                    return
-//                }
                 let fluencia = record["fluencia_ingles"] as? String
-//                guard let fluencia = record["fluencia_ingles"] as? String else {
-//                    print("fetchUser: problema ao baixar a fluencia")
-//                    return
-//                }
-                let sala_atual = record["sala_atual"] as? String 
-//                let sala_atual = record["sala_atual"] as? Sala
+                let sala_atual = record["sala_atual"] as? String
+                
+                let foto: UIImage
+                let fotoData = FileSystem.retrieveImage(forId: id)
+                let fotoAsset = record["url_foto"] as? CKAsset
+                
+                if fotoData != nil { // Primeiro busca no disco
+                    foto = UIImage(data: fotoData!)!
+                } else if fotoAsset != nil { // Depois busca no CK
+                    let data = NSData(contentsOf: fotoAsset!.fileURL!) as Data?
+                    foto = UIImage(data: data!)!
+                } else { // Se tudo der errado bota o placeholder
+                    foto = UIImage(named: "perfil")!
+                }
                 
                 let fetchedUser = Usuario(
                     nome: nome,
-                    foto_perfil: UIImage(named: "perfil")!,
+                    foto_perfil: foto,
                     fluencia_ingles: Usuario.pegaFluencia(nome: fluencia ?? ""))
                 fetchedUser.id = id
                 fetchedUser.sala_atual = sala_atual
@@ -301,10 +310,12 @@ extension CKManager {
                 return
             }
             if let fetchedRecord = record {
-                fetchedRecord["nome"] = user.nome as CKRecordValue
-                fetchedRecord["fluencia_ingles"] = user.fluencia_ingles as CKRecordValue
-                fetchedRecord["sala_atual"] = (user.sala_atual ?? "") as CKRecordValue
-                // FALTA A FOTO DE PERFIL !!!
+                fetchedRecord["nome"] = user.nome
+                fetchedRecord["fluencia_ingles"] = user.fluencia_ingles
+                fetchedRecord["sala_atual"] = (user.sala_atual ?? "")
+                if let url = user.url_foto {
+                    fetchedRecord["foto_perfil"] = CKAsset(fileURL: url)
+                }
                 
                 publicDB.save(fetchedRecord) { (record, error) in
                     if let error = error {
@@ -316,20 +327,17 @@ extension CKManager {
                             print("updateUser: problema ao baixar o nome")
                             return
                         }
-//                        guard let foto = savedRecord["foto_perfil"] as? UIImage else {
-//                            print("updateUser: problema ao baixar a foto")
-//                            return
-//                        }
                         guard let fluencia = savedRecord["fluencia_ingles"] as? String else {
                             print("updateUser: problema ao baixar a fluencia")
                             return
                         }
                         var sala_atual = savedRecord["sala_atual"] as? String
                         if sala_atual == "" { sala_atual = nil }
+                        let foto = UIImage(data: user.foto_perfil!) ?? UIImage(named: "perfil")!
                         
                         let savedUser = Usuario(
                             nome: nome,
-                            foto_perfil: UIImage(named: "perfil")!,
+                            foto_perfil: foto,
                             fluencia_ingles: Usuario.pegaFluencia(nome: fluencia)
                         )
                         savedUser.id = user.id

@@ -20,6 +20,7 @@ class Usuario: Equatable, Identifiable, ObservableObject {
     var id: String = ""
     @Published var nome: String = ""
     @Published var foto_perfil: Data?
+    @Published var url_foto: URL?
     @Published var sala_atual: String?
     @Published var fluencia_ingles: String = ""
     var cor_fluencia: Color {
@@ -79,4 +80,5 @@ class Usuario: Equatable, Identifiable, ObservableObject {
                 return 0
         }
     }
+    
 }

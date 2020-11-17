@@ -58,3 +58,40 @@ extension UIScreen {
 struct LingoColors {
     static let lingoBlue = Color(red: 0, green: 162/255, blue: 1)
 }
+
+struct FileSystem {
+    static func filePath(forId id: String) -> URL? {
+        let fileManager = FileManager.default
+        guard let documentURL = fileManager.urls(
+                for: .documentDirectory,
+                in: FileManager.SearchPathDomainMask.userDomainMask
+        ).first else {
+            return nil
+        }
+        return documentURL.appendingPathComponent(id + ".png")
+    }
+    
+    static func storeImage(data: Data?, url: URL?, forId id: String) {
+        if let pngRepresentation = data {
+            if let filePath = url /*filePath(forId: id)*/ {
+                do  {
+                    try pngRepresentation.write(
+                        to: filePath,
+                        options: .atomic
+                    )
+                } catch let error {
+                    print(#function)
+                    print(error)
+                }
+            }
+        }
+    }
+    
+    static func retrieveImage(forId id: String) -> Data? {
+        if let filePath = FileSystem.filePath(forId: id),
+           let fileData = FileManager.default.contents(atPath: filePath.path){
+            return fileData
+        }
+        return nil
+    }
+}
