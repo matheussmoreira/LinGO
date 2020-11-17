@@ -217,6 +217,7 @@ struct ProfileView: View {
                     }
                 ){
                     EditProfileView(usuario: self.membro.usuario)
+                        .environmentObject(dao)
                 })
             .onAppear {
                 self.nome = self.membro.usuario.nome

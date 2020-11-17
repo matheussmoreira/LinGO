@@ -19,7 +19,12 @@ struct ContentView: View {
         return dao.getSala(id: dao.sala_atual ?? "")
     }
     var membro: Membro? {
-        return sala_atual!.getMembro(id: usuario_atual!.id) ?? nil
+        if let membro = sala_atual!.getMembro(id: usuario_atual!.id) {
+            membro.usuario = dao.usuario_atual!
+            return membro
+        } else {
+            return nil
+        }
     }
     
     var body: some View {
@@ -128,6 +133,7 @@ struct EmptyRoom: View {
                 }
                 .sheet(isPresented: $showProfile) {
                     EditProfileView(usuario: self.usuario)
+                        .environmentObject(dao)
                 }
                 
                 //MARK: -  BOTAO LOGOUT

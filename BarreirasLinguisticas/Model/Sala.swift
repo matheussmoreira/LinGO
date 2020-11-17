@@ -133,6 +133,7 @@ class Sala: Identifiable, ObservableObject {
                                 case .failure(let error2):
                                     print(#function)
                                     print(error2)
+                                    self.salvaNovoPost(membro: membro, titulo: titulo, descricao: descricao, link: nil, categs: categs, tags: tags)
                             }
                         }
                     case .failure(let error):
@@ -149,9 +150,10 @@ class Sala: Identifiable, ObservableObject {
         
         CKManager.savePost(post: post) { (result) in
             switch result {
-                case .success(let savedPost):
+                case .success(let recordName):
                     DispatchQueue.main.async {
-                        self.addPostSalaMembro(post: savedPost, membro: membro)
+                        post.id = recordName
+                        self.addPostSalaMembro(post: post, membro: membro)
                     }
                 case .failure(let error):
                     print(#function)

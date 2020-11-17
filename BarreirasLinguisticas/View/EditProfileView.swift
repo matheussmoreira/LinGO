@@ -10,6 +10,7 @@ import SwiftUI
 
 struct EditProfileView: View {
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var dao: DAO
     @ObservedObject var usuario: Usuario
     @State private var photoProfile: Image? = Image("perfil")
     @State private var presentImagePicker = false
@@ -113,46 +114,26 @@ struct EditProfileView: View {
     } //body
     
     func editaUsuario2() {
-//        if self.nome != ""{
-            self.usuario.nome = self.nome == "" ? self.usuario.nome : self.nome
-            self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada).rawValue
-            self.usuario.foto_perfil = self.photoProfile?.asUIImage().toData() ?? self.usuario.foto_perfil
+        self.usuario.nome = self.nome == "" ? self.usuario.nome : self.nome
+        self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada).rawValue
+        self.usuario.foto_perfil = self.photoProfile?.asUIImage().toData() ?? self.usuario.foto_perfil
         
-            self.presentationMode.wrappedValue.dismiss()
-            
-            CKManager.modifyUsuario(user: self.usuario) { (result) in
-                switch result {
-                    case .success(_):
-                        DispatchQueue.main.async {
-                            print("editaUsuario: case.success")
-                        }
-                    case .failure(let error):
-                        print("editaUsuario: case.error")
-                        print(error)
-                }
+        dao.usuario_atual = self.usuario
+        dao.editaPublicadores(usuario: self.usuario)
+        self.presentationMode.wrappedValue.dismiss()
+        
+        CKManager.modifyUsuario(user: self.usuario) { (result) in
+            switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        print("editaUsuario: case.success")
+                    }
+                case .failure(let error):
+                    print("editaUsuario: case.error")
+                    print(error)
             }
-//        }
+        }
     }
-    
-//    func editaUsuario(){
-//        if self.nome != "" { self.usuario.nome = self.nome }
-//        self.usuario.foto_perfil = self.photoProfile ?? self.usuario.foto_perfil
-////                        self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada)
-//        self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada).rawValue
-//        
-//        DispatchQueue.main.async {
-//            self.usuario.ckSave { (result) in
-//                switch result{
-//                    case .success(_):
-//                        print("EditProfile: case.success")
-//                    case .failure(let error):
-//                        print("EditProfile: case.error")
-//                        print(error)
-//                }
-//            }
-//        }
-//        self.presentationMode.wrappedValue.dismiss()
-//    }
     
 }
 

@@ -33,10 +33,12 @@ struct PostCardView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack{
                             ForEach(0..<post.categorias.count) { idx in
-                                Text(sala.getCategoria(id: post.categorias[idx])!.nome)
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(self.colorScheme == .dark ? Color.white : Color.gray)
-                                    .lineLimit(1)
+                                if let categ = sala.getCategoria(id: post.categorias[idx]) {
+                                    Text(categ.nome)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(self.colorScheme == .dark ? Color.white : Color.gray)
+                                        .lineLimit(1)
+                                }
                             }
                         }
                     }

@@ -799,7 +799,7 @@ extension CKManager {
 
 //MARK: - POST
 extension CKManager {
-    static func savePost(post: Post, completion: @escaping (Result<Post, Error>) -> ()) {
+    static func savePost(post: Post, completion: @escaping (Result<String, Error>) -> ()) {
         // PREPARANDO OS DADOS
         let postRecord = CKRecord(recordType: "Post")
         postRecord["titulo"] = post.titulo
@@ -823,40 +823,41 @@ extension CKManager {
                 completion(.failure(error))
             }
             if let savedPostRecord = record {
-                let titulo = savedPostRecord["titulo"] as? String
-                let desc = savedPostRecord["descricao"] as? String
-                guard let categs = savedPostRecord["categorias"] as? [String] else {
-                    print(#function)
-                    print("Problema ao baixar categorias")
-                    return
-                }
-                let tags = savedPostRecord["tags"] as? [String]
-                guard let publicador = savedPostRecord["publicador"] as? CKRecord.Reference else {
-                    print(#function)
-                    print("Problema ao baixar publicador")
-                    return
-                }
-                fetchMembro(recordName: publicador.recordID.recordName) { (result) in
-                    switch result {
-                        case .success(let fetchedMembro):
-                            DispatchQueue.main.async {
-                                let newPost  = Post(
-                                    titulo: titulo,
-                                    descricao: desc,
-                                    link: post.link,
-                                    categs: categs,
-                                    tags: "",
-                                    publicador: fetchedMembro
-                                )
-                                newPost.tags = tags ?? []
-                                post.id = savedPostRecord.recordID.recordName
-                                completion(.success(post))
-                            }
-                        case .failure(let error2):
-                            print(#function)
-                            print(error2)
-                    }
-                }
+                completion(.success(savedPostRecord.recordID.recordName))
+//                let titulo = savedPostRecord["titulo"] as? String
+//                let desc = savedPostRecord["descricao"] as? String
+//                guard let categs = savedPostRecord["categorias"] as? [String] else {
+//                    print(#function)
+//                    print("Problema ao baixar categorias")
+//                    return
+//                }
+//                let tags = savedPostRecord["tags"] as? [String]
+//                guard let publicador = savedPostRecord["publicador"] as? CKRecord.Reference else {
+//                    print(#function)
+//                    print("Problema ao baixar publicador")
+//                    return
+//                }
+//                fetchMembro(recordName: publicador.recordID.recordName) { (result) in
+//                    switch result {
+//                        case .success(let fetchedMembro):
+//                            DispatchQueue.main.async {
+//                                let newPost  = Post(
+//                                    titulo: titulo,
+//                                    descricao: desc,
+//                                    link: post.link,
+//                                    categs: categs,
+//                                    tags: "",
+//                                    publicador: fetchedMembro
+//                                )
+//                                newPost.tags = tags ?? []
+//                                post.id = savedPostRecord.recordID.recordName
+//                                completion(.success(post))
+//                            }
+//                        case .failure(let error2):
+//                            print(#function)
+//                            print(error2)
+//                    }
+//                }
             }
         }
     }

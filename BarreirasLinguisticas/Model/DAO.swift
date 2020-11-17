@@ -87,6 +87,16 @@ class DAO: ObservableObject {
         }
     }
     
+    func editaPublicadores(usuario: Usuario){
+        for sala in salas {
+            for post in sala.posts {
+                if post.publicador.usuario.id == usuario.id{
+                    post.publicador.usuario = usuario
+                }
+            }
+        }
+    }
+    
     func removeSala(_ sala: Sala) {
         salas.removeAll(where: {$0.id == sala.id})
     }
