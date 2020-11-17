@@ -130,6 +130,7 @@ class Sala: Identifiable, ObservableObject {
                                 case .success(let savedLinkRecordName):
                                     linkMontado.ckRecordName = savedLinkRecordName
                                     self.salvaNovoPost(membro: membro, titulo: titulo, descricao: descricao, link: linkMontado, categs: categs, tags: tags)
+                                    CKManager.modifyLink(link: linkMontado)
                                 case .failure(let error2):
                                     print(#function)
                                     print(error2)

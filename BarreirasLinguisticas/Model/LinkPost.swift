@@ -16,6 +16,7 @@ class LinkPost: NSObject, NSSecureCoding {
     var titulo: String?
     var urlString: String?
     var imagem: Data?
+    var urlImagem: URL?
     static var supportsSecureCoding = true
     
     func encode(with coder: NSCoder) {
@@ -63,6 +64,8 @@ class LinkPost: NSObject, NSSecureCoding {
                     url: url,
                     forId: String(describing: self.localId)
                 )
+                self.urlImagem = url
+                print("URL da imagem: \(String(describing: url?.absoluteString))")
             }
         })
     }

@@ -22,10 +22,8 @@ struct CKManager {
             )
             let foto: UIImage
             if let fotoData = usuarioDictionary["foto_perfil"] as? Data {
-                print("fotoData = Data")
                 foto = UIImage(data: fotoData)!
             } else {
-                print("fotoData = nil")
                 foto = UIImage(named: "perfil")!
             }
             
@@ -122,14 +120,25 @@ struct CKManager {
             let localId = linkDictionary["localId"] as? Int
             let titulo = linkDictionary["titulo"] as? String
             let urlString = linkDictionary["urlString"] as? String
-            let fotoData = FileSystem.retrieveImage(forId: String(describing: localId))
+            
+            let foto: Data?
+            let fotoDataFromCache = FileSystem.retrieveImage(forId: String(describing: localId))
+            let fotoDataFromCK = linkDictionary["imagem"] as! Data?
+            
+            if fotoDataFromCache != nil { // Primeiro busca no disco
+                foto = fotoDataFromCache!
+            } else if fotoDataFromCK != nil { // Depois busca no CK
+                foto = fotoDataFromCK
+            } else { // Se tudo der errado bota o placeholder
+                foto = UIImage(named: "perfil")!.pngData()
+            }
             
             let link = LinkPost()
             link.ckRecordName = ckRecordName
             link.localId = localId
             link.titulo = titulo
             link.urlString = urlString
-            link.imagem = fotoData
+            link.imagem = foto
             return link
         }
         return nil
@@ -926,7 +935,9 @@ extension CKManager {
         linkRecord["localId"] = link.localId
         linkRecord["titulo"] = link.titulo
         linkRecord["urlString"] = link.urlString
-        // IMAGEM PENDENTE !!
+        if let url = link.urlImagem {
+            linkRecord["imagem"] = CKAsset(fileURL: url)
+        }
         
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.save(linkRecord) { (savedRecord, error) in
@@ -937,6 +948,27 @@ extension CKManager {
             if let savedLinkRecord = savedRecord {
                 completion(.success(savedLinkRecord.recordID.recordName))
                 return
+            }
+        }
+    }
+    
+    static func modifyLink(link: LinkPost) {
+        let publicDB = CKContainer.default().publicCloudDatabase
+        publicDB.fetch(withRecordID: CKRecord.ID(recordName: link.ckRecordName)) {
+            (fetchedRecord, error) in
+            if let error = error {
+                print(#function)
+                print(error)
+            }
+            if let fetchedLinkRecord = fetchedRecord {
+                fetchedLinkRecord["imagem"] = CKAsset(fileURL: link.urlImagem!)
+                
+                publicDB.save(fetchedLinkRecord) { (savedRecord, error2) in
+                    if let error2 = error2 {
+                        print(#function)
+                        print(error2)
+                    }
+                }
             }
         }
     }

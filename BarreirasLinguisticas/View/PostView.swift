@@ -83,32 +83,35 @@ struct PostView: View {
                             .environmentObject(self.membro)
                     }
                     //MARK: - REPORT
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .frame(width: UIScreen.width*0.95, height: 40.0)
-                            .foregroundColor(LingoColors.lingoBlue)
-                        Button(action:{
-                            self.report()
-                        }) {
-                            Text(reported ? "Dismiss Report" : "Report Post")
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
-                            
-                        }
-                    }
-                    //MARK: - EXCLUIR POST
-                    if (membro.id == post.publicador.id) || (post.denuncias.count>0 && membro.is_admin) {
+                        
+                    Button(action:{
+                        self.report()
+                    }) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
                                 .frame(width: UIScreen.width*0.95, height: 40.0)
                                 .foregroundColor(LingoColors.lingoBlue)
+                            Text(reported ? "Dismiss Report" : "Report Post")
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+                    }
+                    //MARK: - EXCLUIR POST
+                    if (membro.id == post.publicador.id) || (post.denuncias.count>0 && membro.is_admin) {
+                            
                             Button(action: {
                                 showAlterExcluiPost.toggle()
                                 
                             }) {
-                                Text("Delete")
-                                    .cornerRadius(8)
-                                    .foregroundColor(.white)
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .frame(width: UIScreen.width*0.95, height: 40.0)
+                                        .foregroundColor(LingoColors.lingoBlue)
+                                    
+                                    Text("Delete")
+                                        .cornerRadius(8)
+                                        .foregroundColor(.white)
+                                }.padding(.bottom)
                             }
                             .alert(isPresented: $showAlterExcluiPost) {
                                 Alert(title: Text("Are you sure you want to delete this?"),
@@ -119,7 +122,6 @@ struct PostView: View {
                                       },
                                       secondaryButton: .cancel())
                             }
-                        }.padding(.bottom)
                     }
                     
                 } //VStack
