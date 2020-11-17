@@ -287,6 +287,7 @@ struct MyRoomsView: View {
     
     func alteraSalaAtual(sala: Sala){
         self.usuario.sala_atual = sala.id
+        
         CKManager.modifyUsuario(user: self.usuario) { (result) in
             switch result {
                 case .success(let savedUser):

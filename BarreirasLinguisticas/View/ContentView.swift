@@ -15,9 +15,9 @@ struct ContentView: View {
     @State private var showAlertLogOut = false
     @State private var showRooms = false
     @State private var showProfile = false
-    var sala_atual: Sala? {
-        return dao.getSala(id: dao.sala_atual ?? "")
-    }
+    @State private var sala_atual: Sala? //{
+//        return dao.getSala(id: dao.sala_atual ?? "")
+//    }
     var membro: Membro? {
         return sala_atual!.getMembro(id: usuario_atual!.id) ?? nil
     }
@@ -68,6 +68,9 @@ struct ContentView: View {
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarHidden(true)
+        .onAppear{
+            self.sala_atual = dao.getSala(id: usuario_atual!.sala_atual ?? "")
+        }
     } //body
 }
 
