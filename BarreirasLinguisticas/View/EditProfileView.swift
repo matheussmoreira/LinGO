@@ -72,7 +72,6 @@ struct EditProfileView: View {
                                 self.hideKeyboard()
                             }
                         TextField(usuario.nome, text: $nome)
-
                     }
                     
                     Section {
@@ -114,32 +113,25 @@ struct EditProfileView: View {
     } //body
     
     func editaUsuario2() {
-        if self.nome != ""{
-            let usuario = Usuario(
-                nome: self.nome,
-                foto_perfil: self.photoProfile?.asUIImage() ?? self.usuario.foto_perfil?.asUIImage(),
-                fluencia_ingles: Usuario.pegaFluenciaNome(idx: fluenciaSelecionada))
-            usuario.id = self.usuario.id
-            usuario.sala_atual = self.usuario.sala_atual
+//        if self.nome != ""{
+            self.usuario.nome = self.nome == "" ? self.usuario.nome : self.nome
+            self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada).rawValue
+            self.usuario.foto_perfil = self.photoProfile?.asUIImage().toData() ?? self.usuario.foto_perfil
+        
+            self.presentationMode.wrappedValue.dismiss()
             
-            CKManager.modifyUsuario(user: usuario) { (result) in
+            CKManager.modifyUsuario(user: self.usuario) { (result) in
                 switch result {
-                    case .success(let updatedUser):
+                    case .success(_):
                         DispatchQueue.main.async {
                             print("editaUsuario: case.success")
-                            self.usuario.id = updatedUser.id
-                            self.usuario.nome = updatedUser.nome
-                            self.usuario.foto_perfil = updatedUser.foto_perfil
-                            self.usuario.sala_atual = updatedUser.sala_atual
-                            self.usuario.fluencia_ingles = updatedUser.fluencia_ingles
-                            self.presentationMode.wrappedValue.dismiss()
                         }
                     case .failure(let error):
                         print("editaUsuario: case.error")
                         print(error)
                 }
             }
-        }
+//        }
     }
     
 //    func editaUsuario(){

@@ -37,7 +37,8 @@ struct DiscoverView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 1){
                             ForEach(fyPosts.suffix(7).reversed()){ post in
-                                CardsView(post: post, membro: self.membro, sala: self.sala)
+                                CardsView(post: post, sala: self.sala)
+                                    .environmentObject(self.membro)
                             }
                         }
                     }
@@ -66,7 +67,8 @@ struct DiscoverView: View {
                         HStack(spacing: 1){
                             ForEach(sala.posts.suffix(7).reversed()){ post in
                                 if !self.fyPosts.contains(post){
-                                    CardsView(post: post, membro: self.membro, sala: self.sala)
+                                    CardsView(post: post, sala: self.sala)
+                                        .environmentObject(self.membro)
                                 }
                             }
                         }
@@ -129,7 +131,7 @@ struct DiscoverView: View {
 
 struct CardsView: View {
     @ObservedObject var post: Post
-    @ObservedObject var membro: Membro
+    @EnvironmentObject var membro: Membro
     @ObservedObject var sala: Sala
     
     var body: some View {

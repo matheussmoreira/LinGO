@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import CloudKitMagicCRUD
 
 struct ProfileView: View {
     @EnvironmentObject var dao: DAO
@@ -19,6 +18,9 @@ struct ProfileView: View {
     @State private var showAlertLogOut = false
     @State private var showEditProfile = false
     @State private var showAdminSheet = false
+    @State private var nome: String = ""
+    @State private var foto: Data?
+    @State private var fluencia: String = ""
     
     let btn_height: CGFloat = 50
     let btn_width: CGFloat = 230
@@ -47,7 +49,7 @@ struct ProfileView: View {
                                 .colorInvert()
                         )
                     
-                    Text(membro.usuario.nome)
+                    Text(nome)
                         .font(.system(.title, design: .rounded))
                         .fontWeight(.bold)
                         .foregroundColor(Color.primary)
@@ -92,7 +94,10 @@ struct ProfileView: View {
                         }
                         
                         //MARK: - ASSINATURAS
-                        NavigationLink(destination: SubscriptionsView(sala: sala).environmentObject(membro)) {
+                        NavigationLink(
+                            destination: SubscriptionsView(sala: sala)
+                                .environmentObject(membro)
+                        ) {
                             RoundedRectangle(cornerRadius: corner)
                                 .foregroundColor(lingoBlue)
                                 .frame(height: btn_height)
@@ -104,8 +109,9 @@ struct ProfileView: View {
                         }
                         
                         //MARK: - MEMBROS DA SALA
-                        NavigationLink(destination:
-                                        RoomMembersView(membro: membro, sala: sala)) {
+                        NavigationLink(
+                            destination:RoomMembersView(membro: membro, sala: sala)
+                        ){
                             RoundedRectangle(cornerRadius: corner)
                                 .foregroundColor(lingoBlue)
                                 .frame(height: btn_height)
@@ -199,9 +205,24 @@ struct ProfileView: View {
                         .imageScale(.large)
                         .foregroundColor(.white)
                 }
-                .sheet(isPresented: $showEditProfile) {
+//                .sheet(isPresented: $showEditProfile) {
+//                    EditProfileView(usuario: self.membro.usuario)
+//                })
+                .sheet(
+                    isPresented: $showEditProfile,
+                    onDismiss: {
+                        self.nome = self.membro.usuario.nome
+                        self.foto = self.membro.usuario.foto_perfil
+                        self.fluencia = self.membro.usuario.fluencia_ingles
+                    }
+                ){
                     EditProfileView(usuario: self.membro.usuario)
                 })
+            .onAppear {
+                self.nome = self.membro.usuario.nome
+                self.foto = self.membro.usuario.foto_perfil
+                self.fluencia = self.membro.usuario.fluencia_ingles
+            }
         }
     } //body
     

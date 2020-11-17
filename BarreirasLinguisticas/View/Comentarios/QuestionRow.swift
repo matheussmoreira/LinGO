@@ -42,7 +42,7 @@ struct QuestionRow: View {
                                 Text(comentario.publicador.usuario.fluencia_ingles/*.rawValue*/)
                                     .foregroundColor(.gray)
                                     .font(.footnote)
-                                .lineLimit(1)
+                                    .lineLimit(1)
                                 
                                 Circle()
                                     .fill(comentario.publicador.usuario.cor_fluencia)
