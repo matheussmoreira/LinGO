@@ -121,16 +121,14 @@ struct CKManager {
             let titulo = linkDictionary["titulo"] as? String
             let urlString = linkDictionary["urlString"] as? String
             
-            let foto: Data?
+            var foto: Data? = nil
             let fotoDataFromCache = FileSystem.retrieveImage(forId: String(describing: localId))
             let fotoDataFromCK = linkDictionary["imagem"] as! Data?
             
-            if fotoDataFromCache != nil { // Primeiro busca no disco
+            if fotoDataFromCache != nil { // Primeiro pega no disco
                 foto = fotoDataFromCache!
-            } else if fotoDataFromCK != nil { // Depois busca no CK
+            } else if fotoDataFromCK != nil { // Senao pega no CK
                 foto = fotoDataFromCK
-            } else { // Se tudo der errado bota o placeholder
-                foto = UIImage(named: "perfil")!.pngData()
             }
             
             let link = LinkPost()
