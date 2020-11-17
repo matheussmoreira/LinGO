@@ -14,7 +14,7 @@ class Post: Equatable, Identifiable, ObservableObject {
     @Published var titulo: String
     @Published var descricao: String?
     @Published var link: LinkPost?
-    @Published var link_image: UIImage?
+//    @Published var link_image: UIImage?
     @Published var publicador: Membro
     @Published var perguntas: [Comentario] = []
     @Published var comentarios: [Comentario] = []

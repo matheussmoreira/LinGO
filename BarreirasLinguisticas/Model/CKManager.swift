@@ -43,12 +43,19 @@ struct CKManager {
             let recordName = membroDictionary["recordName"] as! String
             let idSala = membroDictionary["idSala"] as! String
             let admin = membroDictionary["is_admin"] as! Int
+            let publicados = membroDictionary["posts_publicados"] as? [String] ?? []
+            let salvos = membroDictionary["posts_salvos"] as? [String] ?? []
+            let assinaturas = membroDictionary["assinaturas"] as? [String] ?? []
+            
             let is_admin: Bool
             if admin == 1 { is_admin = true }
                 else { is_admin = false }
             
             let membro = Membro(usuario: usuario!, idSala: idSala, is_admin: is_admin)
             membro.id = recordName
+            membro.posts_publicados = publicados
+            membro.posts_salvos = salvos
+            membro.assinaturas = assinaturas
             return membro
         
         } else {
@@ -656,6 +663,8 @@ extension CKManager {
             if let fetchedMembroRecord = record {
                 fetchedMembroRecord["is_admin"] = membro.is_admin ? 1 : 0
                 fetchedMembroRecord["posts_publicados"] = membro.posts_publicados
+                fetchedMembroRecord["posts_salvos"] = membro.posts_salvos
+                fetchedMembroRecord["assinaturas"] = membro.assinaturas
                 
                 publicDB.save(fetchedMembroRecord) { (record2, error2) in
                     if let error2 = error2 {

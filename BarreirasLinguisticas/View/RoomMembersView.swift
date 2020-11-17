@@ -29,12 +29,12 @@ struct RoomMembersView: View {
             } //VStack
         } //ScrollView
         .navigationBarTitle(sala.nome)
-        .navigationBarItems(trailing:
-                                HStack {
-                                    Image(systemName: "magnifyingglass")
-                                        .imageScale(.large)
-                                        .foregroundColor(LingoColors.lingoBlue)
-                                })
+//        .navigationBarItems(trailing:
+//                                HStack {
+//                                    Image(systemName: "magnifyingglass")
+//                                        .imageScale(.large)
+//                                        .foregroundColor(LingoColors.lingoBlue)
+//                                })
     } //body
 }
 

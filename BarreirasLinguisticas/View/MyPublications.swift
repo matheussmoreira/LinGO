@@ -40,12 +40,12 @@ struct MyPublications: View {
             }
         }
         .navigationBarTitle("Your publications")
-        .navigationBarItems(trailing:
-                                HStack {
-                                    Image(systemName: "magnifyingglass")
-                                        .imageScale(.large)
-                                        .foregroundColor(LingoColors.lingoBlue)
-                                })
+//        .navigationBarItems(trailing:
+//                                HStack {
+//                                    Image(systemName: "magnifyingglass")
+//                                        .imageScale(.large)
+//                                        .foregroundColor(LingoColors.lingoBlue)
+//                                })
     } //body
 }
 

@@ -47,12 +47,12 @@ struct SubscriptionsView: View {
             }
         }
         .navigationBarTitle("Your subscriptions")
-        .navigationBarItems(trailing:
-                                HStack {
-                                    Image(systemName: "magnifyingglass")
-                                        .foregroundColor(LingoColors.lingoBlue)
-                                        .imageScale(.large)
-                                })
+//        .navigationBarItems(trailing:
+//                                HStack {
+//                                    Image(systemName: "magnifyingglass")
+//                                        .foregroundColor(LingoColors.lingoBlue)
+//                                        .imageScale(.large)
+//                                })
         .onAppear {
             self.assinaturas = sala.getCategorias(ids: self.membro.assinaturas)
         }

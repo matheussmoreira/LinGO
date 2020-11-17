@@ -43,13 +43,39 @@ class Membro: Equatable, Identifiable, ObservableObject {
     }
     
     func assinaCategoria(categoria categ: String?) {
-        if (categ != nil) { self.assinaturas.append(categ!) }
-        else { print("Categoria a ser assinada inválida") }
+        if (categ != nil) {
+            self.assinaturas.append(categ!)
+            CKManager.modifyMembro(membro: self) { (result) in
+                switch result {
+                    case .success(_):
+                        break
+                    case .failure(let error):
+                        print(#function)
+                        print(error)
+                }
+            }
+        }
+        else {
+            print("Categoria a ser assinada inválida")
+        }
     }
     
     func salvaPost(post: String?) {
-        if (post != nil) { self.posts_salvos.append(post!)}
-        else { print("Post a ser salvo não definido") }
+        if (post != nil) {
+            self.posts_salvos.append(post!)
+            CKManager.modifyMembro(membro: self) { (result) in
+                switch result {
+                    case .success(_):
+                        break
+                    case .failure(let error):
+                        print(#function)
+                        print(error)
+                }
+            }
+        }
+        else {
+            print("Post a ser salvo não definido")
+        }
     }
     
     func publicaPost(post: String?) {
@@ -74,7 +100,15 @@ class Membro: Equatable, Identifiable, ObservableObject {
     func removeAssinatura(categoria categ: String?) {
         if (categ != nil) {
             self.assinaturas.removeAll(where: {$0 == categ!})
-            
+            CKManager.modifyMembro(membro: self) { (result) in
+                switch result {
+                    case .success(_):
+                        break
+                    case .failure(let error):
+                        print(#function)
+                        print(error)
+                }
+            }
         }
         else {
             print("Categoria a ser removida inválida")
@@ -102,6 +136,15 @@ class Membro: Equatable, Identifiable, ObservableObject {
         if (post != nil) {
             if let idx = getPostSalvoIndex(id: post!) {
                 self.posts_salvos.remove(at: idx)
+                CKManager.modifyMembro(membro: self) { (result) in
+                    switch result {
+                        case .success(_):
+                            break
+                        case .failure(let error):
+                            print(#function)
+                            print(error)
+                    }
+                }
             }
             else {
                 print("Post salvo não encontrado")

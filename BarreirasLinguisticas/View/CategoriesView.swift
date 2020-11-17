@@ -89,9 +89,9 @@ struct CategoriesView: View {
                 trailing:
                     HStack {
                         Spacer()
-                        Image(systemName: "magnifyingglass")
-                            .imageScale(.large)
-                            .foregroundColor(LingoColors.lingoBlue)
+//                        Image(systemName: "magnifyingglass")
+//                            .imageScale(.large)
+//                            .foregroundColor(LingoColors.lingoBlue)
 //                        EditButton()
 //                            .padding(.leading)
 //                            .foregroundColor(LingoColors.lingoBlue)

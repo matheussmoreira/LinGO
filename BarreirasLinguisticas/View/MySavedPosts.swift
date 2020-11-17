@@ -37,16 +37,19 @@ struct MySavedPosts: View {
             }
         }
         .navigationBarTitle("Your saved posts")
-        .navigationBarItems(
-            trailing:
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundColor(LingoColors.lingoBlue)
-                        .imageScale(.large)
-                })
+//        .navigationBarItems(
+//            trailing:
+//                HStack {
+//                    Image(systemName: "magnifyingglass")
+//                        .foregroundColor(LingoColors.lingoBlue)
+//                        .imageScale(.large)
+//                })
         .onAppear {
             for i in 0..<self.membro.posts_salvos.count {
-                self.salvos.append(contentsOf: sala.getPostsByCategorie(categ: self.membro.posts_salvos[i]))
+                self.salvos.append(
+//                    contentsOf: sala.getPostsByCategorie(categ: self.membro.posts_salvos[i])
+                    sala.getPost(id: self.membro.posts_salvos[i])!
+                )
             }
         }
     } //body

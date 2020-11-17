@@ -89,9 +89,9 @@ struct DiscoverView: View {
                 trailing:
                     HStack {
                         Spacer()
-                        Image(systemName: "magnifyingglass")
-                            .imageScale(.large)
-                            .foregroundColor(LingoColors.lingoBlue)
+//                        Image(systemName: "magnifyingglass")
+//                            .imageScale(.large)
+//                            .foregroundColor(LingoColors.lingoBlue)
                         Button(action: {self.showPostEditor.toggle()}) {
                             Image(systemName: "plus")
                                 .imageScale(.large)

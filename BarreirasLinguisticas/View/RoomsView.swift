@@ -246,16 +246,16 @@ struct MyRoomsView: View {
             switch result {
                 case .success(let savedSala):
                     DispatchQueue.main.async {
-                        primeiroMembro(sala: savedSala, usuario: criador)
+                        geraPrimeiroMembro(sala: savedSala, usuario: criador)
                     }
                 case .failure(let error):
-                    print("saveSala: case.failure")
+                    print(#function)
                     print(error)
             }
         }
     }
     
-    func primeiroMembro(sala savedSala: Sala, usuario criador: Usuario){
+    func geraPrimeiroMembro(sala savedSala: Sala, usuario criador: Usuario){
         let membro = Membro(usuario: criador, idSala: savedSala.id, is_admin: true)
         CKManager.saveMembro(membro: membro) { (result) in
             switch result {
@@ -264,7 +264,7 @@ struct MyRoomsView: View {
                         salaGanhaPrimeiroMembro(sala: savedSala, membro: savedMembro)
                     }
                 case .failure(let error):
-                    print("primeiroMembro: case.failure")
+                    print(#function)
                     print(error)
             }
         }
