@@ -76,11 +76,11 @@ struct QuestionRow: View {
                             Image(systemName: votedImage)
                                 .resizable()
                                 .frame(width: 30.0, height: 40.0)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(lineWidth: 1.5)
-                                        .frame(width: 60.0, height: 80.0)
-                                )
+//                                .overlay(
+//                                    RoundedRectangle(cornerRadius: 10)
+//                                        .stroke(lineWidth: 1.5)
+//                                        .frame(width: 60.0, height: 80.0)
+//                                )
                             
                             VStack {
                                 ZStack{

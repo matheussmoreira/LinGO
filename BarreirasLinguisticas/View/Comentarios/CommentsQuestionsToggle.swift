@@ -52,6 +52,7 @@ struct CallQuestions: View {
     @State private var textFieldMinHeight: CGFloat = 50
     @State private var newComment: String = ""
     @State private var askApagaPergunta = false
+    @State private var askReport = false
     
     var body: some View {
         VStack{
@@ -69,8 +70,7 @@ struct CallQuestions: View {
                         self.comenta()
                         self.hideKeyboard()
                     }
-                    .foregroundColor(.primary)
-                    .colorInvert()
+                    .foregroundColor(.white)
                 }
                 .padding(.trailing, 20)
             }
@@ -100,15 +100,18 @@ struct CallQuestions: View {
                             VStack {
                                 QuestionRow(comentario: comment)
                                     .environmentObject(self.membro)
-                                
                                 HStack {
                                     Button(action: {
                                         askApagaPergunta.toggle()
                                     }){
-                                        Text("Delete this question")
-                                            .font(.footnote)
-                                            .foregroundColor(.gray)
-                                            .padding(.horizontal)
+//                                        Text("Delete this question")
+//                                            .font(.footnote)
+//                                            .foregroundColor(.gray)
+//                                            .padding(.horizontal)
+                                        Image(systemName: "trash.circle.fill")
+                                            .padding(.leading)
+                                            .imageScale(.large)
+                                        
                                     }.alert(isPresented: $askApagaPergunta) {
                                         Alert(
                                             title: Text("Delete this question?"),
@@ -117,7 +120,24 @@ struct CallQuestions: View {
                                             },
                                             secondaryButton: .cancel())
                                     }
-                                    .padding(.horizontal)
+                                    .padding(.leading)
+                                    
+                                    Button(action: {
+                                        askReport.toggle()
+                                    }){
+                                        Image(systemName: "exclamationmark.circle")
+//                                            .padding(.horizontal)
+                                            .imageScale(.large)
+                                        
+                                    }.alert(isPresented: $askReport) {
+                                        Alert(
+                                            title: Text("Report this question?"),
+                                            primaryButton: .default(Text("Report")){
+                                            },
+                                            secondaryButton: .cancel())
+                                    }
+//                                    .padding(.leading)
+                                    
                                     Spacer()
                                 }
                                 
@@ -161,6 +181,7 @@ struct CallComments: View {
     @State private var newComment: String = ""
     @State private var textFieldMinHeight: CGFloat = 50
     @State private var askApagaComentario = false
+    @State private var askReport = false
     
     var body: some View {
         VStack {
@@ -178,8 +199,7 @@ struct CallComments: View {
                         self.comenta()
                         self.hideKeyboard()
                     }
-                    .foregroundColor(.primary)
-                    .colorInvert()
+                    .foregroundColor(.white)
                 }
                     .padding(.trailing, 20)
             }
@@ -215,10 +235,13 @@ struct CallComments: View {
                                     Button(action: {
                                         askApagaComentario.toggle()
                                     }){
-                                        Text("Delete this comment")
-                                            .font(.footnote)
-                                            .foregroundColor(.gray)
-                                            .padding(.horizontal)
+//                                        Text("Delete this comment")
+//                                            .font(.footnote)
+//                                            .foregroundColor(.gray)
+//                                            .padding(.horizontal)
+                                        Image(systemName: "trash.circle.fill")
+                                            .padding(.leading)
+                                            .imageScale(.large)
                                     }.alert(isPresented: $askApagaComentario) {
                                         Alert(
                                             title: Text("Delete this comment?"),
@@ -227,7 +250,22 @@ struct CallComments: View {
                                             },
                                             secondaryButton: .cancel())
                                     }
-                                    .padding(.horizontal)
+                                    .padding(.leading)
+                                    
+                                     Button(action: {
+                                         askReport.toggle()
+                                     }){
+                                         Image(systemName: "exclamationmark.circle")
+                                             .imageScale(.large)
+                                         
+                                     }.alert(isPresented: $askReport) {
+                                         Alert(
+                                             title: Text("Report this comment?"),
+                                             primaryButton: .default(Text("Report")){
+                                             },
+                                             secondaryButton: .cancel())
+                                     }
+                                    
                                     Spacer()
                                 }
                                 

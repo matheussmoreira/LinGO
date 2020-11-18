@@ -69,9 +69,9 @@ struct PostsOfCategorieView: View {
         .navigationBarTitle(categoria.nome)
         .navigationBarItems(trailing:
                                 HStack {
-                                    Image(systemName: "magnifyingglass")
-                                        .imageScale(.large)
-                                        .foregroundColor(LingoColors.lingoBlue)
+//                                    Image(systemName: "magnifyingglass")
+//                                        .imageScale(.large)
+//                                        .foregroundColor(LingoColors.lingoBlue)
                                     
                                     Button(action:{
                                         self.changeSubscription()

@@ -46,10 +46,10 @@ struct MySavedPosts: View {
 //                })
         .onAppear {
             for i in 0..<self.membro.posts_salvos.count {
-                self.salvos.append(
-//                    contentsOf: sala.getPostsByCategorie(categ: self.membro.posts_salvos[i])
-                    sala.getPost(id: self.membro.posts_salvos[i])!
-                )
+                if let postSalvo = sala.getPost(id: self.membro.posts_salvos[i]) {
+                    self.salvos.append(postSalvo)
+                }
+                
             }
         }
     } //body

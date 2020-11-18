@@ -19,7 +19,8 @@ struct PostView: View {
     @State private var bookmarkedImage = "bookmark"
     @State private var showComments = false
     @State private var reported = false
-    @State private var showAlterExcluiPost = false
+    @State private var showAlertExcluirPost = false
+    @State private var showAlertReport = false
     
     var body: some View {
         VStack {
@@ -85,7 +86,7 @@ struct PostView: View {
                     //MARK: - REPORT
                         
                     Button(action:{
-                        self.report()
+                        showAlertReport.toggle()
                     }) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
@@ -96,11 +97,17 @@ struct PostView: View {
                                 .cornerRadius(8)
                         }
                     }
+                    .alert(isPresented: $showAlertReport) {
+                        Alert(title: Text(reported ? "Dismiss report?" : "If you report, the admins of the room will be able to delete this post"),
+                              primaryButton: .default(Text(reported ? "Yes" : "Report")){
+                                self.report()
+                              },
+                              secondaryButton: .cancel())
+                    }
                     //MARK: - EXCLUIR POST
                     if (membro.id == post.publicador.id) || (post.denuncias.count>0 && membro.is_admin) {
-                            
                             Button(action: {
-                                showAlterExcluiPost.toggle()
+                                showAlertExcluirPost.toggle()
                                 
                             }) {
                                 ZStack {
@@ -113,10 +120,9 @@ struct PostView: View {
                                         .foregroundColor(.white)
                                 }.padding(.bottom)
                             }
-                            .alert(isPresented: $showAlterExcluiPost) {
+                            .alert(isPresented: $showAlertExcluirPost) {
                                 Alert(title: Text("Are you sure you want to delete this?"),
                                       primaryButton: .default(Text("Delete")){
-//                                        sala.excluiPost(post: post, membro: membro)
                                         sala.excluiPost2(post: post, membro: membro)
                                         self.presentationMode.wrappedValue.dismiss()
                                       },
