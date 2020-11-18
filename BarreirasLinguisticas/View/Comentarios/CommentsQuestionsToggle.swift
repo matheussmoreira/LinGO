@@ -54,6 +54,7 @@ struct CallQuestions: View {
     @State private var askApagaPergunta = false
     @State private var askReport = false
     @State private var reported = false
+    @State private var showAlertBlocked = false
     
     var body: some View {
         VStack{
@@ -68,10 +69,21 @@ struct CallQuestions: View {
                         .frame(width: 50.0, height: 40.0)
                         .foregroundColor(LingoColors.lingoBlue)
                     Button("Go!") {
-                        self.comenta()
-                        self.hideKeyboard()
+                        if !membro.isBlocked {
+                            self.comenta()
+                            self.hideKeyboard()
+                        } else {
+                            self.showAlertBlocked.toggle()
+                            newComment = ""
+                        }
                     }
                     .foregroundColor(.white)
+                    .alert(isPresented: $showAlertBlocked, content: {
+                        Alert(
+                            title: Text("You cannot comment because you are blocked!"),
+                            dismissButton: .default(Text("Ok"))
+                        )
+                    })
                 }
                 .padding(.trailing, 20)
             }
@@ -121,19 +133,21 @@ struct CallQuestions: View {
                                         .padding(.leading)
                                     }
                                     
-                                    Button(action: {
-                                        askReport.toggle()
-                                    }){
-                                        Image(systemName: reported ? "exclamationmark.circle.fill" : "exclamationmark.circle")
-                                            .imageScale(.large)
-                                        
-                                    }.alert(isPresented: $askReport) {
-                                        Alert(
-                                            title: Text(reported ? "Dismiss report?" : "If you report then the admins of the room will be able to delete this question"),
-                                            primaryButton: .default(Text(reported ? "Yes" : "Report")){
-                                                report(comment)
-                                            },
-                                            secondaryButton: .cancel())
+                                    if !membro.isBlocked && membro.id != comment.publicador.id {
+                                        Button(action: {
+                                            askReport.toggle()
+                                        }){
+                                            Image(systemName: reported ? "exclamationmark.circle.fill" : "exclamationmark.circle")
+                                                .imageScale(.large)
+                                            
+                                        }.alert(isPresented: $askReport) {
+                                            Alert(
+                                                title: Text(reported ? "Dismiss report?" : "If you report then the admins of the room will be able to delete this question"),
+                                                primaryButton: .default(Text(reported ? "Yes" : "Report")){
+                                                    report(comment)
+                                                },
+                                                secondaryButton: .cancel())
+                                        }
                                     }
                                     Spacer()
                                 }
@@ -192,6 +206,7 @@ struct CallComments: View {
     @State private var askApagaComentario = false
     @State private var askReport = false
     @State private var reported = false
+    @State private var showAlertBlocked = false
     
     var body: some View {
         VStack {
@@ -206,10 +221,21 @@ struct CallComments: View {
                         .frame(width: 50.0, height: 40.0)
                         .foregroundColor(LingoColors.lingoBlue)
                     Button("Go!") {
-                        self.comenta()
-                        self.hideKeyboard()
+                        if !membro.isBlocked {
+                            self.comenta()
+                            self.hideKeyboard()
+                        } else {
+                            self.showAlertBlocked.toggle()
+                            newComment = ""
+                        }
                     }
                     .foregroundColor(.white)
+                    .alert(isPresented: $showAlertBlocked, content: {
+                        Alert(
+                            title: Text("You cannot comment because you are blocked!"),
+                            dismissButton: .default(Text("Ok"))
+                        )
+                    })
                 }
                     .padding(.trailing, 20)
             }
@@ -260,22 +286,22 @@ struct CallComments: View {
                                         .padding(.leading)
                                     }
                                     
-                                     Button(action: {
-                                         askReport.toggle()
-                                     }){
-                                        
-                                         Image(systemName: reported ? "exclamationmark.circle.fill" : "exclamationmark.circle")
-                                             .imageScale(.large)
-                                         
-                                     }.alert(isPresented: $askReport) {
-                                        Alert(
-                                            title: Text(reported ? "Dismiss report?" : "If you report then the admins of the room will be able to delete this question"),
-                                            primaryButton: .default(Text(reported ? "Yes" : "Report")){
-                                                report(comment)
-                                            },
-                                            secondaryButton: .cancel())
-                                     }
-                                    
+                                    if !membro.isBlocked && membro.id != comment.publicador.id {
+                                        Button(action: {
+                                            askReport.toggle()
+                                        }){
+                                            Image(systemName: reported ? "exclamationmark.circle.fill" : "exclamationmark.circle")
+                                                .imageScale(.large)
+                                            
+                                        }.alert(isPresented: $askReport) {
+                                           Alert(
+                                               title: Text(reported ? "Dismiss report?" : "If you report then the admins of the room will be able to delete this question"),
+                                               primaryButton: .default(Text(reported ? "Yes" : "Report")){
+                                                   report(comment)
+                                               },
+                                               secondaryButton: .cancel())
+                                        }
+                                    }
                                     Spacer()
                                 }
                                 

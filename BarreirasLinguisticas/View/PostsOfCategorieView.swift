@@ -71,7 +71,7 @@ struct PostsOfCategorieView: View {
         .navigationBarTitle(categoria.nome)
         .navigationBarItems(trailing:
                                 HStack {
-                                    if loaded_posts.isEmpty {
+                                    if loaded_posts.isEmpty && !membro.isBlocked {
                                         Button(action:{showAlertApagaCategoria.toggle()}) {
                                             Image(systemName: "trash")
                                                 .imageScale(.large)
@@ -92,7 +92,7 @@ struct PostsOfCategorieView: View {
                                                 .foregroundColor(LingoColors.lingoBlue)
                                         }.alert(isPresented: $showAlertApagaCategoria) {
                                             Alert(
-                                                title: Text("You cannot delete a category that contains at least one post"),
+                                                title: Text("You cannot delete a category that contains at least one post or if you are blocked"),
                                                 dismissButton: .default(Text("Ok"))
                                             )
                                         }

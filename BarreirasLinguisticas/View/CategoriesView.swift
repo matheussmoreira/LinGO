@@ -104,8 +104,14 @@ struct CategoriesView: View {
                         .sheet(
                             isPresented: $showCriaCategoria,
                             content: {
-                                CreateCategorieView()
-                                    .environmentObject(sala)
+                                if !membro.isBlocked {
+                                    CreateCategorieView()
+                                        .environmentObject(sala)
+                                } else {
+                                    Text("You cannot create a categorie\nbecause you are blocked!")
+                                        .multilineTextAlignment(.center)
+                                }
+                                
                             })
                     })
         }

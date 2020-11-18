@@ -100,17 +100,24 @@ struct DiscoverView: View {
 //                        Image(systemName: "magnifyingglass")
 //                            .imageScale(.large)
 //                            .foregroundColor(LingoColors.lingoBlue)
-                        Button(action: {self.showPostEditor.toggle()}) {
+                        Button(action: {
+                                self.showPostEditor.toggle()
+                        }) {
                             Image(systemName: "plus")
                                 .imageScale(.large)
                                 .foregroundColor(LingoColors.lingoBlue)
                                 .padding(.leading)
                         }
                         .sheet(isPresented: $showPostEditor) {
-                            PostCreatorView()
-                                .environmentObject(self.membro)
-                                .environmentObject(self.sala)
-                                .environmentObject(self.dao)
+                            if !membro.isBlocked {
+                                PostCreatorView()
+                                    .environmentObject(self.membro)
+                                    .environmentObject(self.sala)
+                                    .environmentObject(self.dao)
+                            } else {
+                                Text("You cannot create a post\nbecause you are blocked!")
+                                    .multilineTextAlignment(.center)
+                            }
                         }
                     })
         }

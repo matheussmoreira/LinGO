@@ -135,9 +135,14 @@ struct ProfileView: View {
                                     )
                             }
                             .sheet(isPresented: $showAdminSheet) {
-                                AdminView()
-                                    .environmentObject(self.sala)
-                                    .environmentObject(self.membro)
+                                if !membro.isBlocked {
+                                    AdminView()
+                                        .environmentObject(self.sala)
+                                        .environmentObject(self.membro)
+                                } else {
+                                    Text("You cannot make admin actions\nbecause you are blocked")
+                                        .multilineTextAlignment(.center)
+                                }
                             }
                         }
                         

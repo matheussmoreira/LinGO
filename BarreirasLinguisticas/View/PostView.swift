@@ -84,26 +84,29 @@ struct PostView: View {
                             .environmentObject(self.membro)
                     }
                     //MARK: - REPORT
-                        
-                    Button(action:{
-                        showAlertReport.toggle()
-                    }) {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .frame(width: UIScreen.width*0.95, height: 40.0)
-                                .foregroundColor(LingoColors.lingoBlue)
-                            Text(reported ? "Dismiss Report" : "Report Post")
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
+                    
+                    if !membro.isBlocked && membro.id != post.publicador.id {
+                        Button(action:{
+                            showAlertReport.toggle()
+                        }) {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .frame(width: UIScreen.width*0.95, height: 40.0)
+                                    .foregroundColor(LingoColors.lingoBlue)
+                                Text(reported ? "Dismiss Report" : "Report Post")
+                                    .foregroundColor(.white)
+                                    .cornerRadius(8)
+                            }
+                        }
+                        .alert(isPresented: $showAlertReport) {
+                            Alert(title: Text(reported ? "Dismiss report?" : "If you report, the admins of the room will be able to delete this post"),
+                                  primaryButton: .default(Text(reported ? "Yes" : "Report")){
+                                    self.report()
+                                  },
+                                  secondaryButton: .cancel())
                         }
                     }
-                    .alert(isPresented: $showAlertReport) {
-                        Alert(title: Text(reported ? "Dismiss report?" : "If you report, the admins of the room will be able to delete this post"),
-                              primaryButton: .default(Text(reported ? "Yes" : "Report")){
-                                self.report()
-                              },
-                              secondaryButton: .cancel())
-                    }
+                    
                     //MARK: - EXCLUIR POST
                     if (membro.id == post.publicador.id) || (post.denuncias.count>0 && membro.is_admin) {
                             Button(action: {

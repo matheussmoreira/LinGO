@@ -17,6 +17,8 @@ class Membro: Equatable, Identifiable, ObservableObject {
     @Published var assinaturas: [String] = [] //id das Categorias
     @Published var posts_salvos: [String] = [] //id dos Posts
     @Published var posts_publicados: [String] = [] //id dos Posts
+    @Published var reports: [String] = [] //id dos denunciados
+    @Published var isBlocked = false
     
     init (usuario: Usuario, idSala: String, is_admin: Bool) {
         self.usuario = usuario
@@ -31,6 +33,19 @@ class Membro: Equatable, Identifiable, ObservableObject {
     // MARK: - NOVOS
     func updateAdminStatus(){
         is_admin.toggle()
+        CKManager.modifyMembro(membro: self) { (result) in
+            switch result {
+                case .success(_):
+                    break
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
+        }
+    }
+    
+    func updateBlockedStatus(){
+        isBlocked.toggle()
         CKManager.modifyMembro(membro: self) { (result) in
             switch result {
                 case .success(_):

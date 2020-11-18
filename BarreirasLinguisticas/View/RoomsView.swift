@@ -351,25 +351,25 @@ struct AvailableRoomsView: View {
         }
     }
     
-    func verificaNovoMembro(sala: Sala, usuario: Usuario){
-        CKManager.retrieveMembroOf(sala: sala, usuario: usuario) { (result) in
-            switch result {
-                case .success(let retrievedMembroOpt):
-                    DispatchQueue.main.async {
-                        if let retrievedMembro = retrievedMembroOpt {
-                            print("Sala ganha novo membro direto")
-                            salaGanhaNovoMembro(sala: sala, membro: retrievedMembro)
-                        } else {
-                            print("Sala cria novo membro e add ele")
-                            criaNovoMembro(sala: sala)
-                        }
-                    }
-                case .failure(let error):
-                    print(#function)
-                    print(error)
-            }
-        }
-    }
+//    func verificaNovoMembro(sala: Sala, usuario: Usuario){
+//        CKManager.retrieveMembroOf(sala: sala, usuario: usuario) { (result) in
+//            switch result {
+//                case .success(let retrievedMembroOpt):
+//                    DispatchQueue.main.async {
+//                        if let retrievedMembro = retrievedMembroOpt {
+//                            print("Sala ganha novo membro direto")
+//                            salaGanhaNovoMembro(sala: sala, membro: retrievedMembro)
+//                        } else {
+//                            print("Sala cria novo membro e add ele")
+//                            criaNovoMembro(sala: sala)
+//                        }
+//                    }
+//                case .failure(let error):
+//                    print(#function)
+//                    print(error)
+//            }
+//        }
+//    }
     
     func criaNovoMembro(sala: Sala){
         let membro = Membro(usuario: usuario, idSala: sala.id, is_admin: false)

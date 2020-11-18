@@ -52,7 +52,7 @@ struct MemberButton: View {
     
     var body: some View {
         Button(action: {
-            if (self.membro.usuario.id != self.membro_sala.usuario.id) && self.membro.is_admin {
+            if (self.membro.usuario.id != self.membro_sala.usuario.id && self.membro.is_admin && !membro.isBlocked) {
                 self.showMembro.toggle()
             }
         }) {
@@ -75,7 +75,18 @@ struct MemberButton: View {
                             .multilineTextAlignment(.leading)
                         
                         Spacer()
-                        if membro_sala.is_admin {
+                        if membro_sala.isBlocked{
+                            ZStack {
+                                Capsule()
+                                    .frame(width: 70.0, height: 30.0)
+                                    .padding(.trailing,20)
+                                    .foregroundColor(Color.orange)
+                                Text("blocked")
+                                    .foregroundColor(.white)
+                                    .padding(.trailing,20)
+                            }
+                        }
+                        else if membro_sala.is_admin {
                             ZStack {
                                 Capsule()
                                     .frame(width: 65.0, height: 30.0)
@@ -100,6 +111,13 @@ struct MemberButton: View {
                             Text("Turn admin")
                     ){
                         self.membro_sala.updateAdminStatus()
+                    },
+                    .default(
+                        membro_sala.isBlocked ?
+                            Text("Unblock member") :
+                            Text("Block member")
+                    ){
+                        membro_sala.updateBlockedStatus()
                     },
                     .default(Text("Remove from room")){
                         self.removeDaSala(sala: sala, membro_sala: membro_sala)

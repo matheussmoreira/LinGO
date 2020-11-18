@@ -52,13 +52,19 @@ struct CKManager {
             let publicados = membroDictionary["posts_publicados"] as? [String] ?? []
             let salvos = membroDictionary["posts_salvos"] as? [String] ?? []
             let assinaturas = membroDictionary["assinaturas"] as? [String] ?? []
+            let blocked = membroDictionary["isBlocked"] as? Int ?? 0
             
             let is_admin: Bool
             if admin == 1 { is_admin = true }
                 else { is_admin = false }
             
+            let is_blocked: Bool
+            if blocked == 1 { is_blocked = true }
+                else { is_blocked = false }
+            
             let membro = Membro(usuario: usuario!, idSala: idSala, is_admin: is_admin)
             membro.id = recordName
+            membro.isBlocked = is_blocked
             membro.posts_publicados = publicados
             membro.posts_salvos = salvos
             membro.assinaturas = assinaturas
@@ -583,6 +589,7 @@ extension CKManager {
         )
         membroRecord["idSala"] = membro.idSala
         membroRecord["is_admin"] = membro.is_admin ? 1 : 0
+        membroRecord["isBlocked"] = membro.isBlocked ? 1 : 0
         
         // MANDANDO SALVAR
         CKContainer.default().publicCloudDatabase.save(membroRecord) { (record, error) in
@@ -610,11 +617,22 @@ extension CKManager {
                                         return
                                     }
                                     
+                                    guard let blocked = savedMembro["isBlocked"] as? Int else {
+                                        print(#function)
+                                        print("Problema ao baixar o isBlocked do membro")
+                                        return
+                                    }
+                                    
                                     let is_admin: Bool
                                     if admin == 1 { is_admin = true}
-                                    else { is_admin = false }
+                                        else { is_admin = false }
+                                    
+                                    let is_blocked: Bool
+                                    if blocked == 1 { is_blocked = true}
+                                        else { is_blocked = false }
                                     
                                     let membro = Membro(usuario: fetchedUser, idSala: idSala, is_admin: is_admin)
+                                    membro.isBlocked = is_blocked
                                     membro.id = savedMembro.recordID.recordName
                                     completion(.success(membro))
                                 }
@@ -667,13 +685,23 @@ extension CKManager {
                                     print("Problema ao baixar assinaturas do membro")
                                     return
                                 }
+                                guard let blocked = fetchedMembro["isBlocked"] as? Int else {
+                                    print(#function)
+                                    print("Problema ao baixar o isBlocked do membro")
+                                    return
+                                }
                                 
                                 let is_admin: Bool
                                 if admin == 1 { is_admin = true}
-                                else { is_admin = false }
+                                    else { is_admin = false }
+                                
+                                let is_blocked: Bool
+                                if blocked == 1 { is_blocked = true}
+                                    else { is_blocked = false }
                                 
                                 let membro = Membro(usuario: fetchedUser, idSala: idSala, is_admin: is_admin)
                                 membro.id = fetchedMembro.recordID.recordName
+                                membro.isBlocked = is_blocked
                                 membro.posts_publicados = publicados
                                 membro.posts_salvos = salvos
                                 membro.assinaturas = assinaturas
@@ -704,6 +732,7 @@ extension CKManager {
                 fetchedMembroRecord["posts_publicados"] = membro.posts_publicados
                 fetchedMembroRecord["posts_salvos"] = membro.posts_salvos
                 fetchedMembroRecord["assinaturas"] = membro.assinaturas
+                fetchedMembroRecord["isBlocked"] = membro.isBlocked ? 1 : 0
                 
                 publicDB.save(fetchedMembroRecord) { (record2, error2) in
                     if let error2 = error2 {
@@ -720,41 +749,41 @@ extension CKManager {
         }
     }
     
-    static func retrieveMembroOf(sala: Sala, usuario: Usuario, completion: @escaping (Result<Membro?, Error>) -> ()) {
-        let predSala = NSPredicate(format: "idSala == %@", sala.id)
-        let queryMembros = CKQuery(recordType: "Membro", predicate: predSala)
-        
-        // BUSCA TODOS OS MEMBROS DA SALA INFORMADA
-        let publicDB = CKContainer.default().publicCloudDatabase
-        publicDB.perform(queryMembros, inZoneWith: nil) { (records, error) in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            if let membrosRecords = records {
-                for membroRecord in membrosRecords {
-                    // PEGA O MEMBRO DO USUARIO INFORMADO
-                    let usuarioDoMembro = membroRecord["usuario"] as? CKRecord.Reference
-                    if usuarioDoMembro?.recordID.recordName == usuario.id {
-                        fetchMembro(recordName: membroRecord.recordID.recordName) { (result) in
-                            switch result {
-                                case .success(let fetchedMembro):
-                                    print("Membro já existe")
-                                    completion(.success(fetchedMembro))
-                                    return
-                                case .failure(let error2):
-                                    completion(.failure(error2))
-                                    return
-                            }
-                        }
-                    }
-                }
-                print("Membro não existe e será criado")
-                completion(.success(nil))
-                return
-            }
-        }
-    }
+//    static func retrieveMembroOf(sala: Sala, usuario: Usuario, completion: @escaping (Result<Membro?, Error>) -> ()) {
+//        let predSala = NSPredicate(format: "idSala == %@", sala.id)
+//        let queryMembros = CKQuery(recordType: "Membro", predicate: predSala)
+//        
+//        // BUSCA TODOS OS MEMBROS DA SALA INFORMADA
+//        let publicDB = CKContainer.default().publicCloudDatabase
+//        publicDB.perform(queryMembros, inZoneWith: nil) { (records, error) in
+//            if let error = error {
+//                completion(.failure(error))
+//                return
+//            }
+//            if let membrosRecords = records {
+//                for membroRecord in membrosRecords {
+//                    // PEGA O MEMBRO DO USUARIO INFORMADO
+//                    let usuarioDoMembro = membroRecord["usuario"] as? CKRecord.Reference
+//                    if usuarioDoMembro?.recordID.recordName == usuario.id {
+//                        fetchMembro(recordName: membroRecord.recordID.recordName) { (result) in
+//                            switch result {
+//                                case .success(let fetchedMembro):
+//                                    print("Membro já existe")
+//                                    completion(.success(fetchedMembro))
+//                                    return
+//                                case .failure(let error2):
+//                                    completion(.failure(error2))
+//                                    return
+//                            }
+//                        }
+//                    }
+//                }
+//                print("Membro não existe e será criado")
+//                completion(.success(nil))
+//                return
+//            }
+//        }
+//    }
 }
 
 // MARK: - CATEGORIA
