@@ -102,26 +102,24 @@ struct CallQuestions: View {
                                 QuestionRow(comentario: comment)
                                     .environmentObject(self.membro)
                                 HStack {
-                                    Button(action: {
-                                        askApagaPergunta.toggle()
-                                    }){
-//                                        Text("Delete this question")
-//                                            .font(.footnote)
-//                                            .foregroundColor(.gray)
-//                                            .padding(.horizontal)
-                                        Image(systemName: "trash.circle.fill")
-                                            .padding(.leading)
-                                            .imageScale(.large)
-                                        
-                                    }.alert(isPresented: $askApagaPergunta) {
-                                        Alert(
-                                            title: Text("Delete this question?"),
-                                            primaryButton: .default(Text("Delete")){
-                                                apagaPergunta(id: comment.id)
-                                            },
-                                            secondaryButton: .cancel())
+                                    if (comment.publicador.id == membro.id) || (!comment.denuncias.isEmpty && membro.is_admin) {
+                                        Button(action: {
+                                            askApagaPergunta.toggle()
+                                        }){
+                                            Image(systemName: "trash.circle.fill")
+                                                .padding(.leading)
+                                                .imageScale(.large)
+                                            
+                                        }.alert(isPresented: $askApagaPergunta) {
+                                            Alert(
+                                                title: Text("Delete this question?"),
+                                                primaryButton: .default(Text("Delete")){
+                                                    apagaPergunta(id: comment.id)
+                                                },
+                                                secondaryButton: .cancel())
+                                        }
+                                        .padding(.leading)
                                     }
-                                    .padding(.leading)
                                     
                                     Button(action: {
                                         askReport.toggle()
@@ -244,25 +242,23 @@ struct CallComments: View {
                                     .environmentObject(self.membro)
                                 
                                 HStack {
-                                    Button(action: {
-                                        askApagaComentario.toggle()
-                                    }){
-//                                        Text("Delete this comment")
-//                                            .font(.footnote)
-//                                            .foregroundColor(.gray)
-//                                            .padding(.horizontal)
-                                        Image(systemName: "trash.circle.fill")
-                                            .padding(.leading)
-                                            .imageScale(.large)
-                                    }.alert(isPresented: $askApagaComentario) {
-                                        Alert(
-                                            title: Text("Delete this comment?"),
-                                            primaryButton: .default(Text("Delete")){
-                                                apagaComentario(id: comment.id)
-                                            },
-                                            secondaryButton: .cancel())
+                                    if (comment.publicador.id == membro.id) || (!comment.denuncias.isEmpty && membro.is_admin) {
+                                        Button(action: {
+                                            askApagaComentario.toggle()
+                                        }){
+                                            Image(systemName: "trash.circle.fill")
+                                                .padding(.leading)
+                                                .imageScale(.large)
+                                        }.alert(isPresented: $askApagaComentario) {
+                                            Alert(
+                                                title: Text("Delete this comment?"),
+                                                primaryButton: .default(Text("Delete")){
+                                                    apagaComentario(id: comment.id)
+                                                },
+                                                secondaryButton: .cancel())
+                                        }
+                                        .padding(.leading)
                                     }
-                                    .padding(.leading)
                                     
                                      Button(action: {
                                          askReport.toggle()

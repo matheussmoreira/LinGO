@@ -120,11 +120,11 @@ class Post: Equatable, Identifiable, ObservableObject {
 
     //MARK: - DELECOES
     func apagaPergunta(id: String) {
+        self.perguntas.removeAll(where: { $0.id == id })
         CKManager.deleteRecord(recordName: id) { (result) in
             switch result {
                 case .success(_):
                     DispatchQueue.main.async {
-                        self.perguntas.removeAll(where: { $0.id == id })
                         CKManager.modifyPost(post: self) { (result2) in
                             switch result2 {
                                 case .success(_):
@@ -143,11 +143,11 @@ class Post: Equatable, Identifiable, ObservableObject {
     }
     
     func apagaComentario(id: String) {
+        self.comentarios.removeAll(where: { $0.id == id })
         CKManager.deleteRecord(recordName: id) { (result) in
             switch result {
                 case .success(_):
                     DispatchQueue.main.async {
-                        self.comentarios.removeAll(where: { $0.id == id })
                         CKManager.modifyPost(post: self) { (result2) in
                             switch result2 {
                                 case .success(_):
