@@ -293,8 +293,11 @@ class Sala: Identifiable, ObservableObject {
                 }
             }
         }
-        
-        
+    }
+    
+    func excluiCategoria(_ categ: Categoria) {
+        categorias.removeAll(where: {$0.id == categ.id})
+        CKManager.deleteRecord2(recordName: categ.id)
     }
     
     private func removePostSalaMembro(id_post: String, membro: Membro){

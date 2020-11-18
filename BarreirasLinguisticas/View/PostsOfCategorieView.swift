@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct PostsOfCategorieView: View {
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var dao: DAO
     @EnvironmentObject var membro: Membro
     @ObservedObject var categoria: Categoria
@@ -19,6 +20,7 @@ struct PostsOfCategorieView: View {
     @State private var subscribedImage = "checkmark.circle"
     @State private var loaded_posts: [Post] = []
     @State private var mensagem = ""
+    @State private var showAlertApagaCategoria = false
     
     var body: some View {
         VStack {
@@ -69,10 +71,33 @@ struct PostsOfCategorieView: View {
         .navigationBarTitle(categoria.nome)
         .navigationBarItems(trailing:
                                 HStack {
-//                                    Image(systemName: "magnifyingglass")
-//                                        .imageScale(.large)
-//                                        .foregroundColor(LingoColors.lingoBlue)
-                                    
+                                    if loaded_posts.isEmpty {
+                                        Button(action:{showAlertApagaCategoria.toggle()}) {
+                                            Image(systemName: "trash")
+                                                .imageScale(.large)
+                                                .foregroundColor(LingoColors.lingoBlue)
+                                        }.alert(isPresented: $showAlertApagaCategoria) {
+                                            Alert(
+                                                title: Text("Delete category?"),
+                                                primaryButton: .default(Text("Yes")){
+                                                    apagaCategoria(categoria)
+                                                },
+                                                secondaryButton: .cancel()
+                                            )
+                                        }
+                                    } else {
+                                        Button(action:{showAlertApagaCategoria.toggle()}) {
+                                            Image(systemName: "trash")
+                                                .imageScale(.large)
+                                                .foregroundColor(LingoColors.lingoBlue)
+                                        }.alert(isPresented: $showAlertApagaCategoria) {
+                                            Alert(
+                                                title: Text("You cannot delete a category that contains at least one post"),
+                                                dismissButton: .default(Text("Ok"))
+                                            )
+                                        }
+                                    }
+
                                     Button(action:{
                                         self.changeSubscription()
                                     }){
@@ -84,6 +109,11 @@ struct PostsOfCategorieView: View {
                                 })
         .onAppear { self.load() }
     } //body
+    
+    func apagaCategoria(_ categ: Categoria) {
+        sala.excluiCategoria(categ)
+        self.presentationMode.wrappedValue.dismiss()
+    }
     
     func load() {
         //categoria exist e tem id, logo os ! abaixo

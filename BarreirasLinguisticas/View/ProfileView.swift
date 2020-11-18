@@ -520,9 +520,9 @@ struct ComentarioDenunciado: View {
                         primaryButton: .default(Text("Delete")){
                             apagaComentario(comentario)
                         },
-                        secondaryButton: .cancel())
+                        secondaryButton: .cancel()
+                    )
                 }
-                
                 Spacer()
             }
             
