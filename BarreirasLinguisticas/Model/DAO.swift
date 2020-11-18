@@ -61,6 +61,7 @@ class DAO: ObservableObject {
             for membro in sala.membros {
                 if (membro.usuario.id == id) {
                     salasWithout.removeAll(where: {$0.id == sala.id})
+                    break
                 }
             }
         }
