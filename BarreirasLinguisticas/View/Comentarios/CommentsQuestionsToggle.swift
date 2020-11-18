@@ -53,6 +53,7 @@ struct CallQuestions: View {
     @State private var newComment: String = ""
     @State private var askApagaPergunta = false
     @State private var askReport = false
+    @State private var reported = false
     
     var body: some View {
         VStack{
@@ -125,23 +126,22 @@ struct CallQuestions: View {
                                     Button(action: {
                                         askReport.toggle()
                                     }){
-                                        Image(systemName: "exclamationmark.circle")
-//                                            .padding(.horizontal)
+                                        Image(systemName: reported ? "exclamationmark.circle.fill" : "exclamationmark.circle")
                                             .imageScale(.large)
                                         
                                     }.alert(isPresented: $askReport) {
                                         Alert(
-                                            title: Text("Report this question?"),
-                                            primaryButton: .default(Text("Report")){
+                                            title: Text(reported ? "Dismiss report?" : "If you report then the admins of the room will be able to delete this question"),
+                                            primaryButton: .default(Text(reported ? "Yes" : "Report")){
+                                                report(comment)
                                             },
                                             secondaryButton: .cancel())
                                     }
-//                                    .padding(.leading)
-                                    
                                     Spacer()
                                 }
-                                
                                 Divider()
+                            }.onAppear{
+                                loadReport(of: comment)
                             }
                         }
                     }
@@ -151,8 +151,19 @@ struct CallQuestions: View {
                 }
             } //else
         }//VStack
-            .onAppear {self.loadQuestions()}
+            .onAppear {
+                self.loadQuestions()
+            }
     } //body
+    
+    func report(_ question: Comentario){
+        question.updateReportStatus(membro: membro)
+        reported = question.denuncias.contains(membro.id)
+    }
+    
+    func loadReport(of question: Comentario){
+        reported = question.denuncias.contains(membro.id)
+    }
     
     func apagaPergunta(id: String){
         post.apagaPergunta(id: id)
@@ -182,6 +193,7 @@ struct CallComments: View {
     @State private var textFieldMinHeight: CGFloat = 50
     @State private var askApagaComentario = false
     @State private var askReport = false
+    @State private var reported = false
     
     var body: some View {
         VStack {
@@ -255,21 +267,25 @@ struct CallComments: View {
                                      Button(action: {
                                          askReport.toggle()
                                      }){
-                                         Image(systemName: "exclamationmark.circle")
+                                        
+                                         Image(systemName: reported ? "exclamationmark.circle.fill" : "exclamationmark.circle")
                                              .imageScale(.large)
                                          
                                      }.alert(isPresented: $askReport) {
-                                         Alert(
-                                             title: Text("Report this comment?"),
-                                             primaryButton: .default(Text("Report")){
-                                             },
-                                             secondaryButton: .cancel())
+                                        Alert(
+                                            title: Text(reported ? "Dismiss report?" : "If you report then the admins of the room will be able to delete this question"),
+                                            primaryButton: .default(Text(reported ? "Yes" : "Report")){
+                                                report(comment)
+                                            },
+                                            secondaryButton: .cancel())
                                      }
                                     
                                     Spacer()
                                 }
                                 
                                 Divider()
+                            }.onAppear{
+                                loadReport(of: comment)
                             }
                         }
                     }
@@ -280,6 +296,15 @@ struct CallComments: View {
         } //VStack
         .onAppear {self.loadComments()}
     } //body
+    
+    func report(_ comment: Comentario){
+        comment.updateReportStatus(membro: membro)
+        reported = comment.denuncias.contains(membro.id)
+    }
+    
+    func loadReport(of comentario: Comentario){
+        reported = comentario.denuncias.contains(membro.id)
+    }
     
     func apagaComentario(id: String){
         post.apagaComentario(id: id)

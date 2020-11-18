@@ -98,6 +98,7 @@ struct CKManager {
             let id_publicador = comentarioDictionary["id_publicador"] as! String
             let is_question = comentarioDictionary["is_question"] as! Int == 1 ? true : false
             let votos = comentarioDictionary["votos"] as? [String] ?? []
+            let denuncias = comentarioDictionary["denuncias"] as? [String] ?? []
             
             let publicador = membros.filter({$0.id == id_publicador})
             
@@ -108,6 +109,7 @@ struct CKManager {
                 is_question: is_question
             )
             comentario.votos = votos
+            comentario.denuncias = denuncias
             comentario.id = recordName
             return comentario
         }
@@ -1008,6 +1010,8 @@ extension CKManager {
             if let fetchedComentarioRecord = fetchedRecord {
                 // PREPARA OS DADOS
                 fetchedComentarioRecord["votos"] = comentario.votos
+                fetchedComentarioRecord["denuncias"] = comentario.denuncias
+                
                 publicDB.save(fetchedComentarioRecord) { (savedRecord, error2) in
                     if let error2 = error2 {
                         completion(.failure(error2))

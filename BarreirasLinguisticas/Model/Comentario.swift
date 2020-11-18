@@ -15,6 +15,7 @@ class Comentario: Identifiable, ObservableObject {
     @Published var conteudo: String
     @Published var is_question: Bool
     @Published var votos: [String] = []
+    @Published var denuncias: [String] = []
     
     init(post: String, publicador: Membro, conteudo: String, is_question: Bool) {
         self.post = post
@@ -52,6 +53,24 @@ class Comentario: Identifiable, ObservableObject {
             }
         }
         return false
+    }
+    
+    func updateReportStatus(membro: Membro){
+        if !denuncias.contains(membro.id) {
+            denuncias.append(membro.id)
+        }
+        else {
+            denuncias.removeAll(where: {$0 == membro.id})
+        }
+        CKManager.modifyComentario(comentario: self) { (result) in
+            switch result {
+                case .success(_):
+                    break
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
+        }
     }
     
 }
