@@ -49,7 +49,7 @@ struct OnboardView: View {
                         .frame(width: 250.0, height: 40.0)
                         .foregroundColor(.black)
                     
-                    Text("Get started")
+                    Text("Enter with Apple ID")
                         .foregroundColor(.white)
                 }
             }
