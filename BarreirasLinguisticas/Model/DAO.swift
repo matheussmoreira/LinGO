@@ -56,36 +56,20 @@ class DAO: ObservableObject {
     }
     
     func getSalasWithoutUser(id: String?) -> [Sala] {
-        var salasWithout: [Sala] = []
+        var salasWithout = salas
         for sala in salas {
             for membro in sala.membros {
-                if (membro == sala.membros.last! && membro.usuario.id != id) {
-                    salasWithout.append(sala)
+                if (membro.usuario.id == id) {
+                    salasWithout.removeAll(where: {$0.id == sala.id})
                 }
             }
         }
         return salasWithout
     }
     
-//    func getUsuario(id: String) -> Usuario? {
-//        for user in self.usuarios {
-//            if (id == user.id) { return user }
-//        }
-//        return nil
-//    }
-    
     func addNovaSala(_ sala: Sala){
         self.salas.append(sala)
     }
-    
-//    func addNovoUsuario(_ usuario: Usuario?){
-//        if let usuario = usuario {
-//            self.usuarios.append(usuario)
-//        }
-//        else {
-//            print("dao.addNovoUsuario: usuario recebido = nil")
-//        }
-//    }
     
     func editaPublicadores(usuario: Usuario){
         for sala in salas {

@@ -287,14 +287,13 @@ struct MyRoomsView: View {
     
     func alteraSalaAtual(sala: Sala){
         self.usuario.sala_atual = sala.id
+        dao.idSalaAtual = self.usuario.sala_atual
+        self.presentationMode.wrappedValue.dismiss()
         
         CKManager.modifyUsuario(user: self.usuario) { (result) in
             switch result {
-                case .success(let savedUser):
-                    DispatchQueue.main.async {
-                        dao.idSalaAtual = savedUser.sala_atual
-                        self.presentationMode.wrappedValue.dismiss()
-                    }
+                case .success(_):
+                    break
                 case .failure(let error):
                     print(#function)
                     print(error)
@@ -404,14 +403,13 @@ struct AvailableRoomsView: View {
     
     func alteraSalaAtual(sala: Sala){
         self.usuario.sala_atual = sala.id
+        dao.idSalaAtual = self.usuario.sala_atual
+        self.presentationMode.wrappedValue.dismiss()
         
         CKManager.modifyUsuario(user: self.usuario) { (result) in
             switch result {
-                case .success(let savedUser):
-                    DispatchQueue.main.async {
-                        dao.idSalaAtual = savedUser.sala_atual
-                        self.presentationMode.wrappedValue.dismiss()
-                    }
+                case .success(_):
+                    break
                 case .failure(let error):
                     print(#function)
                     print(error)

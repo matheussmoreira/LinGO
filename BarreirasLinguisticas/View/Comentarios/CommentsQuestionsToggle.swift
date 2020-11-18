@@ -118,7 +118,7 @@ struct CallQuestions: View {
                                         Button(action: {
                                             askApagaPergunta.toggle()
                                         }){
-                                            Image(systemName: "trash.circle.fill")
+                                            Image(systemName: "trash.circle")
                                                 .padding(.leading)
                                                 .imageScale(.large)
                                             
@@ -133,7 +133,7 @@ struct CallQuestions: View {
                                         .padding(.leading)
                                     }
                                     
-                                    if !membro.isBlocked && membro.id != comment.publicador.id {
+                                    if !membro.isBlocked /*&& membro.id != comment.publicador.id */{
                                         Button(action: {
                                             askReport.toggle()
                                         }){
@@ -272,7 +272,7 @@ struct CallComments: View {
                                         Button(action: {
                                             askApagaComentario.toggle()
                                         }){
-                                            Image(systemName: "trash.circle.fill")
+                                            Image(systemName: "trash.circle")
                                                 .padding(.leading)
                                                 .imageScale(.large)
                                         }.alert(isPresented: $askApagaComentario) {
@@ -286,7 +286,7 @@ struct CallComments: View {
                                         .padding(.leading)
                                     }
                                     
-                                    if !membro.isBlocked && membro.id != comment.publicador.id {
+                                    if !membro.isBlocked /*&& membro.id != comment.publicador.id*/ {
                                         Button(action: {
                                             askReport.toggle()
                                         }){

@@ -189,6 +189,7 @@ struct ProfileView: View {
                                   },
                                   secondaryButton: .cancel())
                         }
+                        
                     }
                 }
                 .padding(.top, -645)
@@ -516,7 +517,7 @@ struct ComentarioDenunciado: View {
                 Button(action: {
                     askApagaComentario.toggle()
                 }){
-                    Image(systemName: "trash.circle.fill")
+                    Image(systemName: "trash.circle")
                         .padding(.leading)
                         .imageScale(.large)
                 }.alert(isPresented: $askApagaComentario) {
@@ -532,7 +533,7 @@ struct ComentarioDenunciado: View {
             }
             
             Divider()
-        }.padding(.all)
+        }.padding(.leading)
     }
     
     func apagaComentario(_ comentario: Comentario){
