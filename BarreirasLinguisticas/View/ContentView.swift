@@ -11,16 +11,16 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var dao: DAO
     @Binding var enterMode: EnterMode
-    @Binding var usuario_atual: Usuario?
+    @Binding var usuarioAtual: Usuario?
     @State private var showAlertLogOut = false
     @State private var showRooms = false
     @State private var showProfile = false
-    var sala_atual: Sala? {
-        return dao.getSala(id: dao.sala_atual ?? "")
+    var salaAtual: Sala? {
+        return dao.getSala(id: dao.idSalaAtual ?? "")
     }
-    var membro: Membro? {
-        if let membro = sala_atual!.getMembro(id: usuario_atual!.id) {
-            membro.usuario = dao.usuario_atual!
+    var membroAtual: Membro? {
+        if let membro = salaAtual!.getMembroByUser(id: usuarioAtual!.id) {
+            membro.usuario = dao.usuarioAtual!
             return membro
         } else {
             return nil
@@ -29,28 +29,28 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            if sala_atual != nil && membro != nil {
+            if salaAtual != nil && membroAtual != nil {
                 //MARK: -  TABVIEW
                 TabView() {
                     DiscoverView()
-                        .environmentObject(membro!)
-                        .environmentObject(sala_atual!)
+                        .environmentObject(membroAtual!)
+                        .environmentObject(salaAtual!)
                         .environmentObject(dao)
                         .tabItem {
                             Image(systemName: "rectangle.on.rectangle.angled")
                             Text("Discover")
                         }
                     CategoriesView()
-                        .environmentObject(membro!)
-                        .environmentObject(sala_atual!)
+                        .environmentObject(membroAtual!)
+                        .environmentObject(salaAtual!)
                         .environmentObject(dao)
                         .tabItem {
                             Image(systemName: "circle.grid.2x2")
                             Text("Categories")
                         }
                     ProfileView(enterMode: $enterMode)
-                        .environmentObject(membro!)
-                        .environmentObject(sala_atual!)
+                        .environmentObject(membroAtual!)
+                        .environmentObject(salaAtual!)
                         .environmentObject(dao)
                         .tabItem {
                             Image(systemName: "person")
@@ -60,7 +60,7 @@ struct ContentView: View {
             }
             else {
                 EmptyRoom(
-                    usuario: usuario_atual!,
+                    usuario: usuarioAtual!,
                     showRooms: $showRooms,
                     showProfile: $showProfile,
                     showAlertLogOut: $showAlertLogOut,

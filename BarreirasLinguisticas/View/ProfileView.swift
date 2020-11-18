@@ -177,7 +177,6 @@ struct ProfileView: View {
                             Alert(title: Text("Are you sure you want to log out?"),
                                   primaryButton: .default(Text("Log out")) {
                                     self.enterMode = .logOut
-                                    print("Escreveu logged out")
                                     UserDefaults.standard.set(
                                         enterMode.rawValue,
                                         forKey: "LastEnterMode"
@@ -295,7 +294,7 @@ struct ProfileView: View {
             switch result {
                 case .success(let modifiedUser):
                     DispatchQueue.main.async {
-                        dao.sala_atual = modifiedUser.sala_atual
+                        dao.idSalaAtual = modifiedUser.sala_atual
                     }
                 case .failure(let error):
                     print(#function)

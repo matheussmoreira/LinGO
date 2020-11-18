@@ -292,7 +292,7 @@ struct MyRoomsView: View {
             switch result {
                 case .success(let savedUser):
                     DispatchQueue.main.async {
-                        dao.sala_atual = savedUser.sala_atual
+                        dao.idSalaAtual = savedUser.sala_atual
                         self.presentationMode.wrappedValue.dismiss()
                     }
                 case .failure(let error):
@@ -409,7 +409,7 @@ struct AvailableRoomsView: View {
             switch result {
                 case .success(let savedUser):
                     DispatchQueue.main.async {
-                        dao.sala_atual = savedUser.sala_atual
+                        dao.idSalaAtual = savedUser.sala_atual
                         self.presentationMode.wrappedValue.dismiss()
                     }
                 case .failure(let error):

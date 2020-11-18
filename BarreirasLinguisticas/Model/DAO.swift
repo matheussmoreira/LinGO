@@ -12,9 +12,9 @@ var dao = DAO()
 
 class DAO: ObservableObject {
     @Published var salas: [Sala] = []
-    @Published var usuarios: [Usuario] = []
-    @Published var usuario_atual: Usuario?
-    @Published var sala_atual: String?
+//    @Published var usuarios: [Usuario] = []
+    @Published var usuarioAtual: Usuario?
+    @Published var idSalaAtual: String?
     
     fileprivate init(){
         carregaSalasFromCloud()
@@ -67,25 +67,25 @@ class DAO: ObservableObject {
         return salasWithout
     }
     
-    func getUsuario(id: String) -> Usuario? {
-        for user in self.usuarios {
-            if (id == user.id) { return user }
-        }
-        return nil
-    }
+//    func getUsuario(id: String) -> Usuario? {
+//        for user in self.usuarios {
+//            if (id == user.id) { return user }
+//        }
+//        return nil
+//    }
     
     func addNovaSala(_ sala: Sala){
         self.salas.append(sala)
     }
     
-    func addNovoUsuario(_ usuario: Usuario?){
-        if let usuario = usuario {
-            self.usuarios.append(usuario)
-        }
-        else {
-            print("dao.addNovoUsuario: usuario recebido = nil")
-        }
-    }
+//    func addNovoUsuario(_ usuario: Usuario?){
+//        if let usuario = usuario {
+//            self.usuarios.append(usuario)
+//        }
+//        else {
+//            print("dao.addNovoUsuario: usuario recebido = nil")
+//        }
+//    }
     
     func editaPublicadores(usuario: Usuario){
         for sala in salas {

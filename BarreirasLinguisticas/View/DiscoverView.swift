@@ -13,6 +13,7 @@ struct DiscoverView: View {
     @EnvironmentObject var membro: Membro
     @EnvironmentObject var sala: Sala
     @State private var fyPosts: [Post] = []
+    @State private var recentPosts: [Post] = []
     @State private var mensagem = ""
     @State private var showPostEditor = false
     @State private var showRooms = false
@@ -56,7 +57,7 @@ struct DiscoverView: View {
                     Spacer()
                 }
                 
-                if sala.posts.isEmpty {
+                if recentPosts.isEmpty {
                     VStack {
                         Text("No recent posts 😕")
                             .foregroundColor(Color.gray)
@@ -65,29 +66,34 @@ struct DiscoverView: View {
                 else {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 1){
-                            ForEach(sala.posts.suffix(7).reversed()){ post in
-                                if !self.fyPosts.contains(post){
-                                    CardsView(post: post, sala: self.sala)
-                                        .environmentObject(self.membro)
-                                }
+                            ForEach(recentPosts.suffix(7).reversed()){ post in
+                                CardsView(post: post, sala: self.sala)
+                                    .environmentObject(self.membro)
                             }
                         }
                     }
                 }
             }
-            .onAppear { self.loadFY() }
+            .onAppear {
+//                print(membro.id)
+                self.loadFY()
+                self.loadRecentPosts()
+            }
             .navigationBarTitle("Discover")
             .navigationBarItems(
-                leading:
-                    Button(action: {self.showRooms.toggle()}) {
-                        Image(systemName: "rectangle.grid.1x2")
-                            .imageScale(.large)
-                            .foregroundColor(LingoColors.lingoBlue)
-                    }
-                    .sheet(isPresented: $showRooms) {
-                        RoomsView(usuario: self.membro.usuario)
-                            .environmentObject(self.dao)
-                    },
+//                leading:
+//                    Button(action: {self.showRooms.toggle()}) {
+//                        Image(systemName: "rectangle.grid.1x2")
+//                            .imageScale(.large)
+//                            .foregroundColor(LingoColors.lingoBlue)
+//                    }
+//                    .sheet(isPresented: $showRooms, onDismiss: {
+//                        self.loadFY()
+//                        self.loadRecentPosts()
+//                    }) {
+//                        RoomsView(usuario: self.membro.usuario)
+//                            .environmentObject(self.dao)
+//                    },
                 trailing:
                     HStack {
                         Spacer()
@@ -113,12 +119,17 @@ struct DiscoverView: View {
     func loadFY() {
         fyPosts = []
         for assinatura in membro.assinaturas {
-            for post in sala.getPostsByCategorie(categ: assinatura) {
-                if !fyPosts.contains(post) {
-                    fyPosts.append(post)
-                }
-            }
+            fyPosts.append(
+                contentsOf: sala.getPostsByCategorie(categ: assinatura)
+            )
         }
+    }
+    
+    func loadRecentPosts() {
+        recentPosts = []
+        recentPosts.append(
+            contentsOf: sala.posts.filter({!fyPosts.contains($0)})
+        )
     }
     
 }

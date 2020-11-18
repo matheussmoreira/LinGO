@@ -126,7 +126,7 @@ struct EditProfileView: View {
         )
         self.usuario.url_foto = url
         
-        dao.usuario_atual = self.usuario
+        dao.usuarioAtual = self.usuario
         dao.editaPublicadores(usuario: self.usuario)
         self.presentationMode.wrappedValue.dismiss()
         

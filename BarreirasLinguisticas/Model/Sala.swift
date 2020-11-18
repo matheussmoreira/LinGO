@@ -23,7 +23,7 @@ class Sala: Identifiable, ObservableObject {
     }
     
     //MARK: - FUNCOES GET
-    func getMembro(id: String?) -> Membro? {
+    func getMembroByUser(id: String?) -> Membro? {
         for membro in self.membros {
             if (id == membro.usuario.id) { return membro }
         }
@@ -31,7 +31,7 @@ class Sala: Identifiable, ObservableObject {
     }
     
     func getNovoMembro(id id_membro: String?, usuario: Usuario, is_admin: Bool) -> Membro? {
-        if getMembro(id: usuario.id) == nil { //para nao adicionar membro repetido
+        if getMembroByUser(id: usuario.id) == nil { //para nao adicionar membro repetido
             let membro = Membro(usuario: usuario, idSala: self.id, is_admin: is_admin)
             return membro
         }
@@ -96,7 +96,7 @@ class Sala: Identifiable, ObservableObject {
     //MARK: - NOVOS OBJETOS
     
     func novoMembro(id id_membro: String?, usuario: Usuario, is_admin: Bool) {
-        if getMembro(id: usuario.id) == nil { //para nao adicionar membro repetido
+        if getMembroByUser(id: usuario.id) == nil { //para nao adicionar membro repetido
             let membro = Membro(usuario: usuario, idSala: self.id, is_admin: is_admin)
             self.membros.append(membro)
         }
@@ -113,7 +113,7 @@ class Sala: Identifiable, ObservableObject {
     func preparaNovoPost(publicador id_membro: String?, titulo: String, descricao: String?, linkString: String, categs: [String], tags: String) {
         print(#function)
         
-        guard let membro = getMembro(id: id_membro) else {
+        guard let membro = getMembroByUser(id: id_membro) else {
             print("Sala novoPost: Impossível criar o post pois o membro publicador não existe")
             return
         }
@@ -186,7 +186,7 @@ class Sala: Identifiable, ObservableObject {
     }
     
     func novoComentario(id: Int, publicador id_publicador: String?, post id_post: String, conteudo: String, is_question: Bool) {
-        if let publicador = getMembro(id: id_publicador), let post = getPost(id: id_post)  {
+        if let publicador = getMembroByUser(id: id_publicador), let post = getPost(id: id_post)  {
             post.novoComentario(publicador: publicador, conteudo: conteudo, is_question: is_question)
         }
         else {
@@ -195,7 +195,7 @@ class Sala: Identifiable, ObservableObject {
     }
     
     func novaAssinatura(membro id_membro: String?, categoria: String) {
-        let membro = getMembro(id: id_membro)
+        let membro = getMembroByUser(id: id_membro)
         let categ = getCategoria(id: categoria)
         
         membro?.assinaCategoria(categoria: categ?.id)

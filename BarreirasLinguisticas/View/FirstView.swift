@@ -30,13 +30,13 @@ struct FirstView: View {
                 }
                 
             } else {
-                if daoz.usuario_atual == nil || enterMode == .logOut {
+                if daoz.usuarioAtual == nil || enterMode == .logOut {
                     OnboardView(enterMode: $enterMode)
                         .environmentObject(daoz)
                 } else {
                     ContentView(
                         enterMode: $enterMode,
-                        usuario_atual: $daoz.usuario_atual
+                        usuarioAtual: $daoz.usuarioAtual
                     )
                         .environmentObject(daoz)
                 }
@@ -61,8 +61,8 @@ struct FirstView: View {
                     switch result{
                         case .success(let fetchedUser):
                             DispatchQueue.main.async {
-                                dao.usuario_atual = fetchedUser
-                                dao.sala_atual = fetchedUser.sala_atual
+                                dao.usuarioAtual = fetchedUser
+                                dao.idSalaAtual = fetchedUser.sala_atual
                                 carregaEnterMode()
                                 loading = false
                             }

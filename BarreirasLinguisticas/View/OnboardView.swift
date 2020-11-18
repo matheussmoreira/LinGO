@@ -82,8 +82,8 @@ struct OnboardView: View {
                     switch result{
                         case .success(let fetchedUser):
                             DispatchQueue.main.async {
-                                dao.usuario_atual = fetchedUser
-                                dao.sala_atual = fetchedUser.sala_atual
+                                dao.usuarioAtual = fetchedUser
+                                dao.idSalaAtual = fetchedUser.sala_atual
                                 enterMode = .logIn
                                 UserDefaults.standard.set(
                                     enterMode.rawValue,
