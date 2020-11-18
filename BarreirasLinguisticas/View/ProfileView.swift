@@ -177,6 +177,7 @@ struct ProfileView: View {
                             Alert(title: Text("Are you sure you want to log out?"),
                                   primaryButton: .default(Text("Log out")) {
                                     self.enterMode = .logOut
+                                    print("Escreveu logged out")
                                     UserDefaults.standard.set(
                                         enterMode.rawValue,
                                         forKey: "LastEnterMode"

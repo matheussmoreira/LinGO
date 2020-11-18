@@ -296,8 +296,17 @@ class Sala: Identifiable, ObservableObject {
     }
     
     func excluiCategoria(_ categ: Categoria) {
-        categorias.removeAll(where: {$0.id == categ.id})
         CKManager.deleteRecord2(recordName: categ.id)
+        categorias.removeAll(where: {$0.id == categ.id})
+        CKManager.modifySalaCategorias(sala: self) { (result) in
+            switch result {
+                case .success(_):
+                    break
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
+        }
     }
     
     private func removePostSalaMembro(id_post: String, membro: Membro){
