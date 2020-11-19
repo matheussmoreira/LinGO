@@ -139,6 +139,7 @@ struct CallQuestions: View {
                                         }){
                                             Image(systemName: reported ? "exclamationmark.circle.fill" : "exclamationmark.circle")
                                                 .imageScale(.large)
+                                                .padding(.leading)
                                             
                                         }.alert(isPresented: $askReport) {
                                             Alert(
@@ -150,7 +151,7 @@ struct CallQuestions: View {
                                         }
                                     }
                                     Spacer()
-                                }
+                                }.padding(.leading)
                                 Divider()
                             }.onAppear{
                                 loadReport(of: comment)
@@ -292,6 +293,7 @@ struct CallComments: View {
                                         }){
                                             Image(systemName: reported ? "exclamationmark.circle.fill" : "exclamationmark.circle")
                                                 .imageScale(.large)
+                                                .padding(.leading)
                                             
                                         }.alert(isPresented: $askReport) {
                                            Alert(
@@ -303,7 +305,7 @@ struct CallComments: View {
                                         }
                                     }
                                     Spacer()
-                                }
+                                }.padding(.leading)
                                 
                                 Divider()
                             }.onAppear{
