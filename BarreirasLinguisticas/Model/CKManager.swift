@@ -44,8 +44,8 @@ struct CKManager {
 //            print("Returning usuario from dictionary")
             return usuario
         }
-        print(#function)
-        print("usuarioDictionary is nil")
+//        print(#function)
+//        print("usuarioDictionary is nil")
         return nil
     }
     
@@ -90,8 +90,8 @@ struct CKManager {
 //            print("Returning membro from dictionary")
             return membro
         }
-        print(#function)
-        print("membroDictionary is nil")
+//        print(#function)
+//        print("membroDictionary is nil")
         return nil
     }
     
@@ -113,8 +113,8 @@ struct CKManager {
             return categoria
             
         }
-        print(#function)
-        print("categDictionary is nil")
+//        print(#function)
+//        print("categDictionary is nil")
         return nil
     }
     
@@ -304,7 +304,7 @@ extension CKManager {
 //    }
     
     static func fetchUsuario(recordName: String, completion: @escaping (Result<Usuario, Error>) -> ()) {
-        print(#function)
+//        print(#function)
         
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: recordName)) { (record, error) in
@@ -427,6 +427,8 @@ extension CKManager {
 //        print(#function)
 //        print("Getting salaRecordName")
         
+//        let salaRecordAsDictionary = salaRecord.asDictionary
+        
         guard let salaRecordName = salaRecord.asDictionary["recordName"] as? String else {
             print(#function)
             print("Erro ao capturar o recordName de uma sala")
@@ -490,17 +492,18 @@ extension CKManager {
                     print("Nao adquiriu post do dicionario!")
                 }
             }
-        } else {
+        }
+//        else {
 //            print(#function)
 //            print("Problema no cast dos posts da sala \(salaNome)")
-        }
+//        }
         
 //        print("Building sala object")
         let sala = Sala(id: salaRecordName, nome: salaNome)
         sala.membros.append(contentsOf: membros)
         sala.categorias.append(contentsOf: categorias)
         sala.posts.append(contentsOf: posts)
-        print("Returning sala \(salaNome)")
+        print("Returning sala \(salaNome)\n")
         return sala
     }
     
