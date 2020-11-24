@@ -44,7 +44,6 @@ struct FirstView: View {
         }
         .onAppear{
             buscaUsuario()
-            
         }
     } //body
     
