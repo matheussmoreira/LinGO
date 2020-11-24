@@ -32,9 +32,12 @@ class Usuario: Equatable, Identifiable, ObservableObject {
         }
     }
     
-    init(nome: String?, foto_perfil: UIImage?,fluencia_ingles: Fluencia?) {
+    init(nome: String?, foto_perfil: Data?,fluencia_ingles: Fluencia?) {
+        print("Setando o nome do objeto do usuario")
         self.nome = nome ?? "<nome>"
-        self.foto_perfil = foto_perfil?.pngData() ?? UIImage(named: "perfil")!.pngData()
+        print("Setando a foto do objeto do usuario")
+        self.foto_perfil = foto_perfil ?? UIImage(named: "perfil")!.pngData()
+        print("Setando a fluencia do objeto do usuario")
         self.fluencia_ingles = fluencia_ingles?.rawValue ?? Fluencia.unknown.rawValue
     }
     

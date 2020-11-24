@@ -14,86 +14,108 @@ import UIKit
 struct CKManager {
     
     private static func getUserFromDictionary(_ userDictionaryOpt: Dictionary<String, Any>?) -> Usuario? {
+        print("Entrou na função getUserFromDicionary")
         if let usuarioDictionary = userDictionaryOpt {
+            print("Vai pegar recordName do usuario")
             let id = usuarioDictionary["recordName"] as! String
+            print("Vai pegar nome do usuario")
             let nome = usuarioDictionary["nome"] as? String
+            print("Vai pegar fluencia do usuario")
             let fluencia = Usuario.pegaFluencia(
                 nome: usuarioDictionary["fluencia_ingles"] as! String
             )
-            let foto: UIImage
-            if let fotoData = usuarioDictionary["foto_perfil"] as? Data {
-                foto = UIImage(data: fotoData)!
-            } else {
-                foto = UIImage(named: "perfil")!
-            }
+            print("Vai pegar foto do usuario")
+//            let foto: UIImage
+            let fotoData = usuarioDictionary["foto_perfil"] as? Data
+//            if let fotoData = usuarioDictionary["foto_perfil"] as? Data {
+//                foto = UIImage(data: fotoData)!
+//            } else {
+//                foto = UIImage(named: "perfil")!
+//            }
             
+            print("Montando objeto usuario de nome \(String(describing: nome))")
             let usuario = Usuario(
                 nome: nome,
-                foto_perfil: foto,
+                foto_perfil: fotoData/*foto*/,
                 fluencia_ingles: fluencia
             )
+            print("Setando id do usuario")
             usuario.id = id
-            
+            print("Returning usuario from dictionary")
             return usuario
-        } else {
-            print(#function)
-            print("usuarioDictionary is nil")
         }
+        print(#function)
+        print("usuarioDictionary is nil")
         return nil
     }
     
     private static func getMembroFromDictionary(_ membroDictionaryOpt: Dictionary<String, Any>?) -> Membro? {
+        print("Entrou na função getMembroFromDictionary")
         if let membroDictionary = membroDictionaryOpt {
+            print("Vai pegar usuario do dicionario")
             let usuario = getUserFromDictionary( membroDictionary["usuario"]! as? Dictionary<String,Any>)
             
+            print("Vai pegar recordName")
             let recordName = membroDictionary["recordName"] as! String
+            print("Vai pegar idSala")
             let idSala = membroDictionary["idSala"] as! String
+            print("Vai pegar admin")
             let admin = membroDictionary["is_admin"] as! Int
+            print("Vai pegar publicados")
             let publicados = membroDictionary["posts_publicados"] as? [String] ?? []
+            print("Vai pegar salvos")
             let salvos = membroDictionary["posts_salvos"] as? [String] ?? []
+            print("Vai pegar assinaturas")
             let assinaturas = membroDictionary["assinaturas"] as? [String] ?? []
+            print("Vai pegar blocked")
             let blocked = membroDictionary["isBlocked"] as? Int ?? 0
             
+            print("Conversão do is_admin")
             let is_admin: Bool
             if admin == 1 { is_admin = true }
                 else { is_admin = false }
             
+            print("Conversão do is_blocked")
             let is_blocked: Bool
             if blocked == 1 { is_blocked = true }
                 else { is_blocked = false }
             
+            print("Montando objeto do membro")
             let membro = Membro(usuario: usuario!, idSala: idSala, is_admin: is_admin)
             membro.id = recordName
             membro.isBlocked = is_blocked
             membro.posts_publicados = publicados
             membro.posts_salvos = salvos
             membro.assinaturas = assinaturas
+            print("Returning membro from dictionary")
             return membro
-        
-        } else {
-            print(#function)
-            print("membroDictionary is nil")
         }
+        print(#function)
+        print("membroDictionary is nil")
         return nil
     }
     
     private static func getCategoriaFromDictionary(_ categDictionaryOpt:Dictionary<String, Any>?) -> Categoria? {
-        
+        print("Entrou na funcao getCategoriaFromDictionary")
         if let categDictionary = categDictionaryOpt {
+            print("Pegando o recordName da categoria")
             let id = categDictionary["recordName"] as! String
+            print("Pegando o nome da categoria")
             let nome = categDictionary["nome"] as! String
+            print("Pegando o tagsPosts da categoria")
             let tagsPosts = categDictionary["tagsPosts"] as? [String] ?? []
             
+            print("Montando o objeto da categoria")
             let categoria = Categoria(nome: nome)
             categoria.id = id
             categoria.tagsPosts = tagsPosts
+            print("Returning categoria from dictionary")
             return categoria
             
-        } else {
-            print(#function)
-            print("categDictionary is nil")
-            return nil
         }
+        print(#function)
+        print("categDictionary is nil")
+        return nil
     }
     
     private static func getComentarioFromDictionary(_ comentarioDictionaryOpt:Dictionary<String, Any>?, with membros: [Membro]) -> Comentario?  {
@@ -117,6 +139,7 @@ struct CKManager {
             comentario.votos = votos
             comentario.denuncias = denuncias
             comentario.id = recordName
+            print("Returning comentario from dictionary")
             return comentario
         }
         return nil
@@ -145,6 +168,7 @@ struct CKManager {
             link.titulo = titulo
             link.urlString = urlString
             link.imagem = foto
+            print("Returning link from dictionary")
             return link
         }
         return nil
@@ -196,6 +220,7 @@ struct CKManager {
                 post.perguntas = perguntas
                 post.comentarios = comentarios
                 post.id = id
+                print("Returning post from dictionary")
                 return post
                 
             }
@@ -237,46 +262,46 @@ struct CKManager {
 
 // MARK: - USUARIO
 extension CKManager {
-    static func saveUsuario(user: Usuario, completion: @escaping (Result<Usuario, Error>) -> ()) {
-        let userRecord = CKRecord(recordType: "Users")
-        userRecord["nome"] = user.nome as CKRecordValue
-        userRecord["fluencia_ingles"] = user.fluencia_ingles as CKRecordValue
-        
-        // FALTA A FOTO DE PERFIL
-        
-        CKContainer.default().publicCloudDatabase.save(userRecord) { (record, err) in
-            DispatchQueue.main.async {
-                if let err = err {
-                    completion(.failure(err))
-                    return
-                }
-                
-                if let record = record {
-                    let id = record.recordID.recordName
-                    guard let nome = record["nome"] as? String else {
-                        print("saveUser: problema ao baixar o nome")
-                        return
-                    }
-//                    guard let foto = record["foto_perfil"] as? UIImage else {
-//                        print("saveUser: problema ao baixar a foto")
+//    static func saveUsuario(user: Usuario, completion: @escaping (Result<Usuario, Error>) -> ()) {
+//        let userRecord = CKRecord(recordType: "Users")
+//        userRecord["nome"] = user.nome as CKRecordValue
+//        userRecord["fluencia_ingles"] = user.fluencia_ingles as CKRecordValue
+//
+//        // FALTA A FOTO DE PERFIL
+//
+//        CKContainer.default().publicCloudDatabase.save(userRecord) { (record, err) in
+//            DispatchQueue.main.async {
+//                if let err = err {
+//                    completion(.failure(err))
+//                    return
+//                }
+//
+//                if let record = record {
+//                    let id = record.recordID.recordName
+//                    guard let nome = record["nome"] as? String else {
+//                        print("saveUser: problema ao baixar o nome")
 //                        return
 //                    }
-                    guard let fluencia = record["fluencia_ingles"] as? String else {
-                        print("saveUser: problema ao baixar a fluencia")
-                        return
-                    }
-                    
-                    let savedUser = Usuario(
-                        nome: nome,
-                        foto_perfil: UIImage(named: "perfil")!,
-                        fluencia_ingles: Usuario.pegaFluencia(nome: fluencia))
-                    savedUser.id = id
-                    
-                    completion(.success(savedUser))
-                }
-            }
-        }
-    }
+////                    guard let foto = record["foto_perfil"] as? UIImage else {
+////                        print("saveUser: problema ao baixar a foto")
+////                        return
+////                    }
+//                    guard let fluencia = record["fluencia_ingles"] as? String else {
+//                        print("saveUser: problema ao baixar a fluencia")
+//                        return
+//                    }
+//
+//                    let savedUser = Usuario(
+//                        nome: nome,
+//                        foto_perfil: UIImage(named: "perfil")!,
+//                        fluencia_ingles: Usuario.pegaFluencia(nome: fluencia))
+//                    savedUser.id = id
+//
+//                    completion(.success(savedUser))
+//                }
+//            }
+//        }
+//    }
     
     static func fetchUsuario(recordName: String, completion: @escaping (Result<Usuario, Error>) -> ()) {
         let publicDB = CKContainer.default().publicCloudDatabase
@@ -292,18 +317,21 @@ extension CKManager {
                 let fluencia = record["fluencia_ingles"] as? String
                 let sala_atual = record["sala_atual"] as? String
                 
-                let foto: UIImage
+                var foto: Data? = nil //UIImage
                 let fotoData = FileSystem.retrieveImage(forId: id)
                 let fotoAsset = record["url_foto"] as? CKAsset
                 
                 if fotoData != nil { // Primeiro busca no disco
-                    foto = UIImage(data: fotoData!)!
+//                    foto = UIImage(data: fotoData!)!
+                    foto = fotoData
                 } else if fotoAsset != nil { // Depois busca no CK
-                    let data = NSData(contentsOf: fotoAsset!.fileURL!) as Data?
-                    foto = UIImage(data: data!)!
-                } else { // Se tudo der errado bota o placeholder
-                    foto = UIImage(named: "perfil")!
+//                    let data = NSData(contentsOf: fotoAsset!.fileURL!) as Data?
+//                    foto = UIImage(data: data!)!
+                    foto = NSData(contentsOf: fotoAsset!.fileURL!) as Data?
                 }
+//                else { // Se tudo der errado bota o placeholder
+//                    foto = UIImage(named: "perfil")!
+//                }
                 
                 let fetchedUser = Usuario(
                     nome: nome,
@@ -348,11 +376,11 @@ extension CKManager {
                         }
                         var sala_atual = savedRecord["sala_atual"] as? String
                         if sala_atual == "" { sala_atual = nil }
-                        let foto = UIImage(data: user.foto_perfil!) ?? UIImage(named: "perfil")!
+//                        let foto = UIImage(data: user.foto_perfil!) ?? UIImage(named: "perfil")!
                         
                         let savedUser = Usuario(
                             nome: nome,
-                            foto_perfil: foto,
+                            foto_perfil: user.foto_perfil /*foto*/,
                             fluencia_ingles: Usuario.pegaFluencia(nome: fluencia)
                         )
                         savedUser.id = user.id
@@ -380,6 +408,7 @@ extension CKManager {
                 completion(.failure(error))
             }
             if let loadedSalas = records {
+                print("Loaded Salas Records")
                 completion(.success(loadedSalas))
             }
         }
@@ -387,23 +416,30 @@ extension CKManager {
     
     static func getSalaFromRecord(salaRecord: CKRecord) -> Sala? {
         // RECORD NAME
+        print("")
+        print(#function)
+        print("Getting salaRecordName")
         guard let salaRecordName = salaRecord.asDictionary["recordName"] as? String else {
             print(#function)
             print("Erro ao capturar o recordName de uma sala")
             return nil
         }
         // NOME
+        print("Getting salaNome")
         guard let salaNome = salaRecord.asDictionary["nome"] as? String else {
             print(#function)
             print("Erro ao capturar o nome de uma sala")
             return nil
         }
+        print("Sala: \(salaNome)")
         // MEMBROS
+        print("Getting membrosDictionaries: Parte do guard let")
         guard let membrosDictionaries = salaRecord.asDictionary["membros"] as? Array<Optional<Dictionary<String, Any>>> else {
             print(#function)
             print("Erro no cast do vetor de membros")
             return nil
         }
+        print("Getting membrosDictionaries: Parte do for")
         var membros: [Membro] = []
         for membroDictionary in membrosDictionaries {
             if let membro = getMembroFromDictionary(membroDictionary) {
@@ -415,23 +451,28 @@ extension CKManager {
         }
         
         // CATEGORIAS
+        print("Getting categoriasDictionaries")
         var categorias: [Categoria] = []
+        print("Vai entrar no if let")
         if let categoriasDictionaries = salaRecord.asDictionary["categorias"] as? Array<Optional<Dictionary<String, Any>>> {
-            
+            print("Cast da categoria bem sucedido")
             for categoriaDictionary in categoriasDictionaries {
                 if let categ = getCategoriaFromDictionary(categoriaDictionary) {
                     categorias.append(categ)
+                    print("Adicionou categoria \(categ.nome) no vetor")
                 } else {
                     print(#function)
                     print("Nao adquiriu categoria do dicionario!")
                 }
             }
+        } else {
+            print("Problema no cast da categoria")
         }
         
         // POSTS
+        print("Getting postsDictionaries")
         var posts: [Post] = []
         if let postsDictionaries = salaRecord.asDictionary["posts"] as? Array<Optional<Dictionary<String, Any>>> {
-
             for postDictionary in postsDictionaries {
                 if let post = getPostFromDictionary(postDictionary, with: membros) {
                     posts.append(post)
@@ -442,10 +483,12 @@ extension CKManager {
             }
         }
         
+        print("Building sala object")
         let sala = Sala(id: salaRecordName, nome: salaNome)
         sala.membros.append(contentsOf: membros)
         sala.categorias.append(contentsOf: categorias)
         sala.posts.append(contentsOf: posts)
+        print("Returning sala")
         return sala
     }
     
