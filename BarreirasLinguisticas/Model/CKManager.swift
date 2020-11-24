@@ -474,10 +474,11 @@ extension CKManager {
                     print("Nao adquiriu categoria do dicionario!")
                 }
             }
-        } else {
+        }
+//        else {
 //            print(#function)
 //            print("Problema no cast das categorias da sala \(salaNome)")
-        }
+//        }
         
         // POSTS
 //        print("Getting postsDictionaries")
