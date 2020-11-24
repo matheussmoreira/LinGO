@@ -96,20 +96,20 @@ struct CKManager {
     }
     
     private static func getCategoriaFromDictionary(_ categDictionaryOpt:Dictionary<String, Any>?) -> Categoria? {
-        print("Entrou na funcao getCategoriaFromDictionary")
+//        print("Entrou na funcao getCategoriaFromDictionary")
         if let categDictionary = categDictionaryOpt {
-            print("Pegando o recordName da categoria")
+//            print("Pegando o recordName da categoria")
             let id = categDictionary["recordName"] as! String
-            print("Pegando o nome da categoria")
+//            print("Pegando o nome da categoria")
             let nome = categDictionary["nome"] as! String
-            print("Pegando o tagsPosts da categoria")
+//            print("Pegando o tagsPosts da categoria")
             let tagsPosts = categDictionary["tagsPosts"] as? [String] ?? []
             
-            print("Montando o objeto da categoria")
+//            print("Montando o objeto da categoria")
             let categoria = Categoria(nome: nome)
             categoria.id = id
             categoria.tagsPosts = tagsPosts
-            print("Returning categoria from dictionary")
+//            print("Returning categoria from dictionary")
             return categoria
             
         }
@@ -139,7 +139,7 @@ struct CKManager {
             comentario.votos = votos
             comentario.denuncias = denuncias
             comentario.id = recordName
-            print("Returning comentario from dictionary")
+//            print("Returning comentario from dictionary")
             return comentario
         }
         return nil
@@ -168,7 +168,7 @@ struct CKManager {
             link.titulo = titulo
             link.urlString = urlString
             link.imagem = foto
-            print("Returning link from dictionary")
+//            print("Returning link from dictionary")
             return link
         }
         return nil
@@ -220,7 +220,7 @@ struct CKManager {
                 post.perguntas = perguntas
                 post.comentarios = comentarios
                 post.id = id
-                print("Returning post from dictionary")
+//                print("Returning post from dictionary")
                 return post
                 
             }
@@ -304,6 +304,8 @@ extension CKManager {
 //    }
     
     static func fetchUsuario(recordName: String, completion: @escaping (Result<Usuario, Error>) -> ()) {
+        print(#function)
+        
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: recordName)) { (record, error) in
             if let error = error {
@@ -323,12 +325,17 @@ extension CKManager {
                 
                 if fotoData != nil { // Primeiro busca no disco
 //                    foto = UIImage(data: fotoData!)!
+//                    print("Foto do cache")
                     foto = fotoData
                 } else if fotoAsset != nil { // Depois busca no CK
 //                    let data = NSData(contentsOf: fotoAsset!.fileURL!) as Data?
 //                    foto = UIImage(data: data!)!
+//                    print("Foto do asset")
                     foto = NSData(contentsOf: fotoAsset!.fileURL!) as Data?
                 }
+//                else {
+//                    print("Foto = nil")
+//                }
 //                else { // Se tudo der errado bota o placeholder
 //                    foto = UIImage(named: "perfil")!
 //                }
@@ -452,29 +459,29 @@ extension CKManager {
         }
         
         // CATEGORIAS
-        print("Getting categoriasDictionaries")
+//        print("Getting categoriasDictionaries")
         var categorias: [Categoria] = []
         if let categoriasDictionaries = salaRecord.asDictionary["categorias"] as? Array<Optional<Dictionary<String, Any>>> {
-            print("Cast das categorias bem sucedido")
+//            print("Cast das categorias bem sucedido")
             for categoriaDictionary in categoriasDictionaries {
                 if let categ = getCategoriaFromDictionary(categoriaDictionary) {
                     categorias.append(categ)
-                    print("Adicionou categoria \(categ.nome) no vetor")
+//                    print("Adicionou categoria \(categ.nome) no vetor")
                 } else {
                     print(#function)
                     print("Nao adquiriu categoria do dicionario!")
                 }
             }
         } else {
-            print(#function)
-            print("Problema no cast das categorias")
+//            print(#function)
+//            print("Problema no cast das categorias da sala \(salaNome)")
         }
         
         // POSTS
-        print("Getting postsDictionaries")
+//        print("Getting postsDictionaries")
         var posts: [Post] = []
         if let postsDictionaries = salaRecord.asDictionary["posts"] as? Array<Optional<Dictionary<String, Any>>> {
-            print("Cast dos posts bem sucedido")
+//            print("Cast dos posts bem sucedido")
             for postDictionary in postsDictionaries {
                 if let post = getPostFromDictionary(postDictionary, with: membros) {
                     posts.append(post)
@@ -484,16 +491,16 @@ extension CKManager {
                 }
             }
         } else {
-            print(#function)
-            print("Problema no cast dos posts")
+//            print(#function)
+//            print("Problema no cast dos posts da sala \(salaNome)")
         }
         
-        print("Building sala object")
+//        print("Building sala object")
         let sala = Sala(id: salaRecordName, nome: salaNome)
         sala.membros.append(contentsOf: membros)
         sala.categorias.append(contentsOf: categorias)
         sala.posts.append(contentsOf: posts)
-        print("Returning sala")
+        print("Returning sala \(salaNome)")
         return sala
     }
     
