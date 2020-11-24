@@ -8,23 +8,23 @@
 
 import Foundation
 import CloudKit
-import SwiftUI
-import UIKit
+//import SwiftUI
+//import UIKit
 
 struct CKManager {
     
     private static func getUserFromDictionary(_ userDictionaryOpt: Dictionary<String, Any>?) -> Usuario? {
-        print("Entrou na função getUserFromDicionary")
+//        print("Entrou na função getUserFromDicionary")
         if let usuarioDictionary = userDictionaryOpt {
-            print("Vai pegar recordName do usuario")
+//            print("Vai pegar recordName do usuario")
             let id = usuarioDictionary["recordName"] as! String
-            print("Vai pegar nome do usuario")
+//            print("Vai pegar nome do usuario")
             let nome = usuarioDictionary["nome"] as? String
-            print("Vai pegar fluencia do usuario")
+//            print("Vai pegar fluencia do usuario")
             let fluencia = Usuario.pegaFluencia(
                 nome: usuarioDictionary["fluencia_ingles"] as! String
             )
-            print("Vai pegar foto do usuario")
+//            print("Vai pegar foto do usuario")
 //            let foto: UIImage
             let fotoData = usuarioDictionary["foto_perfil"] as? Data
 //            if let fotoData = usuarioDictionary["foto_perfil"] as? Data {
@@ -33,15 +33,15 @@ struct CKManager {
 //                foto = UIImage(named: "perfil")!
 //            }
             
-            print("Montando objeto usuario de nome \(String(describing: nome))")
+//            print("Montando objeto usuario de nome \(String(describing: nome))")
             let usuario = Usuario(
                 nome: nome,
                 foto_perfil: fotoData/*foto*/,
                 fluencia_ingles: fluencia
             )
-            print("Setando id do usuario")
+//            print("Setando id do usuario")
             usuario.id = id
-            print("Returning usuario from dictionary")
+//            print("Returning usuario from dictionary")
             return usuario
         }
         print(#function)
@@ -50,44 +50,44 @@ struct CKManager {
     }
     
     private static func getMembroFromDictionary(_ membroDictionaryOpt: Dictionary<String, Any>?) -> Membro? {
-        print("Entrou na função getMembroFromDictionary")
+//        print("Entrou na função getMembroFromDictionary")
         if let membroDictionary = membroDictionaryOpt {
-            print("Vai pegar usuario do dicionario")
+//            print("Vai pegar usuario do dicionario")
             let usuario = getUserFromDictionary( membroDictionary["usuario"]! as? Dictionary<String,Any>)
             
-            print("Vai pegar recordName")
+//            print("Vai pegar recordName")
             let recordName = membroDictionary["recordName"] as! String
-            print("Vai pegar idSala")
+//            print("Vai pegar idSala")
             let idSala = membroDictionary["idSala"] as! String
-            print("Vai pegar admin")
+//            print("Vai pegar admin")
             let admin = membroDictionary["is_admin"] as! Int
-            print("Vai pegar publicados")
+//            print("Vai pegar publicados")
             let publicados = membroDictionary["posts_publicados"] as? [String] ?? []
-            print("Vai pegar salvos")
+//            print("Vai pegar salvos")
             let salvos = membroDictionary["posts_salvos"] as? [String] ?? []
-            print("Vai pegar assinaturas")
+//            print("Vai pegar assinaturas")
             let assinaturas = membroDictionary["assinaturas"] as? [String] ?? []
-            print("Vai pegar blocked")
+//            print("Vai pegar blocked")
             let blocked = membroDictionary["isBlocked"] as? Int ?? 0
             
-            print("Conversão do is_admin")
+//            print("Conversão do is_admin")
             let is_admin: Bool
             if admin == 1 { is_admin = true }
                 else { is_admin = false }
             
-            print("Conversão do is_blocked")
+//            print("Conversão do is_blocked")
             let is_blocked: Bool
             if blocked == 1 { is_blocked = true }
                 else { is_blocked = false }
             
-            print("Montando objeto do membro")
+//            print("Montando objeto do membro")
             let membro = Membro(usuario: usuario!, idSala: idSala, is_admin: is_admin)
             membro.id = recordName
             membro.isBlocked = is_blocked
             membro.posts_publicados = publicados
             membro.posts_salvos = salvos
             membro.assinaturas = assinaturas
-            print("Returning membro from dictionary")
+//            print("Returning membro from dictionary")
             return membro
         }
         print(#function)
@@ -408,7 +408,7 @@ extension CKManager {
                 completion(.failure(error))
             }
             if let loadedSalas = records {
-                print("Loaded Salas Records")
+//                print("Loaded Salas Records")
                 completion(.success(loadedSalas))
             }
         }
@@ -418,28 +418,30 @@ extension CKManager {
         // RECORD NAME
         print("")
         print(#function)
-        print("Getting salaRecordName")
+//        print("Getting salaRecordName")
+//        print(salaRecord.asDictionary)
+        print(salaRecord.asDictionary["categorias"])
         guard let salaRecordName = salaRecord.asDictionary["recordName"] as? String else {
             print(#function)
             print("Erro ao capturar o recordName de uma sala")
             return nil
         }
         // NOME
-        print("Getting salaNome")
+//        print("Getting salaNome")
         guard let salaNome = salaRecord.asDictionary["nome"] as? String else {
             print(#function)
             print("Erro ao capturar o nome de uma sala")
             return nil
         }
-        print("Sala: \(salaNome)")
+//        print("Sala: \(salaNome)")
         // MEMBROS
-        print("Getting membrosDictionaries: Parte do guard let")
+//        print("Getting membrosDictionaries: Parte do guard let")
         guard let membrosDictionaries = salaRecord.asDictionary["membros"] as? Array<Optional<Dictionary<String, Any>>> else {
             print(#function)
             print("Erro no cast do vetor de membros")
             return nil
         }
-        print("Getting membrosDictionaries: Parte do for")
+//        print("Getting membrosDictionaries: Parte do for")
         var membros: [Membro] = []
         for membroDictionary in membrosDictionaries {
             if let membro = getMembroFromDictionary(membroDictionary) {
@@ -453,9 +455,8 @@ extension CKManager {
         // CATEGORIAS
         print("Getting categoriasDictionaries")
         var categorias: [Categoria] = []
-        print("Vai entrar no if let")
         if let categoriasDictionaries = salaRecord.asDictionary["categorias"] as? Array<Optional<Dictionary<String, Any>>> {
-            print("Cast da categoria bem sucedido")
+            print("Cast das categorias bem sucedido")
             for categoriaDictionary in categoriasDictionaries {
                 if let categ = getCategoriaFromDictionary(categoriaDictionary) {
                     categorias.append(categ)
@@ -466,13 +467,15 @@ extension CKManager {
                 }
             }
         } else {
-            print("Problema no cast da categoria")
+            print(#function)
+            print("Problema no cast das categorias")
         }
         
         // POSTS
         print("Getting postsDictionaries")
         var posts: [Post] = []
         if let postsDictionaries = salaRecord.asDictionary["posts"] as? Array<Optional<Dictionary<String, Any>>> {
+            print("Cast dos posts bem sucedido")
             for postDictionary in postsDictionaries {
                 if let post = getPostFromDictionary(postDictionary, with: membros) {
                     posts.append(post)
@@ -481,6 +484,9 @@ extension CKManager {
                     print("Nao adquiriu post do dicionario!")
                 }
             }
+        } else {
+            print(#function)
+            print("Problema no cast dos posts")
         }
         
         print("Building sala object")
