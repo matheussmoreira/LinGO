@@ -26,7 +26,7 @@ class DAO: ObservableObject {
                 case .success(let records):
                     DispatchQueue.main.async {
                         for rec in records {
-                            if rec.recordID.recordName != "5036B723-A787-4BFC-8412-3A4289918C9A"{
+                            if rec.recordID.recordName == "5036B723-A787-4BFC-8412-3A4289918C9A"{
                                 continue
                             }
                             if let sala = CKManager.getSalaFromRecord(salaRecord: rec) {

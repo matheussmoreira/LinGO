@@ -416,11 +416,10 @@ extension CKManager {
     
     static func getSalaFromRecord(salaRecord: CKRecord) -> Sala? {
         // RECORD NAME
-        print("")
-        print(#function)
+//        print("")
+//        print(#function)
 //        print("Getting salaRecordName")
-//        print(salaRecord.asDictionary)
-        print(salaRecord.asDictionary["categorias"])
+        
         guard let salaRecordName = salaRecord.asDictionary["recordName"] as? String else {
             print(#function)
             print("Erro ao capturar o recordName de uma sala")
