@@ -55,15 +55,22 @@ class Sala: Identifiable, ObservableObject {
         return categorias
     }
     
-    func getIdsCategorias(ids: [String]) -> [String] {
-        var categorias: [String] = []
-        for id in ids {
-            for categ in self.categorias {
-                if (id == categ.id) { categorias.append(categ.id) }
-            }
+    func getCategsIds(of selectedCategories: [Categoria]) -> [String] {
+        var categsId: [String] = []
+        for categ in selectedCategories {
+            categsId.append(categ.id)
         }
-        return categorias
+        return categsId
     }
+//    func getIdsCategorias(ids: [String]) -> [String] {
+//        var categorias: [String] = []
+//        for id in ids {
+//            for categ in self.categorias {
+//                if (id == categ.id) { categorias.append(categ.id) }
+//            }
+//        }
+//        return categorias
+//    }
     
     func getPost(id: String) -> Post? {
         for post in self.posts {
@@ -103,7 +110,7 @@ class Sala: Identifiable, ObservableObject {
     }
     
     func novoAdmin(membro: Membro) {
-        membro.is_admin = true
+        membro.isAdmin = true
     }
     
     func novaCategoria(_ categoria: Categoria) {
@@ -206,29 +213,29 @@ class Sala: Identifiable, ObservableObject {
     func excluiPost3(post: Post) {
         // Apaga os atributos do post
         if post.link != nil {
-            CKManager.deleteRecord2(recordName: post.link!.ckRecordName)
+            CKManager.deleteRecord(recordName: post.link!.ckRecordName)
         }
         for comentario in post.comentarios {
-            CKManager.deleteRecord2(recordName: comentario.id)
+            CKManager.deleteRecord(recordName: comentario.id)
         }
         for pergunta in post.perguntas {
-            CKManager.deleteRecord2(recordName: pergunta.id)
+            CKManager.deleteRecord(recordName: pergunta.id)
         }
-        CKManager.deleteRecord2(recordName: post.id)
+        CKManager.deleteRecord(recordName: post.id)
     }
     
     func excluiPost2(post: Post, membro: Membro) {
         // Apaga os atributos do post
         if post.link != nil {
-            CKManager.deleteRecord2(recordName: post.link!.ckRecordName)
+            CKManager.deleteRecord(recordName: post.link!.ckRecordName)
         }
         for comentario in post.comentarios {
-            CKManager.deleteRecord2(recordName: comentario.id)
+            CKManager.deleteRecord(recordName: comentario.id)
         }
         for pergunta in post.perguntas {
-            CKManager.deleteRecord2(recordName: pergunta.id)
+            CKManager.deleteRecord(recordName: pergunta.id)
         }
-        CKManager.deleteRecord2(recordName: post.id)
+        CKManager.deleteRecord(recordName: post.id)
 
         // Atualiza vetores em que este post esta
         posts.removeAll(where: { $0.id == post.id})
@@ -255,11 +262,11 @@ class Sala: Identifiable, ObservableObject {
     
     func excluiPost(post: Post, membro: Membro){
         if post.link != nil {
-            CKManager.deleteRecord(recordName: post.link!.ckRecordName) { (result) in
+            CKManager.deleteRecordCompletion(recordName: post.link!.ckRecordName) { (result) in
                 switch result {
                     case .success(_):
                         DispatchQueue.main.async {
-                            CKManager.deleteRecord(recordName: post.id) { (result2) in
+                            CKManager.deleteRecordCompletion(recordName: post.id) { (result2) in
                                 switch result2 {
                                     case .success(_):
                                         self.removePostSalaMembro(
@@ -278,7 +285,7 @@ class Sala: Identifiable, ObservableObject {
                 }
             }
         } else {
-            CKManager.deleteRecord(recordName: post.id) { (result) in
+            CKManager.deleteRecordCompletion(recordName: post.id) { (result) in
                 switch result {
                     case .success(_):
                         DispatchQueue.main.async {
@@ -296,17 +303,18 @@ class Sala: Identifiable, ObservableObject {
     }
     
     func excluiCategoria(_ categ: Categoria) {
-        CKManager.deleteRecord2(recordName: categ.id)
+        CKManager.deleteRecord(recordName: categ.id)
         categorias.removeAll(where: {$0.id == categ.id})
-        CKManager.modifySalaCategorias(sala: self) { (result) in
-            switch result {
-                case .success(_):
-                    break
-                case .failure(let error):
-                    print(#function)
-                    print(error)
-            }
-        }
+        CKManager.modifySala(self)
+//        CKManager.modifySalaCategorias(sala: self) { (result) in
+//            switch result {
+//                case .success(_):
+//                    break
+//                case .failure(let error):
+//                    print(#function)
+//                    print(error)
+//            }
+//        }
     }
     
     private func removePostSalaMembro(id_post: String, membro: Membro){

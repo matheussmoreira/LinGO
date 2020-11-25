@@ -114,7 +114,7 @@ struct CallQuestions: View {
                                 QuestionRow(comentario: comment)
                                     .environmentObject(self.membro)
                                 HStack {
-                                    if (comment.publicador.id == membro.id) || (!comment.denuncias.isEmpty && membro.is_admin) {
+                                    if (comment.publicador.id == membro.id) || (!comment.denuncias.isEmpty && membro.isAdmin) {
                                         Button(action: {
                                             askApagaPergunta.toggle()
                                         }){
@@ -269,7 +269,7 @@ struct CallComments: View {
                                     .environmentObject(self.membro)
                                 
                                 HStack {
-                                    if (comment.publicador.id == membro.id) || (!comment.denuncias.isEmpty && membro.is_admin) {
+                                    if (comment.publicador.id == membro.id) || (!comment.denuncias.isEmpty && membro.isAdmin) {
                                         Button(action: {
                                             askApagaComentario.toggle()
                                         }){

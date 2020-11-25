@@ -153,7 +153,6 @@ struct PostCreatorView: View {
                             titulo: self.title,
                             descricao: self.description,
                             linkString: self.link,
-                            categs: [10],
                             tags: self.tags
                         )
                         self.showPublicationStatusAlert = true
@@ -189,7 +188,7 @@ struct PostCreatorView: View {
         } // Navigation View
     } //body
     
-    func publica(id_membro: String?, titulo: String, descricao: String?, linkString: String, categs: [Int], tags: String) -> String {
+    func publica(id_membro: String?, titulo: String, descricao: String?, linkString: String, tags: String) -> String {
         
         if !selectedCategories.isEmpty{
             if (titulo == "") {
@@ -205,10 +204,9 @@ struct PostCreatorView: View {
                         titulo: titulo,
                         descricao: descricao,
                         linkString: linkString,
-                        categs: getCategsId(),
+                        categs: sala.getCategsIds(of: selectedCategories),
                         tags: tags
                     )
-                    
                     self.hideKeyboard()
                     return "Success!"
                 }
@@ -219,10 +217,10 @@ struct PostCreatorView: View {
         
     }
     
-    func getCategsId() -> [String] {
+    func getCategsIds() -> [String] {
         var categsId: [String] = []
         for categ in selectedCategories {
-            categsId.append(categ.id) // as categorias existem, logo id eh nao-nulo
+            categsId.append(categ.id)
         }
         return categsId
     }

@@ -25,15 +25,7 @@ class Categoria: Equatable, Identifiable, ObservableObject {
         for tag in post.tags{
             if !self.tagsPosts.contains(tag) {
                 self.tagsPosts.append(tag)
-                CKManager.modifyCategoria(categoria: self) { (result) in
-                    switch result {
-                        case .success(_):
-                            break
-                        case .failure(let error):
-                            print(#function)
-                            print(error)
-                    }
-                }
+                CKManager.modifyCategoria(self)
             }
         }
     }
@@ -46,15 +38,7 @@ class Categoria: Equatable, Identifiable, ObservableObject {
                 }
             }
         }
-        CKManager.modifyCategoria(categoria: self) { (result) in
-            switch result {
-                case .success(_):
-                    break
-                case .failure(let error):
-                    print(#function)
-                    print(error)
-            }
-        }
+        CKManager.modifyCategoria(self)
     }
     
 }

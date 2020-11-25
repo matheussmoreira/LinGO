@@ -26,25 +26,14 @@ class Comentario: Identifiable, ObservableObject {
     
     func ganhaVoto(de membro: Membro){
         votos.append(membro.id)
-        updateVotoCK()
+        CKManager.modifyComentario(self)
     }
     
     func perdeVoto(de membro: Membro){
         votos.removeAll(where: {$0 == membro.id})
-        updateVotoCK()
+        CKManager.modifyComentario(self)
     }
     
-    func updateVotoCK(){
-        CKManager.modifyComentario(comentario: self) { (result) in
-            switch result {
-                case .success(_):
-                    break
-                case .failure(let error):
-                    print(#function)
-                    print(error)
-            }
-        }
-    }
     
     func checkVotoExists(membro: Membro) -> Bool {
         for membro_voto in votos {
@@ -62,15 +51,7 @@ class Comentario: Identifiable, ObservableObject {
         else {
             denuncias.removeAll(where: {$0 == membro.id})
         }
-        CKManager.modifyComentario(comentario: self) { (result) in
-            switch result {
-                case .success(_):
-                    break
-                case .failure(let error):
-                    print(#function)
-                    print(error)
-            }
-        }
+        CKManager.modifyComentario(self)
     }
     
 }

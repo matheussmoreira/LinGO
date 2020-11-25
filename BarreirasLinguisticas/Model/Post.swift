@@ -59,15 +59,7 @@ class Post: Equatable, Identifiable, ObservableObject {
         else {
             denuncias.removeAll(where: {$0 == membro.id})
         }
-        CKManager.modifyPost(post: self) { (result) in
-            switch result {
-                case .success(_):
-                    break
-                case .failure(let error):
-                    print(#function)
-                    print(error)
-            }
-        }
+        CKManager.modifyPost(self)
     }
 
     func novoComentario(publicador: Membro, conteudo: String, is_question: Bool) {
@@ -87,15 +79,7 @@ class Post: Equatable, Identifiable, ObservableObject {
                         if is_question { self.perguntas.append(comentario) }
                             else { self.comentarios.append(comentario) }
                         
-                        CKManager.modifyPost(post: self) { (result2) in
-                            switch result2 {
-                                case .success(_):
-                                    break
-                                case .failure(let error2):
-                                    print(#function)
-                                    print(error2)
-                            }
-                        }
+                        CKManager.modifyPost(self)
                     }
                 case .failure(let error):
                     if is_question { self.perguntas.removeLast() }
@@ -121,20 +105,10 @@ class Post: Equatable, Identifiable, ObservableObject {
     //MARK: - DELECOES
     func apagaPergunta(id: String) {
         self.perguntas.removeAll(where: { $0.id == id })
-        CKManager.deleteRecord(recordName: id) { (result) in
+        CKManager.deleteRecordCompletion(recordName: id) { (result) in
             switch result {
                 case .success(_):
-                    DispatchQueue.main.async {
-                        CKManager.modifyPost(post: self) { (result2) in
-                            switch result2 {
-                                case .success(_):
-                                    break
-                                case .failure(let error2):
-                                    print(#function)
-                                    print(error2)
-                            }
-                        }
-                    }
+                    CKManager.modifyPost(self)
                 case .failure(let error):
                     print(#function)
                     print(error)
@@ -144,20 +118,10 @@ class Post: Equatable, Identifiable, ObservableObject {
     
     func apagaComentario(id: String) {
         self.comentarios.removeAll(where: { $0.id == id })
-        CKManager.deleteRecord(recordName: id) { (result) in
+        CKManager.deleteRecordCompletion(recordName: id) { (result) in
             switch result {
                 case .success(_):
-                    DispatchQueue.main.async {
-                        CKManager.modifyPost(post: self) { (result2) in
-                            switch result2 {
-                                case .success(_):
-                                    break
-                                case .failure(let error2):
-                                    print(#function)
-                                    print(error2)
-                            }
-                        }
-                    }
+                    CKManager.modifyPost(self)
                 case .failure(let error):
                     print(#function)
                     print(error)

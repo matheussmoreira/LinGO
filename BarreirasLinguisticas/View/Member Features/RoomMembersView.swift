@@ -15,34 +15,29 @@ struct RoomMembersView: View {
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            
             VStack{
                 ForEach(sala.membros.sorted(
-                            by: { $0.usuario.nome < $1.usuario.nome })
+                    by: { $0.usuario.nome < $1.usuario.nome }
+                )
                 ) { membro_sala in
                     MemberButton(
                         sala: self.sala,
                         membro: self.membro,
                         membro_sala: membro_sala
                     )
-                } //ForEach
-            } //VStack
-        } //ScrollView
+                }
+            }
+        }
+        .frame(width: UIScreen.width)
         .navigationBarTitle(sala.nome)
-//        .navigationBarItems(trailing:
-//                                HStack {
-//                                    Image(systemName: "magnifyingglass")
-//                                        .imageScale(.large)
-//                                        .foregroundColor(LingoColors.lingoBlue)
-//                                })
     } //body
 }
 
-struct RoomMembersView_Previews: PreviewProvider {
-    static var previews: some View {
-        RoomMembersView(membro: dao.salas[0].membros[0], sala: dao.salas[0])
-    }
-}
+//struct RoomMembersView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RoomMembersView(membro: dao.salas[0].membros[0], sala: dao.salas[0])
+//    }
+//}
 
 struct MemberButton: View {
     @ObservedObject var sala: Sala
@@ -52,7 +47,7 @@ struct MemberButton: View {
     
     var body: some View {
         Button(action: {
-            if (self.membro.usuario.id != self.membro_sala.usuario.id && self.membro.is_admin && !membro.isBlocked) {
+            if (self.membro.usuario.id != self.membro_sala.usuario.id && self.membro.isAdmin && !membro.isBlocked) {
                 self.showMembro.toggle()
             }
         }) {
@@ -86,7 +81,7 @@ struct MemberButton: View {
                                     .padding(.trailing,20)
                             }
                         }
-                        else if membro_sala.is_admin {
+                        else if membro_sala.isAdmin {
                             ZStack {
                                 Capsule()
                                     .frame(width: 65.0, height: 30.0)
@@ -106,7 +101,7 @@ struct MemberButton: View {
                 message: Text(self.sala.nome),
                 buttons: [
                     .default(
-                        membro_sala.is_admin ?
+                        membro_sala.isAdmin ?
                             Text("Dismiss as admin") :
                             Text("Turn admin")
                     ){
@@ -129,7 +124,7 @@ struct MemberButton: View {
     
     func removeDaSala(sala: Sala, membro_sala: Membro){
         sala.removeMembro(membro: self.membro_sala.id)
-        CKManager.deleteRecord(recordName: self.membro_sala.id) { (result) in
+        CKManager.deleteRecordCompletion(recordName: self.membro_sala.id) { (result) in
             switch result {
                 case .success(_):
                     break

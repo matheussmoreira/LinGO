@@ -13,17 +13,17 @@ class Membro: Equatable, Identifiable, ObservableObject {
     var id: String = ""
     var usuario: Usuario
     var idSala: String
-    var is_admin: Bool
-    @Published var assinaturas: [String] = [] //id das Categorias
-    @Published var posts_salvos: [String] = [] //id dos Posts
-    @Published var posts_publicados: [String] = [] //id dos Posts
-    @Published var reports: [String] = [] //id dos denunciados
+    var isAdmin: Bool
+    @Published var idsAssinaturas: [String] = []
+    @Published var idsPostsSalvos: [String] = []
+    @Published var idsPostsPublicados: [String] = []
+    @Published var reports: [String] = []
     @Published var isBlocked = false
     
     init (usuario: Usuario, idSala: String, is_admin: Bool) {
         self.usuario = usuario
         self.idSala = idSala
-        self.is_admin = is_admin
+        self.isAdmin = is_admin
     }
     
     static func == (lhs: Membro, rhs: Membro) -> Bool {
@@ -32,43 +32,19 @@ class Membro: Equatable, Identifiable, ObservableObject {
     
     // MARK: - NOVOS
     func updateAdminStatus(){
-        is_admin.toggle()
-        CKManager.modifyMembro(membro: self) { (result) in
-            switch result {
-                case .success(_):
-                    break
-                case .failure(let error):
-                    print(#function)
-                    print(error)
-            }
-        }
+        isAdmin.toggle()
+        CKManager.modifyMembro(membro: self)
     }
     
     func updateBlockedStatus(){
         isBlocked.toggle()
-        CKManager.modifyMembro(membro: self) { (result) in
-            switch result {
-                case .success(_):
-                    break
-                case .failure(let error):
-                    print(#function)
-                    print(error)
-            }
-        }
+        CKManager.modifyMembro(membro: self)
     }
     
     func assinaCategoria(categoria categ: String?) {
         if (categ != nil) {
-            self.assinaturas.append(categ!)
-            CKManager.modifyMembro(membro: self) { (result) in
-                switch result {
-                    case .success(_):
-                        break
-                    case .failure(let error):
-                        print(#function)
-                        print(error)
-                }
-            }
+            self.idsAssinaturas.append(categ!)
+            CKManager.modifyMembro(membro: self)
         }
         else {
             print("Categoria a ser assinada inválida")
@@ -77,16 +53,8 @@ class Membro: Equatable, Identifiable, ObservableObject {
     
     func salvaPost(post: String?) {
         if (post != nil) {
-            self.posts_salvos.append(post!)
-            CKManager.modifyMembro(membro: self) { (result) in
-                switch result {
-                    case .success(_):
-                        break
-                    case .failure(let error):
-                        print(#function)
-                        print(error)
-                }
-            }
+            self.idsPostsSalvos.append(post!)
+            CKManager.modifyMembro(membro: self)
         }
         else {
             print("Post a ser salvo não definido")
@@ -95,17 +63,8 @@ class Membro: Equatable, Identifiable, ObservableObject {
     
     func publicaPost(post: String?) {
         if (post != nil) {
-            self.posts_publicados.append(post!)
-            CKManager.modifyMembro(membro: self) { (result) in
-                switch result {
-                    case .success(_):
-                        break
-                    case .failure(let error):
-                        print(#function)
-                        print(error)
-                }
-            }
-            
+            self.idsPostsPublicados.append(post!)
+            CKManager.modifyMembro(membro: self)
         }
         else { print("Post a ser publicado inválido") }
     }
@@ -114,16 +73,8 @@ class Membro: Equatable, Identifiable, ObservableObject {
     
     func removeAssinatura(categoria categ: String?) {
         if (categ != nil) {
-            self.assinaturas.removeAll(where: {$0 == categ!})
-            CKManager.modifyMembro(membro: self) { (result) in
-                switch result {
-                    case .success(_):
-                        break
-                    case .failure(let error):
-                        print(#function)
-                        print(error)
-                }
-            }
+            self.idsAssinaturas.removeAll(where: {$0 == categ!})
+            CKManager.modifyMembro(membro: self)
         }
         else {
             print("Categoria a ser removida inválida")
@@ -132,34 +83,17 @@ class Membro: Equatable, Identifiable, ObservableObject {
     
     func apagaPost(post: String?) {
         if (post != nil) {
-            posts_publicados.removeAll(where: {$0 == post})
-            CKManager.modifyMembro(membro: self) { (result) in
-                switch result {
-                    case .success(_):
-                        break
-                    case .failure(let error):
-                        print(#function)
-                        print(error)
-                }
-            }
-            
+            idsPostsPublicados.removeAll(where: {$0 == post})
+            CKManager.modifyMembro(membro: self)
         }
-        else { print("Post a ser publicado inválido") }
+        else { print("Post a ser publicado é inválido") }
     }
     
     func removePostSalvo(post: String?) {
         if (post != nil) {
             if let idx = getPostSalvoIndex(id: post!) {
-                self.posts_salvos.remove(at: idx)
-                CKManager.modifyMembro(membro: self) { (result) in
-                    switch result {
-                        case .success(_):
-                            break
-                        case .failure(let error):
-                            print(#function)
-                            print(error)
-                    }
-                }
+                self.idsPostsSalvos.remove(at: idx)
+                CKManager.modifyMembro(membro: self)
             }
             else {
                 print("Post salvo não encontrado")
@@ -173,7 +107,7 @@ class Membro: Equatable, Identifiable, ObservableObject {
     //MARK: - FUNCOES GET
     func getPostSalvoIndex(id: String?) -> Int? {
         var idx = 0
-        for salvo in posts_salvos {
+        for salvo in idsPostsSalvos {
             if salvo == id {
                 return idx
             }
@@ -186,7 +120,7 @@ class Membro: Equatable, Identifiable, ObservableObject {
     
     func getAssinaturaIndex(id: String) -> Int? {
         var idx = 0
-        for asst in assinaturas {
+        for asst in idsAssinaturas {
             if asst == id {
                 return idx
             }

@@ -246,7 +246,7 @@ struct MyRoomsView: View {
             switch result {
                 case .success(let savedSala):
                     DispatchQueue.main.async {
-                        geraPrimeiroMembro(sala: savedSala, usuario: criador)
+                        salvaMembroCriador(sala: savedSala, usuario: criador)
                     }
                 case .failure(let error):
                     print(#function)
@@ -255,7 +255,7 @@ struct MyRoomsView: View {
         }
     }
     
-    func geraPrimeiroMembro(sala savedSala: Sala, usuario criador: Usuario){
+    func salvaMembroCriador(sala savedSala: Sala, usuario criador: Usuario){
         let membro = Membro(usuario: criador, idSala: savedSala.id, is_admin: true)
         CKManager.saveMembro(membro: membro) { (result) in
             switch result {
@@ -272,33 +272,37 @@ struct MyRoomsView: View {
     
     func salaGanhaPrimeiroMembro(sala: Sala, membro: Membro){
         sala.membros.append(membro)
-        CKManager.modifySalaMembros(sala: sala) { (result) in
-            switch result {
-                case .success( _):
-                    DispatchQueue.main.async {
-                        self.dao.addNovaSala(sala)
-                    }
-                case .failure(let error):
-                    print("salaGanhaPrimeiroMembro: case.error")
-                    print(error)
-            }
-        }
+        self.dao.addNovaSala(sala)
+        CKManager.modifySala(sala)
+        
+//        CKManager.modifySalaMembros(sala: sala) { (result) in
+//            switch result {
+//                case .success( _):
+//                    DispatchQueue.main.async {
+//                        self.dao.addNovaSala(sala)
+//                    }
+//                case .failure(let error):
+//                    print("salaGanhaPrimeiroMembro: case.error")
+//                    print(error)
+//            }
+//        }
     }
     
     func alteraSalaAtual(sala: Sala){
         self.usuario.sala_atual = sala.id
         dao.idSalaAtual = self.usuario.sala_atual
         self.presentationMode.wrappedValue.dismiss()
+        CKManager.modifyUsuario(user: self.usuario)
         
-        CKManager.modifyUsuario(user: self.usuario) { (result) in
-            switch result {
-                case .success(_):
-                    break
-                case .failure(let error):
-                    print(#function)
-                    print(error)
-            }
-        }
+//        CKManager.modifyUsuarioCompletion(user: self.usuario) { (result) in
+//            switch result {
+//                case .success(_):
+//                    break
+//                case .failure(let error):
+//                    print(#function)
+//                    print(error)
+//            }
+//        }
     }
 }
 
@@ -397,33 +401,27 @@ struct SearchRoomsView: View {
     
     func salaGanhaNovoMembro(sala: Sala, membro: Membro){
         sala.membros.append(membro)
-        CKManager.modifySalaMembros(sala: sala) { (result) in
-            switch result {
-                case .success( _):
-                    DispatchQueue.main.async {
-                        alteraSalaAtual(sala: sala)
-                    }
-                    
-                case .failure(let error):
-                    print(#function)
-                    print(error)
-            }
-        }
+        alteraSalaAtual(sala: sala)
+        CKManager.modifySala(sala)
+        
+//        CKManager.modifySalaMembros(sala: sala) { (result) in
+//            switch result {
+//                case .success( _):
+//                    DispatchQueue.main.async {
+//                        alteraSalaAtual(sala: sala)
+//                    }
+//                    
+//                case .failure(let error):
+//                    print(#function)
+//                    print(error)
+//            }
+//        }
     }
     
     func alteraSalaAtual(sala: Sala){
         self.usuario.sala_atual = sala.id
         dao.idSalaAtual = self.usuario.sala_atual
         self.presentationMode.wrappedValue.dismiss()
-        
-        CKManager.modifyUsuario(user: self.usuario) { (result) in
-            switch result {
-                case .success(_):
-                    break
-                case .failure(let error):
-                    print(#function)
-                    print(error)
-            }
-        }
+        CKManager.modifyUsuario(user: self.usuario)
     }
 }

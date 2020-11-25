@@ -26,11 +26,13 @@ struct PostView: View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack{
-                    //AUTOR E NIVEL DE FLUENCIA
+                    
+                    //MARK: - AUTOR E NIVEL DE FLUENCIA
                     HStack {
                         Text("Shared by \(post.publicador.usuario.nome)")
                             .foregroundColor(Color.gray)
                             .lineLimit(1)
+                            .padding(.leading)
                         
                         Spacer()
                         
@@ -40,9 +42,10 @@ struct PostView: View {
                         Image(systemName: "circle.fill")
                             .imageScale(.small)
                             .foregroundColor(post.publicador.usuario.cor_fluencia)
+                            .padding(.trailing)
                     }
                     
-                    //TAGS
+                    //MARK: - TAGS
                     HStack{
                         ForEach(0..<post.tags.count) { idx in
                             Text(self.post.tags[idx])
@@ -52,15 +55,12 @@ struct PostView: View {
                     }
                     .padding(.bottom)
                     
-                    //DESCRICAO
+                    //MARK: - DESCRICAO
                     Text(post.descricao!)
                         .padding(.bottom)
                         .multilineTextAlignment(.leading)
                     
-                    //LINK PREVIEW
-                    //                    if (stored_link != nil && stored_link?.metadata != nil) {
-                    //                        LinkView(metadata: stored_link!.metadata!)
-                    //                    }
+                    //MARK: - LINK PREVIEW
                     if post.link != nil {
                         LinkPreview(link: post.link!)
                     }
@@ -83,8 +83,8 @@ struct PostView: View {
                         CommentsQuestionsToggle(post: self.post)
                             .environmentObject(self.membro)
                     }
-                    //MARK: - REPORT
                     
+                    //MARK: - REPORT
                     if !membro.isBlocked && membro.id != post.publicador.id {
                         Button(action:{
                             showAlertReport.toggle()
@@ -108,7 +108,7 @@ struct PostView: View {
                     }
                     
                     //MARK: - EXCLUIR POST
-                    if (membro.id == post.publicador.id) || (post.denuncias.count>0 && membro.is_admin) {
+                    if (membro.id == post.publicador.id) || (post.denuncias.count>0 && membro.isAdmin) {
                             Button(action: {
                                 showAlertExcluirPost.toggle()
                                 
@@ -135,9 +135,8 @@ struct PostView: View {
                     
                 } //VStack
             } //ScrollView
-            .frame(width: UIScreen.width*0.95)
+            .frame(width: UIScreen.width)
             .onAppear {
-//                self.carregaLink()
                 self.loadBookmark()
             }
             .navigationBarTitle(
@@ -159,7 +158,7 @@ struct PostView: View {
     } //body
     
     func loadBookmark() {
-        bookmarked = membro.posts_salvos.contains(post.id)
+        bookmarked = membro.idsPostsSalvos.contains(post.id)
         if bookmarked {
             bookmarkedImage = "bookmark.fill"
         }

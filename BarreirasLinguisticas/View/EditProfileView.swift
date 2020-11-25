@@ -102,7 +102,7 @@ struct EditProfileView: View {
                     },
                 trailing:
                     Button(action: {
-                        editaUsuario2()
+                        editaUsuario()
                     }){
                         Text("Save")
                     })
@@ -113,7 +113,7 @@ struct EditProfileView: View {
         }
     } //body
     
-    func editaUsuario2() {
+    func editaUsuario() {
         self.usuario.nome = self.nome == "" ? self.usuario.nome : self.nome
         self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada).rawValue
         self.usuario.foto_perfil = self.photoProfile?.asUIImage().pngData() ?? self.usuario.foto_perfil
@@ -129,18 +129,7 @@ struct EditProfileView: View {
         dao.usuarioAtual = self.usuario
         dao.editaPublicadores(usuario: self.usuario)
         self.presentationMode.wrappedValue.dismiss()
-        
-        CKManager.modifyUsuario(user: self.usuario) { (result) in
-            switch result {
-                case .success(_):
-                    DispatchQueue.main.async {
-                        print("editaUsuario: case.success")
-                    }
-                case .failure(let error):
-                    print("editaUsuario: case.error")
-                    print(error)
-            }
-        }
+        CKManager.modifyUsuario(user: self.usuario)
     }
     
 }

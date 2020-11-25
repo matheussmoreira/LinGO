@@ -45,8 +45,8 @@ struct MySavedPosts: View {
 //                        .imageScale(.large)
 //                })
         .onAppear {
-            for i in 0..<self.membro.posts_salvos.count {
-                if let postSalvo = sala.getPost(id: self.membro.posts_salvos[i]) {
+            for i in 0..<self.membro.idsPostsSalvos.count {
+                if let postSalvo = sala.getPost(id: self.membro.idsPostsSalvos[i]) {
                     self.salvos.append(postSalvo)
                 }
                 

@@ -125,7 +125,7 @@ struct DiscoverView: View {
     
     func loadFY() {
         fyPosts = []
-        for assinatura in membro.assinaturas {
+        for assinatura in membro.idsAssinaturas {
             fyPosts.append(
                 contentsOf: sala.getPostsByCategorie(categ: assinatura)
             )

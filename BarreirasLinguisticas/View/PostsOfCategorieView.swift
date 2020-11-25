@@ -118,7 +118,7 @@ struct PostsOfCategorieView: View {
     func load() {
         //categoria exist e tem id, logo os ! abaixo
         loaded_posts = sala.getPostsByCategorie(categ: categoria.id)
-        subscribed = membro.assinaturas.contains(categoria.id)
+        subscribed = membro.idsAssinaturas.contains(categoria.id)
         if subscribed {
             subscribedImage = "checkmark.circle.fill"
         }

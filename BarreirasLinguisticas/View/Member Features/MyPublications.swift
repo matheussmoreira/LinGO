@@ -15,7 +15,7 @@ struct MyPublications: View {
     
     var body: some View {
         VStack {
-            if membro.posts_publicados.isEmpty {
+            if membro.idsPostsPublicados.isEmpty {
                 Spacer()
                 Text("You haven't published any post yet 😕")
                     .foregroundColor(Color.gray)
@@ -23,8 +23,8 @@ struct MyPublications: View {
             }
             else {
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(0..<membro.posts_publicados.count) { idx in
-                        if let post_publicado = sala.getPost(id: membro.posts_publicados[idx]) {
+                    ForEach(0..<membro.idsPostsPublicados.count) { idx in
+                        if let post_publicado = sala.getPost(id: membro.idsPostsPublicados[idx]) {
                             NavigationLink(
                                 destination: PostView(
                                     sala: sala,
@@ -32,7 +32,7 @@ struct MyPublications: View {
                                 )
                                     .environmentObject(self.membro)
                             ){
-                                PostCardView(post: sala.getPost(id: membro.posts_publicados[idx])!, sala: sala, width: 0.85)
+                                PostCardView(post: sala.getPost(id: membro.idsPostsPublicados[idx])!, sala: sala, width: 0.85)
                             }
                         }
                     }

@@ -21,15 +21,12 @@ class DAO: ObservableObject {
     }
     
     func carregaSalasFromCloud(){
-        CKManager.loadSalasRecords { (result) in
+        CKManager.loadRecordsDasSalas { (result) in
             switch result {
                 case .success(let records):
                     DispatchQueue.main.async {
-                        for rec in records {
-                            if rec.recordID.recordName == "5036B723-A787-4BFC-8412-3A4289918C9A"{
-                                continue
-                            }
-                            if let sala = CKManager.getSalaFromRecord(salaRecord: rec) {
+                        for record in records {
+                            if let sala = CKManager.getSalaFromRecord(record) {
                                 self.salas.append(sala)
                             }
                         }
