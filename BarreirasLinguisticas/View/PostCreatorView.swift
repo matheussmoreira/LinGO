@@ -136,13 +136,12 @@ struct PostCreatorView: View {
                 .offset(y: -self.value)
             }//VStack
             .padding(.horizontal)
-            //                .navigationBarTitle(Text("New post!"))
             .navigationBarItems(
                 leading:
                     Text("New post")
                     .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                     .bold()
-                    .padding(.top, 32)
+                    .padding(.top, 10)
                     .onTapGesture{
                         self.hideKeyboard()
                     },
@@ -156,13 +155,13 @@ struct PostCreatorView: View {
                             tags: self.tags
                         )
                         self.showPublicationStatusAlert = true
-                        
+
                     }){
                         ZStack {
                             Capsule()
                                 .frame(width: 80, height: 40)
                                 .foregroundColor(LingoColors.lingoBlue)
-                            
+
                             Text("Go!")
                                 .bold()
                                 .font(.title)
@@ -170,7 +169,7 @@ struct PostCreatorView: View {
                             //.colorInvert()
                         }
                     }//ZStack
-                    .padding(.top, 32)
+                    .padding(.top, 10)
                     .alert(isPresented: $showPublicationStatusAlert,
                            content: {
                             Alert(title: Text(publicationStatus),
