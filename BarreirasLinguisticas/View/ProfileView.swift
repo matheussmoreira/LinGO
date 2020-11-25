@@ -235,28 +235,18 @@ struct ProfileView: View {
     
     func sai_sala(){
         sala.removeMembro(membro: self.membro.id)
-        CKManager.deleteRecord(recordName: self.membro.id) { (result) in
-            switch result {
-                case .success(_):
-                    DispatchQueue.main.async {
-                        if sala.membros.isEmpty { // Sala morre se nao tem ninguem
-                            apagaSalaFromCloud(sala: sala)
-                        } else if sala.membros.count == 1 { // Unico membro da sala deve ser admin
-                            unicoMembroIsAdmin(sala: sala)
-                        } else {
-                            self.proxima_sala()
-                        }
-                    }
-                case .failure(let error):
-                    print(#function)
-                    print(error)
-            }
+        
+        if sala.membros.isEmpty {
+            // Sala morre se nao tem ninguem
+            apagaSalaFromCloud(sala: sala)
+        } else if sala.membros.count == 1 {
+            // Unico membro da sala deve ser admin
+            unicoMembroIsAdmin(sala: sala)
+        } else {
+            self.proxima_sala()
         }
-    }
-    
-    func unicoMembroIsAdmin(sala: Sala) {
-        sala.membros[0].is_admin = true
-        CKManager.modifyMembro(membro: sala.membros[0]) { (result) in
+        
+        CKManager.deleteRecord(recordName: self.membro.id) { (result) in
             switch result {
                 case .success(_):
                     break
@@ -285,6 +275,21 @@ struct ProfileView: View {
                         }
                         self.proxima_sala()
                     }
+                case .failure(let error):
+                    print(#function)
+                    print(error)
+            }
+        }
+    }
+    
+    func unicoMembroIsAdmin(sala: Sala) {
+        sala.membros[0].is_admin = true
+        self.proxima_sala()
+        
+        CKManager.modifyMembro(membro: sala.membros[0]) { (result) in
+            switch result {
+                case .success(_):
+                    break
                 case .failure(let error):
                     print(#function)
                     print(error)
