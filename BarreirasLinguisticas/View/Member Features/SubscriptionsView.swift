@@ -42,17 +42,11 @@ struct SubscriptionsView: View {
                                     )
                             }
                         }
-                    }
+                    }.frame(width: UIScreen.width)
                 }
             }
         }
         .navigationBarTitle("Your subscriptions")
-//        .navigationBarItems(trailing:
-//                                HStack {
-//                                    Image(systemName: "magnifyingglass")
-//                                        .foregroundColor(LingoColors.lingoBlue)
-//                                        .imageScale(.large)
-//                                })
         .onAppear {
             self.assinaturas = sala.getCategorias(ids: self.membro.idsAssinaturas)
         }

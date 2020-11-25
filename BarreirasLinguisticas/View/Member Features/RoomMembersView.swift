@@ -26,9 +26,8 @@ struct RoomMembersView: View {
                         membro_sala: membro_sala
                     )
                 }
-            }
+            }.frame(width: UIScreen.width)
         }
-        .frame(width: UIScreen.width)
         .navigationBarTitle(sala.nome)
     } //body
 }

@@ -63,7 +63,6 @@ struct ProfileView: View {
                     }
                     
                     Text(sala.nome)
-                        .font(.subheadline)
                         .foregroundColor(Color.gray)
                     
                     //MARK: - POSTS PUBLICADOS
@@ -190,6 +189,11 @@ struct ProfileView: View {
                                   secondaryButton: .cancel())
                         }
                         
+                        // Pra espaçar um pouco o ultimo botao da TabBar
+                        RoundedRectangle(cornerRadius: corner)
+                            .foregroundColor(Color("cardColor"))
+                            .frame(height: btn_height/2)
+                            .frame(width: btn_width)
                     }
                 }
                 .padding(.top, -645)

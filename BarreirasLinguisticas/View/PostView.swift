@@ -14,7 +14,6 @@ struct PostView: View {
     @EnvironmentObject var membro: Membro
     @ObservedObject var sala: Sala
     @ObservedObject var post: Post
-//    @State private var stored_link: LinkPost?
     @State private var bookmarked = false
     @State private var bookmarkedImage = "bookmark"
     @State private var showComments = false
@@ -26,6 +25,15 @@ struct PostView: View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack{
+                    
+                    HStack {
+                        Text(post.titulo)
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .padding(.horizontal)
+                            .padding(.top,-50)
+                        Spacer()
+                    }
                     
                     //MARK: - AUTOR E NIVEL DE FLUENCIA
                     HStack {
@@ -54,22 +62,31 @@ struct PostView: View {
                         Spacer()
                     }
                     .padding(.bottom)
+                    .padding(.horizontal)
                     
                     //MARK: - DESCRICAO
-                    Text(post.descricao!)
-                        .padding(.bottom)
-                        .multilineTextAlignment(.leading)
+                    HStack {
+                        Text(post.descricao!)
+                            .padding(.bottom)
+                            .padding(.horizontal)
+                            .multilineTextAlignment(.leading)
+                        
+                        Spacer()
+                    }
                     
                     //MARK: - LINK PREVIEW
                     if post.link != nil {
                         LinkPreview(link: post.link!)
+                            .padding(.horizontal)
                     }
                     
                     //MARK: - COMENTARIOS
                     Button(action: {self.showComments.toggle()}) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
-                                .frame(width: UIScreen.width*0.95, height: 40.0)
+//                                .frame(width: UIScreen.width*0.95, height: 40.0)
+                                .frame(height: 40.0)
+                                .padding(.horizontal)
                                 .foregroundColor(LingoColors.lingoBlue)
                             HStack {
                                 Spacer()
@@ -91,7 +108,9 @@ struct PostView: View {
                         }) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 10)
-                                    .frame(width: UIScreen.width*0.95, height: 40.0)
+//                                    .frame(width: UIScreen.width*0.95, height: 40.0)
+                                    .frame(height: 40.0)
+                                    .padding(.horizontal)
                                     .foregroundColor(LingoColors.lingoBlue)
                                 Text(reported ? "Dismiss Report" : "Report Post")
                                     .foregroundColor(.white)
@@ -115,7 +134,9 @@ struct PostView: View {
                             }) {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 10)
-                                        .frame(width: UIScreen.width*0.95, height: 40.0)
+//                                        .frame(width: UIScreen.width*0.95, height: 40.0)
+                                        .frame(height: 40.0)
+                                        .padding(.horizontal)
                                         .foregroundColor(LingoColors.lingoBlue)
                                     
                                     Text("Delete")
@@ -134,14 +155,15 @@ struct PostView: View {
                     }
                     
                 } //VStack
+                .frame(width: UIScreen.width)
             } //ScrollView
-            .frame(width: UIScreen.width)
+            
             .onAppear {
                 self.loadBookmark()
             }
-            .navigationBarTitle(
-                Text(post.titulo)
-            )
+//            .navigationBarTitle(
+//                Text(post.titulo)
+//            )
             .padding(.horizontal)
             .navigationBarItems(
                 trailing:
