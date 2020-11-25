@@ -208,14 +208,14 @@
 		66D7AA6324CB5135001CEA3A /* BarreirasLinguisticas */ = {
 			isa = PBXGroup;
 			children = (
-				66C350342547548000E3CA26 /* LinGO!.entitlements */,
 				6644ED3824D10B340055749F /* Delegates */,
 				669B11FD256E7DA4009271C1 /* Managers */,
 				66D7AA7824CB59B3001CEA3A /* Model */,
 				66D7AA8324CB5A3C001CEA3A /* View */,
 				66D7AA6A24CB5136001CEA3A /* Assets.xcassets */,
-				66D7AA6F24CB5136001CEA3A /* LaunchScreen.storyboard */,
 				66D7AA7224CB5136001CEA3A /* Info.plist */,
+				66C350342547548000E3CA26 /* LinGO!.entitlements */,
+				66D7AA6F24CB5136001CEA3A /* LaunchScreen.storyboard */,
 				66D7AA6C24CB5136001CEA3A /* Preview Content */,
 			);
 			path = BarreirasLinguisticas;
