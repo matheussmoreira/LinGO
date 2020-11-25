@@ -30,6 +30,7 @@
 		667D8BAD24D302B4005D51F4 /* RoomsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667D8BAC24D302B4005D51F4 /* RoomsView.swift */; };
 		667D8BAF24D30469005D51F4 /* DAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667D8BAE24D30469005D51F4 /* DAO.swift */; };
 		668903A824D5B7F60062C8CA /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668903A724D5B7F60062C8CA /* PostView.swift */; };
+		669B1207256E80E4009271C1 /* AdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669B1206256E80E4009271C1 /* AdminView.swift */; };
 		66C350322547546800E3CA26 /* CloudKitMagicCRUD in Frameworks */ = {isa = PBXBuildFile; productRef = 66C350312547546800E3CA26 /* CloudKitMagicCRUD */; };
 		66C350382547548B00E3CA26 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C350372547548B00E3CA26 /* CloudKit.framework */; };
 		66C35044254768E300E3CA26 /* NewUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C35043254768E300E3CA26 /* NewUserView.swift */; };
@@ -80,6 +81,7 @@
 		667D8BAC24D302B4005D51F4 /* RoomsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsView.swift; sourceTree = "<group>"; };
 		667D8BAE24D30469005D51F4 /* DAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DAO.swift; sourceTree = "<group>"; };
 		668903A724D5B7F60062C8CA /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
+		669B1206256E80E4009271C1 /* AdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminView.swift; sourceTree = "<group>"; };
 		66C350342547548000E3CA26 /* LinGO!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "LinGO!.entitlements"; sourceTree = "<group>"; };
 		66C350372547548B00E3CA26 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		66C35043254768E300E3CA26 /* NewUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUserView.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 			children = (
 				66066F7B24EF201700021134 /* ImagePicker.swift */,
 				666A11AD255C9AD000A3B7BF /* LinkPreview.swift */,
+				6603984C24DB516800C5629B /* PostCardView.swift */,
 			);
 			path = Auxiliares;
 			sourceTree = "<group>";
@@ -260,14 +263,14 @@
 				66D7AA8624CB80F0001CEA3A /* CategoriesView.swift */,
 				6603984A24DB31A100C5629B /* PostsOfCategorieView.swift */,
 				668903A724D5B7F60062C8CA /* PostView.swift */,
-				6603984C24DB516800C5629B /* PostCardView.swift */,
 				EA6CA39E24DA00C000FAD6F6 /* PostCreatorView.swift */,
 				66D7AA8A24CB8140001CEA3A /* ProfileView.swift */,
+				EA49EC2924EEEC210030F135 /* EditProfileView.swift */,
 				665A157524DC2DE500D94359 /* MyPublications.swift */,
 				665A157724DC30A000D94359 /* MySavedPosts.swift */,
 				666C803124DCA329001A7148 /* SubscriptionsView.swift */,
-				EA49EC2924EEEC210030F135 /* EditProfileView.swift */,
 				665A157924DC315100D94359 /* RoomMembersView.swift */,
+				669B1206256E80E4009271C1 /* AdminView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 				6629EBAB24EC671D009802A5 /* Onboard.swift in Sources */,
 				EA49EC2A24EEEC210030F135 /* EditProfileView.swift in Sources */,
 				EA6CA39D24DA006600FAD6F6 /* MultilineTextField.swift in Sources */,
+				669B1207256E80E4009271C1 /* AdminView.swift in Sources */,
 				66C35044254768E300E3CA26 /* NewUserView.swift in Sources */,
 				665A157A24DC315100D94359 /* RoomMembersView.swift in Sources */,
 				66D7AA6724CB5135001CEA3A /* SceneDelegate.swift in Sources */,
