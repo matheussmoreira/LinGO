@@ -121,13 +121,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6644ED3824D10B340055749F /* Controller */ = {
+		6644ED3824D10B340055749F /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
 				66D7AA6424CB5135001CEA3A /* AppDelegate.swift */,
 				66D7AA6624CB5135001CEA3A /* SceneDelegate.swift */,
 			);
-			path = Controller;
+			path = Delegates;
 			sourceTree = "<group>";
 		};
 		6674DDF7252FACAA0044E9C7 /* Comentarios */ = {
@@ -140,17 +140,17 @@
 			path = Comentarios;
 			sourceTree = "<group>";
 		};
-		6674DDFA252FAD4D0044E9C7 /* OnboardAntigo */ = {
+		6674DDFA252FAD4D0044E9C7 /* Onboard Antigo */ = {
 			isa = PBXGroup;
 			children = (
 				6629EBAC24EC73D2009802A5 /* OnboardPageView.swift */,
 				6629EBAE24EC7442009802A5 /* OnboardViewController.swift */,
 				6629EBB024EC7EA9009802A5 /* OnboardPageIndicator.swift */,
 			);
-			path = OnboardAntigo;
+			path = "Onboard Antigo";
 			sourceTree = "<group>";
 		};
-		6674DDFD252FADE80044E9C7 /* Auxiliares */ = {
+		6674DDFD252FADE80044E9C7 /* Views Antigas */ = {
 			isa = PBXGroup;
 			children = (
 				66C35043254768E300E3CA26 /* NewUserView.swift */,
@@ -158,6 +158,23 @@
 				EA6CA39C24DA006600FAD6F6 /* MultilineTextField.swift */,
 				6675881724D3789B00C9B805 /* UsersView.swift */,
 				663C8ECF24CCB7F5000936FF /* LinkView.swift */,
+			);
+			path = "Views Antigas";
+			sourceTree = "<group>";
+		};
+		669B11FD256E7DA4009271C1 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				665BD8732553125600077679 /* CKManager.swift */,
+				664973C624E4C7BC00D01BAC /* UIManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		669B1201256E7E4E009271C1 /* Auxiliares */ = {
+			isa = PBXGroup;
+			children = (
+				66066F7B24EF201700021134 /* ImagePicker.swift */,
 				666A11AD255C9AD000A3B7BF /* LinkPreview.swift */,
 			);
 			path = Auxiliares;
@@ -192,7 +209,8 @@
 			isa = PBXGroup;
 			children = (
 				66C350342547548000E3CA26 /* LinGO!.entitlements */,
-				6644ED3824D10B340055749F /* Controller */,
+				6644ED3824D10B340055749F /* Delegates */,
+				669B11FD256E7DA4009271C1 /* Managers */,
 				66D7AA7824CB59B3001CEA3A /* Model */,
 				66D7AA8324CB5A3C001CEA3A /* View */,
 				66D7AA6A24CB5136001CEA3A /* Assets.xcassets */,
@@ -218,13 +236,11 @@
 				6675881524D3667400C9B805 /* Usuario.swift */,
 				66D7AA8124CB5A1D001CEA3A /* Sala.swift */,
 				66D7AA7924CB59C3001CEA3A /* Membro.swift */,
+				66D7AA7B24CB59E1001CEA3A /* Categoria.swift */,
 				66D7AA7F24CB5A08001CEA3A /* Post.swift */,
 				662B018824D9F3FC008BF2D7 /* Comentario.swift */,
-				66D7AA7B24CB59E1001CEA3A /* Categoria.swift */,
-				6629EBAA24EC671D009802A5 /* Onboard.swift */,
 				663C8ECB24CC6C2E000936FF /* LinkPost.swift */,
-				664973C624E4C7BC00D01BAC /* UIManager.swift */,
-				665BD8732553125600077679 /* CKManager.swift */,
+				6629EBAA24EC671D009802A5 /* Onboard.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -232,9 +248,10 @@
 		66D7AA8324CB5A3C001CEA3A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				6674DDFD252FADE80044E9C7 /* Auxiliares */,
+				6674DDFA252FAD4D0044E9C7 /* Onboard Antigo */,
+				6674DDFD252FADE80044E9C7 /* Views Antigas */,
+				669B1201256E7E4E009271C1 /* Auxiliares */,
 				6674DDF7252FACAA0044E9C7 /* Comentarios */,
-				6674DDFA252FAD4D0044E9C7 /* OnboardAntigo */,
 				6629EBA224EC45B4009802A5 /* FirstView.swift */,
 				66E744682547AC4400B33131 /* OnboardView.swift */,
 				66D7AA6824CB5135001CEA3A /* ContentView.swift */,
@@ -251,7 +268,6 @@
 				666C803124DCA329001A7148 /* SubscriptionsView.swift */,
 				EA49EC2924EEEC210030F135 /* EditProfileView.swift */,
 				665A157924DC315100D94359 /* RoomMembersView.swift */,
-				66066F7B24EF201700021134 /* ImagePicker.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
