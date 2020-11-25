@@ -37,14 +37,8 @@ struct MySavedPosts: View {
             }
         }
         .navigationBarTitle("Your saved posts")
-//        .navigationBarItems(
-//            trailing:
-//                HStack {
-//                    Image(systemName: "magnifyingglass")
-//                        .foregroundColor(LingoColors.lingoBlue)
-//                        .imageScale(.large)
-//                })
         .onAppear {
+            self.salvos = []
             for i in 0..<self.membro.idsPostsSalvos.count {
                 if let postSalvo = sala.getPost(id: self.membro.idsPostsSalvos[i]) {
                     self.salvos.append(postSalvo)

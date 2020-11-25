@@ -42,7 +42,7 @@ struct RoomsView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 15))
                             .frame(width: UIScreen.width-20, height: 40)
                         
-                        //MARK: -  TOGGLE BUTTONS
+                        //MARK: -  TOGGLE BAR
                         HStack {
                             HStack {
                                 Button(action: {
@@ -72,7 +72,6 @@ struct RoomsView: View {
                         }
                     }
                     
-                    //MARK: -  VIEW SELECIONADA
                     if myRooms_selected {
                         MyRoomsView(usuario: usuario)
                             .environmentObject(dao)
@@ -132,7 +131,7 @@ struct MyRoomsView: View {
                         .fontWeight(.bold)
                         .padding(.bottom, 50)
                     
-                    //MARK: - MINHAS SALAS
+                    //MARK: - LISTA DAS MINHAS SALAS
                     if !minhasSalas.isEmpty {
                         ScrollView(.vertical, showsIndicators: false) {
                             ForEach(minhasSalas) { sala in
@@ -181,6 +180,9 @@ struct MyRoomsView: View {
                         .foregroundColor(.white)
                         .font(.body)
                         .fontWeight(.bold)
+                        .onTapGesture {
+                            hideKeyboard()
+                        }
                     
                     TextField("Name",text: $newRoomName)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -274,18 +276,7 @@ struct MyRoomsView: View {
         sala.membros.append(membro)
         self.dao.addNovaSala(sala)
         CKManager.modifySala(sala)
-        
-//        CKManager.modifySalaMembros(sala: sala) { (result) in
-//            switch result {
-//                case .success( _):
-//                    DispatchQueue.main.async {
-//                        self.dao.addNovaSala(sala)
-//                    }
-//                case .failure(let error):
-//                    print("salaGanhaPrimeiroMembro: case.error")
-//                    print(error)
-//            }
-//        }
+    
     }
     
     func alteraSalaAtual(sala: Sala){
@@ -293,16 +284,6 @@ struct MyRoomsView: View {
         dao.idSalaAtual = self.usuario.sala_atual
         self.presentationMode.wrappedValue.dismiss()
         CKManager.modifyUsuario(user: self.usuario)
-        
-//        CKManager.modifyUsuarioCompletion(user: self.usuario) { (result) in
-//            switch result {
-//                case .success(_):
-//                    break
-//                case .failure(let error):
-//                    print(#function)
-//                    print(error)
-//            }
-//        }
     }
 }
 

@@ -55,8 +55,10 @@ struct CommentsList: View {
             }
             
             TextEditor(text: self.$newComment)
-                .frame(width: UIScreen.width - 20, height: 150)
-                .cornerRadius(10)
+//                .frame(width: UIScreen.width - 20, height: 150)
+                .frame(height: 150)
+                .padding(.horizontal)
+                .cornerRadius(20)
                 .shadow(radius: 5)
                 
             Divider()
@@ -83,25 +85,6 @@ struct CommentsList: View {
                                     .environmentObject(self.membro)
                                 
                                 HStack {
-                                    // Botaozinho de apagar
-                                    if (comment.publicador.id == membro.id) || (!comment.denuncias.isEmpty && membro.isAdmin) {
-                                        Button(action: {
-                                            askApagaComentario.toggle()
-                                        }){
-                                            Image(systemName: "trash.circle")
-//                                                .padding(.leading)
-                                                .imageScale(.large)
-                                        }.alert(isPresented: $askApagaComentario) {
-                                            Alert(
-                                                title: Text("Delete this comment?"),
-                                                primaryButton: .default(Text("Delete")){
-                                                    apagaComentario(id: comment.id)
-                                                },
-                                                secondaryButton: .cancel())
-                                        }
-                                        .padding(.leading)
-                                    }
-                                    
                                     // Botaozinho de denunciar
                                     if !membro.isBlocked /*&& membro.id != comment.publicador.id*/ {
                                         Button(action: {
@@ -120,6 +103,27 @@ struct CommentsList: View {
                                                secondaryButton: .cancel())
                                         }
                                     }
+                                    
+                                    // Botaozinho de apagar
+                                    if (comment.publicador.id == membro.id) || (!comment.denuncias.isEmpty && membro.isAdmin) {
+                                        Button(action: {
+                                            askApagaComentario.toggle()
+                                        }){
+                                            Image(systemName: "trash.circle")
+//                                                .padding(.leading)
+                                                .imageScale(.large)
+                                        }.alert(isPresented: $askApagaComentario) {
+                                            Alert(
+                                                title: Text("Delete this comment?"),
+                                                primaryButton: .default(Text("Delete")){
+                                                    apagaComentario(id: comment.id)
+                                                },
+                                                secondaryButton: .cancel())
+                                        }
+//                                        .padding(.leading)
+                                    }
+                                    
+                                    
                                     Spacer()
                                 }.padding(.leading)
                                 
@@ -134,7 +138,10 @@ struct CommentsList: View {
                 }
             } //else
         } //VStack
-        .onAppear {self.loadComments()}
+        .frame(width: UIScreen.width)
+        .onAppear {
+            self.loadComments()
+        }
     } //body
     
     func report(_ comment: Comentario){

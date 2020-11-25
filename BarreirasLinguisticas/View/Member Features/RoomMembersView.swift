@@ -11,7 +11,6 @@ import SwiftUI
 struct RoomMembersView: View {
     @ObservedObject var membro: Membro
     @ObservedObject var sala: Sala
-    @State private var showMembro: [String:Bool] = [:]
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -20,6 +19,7 @@ struct RoomMembersView: View {
                     by: { $0.usuario.nome < $1.usuario.nome }
                 )
                 ) { membro_sala in
+                    // Em view separada por conta do bug do primeiro elemento
                     MemberButton(
                         sala: self.sala,
                         membro: self.membro,

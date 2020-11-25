@@ -46,7 +46,7 @@ struct PostsOfCategorieView: View {
                 .sheet(
                     isPresented: $showPostEditor,
                     onDismiss: {
-                        self.loaded_posts = self.sala.getPostsByCategorie(categ: self.categoria.id) //categoria existe entao pode o !
+                        self.loaded_posts = self.sala.getPostsByCategorie(categ: self.categoria.id)
                     }){
                     PostCreatorView()
                         .environmentObject(self.membro)

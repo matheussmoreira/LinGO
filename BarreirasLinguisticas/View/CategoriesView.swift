@@ -135,6 +135,9 @@ struct CreateCategorieView: View {
             Text("Create a new category!")
                 .font(.title)
                 .fontWeight(.bold)
+                .onTapGesture {
+                    hideKeyboard()
+                }
             
             TextField("Name",text: $newCategoryName)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -175,18 +178,6 @@ struct CreateCategorieView: View {
             sala.novaCategoria(savedCategoria)
             CKManager.modifySala(sala)
             self.presentationMode.wrappedValue.dismiss()
-            
-//            CKManager.modifySalaCategorias(sala: sala) { (result2) in
-//                switch result2 {
-//                    case .success(_):
-//                        DispatchQueue.main.async {
-//                            self.presentationMode.wrappedValue.dismiss()
-//                        }
-//                    case .failure(let error):
-//                        print(#function)
-//                        print(error)
-//                }
-//            }
         }
     }
 }

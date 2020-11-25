@@ -55,8 +55,10 @@ struct QuestionsList: View {
             }
             
             TextEditor(text: self.$newComment)
-                .frame(width: UIScreen.width - 20, height: 150)
-                .cornerRadius(10)
+//                .frame(width: UIScreen.width - 20, height: 150)
+                .frame(height: 150)
+                .padding(.horizontal)
+                .cornerRadius(20)
                 .shadow(radius: 5)
             
             Divider()
@@ -81,26 +83,6 @@ struct QuestionsList: View {
                                 QuestionRow(comentario: comment)
                                     .environmentObject(self.membro)
                                 HStack {
-                                    // Botaozinho de apagar
-                                    if (comment.publicador.id == membro.id) || (!comment.denuncias.isEmpty && membro.isAdmin) {
-                                        Button(action: {
-                                            askApagaPergunta.toggle()
-                                        }){
-                                            Image(systemName: "trash.circle")
-//                                                .padding(.leading)
-                                                .imageScale(.large)
-                                            
-                                        }.alert(isPresented: $askApagaPergunta) {
-                                            Alert(
-                                                title: Text("Delete this question?"),
-                                                primaryButton: .default(Text("Delete")){
-                                                    apagaPergunta(id: comment.id)
-                                                },
-                                                secondaryButton: .cancel())
-                                        }
-                                        .padding(.leading)
-                                    }
-                                    
                                     // Botaozinho de denunciar
                                     if !membro.isBlocked /*&& membro.id != comment.publicador.id */{
                                         Button(action: {
@@ -119,6 +101,28 @@ struct QuestionsList: View {
                                                 secondaryButton: .cancel())
                                         }
                                     }
+                                    
+                                    // Botaozinho de apagar
+                                    if (comment.publicador.id == membro.id) || (!comment.denuncias.isEmpty && membro.isAdmin) {
+                                        Button(action: {
+                                            askApagaPergunta.toggle()
+                                        }){
+                                            Image(systemName: "trash.circle")
+//                                                .padding(.leading)
+                                                .imageScale(.large)
+                                            
+                                        }.alert(isPresented: $askApagaPergunta) {
+                                            Alert(
+                                                title: Text("Delete this question?"),
+                                                primaryButton: .default(Text("Delete")){
+                                                    apagaPergunta(id: comment.id)
+                                                },
+                                                secondaryButton: .cancel())
+                                        }
+//                                        .padding(.leading)
+                                    }
+                                    
+                                    
                                     Spacer()
                                 }.padding(.leading)
                                 Divider()
@@ -133,9 +137,10 @@ struct QuestionsList: View {
                 }
             } //else
         }//VStack
-            .onAppear {
-                self.loadQuestions()
-            }
+        .frame(width: UIScreen.width)
+        .onAppear {
+            self.loadQuestions()
+        }
     } //body
     
     func report(_ question: Comentario){
