@@ -191,8 +191,8 @@ struct ProfileView: View {
                         
                         // Pra espaçar um pouco o ultimo botao da TabBar
                         RoundedRectangle(cornerRadius: corner)
-                            .foregroundColor(Color("cardColor"))
-                            .frame(height: btn_height/2)
+                            .foregroundColor(Color("whiteBlack"))
+                            .frame(height: btn_height/4)
                             .frame(width: btn_width)
                     }
                 }
