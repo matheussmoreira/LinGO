@@ -78,7 +78,7 @@ struct RoomsView: View {
                             .environmentObject(dao)
                             .padding(.top)
                     } else {
-                        AvailableRoomsView(usuario: usuario)
+                        SearchRoomsView(usuario: usuario)
                             .environmentObject(dao)
                             .padding(.top)
                     }
@@ -302,9 +302,10 @@ struct MyRoomsView: View {
     }
 }
 
-struct AvailableRoomsView: View {
+struct SearchRoomsView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var dao: DAO
+    @State private var alertEnterRoom = false
     var usuario: Usuario
     var salasDisponiveis: [Sala] {
         return dao.getSalasWithoutUser(id: usuario.id)
@@ -327,11 +328,20 @@ struct AvailableRoomsView: View {
                                 .foregroundColor(.white)
                             
                             Button(action: {
-                                criaNovoMembro(sala: sala)
+                                
+                                alertEnterRoom.toggle()
 //                                verificaNovoMembro(sala: sala, usuario: usuario)
                             }) {
                                 Text(sala.nome)
                                     .foregroundColor(LingoColors.lingoBlue)
+                            }
+                            .alert(isPresented: $alertEnterRoom) {
+                                Alert(
+                                    title: Text("Do you want do become a member of this room?"),
+                                    primaryButton: .default(Text("Yes")){
+                                        criaNovoMembro(sala: sala)
+                                    },
+                                    secondaryButton: .cancel())
                             }
                         }
                     }

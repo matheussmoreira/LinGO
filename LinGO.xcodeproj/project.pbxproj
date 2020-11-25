@@ -183,6 +183,18 @@
 			path = Auxiliares;
 			sourceTree = "<group>";
 		};
+		669B120A256E9021009271C1 /* Member Features */ = {
+			isa = PBXGroup;
+			children = (
+				665A157524DC2DE500D94359 /* MyPublications.swift */,
+				665A157724DC30A000D94359 /* MySavedPosts.swift */,
+				666C803124DCA329001A7148 /* SubscriptionsView.swift */,
+				665A157924DC315100D94359 /* RoomMembersView.swift */,
+				669B1206256E80E4009271C1 /* AdminView.swift */,
+			);
+			path = "Member Features";
+			sourceTree = "<group>";
+		};
 		66C350362547548B00E3CA26 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,6 +267,7 @@
 				6674DDFD252FADE80044E9C7 /* Views Antigas */,
 				669B1201256E7E4E009271C1 /* Auxiliares */,
 				6674DDF7252FACAA0044E9C7 /* Comentarios */,
+				669B120A256E9021009271C1 /* Member Features */,
 				6629EBA224EC45B4009802A5 /* FirstView.swift */,
 				66E744682547AC4400B33131 /* OnboardView.swift */,
 				66D7AA6824CB5135001CEA3A /* ContentView.swift */,
@@ -266,11 +279,6 @@
 				EA6CA39E24DA00C000FAD6F6 /* PostCreatorView.swift */,
 				66D7AA8A24CB8140001CEA3A /* ProfileView.swift */,
 				EA49EC2924EEEC210030F135 /* EditProfileView.swift */,
-				665A157524DC2DE500D94359 /* MyPublications.swift */,
-				665A157724DC30A000D94359 /* MySavedPosts.swift */,
-				666C803124DCA329001A7148 /* SubscriptionsView.swift */,
-				665A157924DC315100D94359 /* RoomMembersView.swift */,
-				669B1206256E80E4009271C1 /* AdminView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

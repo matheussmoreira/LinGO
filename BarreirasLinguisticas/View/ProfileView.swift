@@ -239,10 +239,12 @@ struct ProfileView: View {
             switch result {
                 case .success(_):
                     DispatchQueue.main.async {
-                        if sala.membros.isEmpty {
+                        if sala.membros.isEmpty { // Sala morre se nao tem ninguem
                             apagaSalaFromCloud(sala: sala)
-                        } else if sala.membros.count == 1 {
+                        } else if sala.membros.count == 1 { // Unico membro da sala deve ser admin
                             unicoMembroIsAdmin(sala: sala)
+                        } else {
+                            self.proxima_sala()
                         }
                     }
                 case .failure(let error):
@@ -295,13 +297,12 @@ struct ProfileView: View {
         let salas = dao.getSalasByUser(id: membro.usuario.id)
         if salas.isEmpty { usuario.sala_atual = nil }
             else { usuario.sala_atual = salas[0].id }
+        dao.idSalaAtual = usuario.sala_atual
         
         CKManager.modifyUsuario(user: usuario) { (result) in
             switch result {
-                case .success(let modifiedUser):
-                    DispatchQueue.main.async {
-                        dao.idSalaAtual = modifiedUser.sala_atual
-                    }
+                case .success(_):
+                    break
                 case .failure(let error):
                     print(#function)
                     print(error)
