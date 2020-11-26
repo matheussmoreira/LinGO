@@ -26,6 +26,9 @@ class DAO: ObservableObject {
                 case .success(let records):
                     DispatchQueue.main.async {
                         for record in records {
+                            if record.recordID.recordName != "0A3C74B1-D1DF-4008-BDAF-057AC90F418F"{
+                                continue
+                            }
                             if let sala = CKManager.getSalaFromRecord(record) {
                                 self.salas.append(sala)
                             }

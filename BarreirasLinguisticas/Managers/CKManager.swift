@@ -127,76 +127,73 @@ extension CKManager {
     } // funcao
     
     static func getSalaFromRecord(_ salaRecord: CKRecord) -> Sala? {
+        print("Entrou em \(#function)")
+        let salaRecordAsDictionary = salaRecord.asDictionary
+        
         // RECORD NAME
-//        print("")
-//        print(#function)
-//        print("Getting salaRecordName")
-        
-//        let salaRecordAsDictionary = salaRecord.asDictionary
-        
-        guard let salaRecordName = salaRecord.asDictionary["recordName"] as? String else {
-            print(#function)
-            print("Erro ao capturar o recordName de uma sala")
+        print("Getting salaRecordName...")
+        guard let salaRecordName = salaRecordAsDictionary["recordName"] as? String else {
+            print("\(#function) - Erro ao capturar o recordName de uma sala")
             return nil
         }
+        
         // NOME
-//        print("Getting salaNome")
-        guard let salaNome = salaRecord.asDictionary["nome"] as? String else {
-            print(#function)
-            print("Erro ao capturar o nome de uma sala")
+        print("Getting salaNome...")
+        guard let salaNome = salaRecordAsDictionary["nome"] as? String else {
+            print("\(#function) - Erro ao capturar o nome de uma sala")
             return nil
         }
-//        print("Sala: \(salaNome)")
+        print("Noma da sala: \(salaNome)")
+        
         // MEMBROS
-//        print("Getting membrosDictionaries: Parte do guard let")
-        guard let membrosDictionaries = salaRecord.asDictionary["membros"] as? Array<Optional<Dictionary<String, Any>>> else {
-            print(#function)
-            print("Erro no cast do vetor de membros")
+        print("Getting membrosDictionaries: Parte do guard let...")
+        guard let membrosDictionaries = salaRecordAsDictionary["membros"] as? Array<Optional<Dictionary<String, Any>>> else {
+            print("\(#function) - Erro no cast do vetor de membros")
             return nil
         }
-//        print("Getting membrosDictionaries: Parte do for")
+        print("Getting membrosDictionaries: Parte do for...")
         var membros: [Membro] = []
+        var countMembros = 0
         for membroDictionary in membrosDictionaries {
+            countMembros += 1
             if let membro = getMembroFromDictionary(membroDictionary) {
                 membros.append(membro)
             } else {
-                print(#function)
-                print("Nao adquiriu membro do dicionario!")
+                print("\t\(#function) - Nao adquiriu membro \(countMembros) do dicionario!")
             }
         }
         
         // CATEGORIAS
-//        print("Getting categoriasDictionaries")
+        print("Getting categoriasDictionaries...")
         var categorias: [Categoria] = []
-        if let categoriasDictionaries = salaRecord.asDictionary["categorias"] as? Array<Optional<Dictionary<String, Any>>> {
-//            print("Cast das categorias bem sucedido")
+        var countCategorias = 0
+        if let categoriasDictionaries = salaRecordAsDictionary["categorias"] as? Array<Optional<Dictionary<String, Any>>> {
+            countCategorias += 1
             for categoriaDictionary in categoriasDictionaries {
                 if let categ = getCategoriaFromDictionary(categoriaDictionary) {
                     categorias.append(categ)
-//                    print("Adicionou categoria \(categ.nome) no vetor")
                 } else {
-                    print(#function)
-                    print("Nao adquiriu categoria do dicionario!")
+                    print("\t\(#function) - Nao adquiriu categoria \(countCategorias) do dicionario!")
                 }
             }
         }
         
         // POSTS
-//        print("Getting postsDictionaries")
+        print("Getting postsDictionaries...")
         var posts: [Post] = []
-        if let postsDictionaries = salaRecord.asDictionary["posts"] as? Array<Optional<Dictionary<String, Any>>> {
-//            print("Cast dos posts bem sucedido")
+        var countPosts = 0
+        if let postsDictionaries = salaRecordAsDictionary["posts"] as? Array<Optional<Dictionary<String, Any>>> {
             for postDictionary in postsDictionaries {
+                countPosts += 1
                 if let post = getPostFromDictionary(postDictionary, with: membros) {
                     posts.append(post)
                 } else {
-                    print(#function)
-                    print("Nao adquiriu post do dicionario!")
+                    print("\t\(#function) - Nao adquiriu post \(countPosts) do dicionario!")
                 }
             }
         }
         
-//        print("Building sala object")
+        // SALA
         let sala = Sala(id: salaRecordName, nome: salaNome)
         sala.membros.append(contentsOf: membros)
         sala.categorias.append(contentsOf: categorias)
@@ -734,48 +731,33 @@ extension CKManager {
     }
     
     private static func getMembroFromDictionary(_ membroDictionaryOpt: Dictionary<String, Any>?) -> Membro? {
-//        print("Entrou na função getMembroFromDictionary")
         if let membroDictionary = membroDictionaryOpt {
-//            print("Vai pegar usuario do dicionario")
             let usuario = getUsuarioFromDictionary( membroDictionary["usuario"]! as? Dictionary<String,Any>)
             
-//            print("Vai pegar recordName")
             let recordName = membroDictionary["recordName"] as! String
-//            print("Vai pegar idSala")
             let idSala = membroDictionary["idSala"] as! String
-//            print("Vai pegar admin")
             let admin = membroDictionary["is_admin"] as! Int
-//            print("Vai pegar publicados")
             let publicados = membroDictionary["posts_publicados"] as? [String] ?? []
-//            print("Vai pegar salvos")
             let salvos = membroDictionary["posts_salvos"] as? [String] ?? []
-//            print("Vai pegar assinaturas")
             let assinaturas = membroDictionary["assinaturas"] as? [String] ?? []
-//            print("Vai pegar blocked")
             let blocked = membroDictionary["isBlocked"] as? Int ?? 0
             
-//            print("Conversão do is_admin")
             let is_admin: Bool
             if admin == 1 { is_admin = true }
                 else { is_admin = false }
             
-//            print("Conversão do is_blocked")
             let is_blocked: Bool
             if blocked == 1 { is_blocked = true }
                 else { is_blocked = false }
             
-//            print("Montando objeto do membro")
             let membro = Membro(usuario: usuario!, idSala: idSala, is_admin: is_admin)
             membro.id = recordName
             membro.isBlocked = is_blocked
             membro.idsPostsPublicados = publicados
             membro.idsPostsSalvos = salvos
             membro.idsAssinaturas = assinaturas
-//            print("Returning membro from dictionary")
             return membro
         }
-//        print(#function)
-//        print("membroDictionary is nil")
         return nil
     }
     
