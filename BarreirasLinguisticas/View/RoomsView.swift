@@ -191,15 +191,17 @@ struct MyRoomsView: View {
                     
                     Spacer()
                     
-                    // BOTAO PARA GERAR NOVA SALA
+                    // MARK: - BOTAO PARA GERAR NOVA SALA
                     Button(action: {
-                        if newRoomName != "" {
+                        if newRoomName == "" || nomeSalaExistente() {
+                            // Manda alerta nome de sala invalido
+                            self.alertRoomName.toggle()
+                        } else {
                             roomCreation.toggle()
                             self.novaSala(
                                 nome: newRoomName,
-                                criador: self.usuario)
-                        } else {
-                            self.alertRoomName.toggle()
+                                criador: self.usuario
+                            )
                         }
                     }) {
                         ZStack {
@@ -215,14 +217,14 @@ struct MyRoomsView: View {
                         isPresented: $alertRoomName,
                         content: {
                             Alert(
-                                title: Text("The room cannot have an empty name!"),
+                                title: Text(newRoomName == "" ? "The room cannot have an empty name!" : "There is a room with this name already"),
                                 message: nil,
                                 dismissButton: .default(Text("Ok"))
                             )
                         }
                     )
                     
-                    // BOTAO PARA VOLTAR
+                    // MARK: - BOTAO PARA VOLTAR DA CRIACAO
                     Button(action: {
                         roomCreation.toggle()
                     }) {
@@ -241,6 +243,10 @@ struct MyRoomsView: View {
                 }
             }
         }
+    }
+    
+    func nomeSalaExistente() -> Bool {
+        return dao.getSalasNomes().contains(where: { $0 == newRoomName })
     }
     
     func novaSala(nome: String, criador: Usuario) {

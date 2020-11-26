@@ -110,8 +110,6 @@ struct PostCreatorView: View {
                                 showPlaceholder = true
                             }
                         }
-                        
-                        
                     }
                     .padding(.bottom)
                     

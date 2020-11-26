@@ -45,6 +45,14 @@ class DAO: ObservableObject {
         return nil
     }
     
+    func getSalasNomes() -> [String] {
+        var nomes: [String] = []
+        for sala in self.salas {
+            nomes.append(sala.nome)
+        }
+        return nomes
+    }
+    
     func getSalasByUser(id: String?) -> [Sala] {
         var salas: [Sala] = []
         for sala in self.salas {
