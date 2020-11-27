@@ -81,7 +81,7 @@ extension CKManager {
         print("Getting membrosDictionaries...")
         var membros: [Membro] = []
         var countMembros = 0
-        if let membrosDictionaries = salaRecordAsDictionary["membros"] as? Array<Optional<Dictionary<String, Any>>> {
+        if let membrosDictionaries = salaRecord.asDictionary["membros"] as? Array<Optional<Dictionary<String, Any>>> {
             for membroDictionary in membrosDictionaries {
                 countMembros += 1
                 if let membro = getMembroFromDictionary(membroDictionary) {
@@ -100,7 +100,7 @@ extension CKManager {
         print("Getting categoriasDictionaries...")
         var categorias: [Categoria] = []
         var countCategorias = 0
-        if let categoriasDictionaries = salaRecordAsDictionary["categorias"] as? Array<Optional<Dictionary<String, Any>>> {
+        if let categoriasDictionaries = salaRecord.asDictionary["categorias"] as? Array<Optional<Dictionary<String, Any>>> {
             for categoriaDictionary in categoriasDictionaries {
                 countCategorias += 1
                 if let categ = getCategoriaFromDictionary(categoriaDictionary) {
@@ -118,7 +118,7 @@ extension CKManager {
         print("Getting postsDictionaries...")
         var posts: [Post] = []
         var countPosts = 0
-        if let postsDictionaries = salaRecordAsDictionary["posts"] as? Array<Optional<Dictionary<String, Any>>> {
+        if let postsDictionaries = salaRecord.asDictionary["posts"] as? Array<Optional<Dictionary<String, Any>>> {
             for postDictionary in postsDictionaries {
                 countPosts += 1
                 if let post = getPostFromDictionary(postDictionary, with: membros) {
