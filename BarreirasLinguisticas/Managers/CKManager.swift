@@ -41,75 +41,6 @@ struct CKManager {
     
 }
 
-// MARK: - USUARIO
-extension CKManager {
-    static func fetchUsuario(recordName: String, completion: @escaping (Result<Usuario, Error>) -> ()) {
-        let publicDB = CKContainer.default().publicCloudDatabase
-        publicDB.fetch(withRecordID: CKRecord.ID(recordName: recordName)) { (record, error) in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            if let record = record {
-                // SEM GUARD LET POR CONTA DA CRIACAO DE UM NOVO USUARIO
-                let id = record.recordID.recordName
-                let nome = record["nome"] as? String
-                let fluencia = record["fluencia_ingles"] as? String
-                let sala_atual = record["sala_atual"] as? String
-                
-                var foto: Data? = nil //UIImage
-                let fotoData = FileSystem.retrieveImage(forId: id)
-                let fotoAsset = record["url_foto"] as? CKAsset
-                
-                if fotoData != nil { // Primeiro busca no disco
-                    foto = fotoData
-                } else if fotoAsset != nil { // Depois busca no CK
-                    foto = NSData(contentsOf: fotoAsset!.fileURL!) as Data?
-                }
-                
-                let fetchedUser = Usuario(
-                    nome: nome,
-                    foto_perfil: foto,
-                    fluencia_ingles: Usuario.pegaFluencia(nome: fluencia ?? "")
-                )
-                fetchedUser.id = id
-                fetchedUser.sala_atual = sala_atual
-                
-                completion(.success(fetchedUser))
-            }
-        }
-    }
-    
-    static func modifyUsuario(user: Usuario){
-        let publicDB = CKContainer.default().publicCloudDatabase
-        publicDB.fetch(withRecordID: CKRecord.ID(recordName: user.id)){ (record, error) in
-            if let error = error {
-                print(#function)
-                print(error)
-                return
-            }
-            if let fetchedRecord = record {
-                fetchedRecord["nome"] = user.nome
-                fetchedRecord["fluencia_ingles"] = user.fluencia_ingles
-                fetchedRecord["sala_atual"] = (user.sala_atual ?? "")
-                if let url = user.url_foto {
-                    fetchedRecord["foto_perfil"] = CKAsset(fileURL: url)
-                }
-                
-                publicDB.save(fetchedRecord) { (record, error) in
-                    if let error = error {
-                        print(#function)
-                        print(error)
-                        return
-                    }
-                }
-            }
-        }
-    }
-
-    
-}
-
 // MARK: - SALA
 extension CKManager {
     static func loadRecordsDasSalas(completion: @escaping (Result<[CKRecord], Error>) -> ()){
@@ -121,6 +52,7 @@ extension CKManager {
                 completion(.failure(error))
             }
             if let loadedSalas = records {
+                print("Records das salas carregados com sucesso")
                 completion(.success(loadedSalas))
             }
         }
@@ -146,36 +78,40 @@ extension CKManager {
         print("Noma da sala: \(salaNome)")
         
         // MEMBROS
-        print("Getting membrosDictionaries: Parte do guard let...")
-        guard let membrosDictionaries = salaRecordAsDictionary["membros"] as? Array<Optional<Dictionary<String, Any>>> else {
+        print("Getting membrosDictionaries...")
+        var membros: [Membro] = []
+        var countMembros = 0
+        if let membrosDictionaries = salaRecordAsDictionary["membros"] as? Array<Optional<Dictionary<String, Any>>> {
+            for membroDictionary in membrosDictionaries {
+                countMembros += 1
+                if let membro = getMembroFromDictionary(membroDictionary) {
+                    membros.append(membro)
+                } else {
+                    print("\t\(#function) - Nao adquiriu membro \(countMembros) do dicionario!")
+                }
+            }
+        } else {
             print("\(#function) - Erro no cast do vetor de membros")
             return nil
         }
-        print("Getting membrosDictionaries: Parte do for...")
-        var membros: [Membro] = []
-        var countMembros = 0
-        for membroDictionary in membrosDictionaries {
-            countMembros += 1
-            if let membro = getMembroFromDictionary(membroDictionary) {
-                membros.append(membro)
-            } else {
-                print("\t\(#function) - Nao adquiriu membro \(countMembros) do dicionario!")
-            }
-        }
+
         
         // CATEGORIAS
         print("Getting categoriasDictionaries...")
         var categorias: [Categoria] = []
         var countCategorias = 0
         if let categoriasDictionaries = salaRecordAsDictionary["categorias"] as? Array<Optional<Dictionary<String, Any>>> {
-            countCategorias += 1
             for categoriaDictionary in categoriasDictionaries {
+                countCategorias += 1
                 if let categ = getCategoriaFromDictionary(categoriaDictionary) {
                     categorias.append(categ)
                 } else {
                     print("\t\(#function) - Nao adquiriu categoria \(countCategorias) do dicionario!")
                 }
             }
+        } else {
+            print("\(#function) - Erro no cast do vetor de categorias")
+            return nil
         }
         
         // POSTS
@@ -191,6 +127,9 @@ extension CKManager {
                     print("\t\(#function) - Nao adquiriu post \(countPosts) do dicionario!")
                 }
             }
+        } else {
+            print("\(#function) - Erro no cast do vetor de posts")
+            return nil
         }
         
         // SALA
@@ -298,6 +237,76 @@ extension CKManager {
             }
         }
     }
+}
+
+// MARK: - USUARIO
+extension CKManager {
+    static func fetchUsuario(recordName: String, completion: @escaping (Result<Usuario, Error>) -> ()) {
+        print("Entrou em \(#function)")
+        let publicDB = CKContainer.default().publicCloudDatabase
+        publicDB.fetch(withRecordID: CKRecord.ID(recordName: recordName)) { (record, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            if let record = record {
+                // SEM GUARD LET POR CONTA DA CRIACAO DE UM NOVO USUARIO
+                let id = record.recordID.recordName
+                let nome = record["nome"] as? String
+                let fluencia = record["fluencia_ingles"] as? String
+                let sala_atual = record["sala_atual"] as? String
+                
+                var foto: Data? = nil
+                let fotoData = FileSystem.retrieveImage(forId: id)
+                let fotoAsset = record["url_foto"] as? CKAsset
+                
+                if fotoData != nil { // Primeiro busca no disco
+                    foto = fotoData
+                } else if fotoAsset != nil { // Depois busca no CK
+                    foto = NSData(contentsOf: fotoAsset!.fileURL!) as Data?
+                }
+                
+                let fetchedUser = Usuario(
+                    nome: nome,
+                    foto_perfil: foto,
+                    fluencia_ingles: Usuario.pegaFluencia(nome: fluencia ?? "")
+                )
+                fetchedUser.id = id
+                fetchedUser.sala_atual = sala_atual
+                
+                completion(.success(fetchedUser))
+            }
+        }
+    }
+    
+    static func modifyUsuario(user: Usuario){
+        let publicDB = CKContainer.default().publicCloudDatabase
+        publicDB.fetch(withRecordID: CKRecord.ID(recordName: user.id)){ (record, error) in
+            if let error = error {
+                print(#function)
+                print(error)
+                return
+            }
+            if let fetchedRecord = record {
+                fetchedRecord["nome"] = user.nome
+                fetchedRecord["fluencia_ingles"] = user.fluencia_ingles
+                fetchedRecord["sala_atual"] = (user.sala_atual ?? "")
+                if let url = user.url_foto {
+                    fetchedRecord["foto_perfil"] = CKAsset(fileURL: url)
+                }
+                
+                publicDB.save(fetchedRecord) { (record, error) in
+                    if let error = error {
+                        print(#function)
+                        print(error)
+                        return
+                    }
+                }
+            }
+        }
+    }
+
+    
 }
 
 // MARK: - MEMBRO

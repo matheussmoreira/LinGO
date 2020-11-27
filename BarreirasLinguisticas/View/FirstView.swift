@@ -64,6 +64,7 @@ struct FirstView: View {
                                 dao.idSalaAtual = fetchedUser.sala_atual
                                 carregaEnterMode()
                                 loading = false
+                                print("Usuario resgatado com sucesso")
                             }
                         case .failure(let error):
                             print("first view: case.failure")
