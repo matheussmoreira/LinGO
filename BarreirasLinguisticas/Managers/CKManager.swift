@@ -242,7 +242,7 @@ extension CKManager {
 // MARK: - USUARIO
 extension CKManager {
     static func fetchUsuario(recordName: String, completion: @escaping (Result<Usuario, Error>) -> ()) {
-        print("Entrou em \(#function)")
+//        print("Entrou em \(#function)")
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: recordName)) { (record, error) in
             if let error = error {

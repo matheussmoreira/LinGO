@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftUI
+import CloudKit
 
 enum Fluencia: String {
     case advanced = "Advanced English"
@@ -39,6 +40,9 @@ class Usuario: Equatable, Identifiable, ObservableObject {
         self.foto_perfil = foto_perfil ?? UIImage(named: "perfil")!.pngData()
 //        print("Setando a fluencia do objeto do usuario")
         self.fluencia_ingles = fluencia_ingles?.rawValue ?? Fluencia.unknown.rawValue
+    }
+    
+    init(){
     }
     
     static func == (lhs: Usuario, rhs: Usuario) -> Bool {

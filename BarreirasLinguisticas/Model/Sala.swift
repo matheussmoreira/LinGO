@@ -8,7 +8,7 @@
 
 import Foundation
 import LinkPresentation
-import CloudKitMagicCRUD
+import CloudKit
 
 class Sala: Identifiable, ObservableObject {
     var id: String = ""
@@ -20,6 +20,46 @@ class Sala: Identifiable, ObservableObject {
     init(id: String, nome: String) {
         self.id = id
         self.nome = nome
+    }
+    
+    init(){
+    }
+    
+    static func load(from ckRecord: CKRecord, completion: @escaping (Sala?) -> ()) {
+        let sala = Sala()
+        sala.id = ckRecord.recordID.recordName
+        sala.nome = ckRecord.value(forKey: "nome") as? String ?? ""
+        
+        let membrosRef = ckRecord.value(forKey: "membros") as? [CKRecord.Reference] ?? []
+        let categsRef = ckRecord.value(forKey: "categorias") as? [CKRecord.Reference] ?? []
+//        let categsSemaforo = DispatchSemaphore(value: categsRef.count)
+        
+        for membroRef in membrosRef {
+            Membro.load(from: membroRef) { (result) in
+                switch result {
+                    case .success(let loadedMembro):
+                        sala.membros.append(loadedMembro)
+                    case .failure(let error):
+                        print(#function)
+                        print(error)
+                }
+            }
+        }
+        
+        for categRef in categsRef {
+            Categoria.load(from: categRef) { (result) in
+                switch result {
+                    case .success(let loadedCateg):
+                        sala.categorias.append(loadedCateg)
+//                        categsSemaforo.signal()
+                    case .failure(_):
+                        break
+                }
+            }
+        }
+//        categsSemaforo.wait()
+        print("Retornando sala \(sala.nome)\n")
+        completion(sala)
     }
     
     //MARK: - FUNCOES GET

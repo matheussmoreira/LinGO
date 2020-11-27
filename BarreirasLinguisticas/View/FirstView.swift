@@ -56,6 +56,7 @@ struct FirstView: View {
                 return
             }
             if let recordID = recordID {
+                print("Buscando o usuario atual")
                 CKManager.fetchUsuario(recordName: recordID.recordName) { (result) in
                     switch result{
                         case .success(let fetchedUser):
