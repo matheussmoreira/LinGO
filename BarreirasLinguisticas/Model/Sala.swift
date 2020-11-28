@@ -355,11 +355,11 @@ extension Sala {
     static func ckLoad(from ckRecord: CKRecord, completion: @escaping (Sala?) -> ()) {
         let sala = Sala()
         sala.id = ckRecord.recordID.recordName
-        sala.nome = ckRecord.value(forKey: "nome") as? String ?? ""
+        sala.nome = ckRecord["nome"] as? String ?? ""
         
-        let membrosRef = ckRecord.value(forKey: "membros") as? [CKRecord.Reference] ?? []
-        let categsRef = ckRecord.value(forKey: "categorias") as? [CKRecord.Reference] ?? []
-        let postsRef = ckRecord.value(forKey: "posts") as? [CKRecord.Reference] ?? []
+        let membrosRef = ckRecord["membros"] as? [CKRecord.Reference] ?? []
+        let categsRef = ckRecord["categorias"] as? [CKRecord.Reference] ?? []
+        let postsRef = ckRecord["posts"] as? [CKRecord.Reference] ?? []
         
         //let categsSemaforo = DispatchSemaphore(value: categsRef.count)
         for membroRef in membrosRef {
@@ -382,8 +382,8 @@ extension Sala {
                     case .success(let loadedCateg):
                         DispatchQueue.main.async {
                             sala.categorias.append(loadedCateg)
+                            //categsSemaforo.signal()
                         }
-                        //categsSemaforo.signal()
                     case .failure(_):
                         break
                 }
