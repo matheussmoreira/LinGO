@@ -64,7 +64,7 @@ struct FirstView: View {
                                 dao.usuarioAtual = fetchedUser
                                 dao.idSalaAtual = fetchedUser.sala_atual
                                 carregaEnterMode()
-                                print("Sala atual: \(dao.getSala(id: dao.idSalaAtual!)?.nome)")
+                                print("Sala atual: \(String(describing: dao.getSala(id: dao.idSalaAtual!)?.nome))")
                                 print("Usuario resgatado com sucesso")
                             }
                         case .failure(let error):

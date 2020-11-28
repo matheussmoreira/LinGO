@@ -55,7 +55,7 @@ struct ProfileView: View {
                         .foregroundColor(Color.primary)
                     
                     HStack {
-                        Text(membro.usuario.fluencia_ingles)
+                        Text(membro.usuario.fluencia_ingles.rawValue)
                             .foregroundColor(Color.gray)
                         Circle()
                             .fill(membro.usuario.cor_fluencia)
@@ -223,7 +223,7 @@ struct ProfileView: View {
                     onDismiss: {
                         self.nome = self.membro.usuario.nome
                         self.foto = self.membro.usuario.foto_perfil
-                        self.fluencia = self.membro.usuario.fluencia_ingles
+                        self.fluencia = self.membro.usuario.fluencia_ingles.rawValue
                     }
                 ){
                     EditProfileView(usuario: self.membro.usuario)
@@ -232,7 +232,7 @@ struct ProfileView: View {
             .onAppear {
                 self.nome = self.membro.usuario.nome
                 self.foto = self.membro.usuario.foto_perfil
-                self.fluencia = self.membro.usuario.fluencia_ingles
+                self.fluencia = self.membro.usuario.fluencia_ingles.rawValue
             }
         }
     } //body

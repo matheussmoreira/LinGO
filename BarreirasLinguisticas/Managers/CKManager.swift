@@ -289,7 +289,7 @@ extension CKManager {
             }
             if let fetchedRecord = record {
                 fetchedRecord["nome"] = user.nome
-                fetchedRecord["fluencia_ingles"] = user.fluencia_ingles
+                fetchedRecord["fluencia_ingles"] = user.fluencia_ingles.rawValue
                 fetchedRecord["sala_atual"] = (user.sala_atual ?? "")
                 if let url = user.url_foto {
                     fetchedRecord["foto_perfil"] = CKAsset(fileURL: url)
@@ -606,6 +606,28 @@ extension CKManager {
 
 //MARK: - LINK
 extension CKManager {
+    static func saveLink(link: LinkPost, completion: @escaping (Result<String, Error>) -> ()) {
+        let linkRecord = CKRecord(recordType: "Link")
+        linkRecord["localId"] = link.localId
+        linkRecord["titulo"] = link.titulo
+        linkRecord["urlString"] = link.urlString
+        if let url = link.urlImagem {
+            linkRecord["imagem"] = CKAsset(fileURL: url)
+        }
+        
+        let publicDB = CKContainer.default().publicCloudDatabase
+        publicDB.save(linkRecord) { (savedRecord, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            if let savedLinkRecord = savedRecord {
+                completion(.success(savedLinkRecord.recordID.recordName))
+                return
+            }
+        }
+    }
+    
     static func fetchLink(recordName: String, completion: @escaping (Result<LinkPost,Error>) -> ()) {
         CKContainer.default().publicCloudDatabase.fetch(withRecordID: CKRecord.ID(recordName: recordName)) { (fetchedRecord, error) in
             if let error = error {
@@ -644,28 +666,6 @@ extension CKManager {
                 link.urlString = urlString
                 link.imagem = foto
                 completion(.success(link))
-            }
-        }
-    }
-    
-    static func saveLink(link: LinkPost, completion: @escaping (Result<String, Error>) -> ()) {
-        let linkRecord = CKRecord(recordType: "Link")
-        linkRecord["localId"] = link.localId
-        linkRecord["titulo"] = link.titulo
-        linkRecord["urlString"] = link.urlString
-        if let url = link.urlImagem {
-            linkRecord["imagem"] = CKAsset(fileURL: url)
-        }
-        
-        let publicDB = CKContainer.default().publicCloudDatabase
-        publicDB.save(linkRecord) { (savedRecord, error) in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            if let savedLinkRecord = savedRecord {
-                completion(.success(savedLinkRecord.recordID.recordName))
-                return
             }
         }
     }

@@ -109,13 +109,13 @@ struct EditProfileView: View {
         }
         .onAppear {
             self.photoProfile = Image(uiImage: self.usuario.foto_perfil?.asUIImage() ?? UIImage(named: "perfil")!)
-            self.fluenciaSelecionada = Usuario.pegaFluenciaIdx(fluencia: Usuario.pegaFluencia(nome: self.usuario.fluencia_ingles))
+            self.fluenciaSelecionada = Usuario.pegaIdxByFluencia(fluencia: self.usuario.fluencia_ingles)
         }
     } //body
     
     func editaUsuario() {
         self.usuario.nome = self.nome == "" ? self.usuario.nome : self.nome
-        self.usuario.fluencia_ingles = Usuario.pegaFluenciaNome(idx: fluenciaSelecionada).rawValue
+        self.usuario.fluencia_ingles = Usuario.pegaFluenciaByIdx(idx: fluenciaSelecionada)
         self.usuario.foto_perfil = self.photoProfile?.asUIImage().pngData() ?? self.usuario.foto_perfil
         
         let url = FileSystem.filePath(forId: self.usuario.id)

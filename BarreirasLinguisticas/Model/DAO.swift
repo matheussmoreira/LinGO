@@ -12,7 +12,6 @@ var dao = DAO()
 
 class DAO: ObservableObject {
     @Published var salas: [Sala] = []
-//    @Published var usuarios: [Usuario] = []
     @Published var usuarioAtual: Usuario?
     @Published var idSalaAtual: String?
     

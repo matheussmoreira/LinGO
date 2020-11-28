@@ -366,7 +366,9 @@ extension Sala {
             Membro.ckLoad(from: membroRef) { (result) in
                 switch result {
                     case .success(let loadedMembro):
-                        sala.membros.append(loadedMembro)
+                        DispatchQueue.main.async {
+                            sala.membros.append(loadedMembro)
+                        }
                     case .failure(let error):
                         print(#function)
                         print(error)
@@ -378,7 +380,9 @@ extension Sala {
             Categoria.ckLoad(from: categRef) { (result) in
                 switch result {
                     case .success(let loadedCateg):
-                        sala.categorias.append(loadedCateg)
+                        DispatchQueue.main.async {
+                            sala.categorias.append(loadedCateg)
+                        }
                         //categsSemaforo.signal()
                     case .failure(_):
                         break
@@ -391,7 +395,9 @@ extension Sala {
                 switch result {
                     case .success(let loadedPost):
                         if loadedPost != nil {
-                            sala.posts.append(loadedPost!)
+                            DispatchQueue.main.async {
+                                sala.posts.append(loadedPost!)
+                            }
                         }
                     case .failure(_):
                         break

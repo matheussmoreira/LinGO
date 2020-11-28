@@ -23,23 +23,20 @@ class Usuario: Equatable, Identifiable, ObservableObject {
     @Published var foto_perfil: Data?
     @Published var url_foto: URL?
     @Published var sala_atual: String?
-    @Published var fluencia_ingles: String = ""
+    @Published var fluencia_ingles: Fluencia = .unknown
     var cor_fluencia: Color {
         switch fluencia_ingles {
-            case Fluencia.advanced.rawValue: return .blue
-            case Fluencia.intermed.rawValue: return .yellow
-            case Fluencia.basic.rawValue : return .green
+            case Fluencia.advanced/*.rawValue*/: return .blue
+            case Fluencia.intermed/*.rawValue*/: return .yellow
+            case Fluencia.basic/*.rawValue*/ : return .green
             default: return .gray
         }
     }
     
     init(nome: String?, foto_perfil: Data?,fluencia_ingles: Fluencia?) {
-//        print("Setando o nome do objeto do usuario")
         self.nome = nome ?? "<nome>"
-//        print("Setando a foto do objeto do usuario")
         self.foto_perfil = foto_perfil ?? UIImage(named: "perfil")!.pngData()
-//        print("Setando a fluencia do objeto do usuario")
-        self.fluencia_ingles = fluencia_ingles?.rawValue ?? Fluencia.unknown.rawValue
+        self.fluencia_ingles = fluencia_ingles/*.rawValue*/ ?? .unknown
     }
     
     init(){
@@ -62,7 +59,7 @@ class Usuario: Equatable, Identifiable, ObservableObject {
         }
     }
     
-    static func pegaFluenciaNome(idx: Int) -> Fluencia {
+    static func pegaFluenciaByIdx(idx: Int) -> Fluencia {
         switch idx {
             case 0:
                 return Fluencia.basic
@@ -75,7 +72,7 @@ class Usuario: Equatable, Identifiable, ObservableObject {
         }
     }
     
-    static func pegaFluenciaIdx(fluencia: Fluencia) -> Int {
+    static func pegaIdxByFluencia(fluencia: Fluencia) -> Int {
         switch fluencia {
             case .basic:
                 return 0
