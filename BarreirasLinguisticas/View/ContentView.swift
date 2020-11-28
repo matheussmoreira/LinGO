@@ -16,7 +16,14 @@ struct ContentView: View {
     @State private var showRooms = false
     @State private var showProfile = false
     var salaAtual: Sala? {
-        return dao.getSala(id: dao.idSalaAtual ?? "")
+        let sala = dao.getSala(id: dao.idSalaAtual ?? "")
+        if sala != nil {
+            print("Sala atual na ContentView: \(sala!.nome)")
+        } else {
+            print("Sala atual na ContentView: nil")
+        }
+        
+        return sala
     }
     var membroAtual: Membro? {
         if let membro = salaAtual!.getMembroByUser(id: usuarioAtual!.id) {

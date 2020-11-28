@@ -7,11 +7,11 @@
 //
 
 import Foundation
-import LinkPresentation
+import CloudKit
 
 class Post: Equatable, Identifiable, ObservableObject {
     var id: String = ""
-    @Published var titulo: String
+    @Published var titulo: String = ""
     @Published var descricao: String?
     @Published var link: LinkPost?
     @Published var publicador: Membro
@@ -139,4 +139,80 @@ class Post: Equatable, Identifiable, ObservableObject {
         return nil
     }
     
+}
+
+extension Post{
+    static func ckLoad(from ckReference: CKRecord.Reference, salaMembros: [Membro], completion: @escaping (Result<Post?, Error>) -> ()) {
+        CKContainer.default().publicCloudDatabase.fetch(
+            withRecordID: ckReference.recordID) { (fetchedRecord, error) in
+            if let error = error {
+                print(#function)
+                print(error)
+                completion(.failure(error))
+            }
+            if let record = fetchedRecord {
+                guard let titulo = record["titulo"] as? String else {
+                    print("\(#function) - Erro no cast do titulo do post")
+                    return
+                }
+                guard let descricao = record["descricao"] as? String else {
+                    print("\(#function) - Erro no cast da descricao do post")
+                    return
+                }
+                guard let categs = record["categorias"] as? [String] else {
+                    print("\(#function) - Erro no cast das categorias do post")
+                    return
+                }
+                let tags = record["tags"] as? [String] ?? []
+//                guard let tags = record["tags"] as? [String] else {
+//                    print("\(#function) - Erro no cast das tags do post")
+//                    return
+//                }
+                let denuncias = record["denuncias"] as? [String] ?? []
+//                guard let denuncias = record["denuncias"] as? [String] else {
+//                    print("\(#function) - Erro no cast das denuncias do post")
+//                    return
+//                }
+                guard let publicador = record["publicador"] as? CKRecord.Reference else {
+                    print("\(#function) - Erro no cast do publicador do post")
+                    return
+                }
+                
+                let link = record["link"] as? CKRecord.Reference
+                
+                CKManager.fetchMembro(recordName: publicador.recordID.recordName) { (membroResult) in
+                    switch membroResult {
+                        case .success(let fetchedMembro):
+                            let post = Post(titulo: titulo, descricao: descricao, link: nil, categs: categs, tags: "", publicador: fetchedMembro)
+                            post.tags = tags
+                            post.denuncias = denuncias
+                            post.id = ckReference.recordID.recordName
+                            
+                            if link != nil {
+                                CKManager.fetchLink(recordName: link!.recordID.recordName) { (linkResult) in
+                                    switch linkResult {
+                                        case .success(let fetchedLink):
+                                            post.link = fetchedLink
+//                                            print("Retornando post")
+                                            completion(.success(post))
+                                        case .failure(_):
+                                            break
+                                    }
+                                }
+                            } else {
+//                                print("Retornando post")
+                                completion(.success(post))
+                            }
+                            
+                        case .failure(_):
+                            print("Retornando post nil")
+                            completion(.success(nil))
+                            break
+                    }
+                }
+                
+                //TODO: FALTA COMENTARIOS !!!
+            }
+        }
+    }
 }

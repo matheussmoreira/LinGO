@@ -17,27 +17,20 @@ class DAO: ObservableObject {
     @Published var idSalaAtual: String?
     
     fileprivate init(){
-        carregaSalasFromCloud()
+        ckLoadAllSalas()
     }
     
-    func carregaSalasFromCloud(){
+    func ckLoadAllSalas(){
         CKManager.loadRecordsDasSalas { (result) in
             switch result {
                 case .success(let records):
                     DispatchQueue.main.async {
                         for record in records {
-//                            if record.recordID.recordName != "45E4BF3D-BB41-4888-92F4-502E94CC0218" {
-//                                continue
-//                            }
-                            Sala.load(from: record, completion: { (loadedSala) in
+                            Sala.ckLoad(from: record, completion: { (loadedSala) in
                                 if loadedSala != nil {
                                     self.salas.append(loadedSala!)
                                 }
                             })
-                            
-//                            if record.recordID.recordName != "0A3C74B1-D1DF-4008-BDAF-057AC90F418F"{
-//                                continue
-//                            }
 //                            if let sala = CKManager.getSalaFromRecord(record) {
 //                                self.salas.append(sala)
 //                            }

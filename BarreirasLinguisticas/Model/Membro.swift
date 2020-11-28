@@ -26,78 +26,6 @@ class Membro: Equatable, Identifiable, ObservableObject {
         self.isAdmin = is_admin
     }
     
-    static func load(from ckRecord: CKRecord.Reference, completion: @escaping (Result<Membro, Error>) -> ()) {
-        let publicDB = CKContainer.default().publicCloudDatabase
-        publicDB.fetch(withRecordID: CKRecord.ID(recordName: ckRecord.recordID.recordName)) { (record, error) in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            if let fetchedMembro = record {
-                if let usuarioReference = fetchedMembro["usuario"] as? CKRecord.Reference {
-                    CKManager.fetchUsuario(recordName: usuarioReference.recordID.recordName) { (result) in
-                        switch result {
-                            case .success(let fetchedUser):
-                                guard let idSala = fetchedMembro["idSala"] as? String else {
-                                    print(#function)
-                                    print("Problema ao baixar a idSala do membro")
-                                    return
-                                }
-                                guard let admin = fetchedMembro["is_admin"] as? Int else {
-                                    print(#function)
-                                    print("Problema ao baixar o is_admin do membro")
-                                    return
-                                }
-                                let publicados = fetchedMembro["posts_publicados"] as? [String] ?? []
-//                                guard let publicados = fetchedMembro["posts_publicados"] as? [String] else {
-//                                    print(#function)
-//                                    print("Problema ao baixar posts publicados do membro do \(fetchedUser.nome)")
-//                                    return
-//                                }
-                                let salvos = fetchedMembro["posts_salvos"] as? [String] ?? []
-//                                guard let salvos = fetchedMembro["posts_salvos"] as? [String] else {
-//                                    print(#function)
-//                                    print("Problema ao baixar posts salvos do membro")
-//                                    return
-//                                }
-                                let assinaturas = fetchedMembro["assinaturas"] as? [String] ?? []
-//                                guard let assinaturas = fetchedMembro["assinaturas"] as? [String] else {
-//                                    print(#function)
-//                                    print("Problema ao baixar assinaturas do membro")
-//                                    return
-//                                }
-                                guard let blocked = fetchedMembro["isBlocked"] as? Int else {
-                                    print(#function)
-                                    print("Problema ao baixar o isBlocked do membro")
-                                    return
-                                }
-                                
-                                let is_admin: Bool
-                                if admin == 1 { is_admin = true}
-                                    else { is_admin = false }
-                                
-                                let is_blocked: Bool
-                                if blocked == 1 { is_blocked = true}
-                                    else { is_blocked = false }
-                                
-                                let membro = Membro(usuario: fetchedUser, idSala: idSala, is_admin: is_admin)
-                                membro.id = fetchedMembro.recordID.recordName
-                                membro.isBlocked = is_blocked
-                                membro.idsPostsPublicados = publicados
-                                membro.idsPostsSalvos = salvos
-                                membro.idsAssinaturas = assinaturas
-                                
-                                completion(.success(membro))
-                            case .failure(let error):
-                                print(#function)
-                                print(error)
-                        }
-                    }
-                }
-            }
-        }
-    } //fetchMembro
-    
     static func == (lhs: Membro, rhs: Membro) -> Bool {
         return lhs.usuario.id == rhs.usuario.id
     }
@@ -203,4 +131,79 @@ class Membro: Equatable, Identifiable, ObservableObject {
         return nil
     }
     
+}
+
+//MARK: - CKManagement
+extension Membro {
+    static func ckLoad(from ckReference: CKRecord.Reference, completion: @escaping (Result<Membro, Error>) -> ()) {
+        let publicDB = CKContainer.default().publicCloudDatabase
+        publicDB.fetch(withRecordID: CKRecord.ID(recordName: ckReference.recordID.recordName)) { (record, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            if let fetchedMembro = record {
+                if let usuarioReference = fetchedMembro["usuario"] as? CKRecord.Reference {
+                    CKManager.fetchUsuario(recordName: usuarioReference.recordID.recordName) { (result) in
+                        switch result {
+                            case .success(let fetchedUser):
+                                guard let idSala = fetchedMembro["idSala"] as? String else {
+                                    print(#function)
+                                    print("Problema ao baixar a idSala do membro")
+                                    return
+                                }
+                                guard let admin = fetchedMembro["is_admin"] as? Int else {
+                                    print(#function)
+                                    print("Problema ao baixar o is_admin do membro")
+                                    return
+                                }
+                                let publicados = fetchedMembro["posts_publicados"] as? [String] ?? []
+//                                guard let publicados = fetchedMembro["posts_publicados"] as? [String] else {
+//                                    print(#function)
+//                                    print("Problema ao baixar posts publicados do membro do \(fetchedUser.nome)")
+//                                    return
+//                                }
+                                let salvos = fetchedMembro["posts_salvos"] as? [String] ?? []
+//                                guard let salvos = fetchedMembro["posts_salvos"] as? [String] else {
+//                                    print(#function)
+//                                    print("Problema ao baixar posts salvos do membro")
+//                                    return
+//                                }
+                                let assinaturas = fetchedMembro["assinaturas"] as? [String] ?? []
+//                                guard let assinaturas = fetchedMembro["assinaturas"] as? [String] else {
+//                                    print(#function)
+//                                    print("Problema ao baixar assinaturas do membro")
+//                                    return
+//                                }
+                                guard let blocked = fetchedMembro["isBlocked"] as? Int else {
+                                    print(#function)
+                                    print("Problema ao baixar o isBlocked do membro")
+                                    return
+                                }
+                                
+                                let is_admin: Bool
+                                if admin == 1 { is_admin = true}
+                                    else { is_admin = false }
+                                
+                                let is_blocked: Bool
+                                if blocked == 1 { is_blocked = true}
+                                    else { is_blocked = false }
+                                
+                                let membro = Membro(usuario: fetchedUser, idSala: idSala, is_admin: is_admin)
+                                membro.id = fetchedMembro.recordID.recordName
+                                membro.isBlocked = is_blocked
+                                membro.idsPostsPublicados = publicados
+                                membro.idsPostsSalvos = salvos
+                                membro.idsAssinaturas = assinaturas
+                                
+                                completion(.success(membro))
+                            case .failure(let error):
+                                print(#function)
+                                print(error)
+                        }
+                    }
+                }
+            }
+        }
+    } //fetchMembro
 }

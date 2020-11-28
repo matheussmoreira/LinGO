@@ -64,7 +64,7 @@ struct FirstView: View {
                                 dao.usuarioAtual = fetchedUser
                                 dao.idSalaAtual = fetchedUser.sala_atual
                                 carregaEnterMode()
-                                loading = false
+                                print("Sala atual: \(dao.getSala(id: dao.idSalaAtual!)?.nome)")
                                 print("Usuario resgatado com sucesso")
                             }
                         case .failure(let error):
@@ -81,8 +81,10 @@ struct FirstView: View {
         let storedEnterMode = UserDefaults.standard.integer(forKey: "LastEnterMode")
         if storedEnterMode == 1 {
             enterMode = .logIn
+            loading = false
         } else {
             enterMode = .logOut
+            loading = false
         }
     }
 }

@@ -606,6 +606,48 @@ extension CKManager {
 
 //MARK: - LINK
 extension CKManager {
+    static func fetchLink(recordName: String, completion: @escaping (Result<LinkPost,Error>) -> ()) {
+        CKContainer.default().publicCloudDatabase.fetch(withRecordID: CKRecord.ID(recordName: recordName)) { (fetchedRecord, error) in
+            if let error = error {
+                print(#function)
+                print(error)
+                completion(.failure(error))
+            }
+            if let record = fetchedRecord {
+                let recordName = record.recordID.recordName
+                guard let localId = record["localId"] as? Int else{
+                    print("\(#function) - Erro no cast do localId")
+                    return
+                }
+                guard let titulo = record["titulo"] as? String else{
+                    print("\(#function) - Erro no cast do titulo")
+                    return
+                }
+                guard let urlString = record["urlString"] as? String else{
+                    print("\(#function) - Erro no cast da urlString")
+                    return
+                }
+                var foto: Data? = nil
+                let fotoDataFromCache = FileSystem.retrieveImage(forId: String(describing: localId))
+                let fotoAsset = record["imagem"] as? CKAsset
+                
+                if fotoDataFromCache != nil { // Primeiro pega no disco
+                    foto = fotoDataFromCache!
+                } else if fotoAsset != nil { // Senao pega no CK
+                    foto = NSData(contentsOf: fotoAsset!.fileURL!) as Data?
+                }
+                
+                let link = LinkPost()
+                link.ckRecordName = recordName
+                link.localId = localId
+                link.titulo = titulo
+                link.urlString = urlString
+                link.imagem = foto
+                completion(.success(link))
+            }
+        }
+    }
+    
     static func saveLink(link: LinkPost, completion: @escaping (Result<String, Error>) -> ()) {
         let linkRecord = CKRecord(recordType: "Link")
         linkRecord["localId"] = link.localId
