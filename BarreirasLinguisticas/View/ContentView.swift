@@ -17,11 +17,6 @@ struct ContentView: View {
     @State private var showProfile = false
     var salaAtual: Sala? {
         let sala = dao.getSala(id: dao.idSalaAtual ?? "")
-//        if sala != nil {
-//            print("Sala atual na ContentView: \(sala!.nome)")
-//        } else {
-//            print("Sala atual na ContentView: nil")
-//        }
         return sala
     }
     var membroAtual: Membro? {
@@ -75,6 +70,10 @@ struct ContentView: View {
                 .environmentObject(dao)
                 .transition(.opacity)
                 .animation(.easeOut)
+                .onAppear{
+                    if (salaAtual == nil) { print("EmptyRoom pois sala atual is nil") }
+                    if (membroAtual == nil) { print("EmptyRoom pois membro atual is nil") }
+                }
             }
         }
         .navigationBarBackButtonHidden(true)

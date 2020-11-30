@@ -361,17 +361,20 @@ extension Sala {
         let categsRef = ckRecord["categorias"] as? [CKRecord.Reference] ?? []
         let postsRef = ckRecord["posts"] as? [CKRecord.Reference] ?? []
         
-        //let categsSemaforo = DispatchSemaphore(value: categsRef.count)
+        let membrosSemaforo = DispatchSemaphore(value: membrosRef.count)
+        
         for membroRef in membrosRef {
             Membro.ckLoad(from: membroRef) { (result) in
                 switch result {
                     case .success(let loadedMembro):
                         DispatchQueue.main.async {
                             sala.membros.append(loadedMembro)
+                            membrosSemaforo.signal()
                         }
                     case .failure(let error):
                         print(#function)
                         print(error)
+                        membrosSemaforo.signal()
                 }
             }
         }
@@ -382,7 +385,6 @@ extension Sala {
                     case .success(let loadedCateg):
                         DispatchQueue.main.async {
                             sala.categorias.append(loadedCateg)
-                            //categsSemaforo.signal()
                         }
                     case .failure(_):
                         break
@@ -405,7 +407,7 @@ extension Sala {
             }
         }
 
-        //categsSemaforo.wait()
+        membrosSemaforo.wait()
         print("Retornando sala \(sala.nome)")
         completion(sala)
     }
