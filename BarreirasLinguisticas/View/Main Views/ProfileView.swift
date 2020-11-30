@@ -180,11 +180,7 @@ struct ProfileView: View {
                         .alert(isPresented: $showAlertLogOut) {
                             Alert(title: Text("Are you sure you want to log out?"),
                                   primaryButton: .default(Text("Log out")) {
-                                    self.enterMode = .logOut
-                                    UserDefaults.standard.set(
-                                        enterMode.rawValue,
-                                        forKey: "LastEnterMode"
-                                    )
+                                    logOut()
                                   },
                                   secondaryButton: .cancel())
                         }
@@ -236,6 +232,14 @@ struct ProfileView: View {
             }
         }
     } //body
+    
+    func logOut(){
+        enterMode = .logOut
+        UserDefaults.standard.set(
+            enterMode.rawValue,
+            forKey: "LastEnterMode"
+        )
+    }
     
     func sai_sala(){
         sala.removeMembro(membro: self.membro.id)

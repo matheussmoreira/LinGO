@@ -136,6 +136,24 @@
 			path = Delegates;
 			sourceTree = "<group>";
 		};
+		664B8E4725755D8800D7FFA9 /* Main Views */ = {
+			isa = PBXGroup;
+			children = (
+				6629EBA224EC45B4009802A5 /* FirstView.swift */,
+				66E744682547AC4400B33131 /* OnboardView.swift */,
+				66D7AA6824CB5135001CEA3A /* ContentView.swift */,
+				667D8BAC24D302B4005D51F4 /* RoomsView.swift */,
+				66D7AA8424CB80B2001CEA3A /* DiscoverView.swift */,
+				66D7AA8624CB80F0001CEA3A /* CategoriesView.swift */,
+				6603984A24DB31A100C5629B /* PostsOfCategorieView.swift */,
+				668903A724D5B7F60062C8CA /* PostView.swift */,
+				EA6CA39E24DA00C000FAD6F6 /* PostCreatorView.swift */,
+				66D7AA8A24CB8140001CEA3A /* ProfileView.swift */,
+				EA49EC2924EEEC210030F135 /* EditProfileView.swift */,
+			);
+			path = "Main Views";
+			sourceTree = "<group>";
+		};
 		6674DDF7252FACAA0044E9C7 /* Comentarios */ = {
 			isa = PBXGroup;
 			children = (
@@ -274,17 +292,7 @@
 				669B1201256E7E4E009271C1 /* Auxiliares */,
 				6674DDF7252FACAA0044E9C7 /* Comentarios */,
 				669B120A256E9021009271C1 /* Member Features */,
-				6629EBA224EC45B4009802A5 /* FirstView.swift */,
-				66E744682547AC4400B33131 /* OnboardView.swift */,
-				66D7AA6824CB5135001CEA3A /* ContentView.swift */,
-				667D8BAC24D302B4005D51F4 /* RoomsView.swift */,
-				66D7AA8424CB80B2001CEA3A /* DiscoverView.swift */,
-				66D7AA8624CB80F0001CEA3A /* CategoriesView.swift */,
-				6603984A24DB31A100C5629B /* PostsOfCategorieView.swift */,
-				668903A724D5B7F60062C8CA /* PostView.swift */,
-				EA6CA39E24DA00C000FAD6F6 /* PostCreatorView.swift */,
-				66D7AA8A24CB8140001CEA3A /* ProfileView.swift */,
-				EA49EC2924EEEC210030F135 /* EditProfileView.swift */,
+				664B8E4725755D8800D7FFA9 /* Main Views */,
 			);
 			path = View;
 			sourceTree = "<group>";

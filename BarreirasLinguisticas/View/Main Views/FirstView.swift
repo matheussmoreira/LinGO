@@ -56,16 +56,18 @@ struct FirstView: View {
                 return
             }
             if let recordID = recordID {
-                print("Buscando o usuario atual")
+                print("Buscando o usuario atual...")
                 CKManager.fetchUsuario(recordName: recordID.recordName) { (result) in
                     switch result{
                         case .success(let fetchedUser):
                             DispatchQueue.main.async {
+                                print("Usuario atual resgatado com sucesso!\n")
                                 dao.usuarioAtual = fetchedUser
-                                dao.idSalaAtual = fetchedUser.sala_atual
+                                carregaSalaAtual(
+                                    id_sala: fetchedUser.sala_atual,
+                                    id_usuario: fetchedUser.id
+                                )
                                 carregaEnterMode()
-                                print("Sala atual: \(String(describing: dao.getSala(id: dao.idSalaAtual!)?.nome))")
-                                print("Usuario resgatado com sucesso")
                             }
                         case .failure(let error):
                             print("first view: case.failure")
@@ -77,14 +79,34 @@ struct FirstView: View {
         }
     } // funcao
     
+    func carregaSalaAtual(id_sala: String?, id_usuario: String){
+        print("Botou pra carregar sala atual")
+        if let record = dao.getSalaRecord(from: id_sala) {
+            Sala.ckLoad(from: record, isSalaAtual: true) { (sala) in
+                dao.idSalaAtual = id_sala
+                dao.salaAtual = sala
+                
+                if !dao.salas.contains(sala!) {
+                    dao.salas.append(sala!)
+                }
+                
+                if let membro = dao.salaAtual!.getMembroByUser(id: id_usuario) {
+                    membro.usuario = dao.usuarioAtual!
+                    dao.membroAtual = membro
+                }
+            }
+        }
+        loading = false
+        print("Sala atual carregada: \(String(describing: dao.salaAtual?.nome))")
+        dao.ckLoadAllSalas()
+    }
+    
     func carregaEnterMode(){
         let storedEnterMode = UserDefaults.standard.integer(forKey: "LastEnterMode")
         if storedEnterMode == 1 {
             enterMode = .logIn
-            loading = false
         } else {
             enterMode = .logOut
-            loading = false
         }
     }
 }

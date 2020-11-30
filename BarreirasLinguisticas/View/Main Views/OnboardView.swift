@@ -78,12 +78,17 @@ struct OnboardView: View {
                 return
             }
             if let recordID = recordID {
+                print("Buscando o usuario atual...")
                 CKManager.fetchUsuario(recordName: recordID.recordName) { (result) in
                     switch result{
                         case .success(let fetchedUser):
                             DispatchQueue.main.async {
+                                print("Usuario atual resgatado com sucesso!\n")
                                 dao.usuarioAtual = fetchedUser
-                                dao.idSalaAtual = fetchedUser.sala_atual
+                                carregaSalaAtual(
+                                    id_sala: fetchedUser.sala_atual,
+                                    id_usuario: fetchedUser.id
+                                )
                                 enterMode = .logIn
                                 UserDefaults.standard.set(
                                     enterMode.rawValue,
@@ -97,6 +102,27 @@ struct OnboardView: View {
                 }
             }
         }
+    }
+    
+    func carregaSalaAtual(id_sala: String?, id_usuario: String){
+        print("Botou pra carregar sala atual")
+        if let record = dao.getSalaRecord(from: id_sala) {
+            Sala.ckLoad(from: record, isSalaAtual: true) { (sala) in
+                dao.idSalaAtual = id_sala
+                dao.salaAtual = sala
+                
+                if !dao.salas.contains(sala!) {
+                    dao.salas.append(sala!)
+                }
+                
+                if let membro = dao.salaAtual!.getMembroByUser(id: id_usuario) {
+                    membro.usuario = dao.usuarioAtual!
+                    dao.membroAtual = membro
+                }
+            }
+        }
+        print("Sala atual carregada: \(String(describing: dao.salaAtual?.nome))")
+        dao.ckLoadAllSalas()
     }
 }
 

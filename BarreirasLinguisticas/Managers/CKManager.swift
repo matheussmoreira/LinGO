@@ -43,7 +43,7 @@ struct CKManager {
 
 // MARK: - SALA
 extension CKManager {
-    static func loadRecordsDasSalas(completion: @escaping (Result<[CKRecord], Error>) -> ()){
+    static func querySalasRecords(completion: @escaping (Result<[CKRecord], Error>) -> ()){
         let publicDB = CKContainer.default().publicCloudDatabase
         let querySalas = CKQuery(recordType: "Sala", predicate: NSPredicate(value: true))
         publicDB.perform(querySalas, inZoneWith: nil) { (records, error) in
@@ -52,7 +52,7 @@ extension CKManager {
                 completion(.failure(error))
             }
             if let loadedSalas = records {
-                print("Records das salas carregados com sucesso")
+                print("Records das salas carregados com sucesso!")
                 completion(.success(loadedSalas))
             }
         }

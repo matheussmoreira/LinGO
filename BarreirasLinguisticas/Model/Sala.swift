@@ -10,7 +10,7 @@ import Foundation
 import LinkPresentation
 import CloudKit
 
-class Sala: Identifiable, ObservableObject {
+class Sala: Identifiable, ObservableObject, Equatable {
     var id: String = ""
     @Published var nome: String = ""
     @Published var membros: [Membro] = []
@@ -20,6 +20,10 @@ class Sala: Identifiable, ObservableObject {
     init(id: String, nome: String) {
         self.id = id
         self.nome = nome
+    }
+    
+    static func == (lhs: Sala, rhs: Sala) -> Bool {
+        return lhs.id == rhs.id
     }
     
     private init(){
@@ -309,15 +313,6 @@ class Sala: Identifiable, ObservableObject {
         CKManager.deleteRecord(recordName: categ.id)
         categorias.removeAll(where: {$0.id == categ.id})
         CKManager.modifySala(self)
-//        CKManager.modifySalaCategorias(sala: self) { (result) in
-//            switch result {
-//                case .success(_):
-//                    break
-//                case .failure(let error):
-//                    print(#function)
-//                    print(error)
-//            }
-//        }
     }
     
     private func removePostSalaMembro(id_post: String, membro: Membro){
@@ -352,29 +347,33 @@ class Sala: Identifiable, ObservableObject {
 
 // MARK: - CKManagement
 extension Sala {
-    static func ckLoad(from ckRecord: CKRecord, completion: @escaping (Sala?) -> ()) {
+    static func ckLoadEmpty(from ckRecord: CKRecord, completion: @escaping (Sala?) -> ()) {
         let sala = Sala()
         sala.id = ckRecord.recordID.recordName
         sala.nome = ckRecord["nome"] as? String ?? ""
+        print("Loading sala \(sala.nome)")
+        print("Retornando sala \(sala.nome)")
+        completion(sala)
+    }
+    
+    static func ckLoad(from ckRecord: CKRecord, isSalaAtual: Bool, completion: @escaping (Sala?) -> ()) {
+        var loadError = false
+        let sala = Sala()
+        sala.id = ckRecord.recordID.recordName
+        sala.nome = ckRecord["nome"] as? String ?? ""
+        print("Loading sala \(sala.nome)")
         
         let membrosRef = ckRecord["membros"] as? [CKRecord.Reference] ?? []
         let categsRef = ckRecord["categorias"] as? [CKRecord.Reference] ?? []
         let postsRef = ckRecord["posts"] as? [CKRecord.Reference] ?? []
         
-        let membrosSemaforo = DispatchSemaphore(value: membrosRef.count)
-        
         for membroRef in membrosRef {
             Membro.ckLoad(from: membroRef) { (result) in
                 switch result {
                     case .success(let loadedMembro):
-                        DispatchQueue.main.async {
-                            sala.membros.append(loadedMembro)
-                            membrosSemaforo.signal()
-                        }
-                    case .failure(let error):
-                        print(#function)
-                        print(error)
-                        membrosSemaforo.signal()
+                        sala.membros.append(loadedMembro)
+                    case .failure(_):
+                        loadError = true
                 }
             }
         }
@@ -383,11 +382,9 @@ extension Sala {
             Categoria.ckLoad(from: categRef) { (result) in
                 switch result {
                     case .success(let loadedCateg):
-                        DispatchQueue.main.async {
                             sala.categorias.append(loadedCateg)
-                        }
                     case .failure(_):
-                        break
+                        loadError = true
                 }
             }
         }
@@ -397,18 +394,26 @@ extension Sala {
                 switch result {
                     case .success(let loadedPost):
                         if loadedPost != nil {
-                            DispatchQueue.main.async {
-                                sala.posts.append(loadedPost!)
-                            }
+                            sala.posts.append(loadedPost!)
                         }
                     case .failure(_):
-                        break
+                        loadError = true
                 }
             }
         }
-
-        membrosSemaforo.wait()
-        print("Retornando sala \(sala.nome)")
-        completion(sala)
+        
+        if isSalaAtual {
+            while true { // espera pra retornar a sala quando carrega tudo
+                if sala.membros.count == membrosRef.count && sala.categorias.count == categsRef.count && sala.posts.count == postsRef.count && !loadError {
+                    print("Retornando sala \(sala.nome)")
+                    completion(sala)
+                    break
+                }
+            }
+        } else {
+            print("Retornando sala \(sala.nome)")
+            completion(sala)
+        }
+        
     }
 }

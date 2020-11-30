@@ -7,39 +7,58 @@
 //
 
 import Foundation
+import CloudKit
 
 var dao = DAO()
 
 class DAO: ObservableObject {
-    @Published var salas: [Sala] = []
+    var salas: [Sala] = []
+    var salasRecords: [CKRecord] = []
     @Published var usuarioAtual: Usuario?
     @Published var idSalaAtual: String?
+    @Published var salaAtual: Sala?
+    @Published var membroAtual: Membro?
     
     fileprivate init(){
-        ckLoadAllSalas()
+        loadSalasRecords()
     }
     
-    func ckLoadAllSalas(){
-        CKManager.loadRecordsDasSalas { (result) in
+    func loadSalasRecords(){
+        print("Loading todos os records das salas...")
+        CKManager.querySalasRecords { (result) in
             switch result {
                 case .success(let records):
-                    DispatchQueue.main.async {
-                        for record in records {
-                            Sala.ckLoad(from: record, completion: { (loadedSala) in
-                                if loadedSala != nil {
-                                    self.salas.append(loadedSala!)
-                                }
-                            })
-//                            if let sala = CKManager.getSalaFromRecord(record) {
-//                                self.salas.append(sala)
-//                            }
-                        }
-                    }
+                    self.salasRecords.append(contentsOf: records)
+//                    self.ckLoadAllSalas(from: records)
                 case .failure(let error):
                     print(#function)
                     print(error)
             }
         }
+    }
+    
+    func ckLoadAllSalas(){
+        print("\nLoading all salas...")
+        for record in salasRecords {
+            if salaAtual != nil { // sala atual carregando separadamente
+                if record.recordID.recordName == salaAtual!.id {
+                    continue
+                }
+            }
+            Sala.ckLoad(from: record, isSalaAtual: false, completion: { (loadedSala) in
+                if loadedSala != nil {
+                    self.salas.append(loadedSala!)
+                }
+            })
+        }
+    }
+    
+    func getSalaRecord(from sala_id: String?) -> CKRecord? {
+        let records = salasRecords.filter({$0.recordID.recordName == sala_id})
+        if !records.isEmpty {
+            return records[0]
+        }
+        return nil
     }
     
     func getSala(id: String) -> Sala? {

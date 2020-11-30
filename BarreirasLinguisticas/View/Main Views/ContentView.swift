@@ -16,16 +16,10 @@ struct ContentView: View {
     @State private var showRooms = false
     @State private var showProfile = false
     var salaAtual: Sala? {
-        let sala = dao.getSala(id: dao.idSalaAtual ?? "")
-        return sala
+        return dao.salaAtual
     }
     var membroAtual: Membro? {
-        if let membro = salaAtual!.getMembroByUser(id: usuarioAtual!.id) {
-            membro.usuario = dao.usuarioAtual!
-            return membro
-        } else {
-            return nil
-        }
+        return dao.membroAtual
     }
     
     var body: some View {

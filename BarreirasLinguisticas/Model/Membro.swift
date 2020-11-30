@@ -139,6 +139,8 @@ extension Membro {
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: ckReference.recordID.recordName)) { (record, error) in
             if let error = error {
+                print(#function)
+                print(error)
                 completion(.failure(error))
                 return
             }

@@ -288,6 +288,8 @@ struct MyRoomsView: View {
     func alteraSalaAtual(sala: Sala){
         self.usuario.sala_atual = sala.id
         dao.idSalaAtual = self.usuario.sala_atual
+        dao.salaAtual = sala
+        dao.membroAtual = sala.getMembroByUser(id: self.usuario.id)
         self.presentationMode.wrappedValue.dismiss()
         CKManager.modifyUsuario(user: self.usuario)
     }
@@ -390,24 +392,13 @@ struct SearchRoomsView: View {
         sala.membros.append(membro)
         alteraSalaAtual(sala: sala)
         CKManager.modifySala(sala)
-        
-//        CKManager.modifySalaMembros(sala: sala) { (result) in
-//            switch result {
-//                case .success( _):
-//                    DispatchQueue.main.async {
-//                        alteraSalaAtual(sala: sala)
-//                    }
-//                    
-//                case .failure(let error):
-//                    print(#function)
-//                    print(error)
-//            }
-//        }
     }
     
     func alteraSalaAtual(sala: Sala){
         self.usuario.sala_atual = sala.id
         dao.idSalaAtual = self.usuario.sala_atual
+        dao.salaAtual = sala
+        dao.membroAtual = sala.getMembroByUser(id: self.usuario.id)
         self.presentationMode.wrappedValue.dismiss()
         CKManager.modifyUsuario(user: self.usuario)
     }
