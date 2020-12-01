@@ -112,7 +112,9 @@ struct OnboardView: View {
                 dao.salaAtual = sala
                 
                 if !dao.salas.contains(sala!) {
-                    dao.salas.append(sala!)
+                    DispatchQueue.main.async {
+                        dao.salas.append(sala!)
+                    }
                 }
                 
                 if let membro = dao.salaAtual!.getMembroByUser(id: id_usuario) {

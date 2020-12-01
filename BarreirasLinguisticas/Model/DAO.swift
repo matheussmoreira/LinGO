@@ -12,8 +12,8 @@ import CloudKit
 var dao = DAO()
 
 class DAO: ObservableObject {
-    var salas: [Sala] = []
-    var salasRecords: [CKRecord] = []
+    @Published var salas: [Sala] = []
+    @Published var salasRecords: [CKRecord] = []
     @Published var usuarioAtual: Usuario?
     @Published var idSalaAtual: String?
     @Published var salaAtual: Sala?
@@ -28,9 +28,10 @@ class DAO: ObservableObject {
         CKManager.querySalasRecords { (result) in
             switch result {
                 case .success(let records):
-                    print("Records das salas carregados com sucesso!")
-                    self.salasRecords.append(contentsOf: records)
-//                    self.ckLoadAllSalas(from: records)
+                    DispatchQueue.main.async {
+                        print("Records das salas carregados com sucesso!")
+                        self.salasRecords.append(contentsOf: records)
+                    }
                 case .failure(let error):
                     print(#function)
                     print(error)
@@ -48,7 +49,9 @@ class DAO: ObservableObject {
             }
             Sala.ckLoad(from: record, isSalaAtual: false, completion: { (loadedSala) in
                 if loadedSala != nil {
-                    self.salas.append(loadedSala!)
+                    DispatchQueue.main.async {
+                        self.salas.append(loadedSala!)
+                    }
                 }
             })
         }
