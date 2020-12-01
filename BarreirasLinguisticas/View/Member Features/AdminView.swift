@@ -71,22 +71,42 @@ struct AdminView: View {
 struct PostsDenunciados: View {
     @EnvironmentObject var sala: Sala
     @EnvironmentObject var membro: Membro
-    @State var posts: [Post] = []
+    var posts: [Post] {
+        return sala.posts.filter{!$0.denuncias.isEmpty}
+    }
     
     var body: some View {
         VStack{
-            if posts.isEmpty{
-                Text("No reported posts 🙂")
-                    .foregroundColor(.gray)
+            if posts.isEmpty {
+                if !sala.allPostsLoaded && !sala.loadingPostsError {
+                    /*
+                     Nao carregou todos os posts, entao nao tem
+                     como falar com certeza que eh pra mostrar a msg
+                     "No posts for you"
+                    */
+                    VStack {
+                        ProgressView("")
+                    }.frame(height: 260)
+                }  else {
+                    Text("No reported posts 🙂")
+                        .foregroundColor(.gray)
+                }
             }
             else {
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(posts) { post in
-                        NavigationLink(
-                            destination: PostView(sala: sala, post: post)
-                        ){
-                            PostCardView(post: post, sala: sala, width: 0.85)
-                                .environmentObject(membro)
+                    VStack {
+                        ForEach(posts) { post in
+                            NavigationLink(
+                                destination: PostView(sala: sala, post: post)
+                            ){
+                                PostCardView(post: post, sala: sala, width: 0.85)
+                                    .environmentObject(membro)
+                            }
+                        }
+                        if !sala.allPostsLoaded && !sala.loadingPostsError {
+                            VStack {
+                                ProgressView("")
+                            }.frame(height: 260)
                         }
                     }
                 }
@@ -95,9 +115,9 @@ struct PostsDenunciados: View {
         .navigationBarTitle(
             Text("Reported Posts")
         )
-        .onAppear {
-            self.posts = self.sala.posts.filter{!$0.denuncias.isEmpty}
-        }
+//        .onAppear {
+//            self.posts = self.sala.posts.filter{!$0.denuncias.isEmpty}
+//        }
     }//body
 }
 
