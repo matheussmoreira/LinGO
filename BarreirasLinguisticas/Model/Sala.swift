@@ -15,7 +15,13 @@ class Sala: Identifiable, ObservableObject, Equatable {
     @Published var nome: String = ""
     @Published var membros: [Membro] = []
     @Published var posts: [Post] = []
+    @Published var allPostsLoaded = false
+    @Published var loadingPostsError = false
     @Published var categorias: [Categoria] = []
+    
+    @Published var membrosRef: [CKRecord.Reference] = []
+    @Published var categsRef: [CKRecord.Reference] = []
+    @Published var postsRef: [CKRecord.Reference] = []
     
     init(id: String, nome: String) {
         self.id = id
@@ -31,6 +37,7 @@ class Sala: Identifiable, ObservableObject, Equatable {
     
     //MARK: - FUNCOES GET
     func getMembroByUser(id: String?) -> Membro? {
+        print(#function)
         for membro in self.membros {
             if (id == membro.usuario.id) { return membro }
         }
@@ -357,7 +364,7 @@ extension Sala {
     }
     
     static func ckLoad(from ckRecord: CKRecord, isSalaAtual: Bool, completion: @escaping (Sala?) -> ()) {
-        var loadError = false
+        var loadingError = false
         let sala = Sala()
         sala.id = ckRecord.recordID.recordName
         sala.nome = ckRecord["nome"] as? String ?? ""
@@ -367,13 +374,17 @@ extension Sala {
         let categsRef = ckRecord["categorias"] as? [CKRecord.Reference] ?? []
         let postsRef = ckRecord["posts"] as? [CKRecord.Reference] ?? []
         
+        sala.membrosRef = membrosRef
+        sala.categsRef = categsRef
+        sala.postsRef = postsRef
+        
         for membroRef in membrosRef {
             Membro.ckLoad(from: membroRef) { (result) in
                 switch result {
                     case .success(let loadedMembro):
                         sala.membros.append(loadedMembro)
                     case .failure(_):
-                        loadError = true
+                        loadingError = true
                 }
             }
         }
@@ -384,7 +395,7 @@ extension Sala {
                     case .success(let loadedCateg):
                             sala.categorias.append(loadedCateg)
                     case .failure(_):
-                        loadError = true
+                        loadingError = true
                 }
             }
         }
@@ -394,17 +405,22 @@ extension Sala {
                 switch result {
                     case .success(let loadedPost):
                         if loadedPost != nil {
-                            sala.posts.append(loadedPost!)
+                            DispatchQueue.main.async {
+                                sala.posts.append(loadedPost!)
+                                if sala.posts.count == postsRef.count {
+                                    sala.allPostsLoaded = true
+                                }
+                            }
                         }
                     case .failure(_):
-                        loadError = true
+                        sala.loadingPostsError = true
                 }
             }
         }
         
         if isSalaAtual {
             while true { // espera pra retornar a sala quando carrega tudo
-                if sala.membros.count == membrosRef.count && sala.categorias.count == categsRef.count && sala.posts.count == postsRef.count && !loadError {
+                if sala.membros.count == membrosRef.count && sala.categorias.count == categsRef.count && /*sala.posts.count == postsRef.count &&*/ !loadingError {
                     print("Retornando sala \(sala.nome)")
                     completion(sala)
                     break

@@ -12,8 +12,22 @@ struct DiscoverView: View {
     @EnvironmentObject var dao: DAO
     @EnvironmentObject var membro: Membro
     @EnvironmentObject var sala: Sala
-    @State private var fyPosts: [Post] = []
-    @State private var recentPosts: [Post] = []
+    private var fyPosts: [Post] {
+        var fy: [Post] = []
+        for assinatura in membro.idsAssinaturas {
+            fy.append(
+                contentsOf: sala.getPostsByCategorie(categ: assinatura)
+            )
+        }
+        return fy
+    }
+    private var recentPosts: [Post] {
+        var recent: [Post] = []
+        recent.append(
+            contentsOf: sala.posts.filter({!fyPosts.contains($0)})
+        )
+        return recent
+    }
     @State private var mensagem = ""
     @State private var showPostEditor = false
     @State private var showRooms = false
@@ -23,16 +37,27 @@ struct DiscoverView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 //MARK: -  SCROLL HORIZONTAL DE CIMA
                 if fyPosts.isEmpty {
-                    VStack {
-                        Text("No posts for you 😕")
-                            .foregroundColor(Color.gray)
-                        Text("\nSubscribe in a category")
-                            .foregroundColor(Color.gray)
-                        Text("or wait for a new post!")
-                            .foregroundColor(Color.gray)
-                        
+                    if !sala.allPostsLoaded {
+                        /*
+                         Nao carregou todos os posts, entao nao tem
+                         como falar com certeza que eh pra mostrar a msg
+                         "No posts for you"
+                        */
+                        VStack {
+                            ProgressView("")
+                        }.frame(height: 260)
+                    } else {
+                        // Ja carregou todos os posts e realmente nao tem FY
+                        VStack {
+                            Text("No posts for you 😕")
+                                .foregroundColor(Color.gray)
+                            Text("\nSubscribe in a category")
+                                .foregroundColor(Color.gray)
+                            Text("or wait for a new post!")
+                                .foregroundColor(Color.gray)
+                        }
+                        .frame(height: 260)
                     }
-                    .frame(height: 260)
                 }
                 else {
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -40,6 +65,11 @@ struct DiscoverView: View {
                             ForEach(fyPosts.suffix(7).reversed()){ post in
                                 CardsView(post: post, sala: self.sala)
                                     .environmentObject(self.membro)
+                            }
+                            if !sala.allPostsLoaded {
+                                VStack {
+                                    ProgressView("")
+                                }.frame(height: 260)
                             }
                         }
                     }
@@ -58,10 +88,22 @@ struct DiscoverView: View {
                 }
                 
                 if recentPosts.isEmpty {
-                    VStack {
-                        Text("No recent posts 😕")
-                            .foregroundColor(Color.gray)
-                    }.frame(height: 260)
+                    if !sala.allPostsLoaded {
+                        /*
+                         Nao carregou todos os posts, entao nao tem
+                         como falar com certeza que eh pra mostrar a msg
+                         "No posts for you"
+                        */
+                        VStack {
+                            ProgressView("")
+                        }.frame(height: 260)
+                    } else {
+                        // Ja carregou os posts e realmente nao tem
+                        VStack {
+                            Text("No recent posts 😕")
+                                .foregroundColor(Color.gray)
+                        }.frame(height: 260)
+                    }
                 }
                 else {
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -70,14 +112,19 @@ struct DiscoverView: View {
                                 CardsView(post: post, sala: self.sala)
                                     .environmentObject(self.membro)
                             }
+                            if !sala.allPostsLoaded {
+                                VStack {
+                                    ProgressView("")
+                                }.frame(height: 260)
+                            }
                         }
                     }
                 }
             }
             .onAppear {
 //                print(membro.id)
-                self.loadFY()
-                self.loadRecentPosts()
+//                self.loadFYPosts()
+//                self.loadRecentPosts()
             }
             .navigationBarTitle("Discover")
             .navigationBarItems(
@@ -123,21 +170,31 @@ struct DiscoverView: View {
         }
     } //body
     
-    func loadFY() {
-        fyPosts = []
-        for assinatura in membro.idsAssinaturas {
-            fyPosts.append(
-                contentsOf: sala.getPostsByCategorie(categ: assinatura)
-            )
-        }
-    }
+//    func loadFYPosts() {
+//        fyPosts = []
+//        for assinatura in membro.idsAssinaturas {
+//            fyPosts.append(
+//                contentsOf: sala.getPostsByCategorie(categ: assinatura)
+//            )
+//        }
+//    }
     
-    func loadRecentPosts() {
-        recentPosts = []
-        recentPosts.append(
-            contentsOf: sala.posts.filter({!fyPosts.contains($0)})
-        )
-    }
+//    func loadFYPosts2() -> [Post]{
+//        var fy: [Post] = []
+//        for assinatura in membro.idsAssinaturas {
+//            fy.append(
+//                contentsOf: sala.getPostsByCategorie(categ: assinatura)
+//            )
+//        }
+//        return fy
+//    }
+    
+//    func loadRecentPosts() {
+//        recentPosts = []
+//        recentPosts.append(
+//            contentsOf: sala.posts.filter({!fyPosts.contains($0)})
+//        )
+//    }
     
 }
 

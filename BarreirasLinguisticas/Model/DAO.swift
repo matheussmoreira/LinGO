@@ -28,6 +28,7 @@ class DAO: ObservableObject {
         CKManager.querySalasRecords { (result) in
             switch result {
                 case .success(let records):
+                    print("Records das salas carregados com sucesso!")
                     self.salasRecords.append(contentsOf: records)
 //                    self.ckLoadAllSalas(from: records)
                 case .failure(let error):

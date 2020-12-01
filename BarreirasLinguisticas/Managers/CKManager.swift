@@ -52,7 +52,7 @@ extension CKManager {
                 completion(.failure(error))
             }
             if let loadedSalas = records {
-                print("Records das salas carregados com sucesso!")
+                
                 completion(.success(loadedSalas))
             }
         }

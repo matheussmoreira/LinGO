@@ -304,7 +304,10 @@ struct ProfileView: View {
         } else {
             usuario.sala_atual = salas[0].id
         }
+        
         dao.idSalaAtual = usuario.sala_atual
+        dao.salaAtual = dao.getSala(id: dao.idSalaAtual!)
+        dao.membroAtual = dao.salaAtual!.getMembroByUser(id: usuario.id)
         CKManager.modifyUsuario(user: usuario)
     }
 }
