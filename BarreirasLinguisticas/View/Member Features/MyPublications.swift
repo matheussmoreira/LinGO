@@ -12,6 +12,15 @@ struct MyPublications: View {
     @EnvironmentObject var membro: Membro
     @ObservedObject var sala: Sala
     @State private var mensagem = ""
+    private var loaded_posts: [Post] {
+        var posts: [Post] = []
+        for idPublicado in membro.idsPostsPublicados {
+            if let publicadoValido = sala.getPost(id: idPublicado){
+                posts.append(publicadoValido)
+            }
+        }
+        return posts
+    }
     
     var body: some View {
         VStack {
@@ -23,19 +32,49 @@ struct MyPublications: View {
             }
             else {
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(0..<membro.idsPostsPublicados.count) { idx in
-                        if let post_publicado = sala.getPost(id: membro.idsPostsPublicados[idx]) {
-                            NavigationLink(
-                                destination: PostView(
-                                    sala: sala,
-                                    post: post_publicado
-                                )
-                                    .environmentObject(self.membro)
-                            ){
-                                PostCardView(post: sala.getPost(id: membro.idsPostsPublicados[idx])!, sala: sala, width: 0.85)
+                    if loaded_posts.isEmpty {
+                        // Nenhum post publicado ainda foi baixado
+                        VStack {
+                            ProgressView("")
+                        }.frame(height: 260)
+                    } else {
+                        VStack {
+                            ForEach(loaded_posts) { post in
+                                NavigationLink(
+                                    destination: PostView(
+                                        sala: sala,
+                                        post: post
+                                    )
+                                        .environmentObject(self.membro)
+                                ){
+                                    PostCardView(
+                                        post: post,
+                                        sala: sala,
+                                        width: 0.85
+                                    )
+                                }
+                                
+                            }
+                            if !sala.allPostsLoaded && !sala.loadingPostsError {
+                                VStack {
+                                    ProgressView("")
+                                }.frame(height: 260)
                             }
                         }
                     }
+//                    ForEach(0..<membro.idsPostsPublicados.count) { idx in
+//                        if let post_publicado = sala.getPost(id: membro.idsPostsPublicados[idx]) {
+//                            NavigationLink(
+//                                destination: PostView(
+//                                    sala: sala,
+//                                    post: post_publicado
+//                                )
+//                                    .environmentObject(self.membro)
+//                            ){
+//                                PostCardView(post: sala.getPost(id: membro.idsPostsPublicados[idx])!, sala: sala, width: 0.85)
+//                            }
+//                        }
+//                    }
                 }
             }
         }

@@ -11,13 +11,20 @@ import SwiftUI
 struct MySavedPosts: View {
     @EnvironmentObject var membro: Membro
     @ObservedObject var sala: Sala
-    @State private var salvos: [Post] = []
+    private var loaded_posts: [Post] {
+        var salvos: [Post] = []
+        for s in self.membro.idsPostsSalvos {
+            if let postSalvo = sala.getPost(id: s) {
+                salvos.append(postSalvo)
+            }
+        }
+        return salvos
+    }
     @State private var mensagem = ""
     
     var body: some View {
         VStack {
-            
-            if self.salvos.isEmpty {
+            if membro.idsPostsSalvos.isEmpty {
                 Spacer()
                 Text("You haven't saved any post yet 😕")
                     .foregroundColor(Color.gray)
@@ -25,27 +32,41 @@ struct MySavedPosts: View {
             }
             else {
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(self.salvos.reversed()) { post in
-                        NavigationLink(
-                            destination: PostView(sala: self.sala, post: post)
-                                .environmentObject(self.membro)
-                        ){
-                            PostCardView(post: post, sala: sala, width: 0.85)
+                    if loaded_posts.isEmpty {
+                        // Nenhum post publicado ainda foi baixado
+                        VStack {
+                            ProgressView("")
+                        }.frame(height: 260)
+                    } else {
+                        VStack {
+                            ForEach(self.loaded_posts.reversed()) { post in
+                                NavigationLink(
+                                    destination: PostView(sala: self.sala, post: post)
+                                        .environmentObject(self.membro)
+                                ){
+                                    PostCardView(post: post, sala: sala, width: 0.85)
+                                }
+                            }
+                            if !sala.allPostsLoaded && !sala.loadingPostsError {
+                                VStack {
+                                    ProgressView("")
+                                }.frame(height: 260)
+                            }
                         }
                     }
                 }
             }
         }
         .navigationBarTitle("Your saved posts")
-        .onAppear {
-            self.salvos = []
-            for i in 0..<self.membro.idsPostsSalvos.count {
-                if let postSalvo = sala.getPost(id: self.membro.idsPostsSalvos[i]) {
-                    self.salvos.append(postSalvo)
-                }
-                
-            }
-        }
+//        .onAppear {
+//            self.salvos = []
+//            for i in 0..<self.membro.idsPostsSalvos.count {
+//                if let postSalvo = sala.getPost(id: self.membro.idsPostsSalvos[i]) {
+//                    self.salvos.append(postSalvo)
+//                }
+//
+//            }
+//        }
     } //body
 }
 

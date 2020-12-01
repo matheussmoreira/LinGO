@@ -37,7 +37,7 @@ struct DiscoverView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 //MARK: -  SCROLL HORIZONTAL DE CIMA
                 if fyPosts.isEmpty {
-                    if !sala.allPostsLoaded {
+                    if !sala.allPostsLoaded && !sala.loadingPostsError {
                         /*
                          Nao carregou todos os posts, entao nao tem
                          como falar com certeza que eh pra mostrar a msg
@@ -66,7 +66,7 @@ struct DiscoverView: View {
                                 CardsView(post: post, sala: self.sala)
                                     .environmentObject(self.membro)
                             }
-                            if !sala.allPostsLoaded {
+                            if !sala.allPostsLoaded && !sala.loadingPostsError {
                                 VStack {
                                     ProgressView("")
                                 }.frame(height: 260)
@@ -88,7 +88,7 @@ struct DiscoverView: View {
                 }
                 
                 if recentPosts.isEmpty {
-                    if !sala.allPostsLoaded {
+                    if !sala.allPostsLoaded && !sala.loadingPostsError {
                         /*
                          Nao carregou todos os posts, entao nao tem
                          como falar com certeza que eh pra mostrar a msg
@@ -112,7 +112,7 @@ struct DiscoverView: View {
                                 CardsView(post: post, sala: self.sala)
                                     .environmentObject(self.membro)
                             }
-                            if !sala.allPostsLoaded {
+                            if !sala.allPostsLoaded && !sala.loadingPostsError{
                                 VStack {
                                     ProgressView("")
                                 }.frame(height: 260)

@@ -18,51 +18,72 @@ struct PostsOfCategorieView: View {
     @State private var postSelectionado: Post?
     @State private var subscribed = false
     @State private var subscribedImage = "checkmark.circle"
-    @State private var loaded_posts: [Post] = []
+    private var loaded_posts: [Post] {
+        return sala.getPostsByCategorie(categ: categoria.id)
+    }
     @State private var mensagem = ""
     @State private var showAlertApagaCategoria = false
     
     var body: some View {
         VStack {
             if loaded_posts.isEmpty {
-                Spacer()
-                Text("No posts in \(categoria.nome) 😕")
-                    .foregroundColor(Color.gray)
-                
-                // BOTAO PARA CRIAR NOVA CATEGORIA
-                Button(action: {
-                    self.showPostEditor.toggle()
-                }){
-                    ZStack{
-                        Capsule()
-                            .frame(width: 250.0, height: 50.0)
-                            .foregroundColor(LingoColors.lingoBlue)
-                        
-                        Text("Create a new one!")
-                            .foregroundColor(.white)
-                    }
+                if !sala.allPostsLoaded && !sala.loadingPostsError {
+                    /*
+                     Nao carregou todos os posts, entao nao tem
+                     como falar com certeza que eh pra mostrar a msg
+                     "No posts for you"
+                    */
+                    VStack {
+                        ProgressView("")
+                    }.frame(height: 260)
+                } else {
+                    Spacer()
+                    Text("No posts in \(categoria.nome) 😕")
+                        .foregroundColor(Color.gray)
                     
-                }
-                .sheet(
-                    isPresented: $showPostEditor,
-                    onDismiss: {
-                        self.loaded_posts = self.sala.getPostsByCategorie(categ: self.categoria.id)
+                    // BOTAO PARA CRIAR NOVA CATEGORIA
+                    Button(action: {
+                        self.showPostEditor.toggle()
                     }){
-                    PostCreatorView()
-                        .environmentObject(self.membro)
-                        .environmentObject(self.sala)
-                        .environmentObject(self.dao)
+                        ZStack{
+                            Capsule()
+                                .frame(width: 250.0, height: 50.0)
+                                .foregroundColor(LingoColors.lingoBlue)
+                            
+                            Text("Create a new one!")
+                                .foregroundColor(.white)
+                        }
+                        
+                    }
+                    .sheet(
+                        isPresented: $showPostEditor//,
+    //                    onDismiss: {
+    //                        self.loaded_posts = self.sala.getPostsByCategorie(categ: self.categoria.id)
+    //                    }
+                    ){
+                        PostCreatorView()
+                            .environmentObject(self.membro)
+                            .environmentObject(self.sala)
+                            .environmentObject(self.dao)
+                    }
+                    Spacer()
                 }
-                Spacer()
             }
             else {
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(loaded_posts) { post in
-                        NavigationLink(
-                            destination: PostView(sala: self.sala, post: post)
-                                .environmentObject(self.membro)
-                        ) {
-                            PostCardView(post: post, sala: sala, width: 0.85)
+                    VStack {
+                        ForEach(loaded_posts) { post in
+                            NavigationLink(
+                                destination: PostView(sala: self.sala, post: post)
+                                    .environmentObject(self.membro)
+                            ) {
+                                PostCardView(post: post, sala: sala, width: 0.85)
+                            }
+                        }
+                        if !sala.allPostsLoaded && !sala.loadingPostsError {
+                            VStack {
+                                ProgressView("")
+                            }.frame(height: 260)
                         }
                     }
                 }
@@ -116,8 +137,6 @@ struct PostsOfCategorieView: View {
     }
     
     func load() {
-        //categoria exist e tem id, logo os ! abaixo
-        loaded_posts = sala.getPostsByCategorie(categ: categoria.id)
         subscribed = membro.idsAssinaturas.contains(categoria.id)
         if subscribed {
             subscribedImage = "checkmark.circle.fill"
