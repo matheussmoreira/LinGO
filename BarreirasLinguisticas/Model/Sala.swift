@@ -362,7 +362,7 @@ extension Sala {
         completion(sala)
     }
     
-    static func ckLoad(from ckRecord: CKRecord, isSalaAtual: Bool, completion: @escaping (Sala?) -> ()) {
+    static func ckLoad(from ckRecord: CKRecord, completion: @escaping (Sala?) -> ()) {
         var loadingError = false
         let sala = Sala()
         sala.id = ckRecord.recordID.recordName
@@ -380,6 +380,7 @@ extension Sala {
         sala.categsRef = categsRef
         sala.postsRef = postsRef
         
+//        print("\tPegando membros...")
         for membroRef in membrosRef {
             Membro.ckLoad(from: membroRef) { (result) in
                 switch result {
@@ -391,27 +392,27 @@ extension Sala {
             }
         }
         
+//        print("\tPegando categorias...")
         for categRef in categsRef {
             Categoria.ckLoad(from: categRef) { (result) in
                 switch result {
                     case .success(let loadedCateg):
-                            sala.categorias.append(loadedCateg)
+                        sala.categorias.append(loadedCateg)
                     case .failure(_):
                         loadingError = true
                 }
             }
         }
         
+//        print("\tPegando posts...")
         for postRef in postsRef {
             Post.ckLoad(from: postRef, salaMembros: sala.membros) { (result) in
                 switch result {
                     case .success(let loadedPost):
                         if loadedPost != nil {
-                            DispatchQueue.main.async {
-                                sala.posts.append(loadedPost!)
-                                if sala.posts.count == postsRef.count {
-                                    sala.allPostsLoaded = true
-                                }
+                            sala.posts.append(loadedPost!)
+                            if sala.posts.count == postsRef.count {
+                                sala.allPostsLoaded = true
                             }
                         }
                     case .failure(_):
@@ -420,21 +421,11 @@ extension Sala {
             }
         }
         
-        if isSalaAtual {
-            while true { // espera pra retornar a sala quando carrega tudo
-                if sala.membros.count == membrosRef.count && sala.categorias.count == categsRef.count && !loadingError {
-                    print("Retornando sala \(sala.nome)!")
-                    completion(sala)
-                    break
-                }
-            }
-        } else {
-            while true {
-                if sala.membros.count == membrosRef.count && !loadingError {
-                    print("Retornando sala \(sala.nome)!")
-                    completion(sala)
-                    break
-                }
+        while true { // espera pra retornar a sala quando carrega membros e categs
+            if sala.membros.count == membrosRef.count && sala.categorias.count == categsRef.count && !loadingError {
+                print("Retornando sala \(sala.nome)!")
+                completion(sala)
+                break
             }
         }
     }

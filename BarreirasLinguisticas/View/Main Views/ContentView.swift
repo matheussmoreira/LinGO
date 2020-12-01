@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var dao: DAO
-    @Binding var enterMode: EnterMode
+    @Binding var logInStatus: LogInSystem
     @Binding var usuarioAtual: Usuario?
     @State private var showAlertLogOut = false
     @State private var showRooms = false
@@ -43,7 +43,7 @@ struct ContentView: View {
                             Image(systemName: "circle.grid.2x2")
                             Text("Categories")
                         }
-                    ProfileView(enterMode: $enterMode)
+                    ProfileView(logInStatus: $logInStatus)
                         .environmentObject(membroAtual!)
                         .environmentObject(salaAtual!)
                         .environmentObject(dao)
@@ -59,7 +59,7 @@ struct ContentView: View {
                     showRooms: $showRooms,
                     showProfile: $showProfile,
                     showAlertLogOut: $showAlertLogOut,
-                    enterMode: $enterMode
+                    enterMode: $logInStatus
                 )
                 .environmentObject(dao)
                 .transition(.opacity)
@@ -87,7 +87,7 @@ struct EmptyRoom: View {
     @Binding var showRooms: Bool
     @Binding var showProfile: Bool
     @Binding var showAlertLogOut: Bool
-    @Binding var enterMode: EnterMode
+    @Binding var enterMode: LogInSystem
     
     var body: some View {
         ZStack {
@@ -149,7 +149,7 @@ struct EmptyRoom: View {
                 .alert(isPresented: $showAlertLogOut) {
                     Alert(title: Text("Are you sure you want to log out?"),
                           primaryButton: .default(Text("Log out")) {
-                            self.enterMode = .logOut
+                            self.enterMode = .loggedOut
                             UserDefaults.standard.set(
                                 enterMode.rawValue,
                                 forKey: "LastEnterMode"

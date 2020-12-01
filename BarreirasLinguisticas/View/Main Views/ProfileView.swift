@@ -12,7 +12,7 @@ struct ProfileView: View {
     @EnvironmentObject var dao: DAO
     @EnvironmentObject var membro: Membro
     @EnvironmentObject var sala: Sala
-    @Binding var enterMode: EnterMode
+    @Binding var logInStatus: LogInSystem
     @State private var showRooms = false
     @State private var showAlertLeave = false
     @State private var showAlertLogOut = false
@@ -234,9 +234,9 @@ struct ProfileView: View {
     } //body
     
     func logOut(){
-        enterMode = .logOut
+        logInStatus = .loggedOut
         UserDefaults.standard.set(
-            enterMode.rawValue,
+            logInStatus.rawValue,
             forKey: "LastEnterMode"
         )
     }

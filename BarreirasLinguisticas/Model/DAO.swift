@@ -38,26 +38,24 @@ class DAO: ObservableObject {
                     }
                 case .failure(let error):
                     print(#function)
-                    print(error)
+                    fatalError(error.asString)
             }
         }
     }
     
-    func ckLoadAllSalas(){
-        print("\nLoading all salas...")
-        for record in salasRecords {
-            if salaAtual != nil { // sala atual carregando separadamente
-                if record.recordID.recordName == salaAtual!.id {
+    func ckLoadAllSalasButCurrent(){
+        print("\nLOADING ALL SALAS BUT CURRENT...")
+        for record in self.salasRecords {
+            if self.salaAtual != nil { // sala atual carrega separadamente
+                if record.recordID.recordName == self.salaAtual!.id {
                     continue
                 }
             }
-            Sala.ckLoad(from: record, isSalaAtual: false, completion: { (loadedSala) in
+            Sala.ckLoad(from: record, completion: { (loadedSala) in
                 if loadedSala != nil {
-                    DispatchQueue.main.async {
-                        self.salas.append(loadedSala!)
-                        if self.salas.count == self.salasRecords.count {
-                            self.allSalasLoaded = true
-                        }
+                    self.salas.append(loadedSala!)
+                    if self.salas.count == self.salasRecords.count {
+                        self.allSalasLoaded = true
                     }
                 }
             })

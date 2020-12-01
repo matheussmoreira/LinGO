@@ -47,12 +47,10 @@ extension CKManager {
         let publicDB = CKContainer.default().publicCloudDatabase
         let querySalas = CKQuery(recordType: "Sala", predicate: NSPredicate(value: true))
         publicDB.perform(querySalas, inZoneWith: nil) { (records, error) in
-            if let  error = error {
-                print(#function)
+            if let error = error {
                 completion(.failure(error))
             }
             if let loadedSalas = records {
-                
                 completion(.success(loadedSalas))
             }
         }

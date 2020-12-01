@@ -320,38 +320,47 @@ struct SearchRoomsView: View {
             
             if !salasDisponiveis.isEmpty {
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(salasDisponiveis) { sala in
-                        ZStack {
-                            Capsule()
-                                .frame(width: 300.0, height: 50.0)
-                                .foregroundColor(.white)
-                            
-                            Button(action: {
+                    VStack {
+                        ForEach(salasDisponiveis) { sala in
+                            ZStack {
+                                Capsule()
+                                    .frame(width: 300.0, height: 50.0)
+                                    .foregroundColor(.white)
                                 
-                                alertEnterRoom.toggle()
-//                                verificaNovoMembro(sala: sala, usuario: usuario)
-                            }) {
-                                Text(sala.nome)
-                                    .foregroundColor(LingoColors.lingoBlue)
+                                Button(action: {
+                                    
+                                    alertEnterRoom.toggle()
+    //                                verificaNovoMembro(sala: sala, usuario: usuario)
+                                }) {
+                                    Text(sala.nome)
+                                        .foregroundColor(LingoColors.lingoBlue)
+                                }
+                                .alert(isPresented: $alertEnterRoom) {
+                                    Alert(
+                                        title: Text("Do you want do become a member of this room?"),
+                                        primaryButton: .default(Text("Yes")){
+                                            criaNovoMembro(sala: sala)
+                                        },
+                                        secondaryButton: .cancel())
+                                }
                             }
-                            .alert(isPresented: $alertEnterRoom) {
-                                Alert(
-                                    title: Text("Do you want do become a member of this room?"),
-                                    primaryButton: .default(Text("Yes")){
-                                        criaNovoMembro(sala: sala)
-                                    },
-                                    secondaryButton: .cancel())
-                            }
+                        }
+                        if !dao.allSalasLoaded {
+                            ProgressView("")
                         }
                     }
                 }
                 
             } else {
-                Spacer()
-                Text("No available rooms yet 😕")
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                Spacer()
+                if !dao.allSalasLoaded {
+                    ProgressView("")
+                } else {
+                    Spacer()
+                    Text("No available rooms yet 😕")
+                        .foregroundColor(.white)
+                        .multilineTextAlignment(.center)
+                    Spacer()
+                }
             }
             
             Spacer()

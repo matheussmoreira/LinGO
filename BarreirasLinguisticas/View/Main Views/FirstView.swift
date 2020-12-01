@@ -9,14 +9,14 @@
 import SwiftUI
 import CloudKitMagicCRUD
 
-enum EnterMode: Int {
-    case logIn = 1
-    case logOut = -1
+enum LogInSystem: Int {
+    case loggedIn = 1
+    case loggedOut = -1
 }
 
 struct FirstView: View {
     @ObservedObject var daoz = dao
-    @State private var enterMode = EnterMode.logOut
+    @State private var logInStatus = LogInSystem.loggedOut
     @State private var getStarted = false
     @State private var loading = true
     
@@ -30,15 +30,21 @@ struct FirstView: View {
                 }
                 
             } else {
-                if daoz.usuarioAtual == nil || enterMode == .logOut {
-                    OnboardView(enterMode: $enterMode)
+                if daoz.usuarioAtual == nil || logInStatus == .loggedOut {
+                    OnboardView(logInStatus: $logInStatus)
                         .environmentObject(daoz)
+                        .onAppear{
+                            print("Carregou onboard!")
+                        }
                 } else {
                     ContentView(
-                        enterMode: $enterMode,
+                        logInStatus: $logInStatus,
                         usuarioAtual: $daoz.usuarioAtual
                     )
-                        .environmentObject(daoz)
+                    .environmentObject(daoz)
+                    .onAppear{
+                        print("Carregou content!")
+                    }
                 }
             }
         }
@@ -67,12 +73,11 @@ struct FirstView: View {
                                     id_sala: fetchedUser.sala_atual,
                                     id_usuario: fetchedUser.id
                                 )
-                                carregaEnterMode()
+                                carregaLogInStatus()
                             }
                         case .failure(let error):
-                            print("first view: case.failure")
-                            print(error)
-                            return
+                            print(#function)
+                            fatalError(error.asString)
                     }
                 }
             }
@@ -80,9 +85,9 @@ struct FirstView: View {
     } // funcao
     
     func carregaSalaAtual(id_sala: String?, id_usuario: String){
-        print("Botou pra carregar sala atual")
+        print("BOTOU PRA CARREGAR A SALA ATUAL")
         if let record = dao.getSalaRecord(from: id_sala) {
-            Sala.ckLoad(from: record, isSalaAtual: true) { (sala) in
+            Sala.ckLoad(from: record) { (sala) in
                 dao.idSalaAtual = id_sala
                 dao.salaAtual = sala
                 
@@ -103,15 +108,15 @@ struct FirstView: View {
         }
         loading = false
         print("Sala atual carregada: \(String(describing: dao.salaAtual?.nome))")
-        dao.ckLoadAllSalas()
+        dao.ckLoadAllSalasButCurrent()
     }
     
-    func carregaEnterMode(){
+    func carregaLogInStatus(){
         let storedEnterMode = UserDefaults.standard.integer(forKey: "LastEnterMode")
         if storedEnterMode == 1 {
-            enterMode = .logIn
+            logInStatus = .loggedIn
         } else {
-            enterMode = .logOut
+            logInStatus = .loggedOut
         }
     }
 }
