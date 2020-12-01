@@ -37,7 +37,6 @@ class Sala: Identifiable, ObservableObject, Equatable {
     
     //MARK: - FUNCOES GET
     func getMembroByUser(id: String?) -> Membro? {
-        print(#function)
         for membro in self.membros {
             if (id == membro.usuario.id) { return membro }
         }
@@ -368,11 +367,14 @@ extension Sala {
         let sala = Sala()
         sala.id = ckRecord.recordID.recordName
         sala.nome = ckRecord["nome"] as? String ?? ""
-        print("Loading sala \(sala.nome)")
+        print("Loading sala \(sala.nome)...")
         
         let membrosRef = ckRecord["membros"] as? [CKRecord.Reference] ?? []
         let categsRef = ckRecord["categorias"] as? [CKRecord.Reference] ?? []
         let postsRef = ckRecord["posts"] as? [CKRecord.Reference] ?? []
+        if postsRef.isEmpty {
+            sala.allPostsLoaded = true
+        }
         
         sala.membrosRef = membrosRef
         sala.categsRef = categsRef
@@ -420,16 +422,27 @@ extension Sala {
         
         if isSalaAtual {
             while true { // espera pra retornar a sala quando carrega tudo
-                if sala.membros.count == membrosRef.count && sala.categorias.count == categsRef.count && /*sala.posts.count == postsRef.count &&*/ !loadingError {
-                    print("Retornando sala \(sala.nome)")
+                if sala.membros.count == membrosRef.count && sala.categorias.count == categsRef.count && !loadingError {
+                    print("Retornando sala \(sala.nome)!")
                     completion(sala)
                     break
                 }
             }
         } else {
-            print("Retornando sala \(sala.nome)")
-            completion(sala)
+            while true {
+                if sala.membros.count == membrosRef.count && !loadingError {
+                    print("Retornando sala \(sala.nome)!")
+                    completion(sala)
+                    break
+                }
+            }
         }
-        
+    }
+    
+    func contemUsuarioAtual() -> Bool {
+        for membro in membros {
+            if (id == membro.usuario.id) { return true }
+        }
+        return false
     }
 }

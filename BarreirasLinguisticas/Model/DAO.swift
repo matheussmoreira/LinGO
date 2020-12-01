@@ -18,6 +18,7 @@ class DAO: ObservableObject {
     @Published var idSalaAtual: String?
     @Published var salaAtual: Sala?
     @Published var membroAtual: Membro?
+    @Published var allSalasLoaded = false
     
     fileprivate init(){
         loadSalasRecords()
@@ -31,6 +32,9 @@ class DAO: ObservableObject {
                     DispatchQueue.main.async {
                         print("Records das salas carregados com sucesso!")
                         self.salasRecords.append(contentsOf: records)
+                        if self.salasRecords.isEmpty {
+                            self.allSalasLoaded = true
+                        }
                     }
                 case .failure(let error):
                     print(#function)
@@ -51,6 +55,9 @@ class DAO: ObservableObject {
                 if loadedSala != nil {
                     DispatchQueue.main.async {
                         self.salas.append(loadedSala!)
+                        if self.salas.count == self.salasRecords.count {
+                            self.allSalasLoaded = true
+                        }
                     }
                 }
             })

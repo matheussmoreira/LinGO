@@ -89,6 +89,9 @@ struct FirstView: View {
                 if !dao.salas.contains(sala!) {
                     DispatchQueue.main.async {
                         dao.salas.append(sala!)
+                        if dao.salas.count == dao.salasRecords.count {
+                            dao.allSalasLoaded = true
+                        }
                     }
                 }
                 

@@ -18,9 +18,6 @@ struct RoomsView: View {
     @State private var myRoomsColor = Color.gray
     @State private var searchRoomsColor = Color.blue
     var usuario: Usuario
-    var salas: [Sala] {
-        return dao.getSalasByUser(id: usuario.id)
-    }
     
     var body: some View {
         VStack {
@@ -134,21 +131,30 @@ struct MyRoomsView: View {
                     //MARK: - LISTA DAS MINHAS SALAS
                     if !minhasSalas.isEmpty {
                         ScrollView(.vertical, showsIndicators: false) {
-                            ForEach(minhasSalas) { sala in
-                                Button(action: {
-                                    alteraSalaAtual(sala: sala)
-//                                    self.presentationMode.wrappedValue.dismiss()
-//                                    self.usuario.sala_atual = sala.id//sala
-                                }) {
-                                    ZStack {
-                                        Capsule()
-                                            .frame(width: 300.0, height: 50.0)
-                                            .foregroundColor(.white)
-                                        Text(sala.nome)
-                                            .foregroundColor(LingoColors.lingoBlue)
+                            VStack {
+                                ForEach(minhasSalas) { sala in
+                                    Button(action: {
+                                        alteraSalaAtual(sala: sala)
+    //                                    self.presentationMode.wrappedValue.dismiss()
+    //                                    self.usuario.sala_atual = sala.id//sala
+                                    }) {
+                                        ZStack {
+                                            Capsule()
+                                                .frame(width: 300.0, height: 50.0)
+                                                .foregroundColor(.white)
+                                            Text(sala.nome)
+                                                .foregroundColor(LingoColors.lingoBlue)
+                                        }
                                     }
                                 }
+                                if !dao.allSalasLoaded {
+                                    ProgressView("")
+                                }
                             }
+                        }
+                    } else {
+                        if !dao.allSalasLoaded {
+                            ProgressView("")
                         }
                     }
                     
