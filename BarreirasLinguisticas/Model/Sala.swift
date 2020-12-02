@@ -75,15 +75,15 @@ class Sala: Identifiable, ObservableObject, Equatable {
         }
         return categsId
     }
-//    func getIdsCategorias(ids: [String]) -> [String] {
-//        var categorias: [String] = []
-//        for id in ids {
-//            for categ in self.categorias {
-//                if (id == categ.id) { categorias.append(categ.id) }
-//            }
-//        }
-//        return categorias
-//    }
+    //    func getIdsCategorias(ids: [String]) -> [String] {
+    //        var categorias: [String] = []
+    //        for id in ids {
+    //            for categ in self.categorias {
+    //                if (id == categ.id) { categorias.append(categ.id) }
+    //            }
+    //        }
+    //        return categorias
+    //    }
     
     func getPost(id: String) -> Post? {
         for post in self.posts {
@@ -249,7 +249,7 @@ class Sala: Identifiable, ObservableObject, Equatable {
             CKManager.deleteRecord(recordName: pergunta.id)
         }
         CKManager.deleteRecord(recordName: post.id)
-
+        
         // Atualiza vetores em que este post esta
         posts.removeAll(where: { $0.id == post.id})
         CKManager.modifySalaPosts(sala: self) { (result) in
@@ -270,7 +270,7 @@ class Sala: Identifiable, ObservableObject, Equatable {
                     print(error2)
             }
         }
-
+        
     }
     
     func excluiPost(post: Post, membro: Membro){
@@ -353,34 +353,22 @@ class Sala: Identifiable, ObservableObject, Equatable {
 
 // MARK: - CKManagement
 extension Sala {
-    static func ckLoadEmpty(from ckRecord: CKRecord, completion: @escaping (Sala?) -> ()) {
-        let sala = Sala()
-        sala.id = ckRecord.recordID.recordName
-        sala.nome = ckRecord["nome"] as? String ?? ""
-        print("Loading sala \(sala.nome)")
-        print("Retornando sala \(sala.nome)")
-        completion(sala)
-    }
-    
     static func ckLoad(from ckRecord: CKRecord, completion: @escaping (Sala?) -> ()) {
         var loadingError = false
         let sala = Sala()
-        sala.id = ckRecord.recordID.recordName
-        sala.nome = ckRecord["nome"] as? String ?? ""
-        print("Loading sala \(sala.nome)...")
-        
         let membrosRef = ckRecord["membros"] as? [CKRecord.Reference] ?? []
         let categsRef = ckRecord["categorias"] as? [CKRecord.Reference] ?? []
         let postsRef = ckRecord["posts"] as? [CKRecord.Reference] ?? []
-        if postsRef.isEmpty {
-            sala.allPostsLoaded = true
-        }
+        if postsRef.isEmpty { sala.allPostsLoaded = true }
+        
+        sala.id = ckRecord.recordID.recordName
+        sala.nome = ckRecord["nome"] as? String ?? ""
+        print("Loading sala \(sala.nome)...")
         
         sala.membrosRef = membrosRef
         sala.categsRef = categsRef
         sala.postsRef = postsRef
         
-//        print("\tPegando membros...")
         for membroRef in membrosRef {
             Membro.ckLoad(from: membroRef) { (result) in
                 switch result {
@@ -392,7 +380,6 @@ extension Sala {
             }
         }
         
-//        print("\tPegando categorias...")
         for categRef in categsRef {
             Categoria.ckLoad(from: categRef) { (result) in
                 switch result {
@@ -404,17 +391,14 @@ extension Sala {
             }
         }
         
-//        print("\tPegando posts...")
         for postRef in postsRef {
             Post.ckLoad(from: postRef, salaMembros: sala.membros) { (result) in
                 switch result {
                     case .success(let loadedPost):
-                        if loadedPost != nil {
+                        if let loadedPost = loadedPost {
                             DispatchQueue.main.async {
-                                sala.posts.append(loadedPost!)
-                                if sala.posts.count == postsRef.count {
-                                    sala.allPostsLoaded = true
-                                }
+                                sala.posts.append(loadedPost)
+                                sala.allPostsLoaded = (sala.posts.count == postsRef.count)
                             }
                         }
                     case .failure(_):
@@ -423,18 +407,24 @@ extension Sala {
             }
         }
         
-        while true { // espera pra retornar a sala quando carrega membros e categs
-            if sala.membros.count == membrosRef.count && sala.categorias.count == categsRef.count && !loadingError {
-                print("Retornando sala \(sala.nome)!")
-                completion(sala)
-                break
+        DispatchQueue.global().async {
+            while true { // espera pra retornar a sala quando carrega membros e categs
+                if sala.membros.count == membrosRef.count && sala.categorias.count == categsRef.count && !loadingError {
+                    print("Retornando sala \(sala.nome)!")
+                    DispatchQueue.main.async {
+                        completion(sala)
+                    }
+                    break
+                }
             }
         }
     }
     
     func contemUsuarioAtual() -> Bool {
         for membro in membros {
-            if (id == membro.usuario.id) { return true }
+            if (id == membro.usuario.id) {
+                return true
+            }
         }
         return false
     }

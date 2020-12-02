@@ -29,7 +29,7 @@ struct FirstView: View {
                     ProgressView("")
                 }
                 
-            } else {
+            } else { // loading = false
                 if daoz.usuarioAtual == nil || logInStatus == .loggedOut {
                     OnboardView(logInStatus: $logInStatus)
                         .environmentObject(daoz)
@@ -69,7 +69,7 @@ struct FirstView: View {
                             DispatchQueue.main.async {
                                 print("Usuario atual resgatado com sucesso!\n")
                                 dao.usuarioAtual = fetchedUser
-                                carregaSalaAtual(
+                                loadSalas(
                                     id_sala: fetchedUser.sala_atual,
                                     id_usuario: fetchedUser.id
                                 )
@@ -77,26 +77,24 @@ struct FirstView: View {
                             }
                         case .failure(let error):
                             print(#function)
-                            fatalError(error.asString)
+                            print(error)
                     }
                 }
             }
         }
     } // funcao
     
-    func carregaSalaAtual(id_sala: String?, id_usuario: String){
+    func loadSalas(id_sala: String?, id_usuario: String){
         print("BOTOU PRA CARREGAR A SALA ATUAL")
         if let record = dao.getSalaRecord(from: id_sala) {
             Sala.ckLoad(from: record) { (sala) in
                 dao.idSalaAtual = id_sala
                 dao.salaAtual = sala
                 
-                if !dao.salas.contains(sala!) {
-                    DispatchQueue.main.async {
-                        dao.salas.append(sala!)
-                        if dao.salas.count == dao.salasRecords.count {
-                            dao.allSalasLoaded = true
-                        }
+                DispatchQueue.main.async {
+                    dao.salas.append(sala!)
+                    if dao.salas.count == dao.salasRecords.count {
+                        dao.allSalasLoaded = true
                     }
                 }
                 
@@ -104,12 +102,21 @@ struct FirstView: View {
                     membro.usuario = dao.usuarioAtual!
                     dao.membroAtual = membro
                 }
+                
+                /*  Ambiguidade com o else pq assim garanto que
+                    so vou carregar as salas restantes qnd
+                    carregar sala atual
+                 */
+                stopLoading()
             }
         }
+        else { stopLoading() }
+    }
+    
+    private func stopLoading(){
         loading = false
         print("Sala atual carregada: \(String(describing: dao.salaAtual?.nome))")
-            dao.ckLoadAllSalasButCurrent()
-        
+        dao.ckLoadAllSalasButCurrent()
     }
     
     func carregaLogInStatus(){

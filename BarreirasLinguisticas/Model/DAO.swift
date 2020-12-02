@@ -45,18 +45,13 @@ class DAO: ObservableObject {
     
     func ckLoadAllSalasButCurrent(){
         print("\nLOADING ALL SALAS BUT CURRENT...")
-        for record in self.salasRecords {
-            if self.salaAtual != nil { // sala atual carrega separadamente
-                if record.recordID.recordName == self.salaAtual!.id {
-                    continue
-                }
-            }
+        for record in self.salasRecords.filter(
+            {$0.recordID.recordName != self.salaAtual!.id}
+        ) {
             Sala.ckLoad(from: record, completion: { (loadedSala) in
                 if loadedSala != nil {
                     self.salas.append(loadedSala!)
-                    if self.salas.count == self.salasRecords.count {
-                        self.allSalasLoaded = true
-                    }
+                    self.allSalasLoaded = (self.salas.count == self.salasRecords.count)
                 }
             })
         }
