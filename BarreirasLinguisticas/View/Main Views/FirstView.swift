@@ -115,7 +115,7 @@ struct FirstView: View {
     
     private func stopLoading(){
         loading = false
-        print("Sala atual carregada: \(String(describing: dao.salaAtual?.nome))")
+//        print("Sala atual carregada: \(String(describing: dao.salaAtual?.nome))")
         dao.ckLoadAllSalasButCurrent()
     }
     

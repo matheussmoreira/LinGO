@@ -258,7 +258,7 @@ struct ComentarioDenunciado: View {
                     .multilineTextAlignment(.leading)
                     .background(Color.gray.opacity(0.15))
                     .clipShape(RoundedRectangle(cornerRadius: 15))
-            }
+            }.padding(.trailing)
             
             HStack {
                 Button(action: {
@@ -279,7 +279,9 @@ struct ComentarioDenunciado: View {
                 Spacer()
             }
             Divider()
-        }.padding(.leading)
+        }
+        .padding(.leading)
+        .padding(.top)
     }
     
     func apagaComentario(_ comentario: Comentario){

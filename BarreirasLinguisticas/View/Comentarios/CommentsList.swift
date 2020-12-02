@@ -11,11 +11,7 @@ import SwiftUI
 struct CommentsList: View {
     @EnvironmentObject var membro: Membro
     @ObservedObject var post: Post
-//    @State private var comments: [Comentario] = []
     @State private var newComment: String = ""
-    @State private var askApagaComentario = false
-    @State private var askReport = false
-    @State private var reported = false
     @State private var showAlertBlocked = false
     
     var body: some View {
@@ -24,7 +20,7 @@ struct CommentsList: View {
                 Text("Write a comment")
                     .font(.headline)
                     .padding(.leading, 20)
-                    
+                
                 Spacer()
                 ZStack {
                     Capsule()
@@ -47,7 +43,7 @@ struct CommentsList: View {
                         )
                     })
                 }
-                    .padding(.trailing, 20)
+                .padding(.trailing, 20)
             }
             .frame(width: UIScreen.width)
             .onTapGesture {
@@ -55,18 +51,18 @@ struct CommentsList: View {
             }
             
             TextEditor(text: self.$newComment)
-//                .frame(width: UIScreen.width - 20, height: 150)
+                //                .frame(width: UIScreen.width - 20, height: 150)
                 .frame(height: 150)
                 .padding(.horizontal)
                 .cornerRadius(20)
                 .shadow(radius: 5)
-                
+            
             Divider()
                 .padding(.vertical)
                 .onTapGesture {
                     self.hideKeyboard()
                 }
-
+            
             if post.comentarios.isEmpty {
                 if !post.allComentariosLoaded {
                     VStack {
@@ -90,59 +86,7 @@ struct CommentsList: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack {
                         ForEach(post.comentarios.reversed()) { comment in
-                            if !comment.is_question {
-                                VStack {
-                                    CommentRow(comentario: comment)
-                                        .environmentObject(self.membro)
-                                    
-                                    HStack {
-                                        // Botaozinho de denunciar
-                                        if !membro.isBlocked /*&& membro.id != comment.publicador.id*/ {
-                                            Button(action: {
-                                                askReport.toggle()
-                                            }){
-                                                Image(systemName: reported ? "exclamationmark.circle.fill" : "exclamationmark.circle")
-                                                    .imageScale(.large)
-                                                    .padding(.leading)
-                                                
-                                            }.alert(isPresented: $askReport) {
-                                               Alert(
-                                                   title: Text(reported ? "Dismiss report?" : "If you report then the admins of the room will be able to delete this question"),
-                                                   primaryButton: .default(Text(reported ? "Yes" : "Report")){
-                                                       report(comment)
-                                                   },
-                                                   secondaryButton: .cancel())
-                                            }
-                                        }
-                                        
-                                        // Botaozinho de apagar
-                                        if (comment.publicador.id == membro.id) || (!comment.denuncias.isEmpty && membro.isAdmin) {
-                                            Button(action: {
-                                                askApagaComentario.toggle()
-                                            }){
-                                                Image(systemName: "trash.circle")
-    //                                                .padding(.leading)
-                                                    .imageScale(.large)
-                                            }.alert(isPresented: $askApagaComentario) {
-                                                Alert(
-                                                    title: Text("Delete this comment?"),
-                                                    primaryButton: .default(Text("Delete")){
-                                                        apagaComentario(id: comment.id)
-                                                    },
-                                                    secondaryButton: .cancel())
-                                            }
-    //                                        .padding(.leading)
-                                        }
-                                        
-                                        
-                                        Spacer()
-                                    }.padding(.leading)
-                                    
-                                    Divider()
-                                }.onAppear{
-                                    loadReport(of: comment)
-                                }
-                            }
+                            CommentDetails(comment: comment, post: post)
                         }
                         if !post.allComentariosLoaded {
                             ProgressView("")
@@ -154,14 +98,86 @@ struct CommentsList: View {
             } //else
         } //VStack
         .frame(width: UIScreen.width)
-//        .onAppear {
-//            self.loadComments()
-//        }
     } //body
+    
+    func comenta() {
+        if newComment != "" {
+            post.novoComentario(
+                publicador: membro,
+                conteudo: newComment,
+                is_question: false
+            )
+            newComment = ""
+        }
+    }
+}
+
+struct CommentDetails: View {
+    @EnvironmentObject var membro: Membro
+    @ObservedObject var comment: Comentario
+    @ObservedObject var post: Post
+    @State private var askReport = false
+    @State private var askApagaComentario = false
+    @State private var reported = false
+    
+    var body: some View {
+        VStack {
+            CommentRow(comentario: comment)
+                .environmentObject(self.membro)
+            
+            HStack {
+                // Botaozinho de denunciar
+                if !membro.isBlocked /*&& membro.id != comment.publicador.id*/ {
+                    Button(action: {
+                        askReport.toggle()
+                    }){
+                        Image(systemName: reported ? "exclamationmark.circle.fill" : "exclamationmark.circle")
+                            .imageScale(.large)
+                            .padding(.leading)
+                        
+                    }.alert(isPresented: $askReport) {
+                        Alert(
+                            title: Text(reported ? "Dismiss report?" : "If you report then the admins of the room will be able to delete this question"),
+                            primaryButton: .default(Text(reported ? "Yes" : "Report")){
+                                report(comment)
+                            },
+                            secondaryButton: .cancel())
+                    }
+                }
+                
+                // Botaozinho de apagar
+                if (comment.publicador.id == membro.id) || (!comment.denuncias.isEmpty && membro.isAdmin) {
+                    Button(action: {
+                        askApagaComentario.toggle()
+                    }){
+                        Image(systemName: "trash.circle")
+                            //                                                .padding(.leading)
+                            .imageScale(.large)
+                    }.alert(isPresented: $askApagaComentario) {
+                        Alert(
+                            title: Text("Delete this comment?"),
+                            primaryButton: .default(Text("Delete")){
+                                apagaComentario(id: comment.id)
+                            },
+                            secondaryButton: .cancel())
+                    }
+                    //                                        .padding(.leading)
+                }
+                
+                
+                Spacer()
+            }.padding(.leading)
+            
+            Divider()
+        }.onAppear{
+            loadReport(of: comment)
+        }
+    }
     
     func report(_ comment: Comentario){
         comment.updateReportStatus(membro: membro)
         reported = comment.denuncias.contains(membro.id)
+        print("Updated report status of: \(comment.conteudo)")
     }
     
     func loadReport(of comentario: Comentario){
@@ -170,20 +186,5 @@ struct CommentsList: View {
     
     func apagaComentario(id: String){
         post.apagaComentario(id: id)
-//        loadComments()
-    }
-    
-//    func loadComments() {
-//        DispatchQueue.main.async {
-//            comments = post.comentarios
-//        }
-//    }
-    
-    func comenta() {
-        if newComment != "" {
-            post.novoComentario(publicador: membro, conteudo: newComment, is_question: false)
-//                loadComments()
-                newComment = ""
-        }
     }
 }
