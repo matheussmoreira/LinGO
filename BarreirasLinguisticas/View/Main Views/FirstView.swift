@@ -43,7 +43,7 @@ struct FirstView: View {
                     )
                     .environmentObject(daoz)
                     .onAppear{
-                        print("Carregou content!")
+                        print("Entrou na sala!")
                     }
                 }
             }
@@ -108,7 +108,8 @@ struct FirstView: View {
         }
         loading = false
         print("Sala atual carregada: \(String(describing: dao.salaAtual?.nome))")
-        dao.ckLoadAllSalasButCurrent()
+            dao.ckLoadAllSalasButCurrent()
+        
     }
     
     func carregaLogInStatus(){

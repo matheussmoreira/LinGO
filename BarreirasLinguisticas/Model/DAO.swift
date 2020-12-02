@@ -24,7 +24,7 @@ class DAO: ObservableObject {
         loadSalasRecords()
     }
     
-    func loadSalasRecords(){
+    private func loadSalasRecords(){
         print("Loading todos os records das salas...")
         CKManager.querySalasRecords { (result) in
             switch result {
