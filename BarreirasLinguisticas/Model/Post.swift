@@ -23,13 +23,11 @@ class Post: Equatable, Identifiable, ObservableObject {
     
     @Published var allPerguntasLoaded = false
     @Published var allComentariosLoaded = false
-    @Published var loadingPerguntasError = false
-    @Published var loadingComentariosError = false
     @Published var perguntasRef: [CKRecord.Reference] = []
     @Published var comentariosRef: [CKRecord.Reference] = []
     
     init(titulo: String?, descricao: String?, link: LinkPost?, categs: [String], tags: String, publicador: Membro) {
-        self.titulo = titulo ?? "Post sem título"
+        self.titulo = titulo ?? "Sem título"
         self.descricao = descricao ?? ""
         self.categorias = categs
         self.publicador = publicador
@@ -110,6 +108,7 @@ class Post: Equatable, Identifiable, ObservableObject {
     //MARK: - DELECOES
     func apagaPergunta(id: String) {
         self.perguntas.removeAll(where: { $0.id == id })
+        
         CKManager.deleteRecordCompletion(recordName: id) { (result) in
             switch result {
                 case .success(_):
@@ -123,6 +122,7 @@ class Post: Equatable, Identifiable, ObservableObject {
     
     func apagaComentario(id: String) {
         self.comentarios.removeAll(where: { $0.id == id })
+        
         CKManager.deleteRecordCompletion(recordName: id) { (result) in
             switch result {
                 case .success(_):
@@ -191,6 +191,13 @@ extension Post{
                             post.perguntasRef = perguntasRef
                             post.comentariosRef = comentariosRef
                             
+                            if post.perguntasRef.isEmpty {
+                                post.allPerguntasLoaded = true
+                            }
+                            if post.comentariosRef.isEmpty {
+                                post.allComentariosLoaded = true
+                            }
+                            
                             if link != nil {
                                 CKManager.fetchLink(recordName: link!.recordID.recordName) { (linkResult) in
                                     switch linkResult {
@@ -210,6 +217,38 @@ extension Post{
                             completion(.success(nil))
                             break
                     }
+                }
+            }
+        }
+    }
+    
+    func ckLoadAllPerguntas(){
+        for ref in perguntasRef {
+            Comentario.ckLoad(from: ref) { (result) in
+                switch result {
+                    case .success(let loadedPergunta):
+                        DispatchQueue.main.async {
+                            self.perguntas.append(loadedPergunta)
+                            self.allPerguntasLoaded = (self.perguntas.count == self.perguntasRef.count)
+                        }
+                    case .failure(_):
+                        break
+                }
+            }
+        }
+    }
+    
+    func ckLoadAllComentarios(){
+        for ref in comentariosRef {
+            Comentario.ckLoad(from: ref) { (result) in
+                switch result {
+                    case .success(let loadedComentario):
+                        DispatchQueue.main.async {
+                            self.comentarios.append(loadedComentario)
+                            self.allComentariosLoaded = (self.comentarios.count == self.comentariosRef.count)
+                        }
+                    case .failure(_):
+                        break
                 }
             }
         }

@@ -52,6 +52,7 @@ class Comentario: Identifiable, ObservableObject {
         else {
             denuncias.removeAll(where: {$0 == membro.id})
         }
+       
         CKManager.modifyComentario(self)
     }
     
@@ -66,14 +67,26 @@ extension Comentario {
                 completion(.failure(error))
             }
             if let record = fetchedRecord {
-                guard let publicadorRef = record["id_publicador"] as? CKRecord.Reference else { return }
-                CKManager.fetchMembro(recordName: publicadorRef.recordID.recordName) { (resultMembro) in
+                guard let idPublicador = record["id_publicador"] as? String else {
+                    print("\(#function): Problema no cast do publicadorRef")
+                    return
+                }
+                CKManager.fetchMembro(recordName: idPublicador) { (resultMembro) in
                     switch resultMembro {
                         case .success(let fetchedMembro):
                             let recordName = record.recordID.recordName
-                            guard let post = record["post"] as? String else { return }
-                            guard let conteudo = record["conteudo"] as? String else { return }
-                            guard let question = record["is_question"] as? Int else { return }
+                            guard let post = record["post"] as? String else {
+                                print("\(#function): Problema no cast do post")
+                                return
+                            }
+                            guard let conteudo = record["conteudo"] as? String else {
+                                print("\(#function): Problema no cast do conteudo")
+                                return
+                            }
+                            guard let question = record["is_question"] as? Int else {
+                                print("\(#function): Problema no cast do question")
+                                return
+                            }
                             
                             var is_question: Bool
                             (question == 1) ? (is_question = true) : (is_question = false)
@@ -86,6 +99,7 @@ extension Comentario {
                             comentario.id = recordName
                             completion(.success(comentario))
                         case .failure(let error2):
+                            print(#function)
                             print(error2)
                             completion(.failure(error2))
                     }

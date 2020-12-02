@@ -33,18 +33,18 @@ struct FirstView: View {
                 if daoz.usuarioAtual == nil || logInStatus == .loggedOut {
                     OnboardView(logInStatus: $logInStatus)
                         .environmentObject(daoz)
-                        .onAppear{
-                            print("Carregou onboard!")
-                        }
+//                        .onAppear{
+//                            print("Carregou onboard!")
+//                        }
                 } else {
                     ContentView(
                         logInStatus: $logInStatus,
                         usuarioAtual: $daoz.usuarioAtual
                     )
                     .environmentObject(daoz)
-                    .onAppear{
-                        print("Entrou na sala!")
-                    }
+//                    .onAppear{
+//                        print("Entrou na sala!")
+//                    }
                 }
             }
         }
@@ -62,7 +62,7 @@ struct FirstView: View {
                 return
             }
             if let recordID = recordID {
-                print("Buscando o usuario atual...")
+//                print("Buscando o usuario atual...")
                 CKManager.fetchUsuario(recordName: recordID.recordName) { (result) in
                     switch result{
                         case .success(let fetchedUser):
@@ -85,7 +85,7 @@ struct FirstView: View {
     } // funcao
     
     func loadSalas(id_sala: String?, id_usuario: String){
-        print("BOTOU PRA CARREGAR A SALA ATUAL")
+//        print("BOTOU PRA CARREGAR A SALA ATUAL")
         if let record = dao.getSalaRecord(from: id_sala) {
             Sala.ckLoad(from: record) { (sala) in
                 dao.idSalaAtual = id_sala

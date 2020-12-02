@@ -23,6 +23,8 @@ class Sala: Identifiable, ObservableObject, Equatable {
     @Published var categsRef: [CKRecord.Reference] = []
     @Published var postsRef: [CKRecord.Reference] = []
     
+    @Published var perguntasComentariosDenunciados: [Comentario] = []
+    
     init(id: String, nome: String) {
         self.id = id
         self.nome = nome
@@ -363,7 +365,7 @@ extension Sala {
         
         sala.id = ckRecord.recordID.recordName
         sala.nome = ckRecord["nome"] as? String ?? ""
-        print("Loading sala \(sala.nome)...")
+//        print("Loading sala \(sala.nome)...")
         
         sala.membrosRef = membrosRef
         sala.categsRef = categsRef
@@ -398,6 +400,8 @@ extension Sala {
                         if let loadedPost = loadedPost {
                             DispatchQueue.main.async {
                                 sala.posts.append(loadedPost)
+                                loadedPost.ckLoadAllPerguntas()
+                                loadedPost.ckLoadAllComentarios()
                                 sala.allPostsLoaded = (sala.posts.count == postsRef.count)
                             }
                         }

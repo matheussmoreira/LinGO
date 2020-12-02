@@ -25,12 +25,12 @@ class DAO: ObservableObject {
     }
     
     private func loadSalasRecords(){
-        print("Loading todos os records das salas...")
+//        print("Loading todos os records das salas...")
         CKManager.querySalasRecords { (result) in
             switch result {
                 case .success(let records):
                     DispatchQueue.main.async {
-                        print("Records das salas carregados com sucesso!")
+//                        print("Records das salas carregados com sucesso!")
                         self.salasRecords.append(contentsOf: records)
                         if self.salasRecords.isEmpty {
                             self.allSalasLoaded = true
@@ -44,10 +44,13 @@ class DAO: ObservableObject {
     }
     
     func ckLoadAllSalasButCurrent(){
-        print("\nLOADING ALL SALAS BUT CURRENT...")
-        for record in self.salasRecords.filter(
-            {$0.recordID.recordName != self.salaAtual!.id}
-        ) {
+//        print("\nLOADING ALL SALAS BUT CURRENT...")
+        for record in self.salasRecords {
+            if let salaAtual = salaAtual {
+                if record.recordID.recordName == salaAtual.id {
+                    continue
+                }
+            }
             Sala.ckLoad(from: record, completion: { (loadedSala) in
                 if loadedSala != nil {
                     self.salas.append(loadedSala!)

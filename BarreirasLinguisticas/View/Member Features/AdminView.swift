@@ -124,48 +124,86 @@ struct PostsDenunciados: View {
 struct ComentariosDenunciados: View {
     @EnvironmentObject var sala: Sala
     @EnvironmentObject var membro: Membro
-    @State private var comentariosDenunciados: [Comentario] = []
+    private var allPerguntasComentariosLoaded: Bool {
+        return checaLoaded()
+    }
+    private var denunciados: [Comentario] {
+        return checaDenuciados()
+    }
     
     var body: some View {
         VStack {
-            if !comentariosDenunciados.isEmpty {
+            if !denunciados.isEmpty {
                 VStack {
                     ScrollView(.vertical, showsIndicators: false) {
-                        ForEach(comentariosDenunciados) { comentario in
-                            ComentarioDenunciado(
-                                comentario: comentario,
-                                comentariosDenunciados: $comentariosDenunciados
-                            )
-                            .environmentObject(sala)
-                            .environmentObject(membro)
+                        VStack {
+                            ForEach(denunciados) { comentario in
+                                ComentarioDenunciado(
+                                    comentario: comentario
+                                )
+                                .environmentObject(sala)
+                                .environmentObject(membro)
+                            }
+                            if !allPerguntasComentariosLoaded {
+                                ProgressView("")
+                            }
                         }
                     }
                     Spacer()
                 }
                 
             } else {
-                Text("No reported comments 🙂")
-                    .foregroundColor(.gray)
+                if !allPerguntasComentariosLoaded {
+                    ProgressView("")
+                } else {
+                    Text("No reported comments 🙂")
+                        .foregroundColor(.gray)
+                }
             }
         }.navigationBarTitle(
             Text("Reported Comments")
         )
-        .onAppear {
-            self.carregaComentarios()
-        }
     }
     
-    func carregaComentarios(){
-        self.comentariosDenunciados = []
+    //Solucao de Contorno
+    private func checaLoaded() -> Bool {
+        var loaded = true
+        if !sala.allPostsLoaded {
+            loaded = false
+        } else {
+            for post in sala.posts {
+                if !post.allPerguntasLoaded || !post.allComentariosLoaded {
+                    loaded = false
+                }
+            }
+        }
+        return loaded
+    }
+    
+    private func checaDenuciados() -> [Comentario] {
+        var denunciados: [Comentario] = []
         for post in sala.posts {
-            self.comentariosDenunciados.append(
+            denunciados.append(
                 contentsOf: post.perguntas.filter{!$0.denuncias.isEmpty}
             )
-            self.comentariosDenunciados.append(
+            denunciados.append(
                 contentsOf: post.comentarios.filter{!$0.denuncias.isEmpty}
             )
         }
+        return denunciados
     }
+    
+//    func carregaComentarios(){
+//        self.comentariosDenunciados = []
+//        for post in sala.posts {
+//            self.comentariosDenunciados.append(
+//                contentsOf: post.perguntas.filter{!$0.denuncias.isEmpty}
+//            )
+//            self.comentariosDenunciados.append(
+//                contentsOf: post.comentarios.filter{!$0.denuncias.isEmpty}
+//            )
+//        }
+//    }
 }
 
 struct ComentarioDenunciado: View {
@@ -173,7 +211,6 @@ struct ComentarioDenunciado: View {
     @EnvironmentObject var membro: Membro
     @ObservedObject var comentario: Comentario
     @State private var askApagaComentario = false
-    @Binding var comentariosDenunciados: [Comentario]
     
     var body: some View {
         VStack {
@@ -241,7 +278,6 @@ struct ComentarioDenunciado: View {
                 }
                 Spacer()
             }
-            
             Divider()
         }.padding(.leading)
     }
@@ -249,26 +285,14 @@ struct ComentarioDenunciado: View {
     func apagaComentario(_ comentario: Comentario){
         if let post = sala.getPost(id: comentario.post) {
             if post.perguntas.contains(where: {$0.id == comentario.id}) {
-                print("Apagando pergunta")
+//                print("Apagando pergunta")
                 post.apagaPergunta(id: comentario.id)
             }
             else if post.comentarios.contains(where: {$0.id == comentario.id}) {
-                print("Apagando comentário")
+//                print("Apagando comentário")
                 post.apagaComentario(id: comentario.id)
             }
         }
-        carregaComentarios()
     }
     
-    func carregaComentarios(){
-        self.comentariosDenunciados = []
-        for post in sala.posts {
-            self.comentariosDenunciados.append(
-                contentsOf: post.perguntas.filter{!$0.denuncias.isEmpty}
-            )
-            self.comentariosDenunciados.append(
-                contentsOf: post.comentarios.filter{!$0.denuncias.isEmpty}
-            )
-        }
-    }
 }
