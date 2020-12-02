@@ -161,6 +161,7 @@ struct QuestionsList: View {
     func report(_ question: Comentario){
         question.updateReportStatus(membro: membro)
         reported = question.denuncias.contains(membro.id)
+        print("Updated report status of: \(question.conteudo)")
     }
     
     func loadReport(of question: Comentario){

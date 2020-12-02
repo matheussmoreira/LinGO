@@ -67,7 +67,7 @@ struct FirstView: View {
                     switch result{
                         case .success(let fetchedUser):
                             DispatchQueue.main.async {
-                                print("Usuario atual resgatado com sucesso!\n")
+//                                print("Usuario atual resgatado com sucesso!\n")
                                 dao.usuarioAtual = fetchedUser
                                 loadSalas(
                                     id_sala: fetchedUser.sala_atual,
