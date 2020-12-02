@@ -253,15 +253,14 @@ extension CKManager {
                 let nome = record["nome"] as? String
                 let fluencia = record["fluencia_ingles"] as? String
                 let sala_atual = record["sala_atual"] as? String
-                
                 var foto: Data? = nil
-                let fotoData = FileSystem.retrieveImage(forId: id)
-                let fotoAsset = record["url_foto"] as? CKAsset
                 
-                if fotoData != nil { // Primeiro busca no disco
+                if let fotoData = FileSystem.retrieveImage(forId: id) {
+                    // Primeiro busca no disco
                     foto = fotoData
-                } else if fotoAsset != nil { // Depois busca no CK
-                    foto = NSData(contentsOf: fotoAsset!.fileURL!) as Data?
+                } else if let fotoAsset = record["foto_perfil"] as? CKAsset {
+                    // Depois busca no CK
+                    foto = NSData(contentsOf: fotoAsset.fileURL!) as Data?
                 }
                 
                 let fetchedUser = Usuario(

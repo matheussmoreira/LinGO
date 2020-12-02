@@ -160,23 +160,9 @@ extension Membro {
                                     return
                                 }
                                 let publicados = fetchedMembro["posts_publicados"] as? [String] ?? []
-//                                guard let publicados = fetchedMembro["posts_publicados"] as? [String] else {
-//                                    print(#function)
-//                                    print("Problema ao baixar posts publicados do membro do \(fetchedUser.nome)")
-//                                    return
-//                                }
+                                
                                 let salvos = fetchedMembro["posts_salvos"] as? [String] ?? []
-//                                guard let salvos = fetchedMembro["posts_salvos"] as? [String] else {
-//                                    print(#function)
-//                                    print("Problema ao baixar posts salvos do membro")
-//                                    return
-//                                }
                                 let assinaturas = fetchedMembro["assinaturas"] as? [String] ?? []
-//                                guard let assinaturas = fetchedMembro["assinaturas"] as? [String] else {
-//                                    print(#function)
-//                                    print("Problema ao baixar assinaturas do membro")
-//                                    return
-//                                }
                                 guard let blocked = fetchedMembro["isBlocked"] as? Int else {
                                     print(#function)
                                     print("Problema ao baixar o isBlocked do membro")
