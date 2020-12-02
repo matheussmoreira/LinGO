@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CloudKit
 
 class Comentario: Identifiable, ObservableObject {
     var id: String = ""
@@ -54,4 +55,42 @@ class Comentario: Identifiable, ObservableObject {
         CKManager.modifyComentario(self)
     }
     
+}
+
+extension Comentario {
+    static func ckLoad(from reference: CKRecord.Reference, completion: @escaping (Result<Comentario, Error>) -> ()){
+        CKContainer.default().publicCloudDatabase.fetch(withRecordID: CKRecord.ID(recordName: reference.recordID.recordName)) { (fetchedRecord, error) in
+            if let error = error {
+                print(#function)
+                print(error)
+                completion(.failure(error))
+            }
+            if let record = fetchedRecord {
+                guard let publicadorRef = record["id_publicador"] as? CKRecord.Reference else { return }
+                CKManager.fetchMembro(recordName: publicadorRef.recordID.recordName) { (resultMembro) in
+                    switch resultMembro {
+                        case .success(let fetchedMembro):
+                            let recordName = record.recordID.recordName
+                            guard let post = record["post"] as? String else { return }
+                            guard let conteudo = record["conteudo"] as? String else { return }
+                            guard let question = record["is_question"] as? Int else { return }
+                            
+                            var is_question: Bool
+                            (question == 1) ? (is_question = true) : (is_question = false)
+                            let votos = record["votos"] as? [String] ?? []
+                            let denuncias = record["denuncias"] as? [String] ?? []
+                            
+                            let comentario = Comentario(post: post, publicador: fetchedMembro, conteudo: conteudo, is_question: is_question)
+                            comentario.votos = votos
+                            comentario.denuncias = denuncias
+                            comentario.id = recordName
+                            completion(.success(comentario))
+                        case .failure(let error2):
+                            print(error2)
+                            completion(.failure(error2))
+                    }
+                }
+            }
+        }
+    }
 }

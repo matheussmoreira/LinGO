@@ -21,6 +21,13 @@ class Post: Equatable, Identifiable, ObservableObject {
     @Published var tags: [String] = []
     @Published var denuncias: [String] = []
     
+    @Published var allPerguntasLoaded = false
+    @Published var allComentariosLoaded = false
+    @Published var loadingPerguntasError = false
+    @Published var loadingComentariosError = false
+    @Published var perguntasRef: [CKRecord.Reference] = []
+    @Published var comentariosRef: [CKRecord.Reference] = []
+    
     init(titulo: String?, descricao: String?, link: LinkPost?, categs: [String], tags: String, publicador: Membro) {
         self.titulo = titulo ?? "Post sem título"
         self.descricao = descricao ?? ""
@@ -48,7 +55,6 @@ class Post: Equatable, Identifiable, ObservableObject {
     
     func addLink(_ link: LinkPost?) {
         if (link != nil) { self.link = link! }
-//        else { print("Post: Não deu pra adquirir o link pois está inválido\n") }
     }
     
     func updateReportStatus(membro: Membro){
@@ -164,19 +170,14 @@ extension Post{
                     return
                 }
                 let tags = record["tags"] as? [String] ?? []
-//                guard let tags = record["tags"] as? [String] else {
-//                    print("\(#function) - Erro no cast das tags do post")
-//                    return
-//                }
                 let denuncias = record["denuncias"] as? [String] ?? []
-//                guard let denuncias = record["denuncias"] as? [String] else {
-//                    print("\(#function) - Erro no cast das denuncias do post")
-//                    return
-//                }
                 guard let publicador = record["publicador"] as? CKRecord.Reference else {
                     print("\(#function) - Erro no cast do publicador do post")
                     return
                 }
+                
+                let perguntasRef = record["perguntas"] as? [CKRecord.Reference] ?? []
+                let comentariosRef = record["comentarios"] as? [CKRecord.Reference] ?? []
                 
                 let link = record["link"] as? CKRecord.Reference
                 
@@ -187,20 +188,20 @@ extension Post{
                             post.tags = tags
                             post.denuncias = denuncias
                             post.id = ckReference.recordID.recordName
+                            post.perguntasRef = perguntasRef
+                            post.comentariosRef = comentariosRef
                             
                             if link != nil {
                                 CKManager.fetchLink(recordName: link!.recordID.recordName) { (linkResult) in
                                     switch linkResult {
                                         case .success(let fetchedLink):
                                             post.link = fetchedLink
-//                                            print("Retornando post")
                                             completion(.success(post))
                                         case .failure(_):
                                             break
                                     }
                                 }
                             } else {
-//                                print("Retornando post")
                                 completion(.success(post))
                             }
                             
@@ -210,8 +211,6 @@ extension Post{
                             break
                     }
                 }
-                
-                //TODO: FALTA COMENTARIOS !!!
             }
         }
     }

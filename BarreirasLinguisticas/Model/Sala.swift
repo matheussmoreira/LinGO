@@ -410,9 +410,11 @@ extension Sala {
                 switch result {
                     case .success(let loadedPost):
                         if loadedPost != nil {
-                            sala.posts.append(loadedPost!)
-                            if sala.posts.count == postsRef.count {
-                                sala.allPostsLoaded = true
+                            DispatchQueue.main.async {
+                                sala.posts.append(loadedPost!)
+                                if sala.posts.count == postsRef.count {
+                                    sala.allPostsLoaded = true
+                                }
                             }
                         }
                     case .failure(_):
