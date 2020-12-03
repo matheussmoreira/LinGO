@@ -192,18 +192,6 @@ struct ComentariosDenunciados: View {
         }
         return denunciados
     }
-    
-//    func carregaComentarios(){
-//        self.comentariosDenunciados = []
-//        for post in sala.posts {
-//            self.comentariosDenunciados.append(
-//                contentsOf: post.perguntas.filter{!$0.denuncias.isEmpty}
-//            )
-//            self.comentariosDenunciados.append(
-//                contentsOf: post.comentarios.filter{!$0.denuncias.isEmpty}
-//            )
-//        }
-//    }
 }
 
 struct ComentarioDenunciado: View {

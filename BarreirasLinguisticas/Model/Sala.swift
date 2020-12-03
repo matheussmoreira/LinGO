@@ -412,8 +412,16 @@ extension Sala {
         }
         
         DispatchQueue.global().async {
-            while true { // espera pra retornar a sala quando carrega membros e categs
+            // DispatchQueue.global por senao o app trava enquanto baixa as salas
+            while true {
+                // Espera pra retornar a sala quando carrega membros e categs
                 if sala.membros.count == membrosRef.count && sala.categorias.count == categsRef.count && !loadingError {
+                    
+                    if sala.membros.count == 1 && !sala.membros[0].isAdmin {
+                        sala.membros[0].isAdmin = true
+                        CKManager.modifyMembro(membro: sala.membros[0])
+                    }
+                    
                     print("Retornando sala \(sala.nome)!")
                     DispatchQueue.main.async {
                         completion(sala)
