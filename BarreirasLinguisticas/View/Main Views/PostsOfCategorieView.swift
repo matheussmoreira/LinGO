@@ -70,7 +70,7 @@ struct PostsOfCategorieView: View {
                 }
             }
             else {
-                ScrollView(.vertical, showsIndicators: false) {
+                ScrollView(.vertical, showsIndicators: true) {
                     VStack {
                         ForEach(loaded_posts) { post in
                             NavigationLink(

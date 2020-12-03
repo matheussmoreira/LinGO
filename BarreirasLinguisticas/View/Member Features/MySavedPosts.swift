@@ -31,7 +31,7 @@ struct MySavedPosts: View {
                 Spacer()
             }
             else {
-                ScrollView(.vertical, showsIndicators: false) {
+                ScrollView(.vertical, showsIndicators: true) {
                     if loaded_posts.isEmpty {
                         // Nenhum post publicado ainda foi baixado
                         VStack {

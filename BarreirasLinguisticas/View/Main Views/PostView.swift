@@ -23,7 +23,7 @@ struct PostView: View {
     
     var body: some View {
         VStack {
-            ScrollView(.vertical, showsIndicators: false) {
+            ScrollView(.vertical, showsIndicators: true) {
                 VStack{
                     
                     HStack {

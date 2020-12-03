@@ -82,7 +82,6 @@ struct CommentsList: View {
                 }
             }
             else {
-                
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack {
                         ForEach(post.comentarios.reversed()) { comment in

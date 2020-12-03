@@ -8,6 +8,7 @@
 
 import SwiftUI
 import CloudKitMagicCRUD
+import CloudKit
 
 enum LogInSystem: Int {
     case loggedIn = 1
@@ -29,22 +30,16 @@ struct FirstView: View {
                     ProgressView("")
                 }
                 
-            } else { // loading = false
+            } else {
                 if daoz.usuarioAtual == nil || logInStatus == .loggedOut {
                     OnboardView(logInStatus: $logInStatus)
                         .environmentObject(daoz)
-//                        .onAppear{
-//                            print("Carregou onboard!")
-//                        }
                 } else {
                     ContentView(
                         logInStatus: $logInStatus,
                         usuarioAtual: $daoz.usuarioAtual
                     )
                     .environmentObject(daoz)
-//                    .onAppear{
-//                        print("Entrou na sala!")
-//                    }
                 }
             }
         }
@@ -55,7 +50,7 @@ struct FirstView: View {
     
     func buscaUsuario(){
         CKMDefault.setRecordTypeFor(type: Usuario.self, recordName: "Users")
-        CKMDefault.container.fetchUserRecordID { (recordID, error) in
+        CKContainer.default().fetchUserRecordID { (recordID, error) in
             if let error = error {
                 print(error)
                 loading = false

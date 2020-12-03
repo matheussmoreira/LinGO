@@ -93,7 +93,7 @@ struct PostsDenunciados: View {
                 }
             }
             else {
-                ScrollView(.vertical, showsIndicators: false) {
+                ScrollView(.vertical, showsIndicators: true) {
                     VStack {
                         ForEach(posts) { post in
                             NavigationLink(
@@ -135,7 +135,7 @@ struct ComentariosDenunciados: View {
         VStack {
             if !denunciados.isEmpty {
                 VStack {
-                    ScrollView(.vertical, showsIndicators: false) {
+                    ScrollView(.vertical, showsIndicators: true) {
                         VStack {
                             ForEach(denunciados) { comentario in
                                 ComentarioDenunciado(
@@ -150,7 +150,7 @@ struct ComentariosDenunciados: View {
                         }
                     }
                     Spacer()
-                }
+                }.frame(width: UIScreen.width)
                 
             } else {
                 if !allPerguntasComentariosLoaded {
@@ -174,6 +174,7 @@ struct ComentariosDenunciados: View {
             for post in sala.posts {
                 if !post.allPerguntasLoaded || !post.allComentariosLoaded {
                     loaded = false
+                    break
                 }
             }
         }
