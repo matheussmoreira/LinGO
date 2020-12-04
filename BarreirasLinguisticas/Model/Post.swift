@@ -65,28 +65,24 @@ class Post: Equatable, Identifiable, ObservableObject {
         CKManager.modifyPost(self)
     }
 
-    func novoComentario(publicador: Membro, conteudo: String, is_question: Bool) {
+    func novoComentario(sala: Sala, publicador: Membro, conteudo: String, is_question: Bool) {
         let comentario = Comentario(post: self.id, publicador: publicador, conteudo: conteudo, is_question: is_question)
         
-        if is_question { self.perguntas.append(comentario) }
-            else { self.comentarios.append(comentario) }
-        
-        CKManager.saveComentario(comentario: comentario) { (result) in
+        CKManager.saveComentario(comentario) { (result) in
             switch result {
                 case .success(let id):
                     DispatchQueue.main.async {
-                        if is_question { self.perguntas.removeLast() }
-                            else { self.comentarios.removeLast() }
-                        
                         comentario.id = id
+                        
                         if is_question { self.perguntas.append(comentario) }
                             else { self.comentarios.append(comentario) }
-                        
                         CKManager.modifyPost(self)
+                        
+                        sala.quantComentarios += 1
+                        CKManager.modifySala(sala)
+                        
                     }
                 case .failure(let error):
-                    if is_question { self.perguntas.removeLast() }
-                        else { self.comentarios.removeLast() }
                     print(#function)
                     print(error)
             }
@@ -106,13 +102,16 @@ class Post: Equatable, Identifiable, ObservableObject {
 //    }
 
     //MARK: - DELECOES
-    func apagaPergunta(id: String) {
+    func apagaPergunta(sala: Sala, id: String) {
         self.perguntas.removeAll(where: { $0.id == id })
         
         CKManager.deleteRecordCompletion(recordName: id) { (result) in
             switch result {
                 case .success(_):
                     CKManager.modifyPost(self)
+                    
+                    sala.quantComentarios -= 1
+                    CKManager.modifySala(sala)
                 case .failure(let error):
                     print(#function)
                     print(error)
@@ -120,13 +119,16 @@ class Post: Equatable, Identifiable, ObservableObject {
         }
     }
     
-    func apagaComentario(id: String) {
+    func apagaComentario(sala: Sala, id: String) {
         self.comentarios.removeAll(where: { $0.id == id })
         
         CKManager.deleteRecordCompletion(recordName: id) { (result) in
             switch result {
                 case .success(_):
                     CKManager.modifyPost(self)
+                    
+                    sala.quantComentarios -= 1
+                    CKManager.modifySala(sala)
                 case .failure(let error):
                     print(#function)
                     print(error)
@@ -229,13 +231,17 @@ extension Post{
         }
     }
     
-    func ckLoadAllPerguntas(){
+    func ckLoadAllPerguntas(sala: Sala){
         for ref in perguntasRef {
             Comentario.ckLoad(from: ref) { (result) in
                 switch result {
                     case .success(let loadedPergunta):
                         DispatchQueue.main.async {
                             self.perguntas.append(loadedPergunta)
+                            sala.quantComentariosBaixados += 1
+                            if sala.quantComentarios == sala.quantComentariosBaixados {
+                                sala.allComentariosLoaded = true
+                            }
                             self.allPerguntasLoaded = (self.perguntas.count == self.perguntasRef.count)
                         }
                     case .failure(_):
@@ -245,13 +251,17 @@ extension Post{
         }
     }
     
-    func ckLoadAllComentarios(){
+    func ckLoadAllComentarios(sala: Sala){
         for ref in comentariosRef {
             Comentario.ckLoad(from: ref) { (result) in
                 switch result {
                     case .success(let loadedComentario):
                         DispatchQueue.main.async {
                             self.comentarios.append(loadedComentario)
+                            sala.quantComentariosBaixados += 1
+                            if sala.quantComentarios == sala.quantComentariosBaixados {
+                                sala.allComentariosLoaded = true
+                            }
                             self.allComentariosLoaded = (self.comentarios.count == self.comentariosRef.count)
                         }
                     case .failure(_):

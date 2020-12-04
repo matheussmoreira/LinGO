@@ -99,6 +99,7 @@ struct PostView: View {
                     .sheet(isPresented: $showComments) {
                         CommentsQuestionsToggle(post: self.post)
                             .environmentObject(self.membro)
+                            .environmentObject(self.sala)
                     }
                     
                     //MARK: - REPORT

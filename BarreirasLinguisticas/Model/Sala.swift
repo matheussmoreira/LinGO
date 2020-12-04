@@ -18,11 +18,13 @@ class Sala: Identifiable, ObservableObject, Equatable {
     @Published var allPostsLoaded = false
     @Published var loadingPostsError = false
     @Published var categorias: [Categoria] = []
-    
     @Published var membrosRef: [CKRecord.Reference] = []
     @Published var categsRef: [CKRecord.Reference] = []
     @Published var postsRef: [CKRecord.Reference] = []
+    
     @Published var quantComentarios = 0
+    @Published var quantComentariosBaixados = 0
+    @Published var allComentariosLoaded = false
     
     init(id: String, nome: String) {
         self.id = id
@@ -206,14 +208,14 @@ class Sala: Identifiable, ObservableObject, Equatable {
         }
     }
     
-    func novoComentario(id: Int, publicador id_publicador: String?, post id_post: String, conteudo: String, is_question: Bool) {
-        if let publicador = getMembroByUser(id: id_publicador), let post = getPost(id: id_post)  {
-            post.novoComentario(publicador: publicador, conteudo: conteudo, is_question: is_question)
-        }
-        else {
-            print("Comentário não adicionado por publicador não identificado")
-        }
-    }
+//    func novoComentario(id: Int, publicador id_publicador: String?, post id_post: String, conteudo: String, is_question: Bool) {
+//        if let publicador = getMembroByUser(id: id_publicador), let post = getPost(id: id_post)  {
+//            post.novoComentario(publicador: publicador, conteudo: conteudo, is_question: is_question)
+//        }
+//        else {
+//            print("Comentário não adicionado por publicador não identificado")
+//        }
+//    }
     
     func novaAssinatura(membro id_membro: String?, categoria: String) {
         let membro = getMembroByUser(id: id_membro)
@@ -371,6 +373,8 @@ extension Sala {
         
         sala.id = ckRecord.recordID.recordName
         sala.nome = ckRecord["nome"] as? String ?? ""
+        sala.quantComentarios = ckRecord["quantComentarios"] as? Int ?? 0
+        if sala.quantComentarios == 0 { sala.allComentariosLoaded = true }
 //        print("Loading sala \(sala.nome)...")
         
         sala.membrosRef = membrosRef
@@ -418,8 +422,8 @@ extension Sala {
                             DispatchQueue.main.async {
 //                                print("\tBaixou post \(loadedPost.titulo)")
                                 sala.posts.append(loadedPost)
-                                loadedPost.ckLoadAllPerguntas()
-                                loadedPost.ckLoadAllComentarios()
+                                loadedPost.ckLoadAllPerguntas(sala: sala)
+                                loadedPost.ckLoadAllComentarios(sala: sala)
                                 sala.allPostsLoaded = (sala.posts.count == postsRef.count)
                             }
                         }

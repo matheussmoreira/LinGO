@@ -10,6 +10,7 @@ import SwiftUI
 
 struct QuestionsList: View {
     @EnvironmentObject var membro: Membro
+    @EnvironmentObject var sala: Sala
     @ObservedObject var post: Post
     @State private var newComment: String = ""
     @State private var showAlertBlocked = false
@@ -87,6 +88,7 @@ struct QuestionsList: View {
                         ForEach(post.perguntas.reversed().sorted(by: { $0.votos.count > $1.votos.count })) { comment in
                             QuestionDetails(comment: comment, post: post)
                                 .environmentObject(membro)
+                                .environmentObject(sala)
                         }
                         if !post.allPerguntasLoaded {
                             ProgressView("")
@@ -103,7 +105,12 @@ struct QuestionsList: View {
     
     func comenta() {
         if newComment != "" {
-            post.novoComentario(publicador: membro, conteudo: newComment, is_question: true)
+            post.novoComentario(
+                sala: sala,
+                publicador: membro,
+                conteudo: newComment,
+                is_question: true
+            )
             newComment = ""
         }
     }
@@ -111,6 +118,7 @@ struct QuestionsList: View {
 
 struct QuestionDetails: View {
     @EnvironmentObject var membro: Membro
+    @EnvironmentObject var sala: Sala
     @ObservedObject var comment: Comentario
     @ObservedObject var post: Post
     @State private var askReport = false
@@ -181,6 +189,6 @@ struct QuestionDetails: View {
     }
     
     func apagaPergunta(id: String){
-        post.apagaPergunta(id: id)
+        post.apagaPergunta(sala: sala, id: id)
     }
 }

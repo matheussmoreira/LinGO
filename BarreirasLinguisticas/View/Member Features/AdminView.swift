@@ -124,9 +124,6 @@ struct PostsDenunciados: View {
 struct ComentariosDenunciados: View {
     @EnvironmentObject var sala: Sala
     @EnvironmentObject var membro: Membro
-    private var allPerguntasComentariosLoaded: Bool {
-        return checaLoaded()
-    }
     private var denunciados: [Comentario] {
         return checaDenuciados()
     }
@@ -144,23 +141,24 @@ struct ComentariosDenunciados: View {
                                 .environmentObject(sala)
                                 .environmentObject(membro)
                             }
-                            if !allPerguntasComentariosLoaded {
+                            if !sala.allComentariosLoaded {
                                 ProgressView("")
                             }
-                        }
+                        }.frame(width: UIScreen.width)
                     }
                     Spacer()
-                }.frame(width: UIScreen.width)
+                }
                 
             } else {
-                if !allPerguntasComentariosLoaded {
+                if !sala.allComentariosLoaded {
                     ProgressView("")
                 } else {
                     Text("No reported comments 🙂")
                         .foregroundColor(.gray)
                 }
             }
-        }.navigationBarTitle(
+        }
+        .navigationBarTitle(
             Text("Reported Comments")
         )
     }
@@ -277,11 +275,11 @@ struct ComentarioDenunciado: View {
         if let post = sala.getPost(id: comentario.post) {
             if post.perguntas.contains(where: {$0.id == comentario.id}) {
 //                print("Apagando pergunta")
-                post.apagaPergunta(id: comentario.id)
+                post.apagaPergunta(sala: sala, id: comentario.id)
             }
             else if post.comentarios.contains(where: {$0.id == comentario.id}) {
 //                print("Apagando comentário")
-                post.apagaComentario(id: comentario.id)
+                post.apagaComentario(sala: sala, id: comentario.id)
             }
         }
     }

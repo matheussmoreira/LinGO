@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CommentsList: View {
     @EnvironmentObject var membro: Membro
+    @EnvironmentObject var sala: Sala
     @ObservedObject var post: Post
     @State private var newComment: String = ""
     @State private var showAlertBlocked = false
@@ -86,6 +87,7 @@ struct CommentsList: View {
                     VStack {
                         ForEach(post.comentarios.reversed()) { comment in
                             CommentDetails(comment: comment, post: post)
+                                .environmentObject(sala)
                         }
                         if !post.allComentariosLoaded {
                             ProgressView("")
@@ -102,6 +104,7 @@ struct CommentsList: View {
     func comenta() {
         if newComment != "" {
             post.novoComentario(
+                sala: sala,
                 publicador: membro,
                 conteudo: newComment,
                 is_question: false
@@ -113,6 +116,7 @@ struct CommentsList: View {
 
 struct CommentDetails: View {
     @EnvironmentObject var membro: Membro
+    @EnvironmentObject var sala: Sala
     @ObservedObject var comment: Comentario
     @ObservedObject var post: Post
     @State private var askReport = false
@@ -184,6 +188,6 @@ struct CommentDetails: View {
     }
     
     func apagaComentario(id: String){
-        post.apagaComentario(id: id)
+        post.apagaComentario(sala: sala, id: id)
     }
 }

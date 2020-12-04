@@ -172,6 +172,9 @@ extension CKManager {
                 return
             }
             if let fetchedSala = record {
+                // QUANT COMENTARIOS
+                fetchedSala["quantComentarios"] = sala.quantComentarios
+                
                 // MEMBROS
                 var membros_array: [CKRecord.Reference] = []
                 for m in sala.membros {
@@ -692,7 +695,7 @@ extension CKManager {
 
 //MARK: - COMENTARIO
 extension CKManager {
-    static func saveComentario(comentario: Comentario, completion: @escaping (Result<String, Error>) -> ()) {
+    static func saveComentario(_ comentario: Comentario, completion: @escaping (Result<String, Error>) -> ()) {
         // PREPARANDO OS DADOS
         let comentarioRecord = CKRecord(recordType: "Comentario")
         comentarioRecord["post"] = comentario.post

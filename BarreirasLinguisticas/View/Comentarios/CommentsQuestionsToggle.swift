@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CommentsQuestionsToggle: View {
     @EnvironmentObject var membro: Membro
+    @EnvironmentObject var sala: Sala
     @ObservedObject var post: Post
     @State private var questions_selected = true
     @State private var comments_selected = false
@@ -70,10 +71,12 @@ struct CommentsQuestionsToggle: View {
             if questions_selected {
                 QuestionsList(post: post)
                     .environmentObject(membro)
+                    .environmentObject(sala)
             }
             else {
                 CommentsList(post: post)
                     .environmentObject(membro)
+                    .environmentObject(sala)
             }
         }
         
