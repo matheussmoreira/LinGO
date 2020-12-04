@@ -250,19 +250,13 @@ struct ProfileView: View {
         } else if sala.membros.count == 1 {
             // Unico membro da sala deve ser admin
             unicoMembroIsAdmin(sala: sala)
+            CKManager.modifySala(sala)
         } else {
             self.proxima_sala()
+            CKManager.modifySala(sala)
         }
         
-        CKManager.deleteRecordCompletion(recordName: self.membro.id) { (result) in
-            switch result {
-                case .success(_):
-                    break
-                case .failure(let error):
-                    print(#function)
-                    print(error)
-            }
-        }
+        CKManager.deleteRecord(recordName: self.membro.id)
     }
     
     func apagaSalaFromCloud(sala: Sala){
@@ -306,8 +300,14 @@ struct ProfileView: View {
         }
         
         dao.idSalaAtual = usuario.sala_atual
-        dao.salaAtual = dao.getSala(id: dao.idSalaAtual!)
-        dao.membroAtual = dao.salaAtual!.getMembroByUser(id: usuario.id)
+        if let idAtual = dao.idSalaAtual {
+            dao.salaAtual = dao.getSala(id: idAtual)
+            dao.membroAtual = dao.salaAtual!.getMembroByUser(id: usuario.id)
+        } else {
+            dao.salaAtual = nil
+            dao.membroAtual = nil
+        }
+        
         CKManager.modifyUsuario(user: usuario)
     }
 }

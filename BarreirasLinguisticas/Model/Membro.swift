@@ -136,8 +136,10 @@ class Membro: Equatable, Identifiable, ObservableObject {
 //MARK: - CKManagement
 extension Membro {
     static func ckLoad(from ckReference: CKRecord.Reference, completion: @escaping (Result<Membro, Error>) -> ()) {
+//        print("\tFetching membro")
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: ckReference.recordID.recordName)) { (record, error) in
+//            print("\tFetch finalizado")
             if let error = error {
                 print(#function)
                 print(error)
@@ -145,8 +147,10 @@ extension Membro {
                 return
             }
             if let fetchedMembro = record {
+//                print("\tMembro fetched!")
                 if let usuarioReference = fetchedMembro["usuario"] as? CKRecord.Reference {
                     CKManager.fetchUsuario(recordName: usuarioReference.recordID.recordName) { (result) in
+//                        print("\tFetching usuario do membro")
                         switch result {
                             case .success(let fetchedUser):
                                 guard let idSala = fetchedMembro["idSala"] as? String else {
@@ -183,7 +187,7 @@ extension Membro {
                                 membro.idsPostsPublicados = publicados
                                 membro.idsPostsSalvos = salvos
                                 membro.idsAssinaturas = assinaturas
-                                
+//                                print("\tRetornando membro")
                                 completion(.success(membro))
                             case .failure(let error):
                                 print(#function)

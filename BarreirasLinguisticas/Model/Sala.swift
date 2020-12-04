@@ -365,40 +365,52 @@ extension Sala {
         
         sala.id = ckRecord.recordID.recordName
         sala.nome = ckRecord["nome"] as? String ?? ""
-//        print("Loading sala \(sala.nome)...")
+        print("Loading sala \(sala.nome)...")
         
         sala.membrosRef = membrosRef
         sala.categsRef = categsRef
         sala.postsRef = postsRef
         
+//        print("\tLoading membros")
         for membroRef in membrosRef {
             Membro.ckLoad(from: membroRef) { (result) in
                 switch result {
                     case .success(let loadedMembro):
-                        sala.membros.append(loadedMembro)
+                        DispatchQueue.main.async {
+//                            print("\tBaixou membro do usuario \(loadedMembro.usuario.nome)")
+                            sala.membros.append(loadedMembro)
+                        }
                     case .failure(_):
+                        print("Loading error nos membros da sala \(sala.nome)!")
                         loadingError = true
                 }
             }
         }
         
+//        print("\tLoading categorias")
         for categRef in categsRef {
             Categoria.ckLoad(from: categRef) { (result) in
                 switch result {
                     case .success(let loadedCateg):
-                        sala.categorias.append(loadedCateg)
+                        DispatchQueue.main.async {
+                            sala.categorias.append(loadedCateg)
+//                            print("\tBaixou categoria \(loadedCateg.nome)")
+                        }
                     case .failure(_):
+                        print("Loading error nas categorias da sala \(sala.nome)!")
                         loadingError = true
                 }
             }
         }
         
+//        print("\tLoading posts")
         for postRef in postsRef {
             Post.ckLoad(from: postRef, salaMembros: sala.membros) { (result) in
                 switch result {
                     case .success(let loadedPost):
                         if let loadedPost = loadedPost {
                             DispatchQueue.main.async {
+//                                print("\tBaixou post \(loadedPost.titulo)")
                                 sala.posts.append(loadedPost)
                                 loadedPost.ckLoadAllPerguntas()
                                 loadedPost.ckLoadAllComentarios()
@@ -406,6 +418,7 @@ extension Sala {
                             }
                         }
                     case .failure(_):
+                        print("Loading error nos posts da sala \(sala.nome)!")
                         sala.loadingPostsError = true
                 }
             }
@@ -428,6 +441,12 @@ extension Sala {
                     }
                     break
                 }
+                sleep(1)
+                /*
+                 Sem esse sleep os fetches de membro, categ e post
+                 comecam mas nao terminam e o app nao fica esperando
+                 para todo o sempre !!!
+                */
             }
         }
     }

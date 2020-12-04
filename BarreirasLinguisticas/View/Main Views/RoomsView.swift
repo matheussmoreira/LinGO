@@ -154,7 +154,19 @@ struct MyRoomsView: View {
                         }
                     } else {
                         if !dao.allSalasLoaded {
-                            ProgressView("")
+                            VStack {
+                                Spacer()
+                                ProgressView("")
+                                Spacer()
+                            }
+                        } else {
+                            VStack {
+                                Spacer()
+                                Text("The rooms you are a member\nwill appear here 🙂")
+                                    .multilineTextAlignment(.center)
+                                    .foregroundColor(.white)
+                                Spacer()
+                            }
                         }
                     }
                     
@@ -304,7 +316,7 @@ struct MyRoomsView: View {
 struct SearchRoomsView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var dao: DAO
-    @State private var alertEnterRoom = false
+    
     var usuario: Usuario
     var salasDisponiveis: [Sala] {
         return dao.getSalasWithoutUser(id: usuario.id)
@@ -322,28 +334,7 @@ struct SearchRoomsView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack {
                         ForEach(salasDisponiveis) { sala in
-                            ZStack {
-                                Capsule()
-                                    .frame(width: 300.0, height: 50.0)
-                                    .foregroundColor(.white)
-                                
-                                Button(action: {
-                                    
-                                    alertEnterRoom.toggle()
-    //                                verificaNovoMembro(sala: sala, usuario: usuario)
-                                }) {
-                                    Text(sala.nome)
-                                        .foregroundColor(LingoColors.lingoBlue)
-                                }
-                                .alert(isPresented: $alertEnterRoom) {
-                                    Alert(
-                                        title: Text("Do you want do become a member of this room?"),
-                                        primaryButton: .default(Text("Yes")){
-                                            criaNovoMembro(sala: sala)
-                                        },
-                                        secondaryButton: .cancel())
-                                }
-                            }
+                            ItemSala(sala: sala, usuario: usuario)
                         }
                         if !dao.allSalasLoaded {
                             ProgressView("")
@@ -353,7 +344,11 @@ struct SearchRoomsView: View {
                 
             } else {
                 if !dao.allSalasLoaded {
-                    ProgressView("")
+                    VStack {
+                        Spacer()
+                        ProgressView("")
+                        Spacer()
+                    }
                 } else {
                     Spacer()
                     Text("No available rooms yet 😕")
@@ -368,25 +363,37 @@ struct SearchRoomsView: View {
         }
     }
     
-//    func verificaNovoMembro(sala: Sala, usuario: Usuario){
-//        CKManager.retrieveMembroOf(sala: sala, usuario: usuario) { (result) in
-//            switch result {
-//                case .success(let retrievedMembroOpt):
-//                    DispatchQueue.main.async {
-//                        if let retrievedMembro = retrievedMembroOpt {
-//                            print("Sala ganha novo membro direto")
-//                            salaGanhaNovoMembro(sala: sala, membro: retrievedMembro)
-//                        } else {
-//                            print("Sala cria novo membro e add ele")
-//                            criaNovoMembro(sala: sala)
-//                        }
-//                    }
-//                case .failure(let error):
-//                    print(#function)
-//                    print(error)
-//            }
-//        }
-//    }
+    
+}
+
+struct ItemSala: View {
+    @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var sala: Sala
+    @ObservedObject var usuario: Usuario
+    @State private var alertEnterRoom = false
+    
+    var body: some View {
+        ZStack {
+            Capsule()
+                .frame(width: 300.0, height: 50.0)
+                .foregroundColor(.white)
+            
+            Button(action: {
+                alertEnterRoom.toggle()
+            }) {
+                Text(sala.nome)
+                    .foregroundColor(LingoColors.lingoBlue)
+            }
+            .alert(isPresented: $alertEnterRoom) {
+                Alert(
+                    title: Text("Do you want do become a member of this room?"),
+                    primaryButton: .default(Text("Yes")){
+                        criaNovoMembro(sala: sala)
+                    },
+                    secondaryButton: .cancel())
+            }
+        }
+    }
     
     func criaNovoMembro(sala: Sala){
         let membro = Membro(usuario: usuario, idSala: sala.id, is_admin: false)

@@ -240,7 +240,7 @@ extension CKManager {
 // MARK: - USUARIO
 extension CKManager {
     static func fetchUsuario(recordName: String, completion: @escaping (Result<Usuario, Error>) -> ()) {
-//        print("Entrou em \(#function)")
+//        print("\tFetching usuario")
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: recordName)) { (record, error) in
             if let error = error {
@@ -249,6 +249,7 @@ extension CKManager {
             }
             if let record = record {
                 // SEM GUARD LET POR CONTA DA CRIACAO DE UM NOVO USUARIO
+//                print("\tUsuario fetched!")
                 let id = record.recordID.recordName
                 let nome = record["nome"] as? String
                 let fluencia = record["fluencia_ingles"] as? String
@@ -270,7 +271,7 @@ extension CKManager {
                 )
                 fetchedUser.id = id
                 fetchedUser.sala_atual = sala_atual
-                
+//                print("\tRetornando usuario")
                 completion(.success(fetchedUser))
             }
         }

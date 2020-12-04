@@ -47,19 +47,23 @@ class Categoria: Equatable, Identifiable, ObservableObject {
 //MARK: - CKManagement
 extension Categoria{
     static func ckLoad(from ckReference: CKRecord.Reference, completion: @escaping (Result<Categoria, Error>) -> ()) {
+//        print("\tFetching categoria")
         CKContainer.default().publicCloudDatabase.fetch(
             withRecordID: ckReference.recordID) { (fetchedRecord, error) in
+//            print("\tFetch finalizado")
             if let error = error {
                 print(#function)
                 print(error)
                 completion(.failure(error))
             }
             if let record = fetchedRecord {
+//                print("\tCategoria fetched!")
                 guard let nome = record["nome"] as? String else {
                     return
                 }
                 let categoria = Categoria(nome: nome)
                 categoria.id = record.recordID.recordName
+//                print("\tRetornando categoria")
                 completion(.success(categoria))
             }
         }

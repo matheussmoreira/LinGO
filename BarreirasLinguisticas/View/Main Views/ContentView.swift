@@ -64,10 +64,6 @@ struct ContentView: View {
                 .environmentObject(dao)
                 .transition(.opacity)
                 .animation(.easeOut)
-                .onAppear{
-                    if (salaAtual == nil) { print("EmptyRoom pois sala atual is nil") }
-                    if (membroAtual == nil) { print("EmptyRoom pois membro atual is nil") }
-                }
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -95,10 +91,19 @@ struct EmptyRoom: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
-                Text("You don't belong to any room yet 😕\nCreate a new one or accept an invitation!")
-                    .foregroundColor(Color.white)
-                    .multilineTextAlignment(.center)
-                    .padding(.bottom)
+                VStack {
+                    Text("Welcome to LinGO!")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color.white)
+                        .multilineTextAlignment(.center)
+                        .padding(.bottom)
+                    
+                    Text("You don't belong to any room yet\nLet's explore!")
+                        .foregroundColor(Color.white)
+                        .multilineTextAlignment(.center)
+                        .padding(.bottom)
+                }
                 
                 //MARK: -  BOTAO ROOMS
                 Button(action: {
@@ -109,7 +114,7 @@ struct EmptyRoom: View {
                             .frame(width: 300.0, height: 50.0)
                             .foregroundColor(.white)
                         
-                        Text("Rooms")
+                        Text("Explore Rooms")
                     }
                     
                 }

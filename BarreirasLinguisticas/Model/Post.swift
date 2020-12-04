@@ -149,14 +149,17 @@ class Post: Equatable, Identifiable, ObservableObject {
 
 extension Post{
     static func ckLoad(from ckReference: CKRecord.Reference, salaMembros: [Membro], completion: @escaping (Result<Post?, Error>) -> ()) {
+//        print("\tFetching post")
         CKContainer.default().publicCloudDatabase.fetch(
             withRecordID: ckReference.recordID) { (fetchedRecord, error) in
+//            print("\tFetch finalizado")
             if let error = error {
                 print(#function)
                 print(error)
                 completion(.failure(error))
             }
             if let record = fetchedRecord {
+//                print("\tPost fetched!")
                 guard let titulo = record["titulo"] as? String else {
                     print("\(#function) - Erro no cast do titulo do post")
                     return
@@ -182,6 +185,7 @@ extension Post{
                 let link = record["link"] as? CKRecord.Reference
                 
                 CKManager.fetchMembro(recordName: publicador.recordID.recordName) { (membroResult) in
+//                    print("\tFetching publicador do post")
                     switch membroResult {
                         case .success(let fetchedMembro):
                             let post = Post(titulo: titulo, descricao: descricao, link: nil, categs: categs, tags: "", publicador: fetchedMembro)
@@ -200,20 +204,23 @@ extension Post{
                             
                             if link != nil {
                                 CKManager.fetchLink(recordName: link!.recordID.recordName) { (linkResult) in
+//                                    print("\tFetching link do post")
                                     switch linkResult {
                                         case .success(let fetchedLink):
                                             post.link = fetchedLink
+//                                            print("\tRetornando post")
                                             completion(.success(post))
                                         case .failure(_):
                                             break
                                     }
                                 }
                             } else {
+//                                print("\tRetornando post")
                                 completion(.success(post))
                             }
                             
                         case .failure(_):
-                            print("Retornando post nil")
+//                            print("Retornando post nil")
                             completion(.success(nil))
                             break
                     }

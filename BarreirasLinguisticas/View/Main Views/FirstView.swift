@@ -57,12 +57,12 @@ struct FirstView: View {
                 return
             }
             if let recordID = recordID {
-//                print("Buscando o usuario atual...")
+                print("Buscando o usuario atual...")
                 CKManager.fetchUsuario(recordName: recordID.recordName) { (result) in
                     switch result{
                         case .success(let fetchedUser):
                             DispatchQueue.main.async {
-//                                print("Usuario atual resgatado com sucesso!\n")
+                                print("Usuario atual resgatado com sucesso!\n")
                                 dao.usuarioAtual = fetchedUser
                                 loadSalas(
                                     id_sala: fetchedUser.sala_atual,
@@ -81,36 +81,44 @@ struct FirstView: View {
     
     func loadSalas(id_sala: String?, id_usuario: String){
 //        print("BOTOU PRA CARREGAR A SALA ATUAL")
-        if let record = dao.getSalaRecord(from: id_sala) {
-            Sala.ckLoad(from: record) { (sala) in
-                dao.idSalaAtual = id_sala
-                dao.salaAtual = sala
-                
-                DispatchQueue.main.async {
-                    dao.salas.append(sala!)
-                    if dao.salas.count == dao.salasRecords.count {
-                        dao.allSalasLoaded = true
+        if id_sala != nil && !id_sala!.isEmpty {
+            if let record = dao.getSalaRecord(from: id_sala) {
+                Sala.ckLoad(from: record) { (sala) in
+                    dao.idSalaAtual = id_sala
+                    dao.salaAtual = sala
+                    
+                    DispatchQueue.main.async {
+                        dao.salas.append(sala!)
+                        if dao.salas.count == dao.salasRecords.count {
+                            dao.allSalasLoaded = true
+                        }
                     }
+                    
+                    if let membro = dao.salaAtual!.getMembroByUser(id: id_usuario) {
+                        membro.usuario = dao.usuarioAtual!
+                        dao.membroAtual = membro
+                    }
+                    
+                    /*  Ambiguidade com o else pq assim garanto que
+                        so vou carregar as salas restantes qnd
+                        carregar sala atual
+                     */
+                    stopLoading()
                 }
-                
-                if let membro = dao.salaAtual!.getMembroByUser(id: id_usuario) {
-                    membro.usuario = dao.usuarioAtual!
-                    dao.membroAtual = membro
-                }
-                
-                /*  Ambiguidade com o else pq assim garanto que
-                    so vou carregar as salas restantes qnd
-                    carregar sala atual
-                 */
-                stopLoading()
+            } else {
+                print("Não pegou record da sala atual :(")
             }
         }
-        else { stopLoading() }
+        else {
+            print("Entrou no else")
+            stopLoading()
+        }
     }
     
     private func stopLoading(){
+        print("Stopped loading")
         loading = false
-//        print("Sala atual carregada: \(String(describing: dao.salaAtual?.nome))")
+        print("Sala atual carregada: \(String(describing: dao.salaAtual?.nome))")
         dao.ckLoadAllSalasButCurrent()
     }
     
