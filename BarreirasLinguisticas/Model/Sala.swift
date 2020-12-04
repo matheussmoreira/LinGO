@@ -22,8 +22,7 @@ class Sala: Identifiable, ObservableObject, Equatable {
     @Published var membrosRef: [CKRecord.Reference] = []
     @Published var categsRef: [CKRecord.Reference] = []
     @Published var postsRef: [CKRecord.Reference] = []
-    
-    @Published var perguntasComentariosDenunciados: [Comentario] = []
+    @Published var quantComentarios = 0
     
     init(id: String, nome: String) {
         self.id = id
@@ -351,6 +350,13 @@ class Sala: Identifiable, ObservableObject, Equatable {
         self.membros.removeAll(where: {$0.id == id_membro})
     }
     
+    func regraDoAdmin(){
+        if membros.count == 1 && !membros[0].isAdmin {
+            membros[0].isAdmin = true
+            CKManager.modifyMembro(membro: membros[0])
+        }
+    }
+    
 }
 
 // MARK: - CKManagement
@@ -365,7 +371,7 @@ extension Sala {
         
         sala.id = ckRecord.recordID.recordName
         sala.nome = ckRecord["nome"] as? String ?? ""
-        print("Loading sala \(sala.nome)...")
+//        print("Loading sala \(sala.nome)...")
         
         sala.membrosRef = membrosRef
         sala.categsRef = categsRef
@@ -430,10 +436,7 @@ extension Sala {
                 // Espera pra retornar a sala quando carrega membros e categs
                 if sala.membros.count == membrosRef.count && sala.categorias.count == categsRef.count && !loadingError {
                     
-                    if sala.membros.count == 1 && !sala.membros[0].isAdmin {
-                        sala.membros[0].isAdmin = true
-                        CKManager.modifyMembro(membro: sala.membros[0])
-                    }
+                    sala.regraDoAdmin()
                     
                     print("Retornando sala \(sala.nome)!")
                     DispatchQueue.main.async {
@@ -451,12 +454,4 @@ extension Sala {
         }
     }
     
-    func contemUsuarioAtual() -> Bool {
-        for membro in membros {
-            if (id == membro.usuario.id) {
-                return true
-            }
-        }
-        return false
-    }
 }

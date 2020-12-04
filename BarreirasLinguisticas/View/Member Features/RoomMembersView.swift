@@ -123,15 +123,8 @@ struct MemberButton: View {
     
     func removeDaSala(sala: Sala, membro_sala: Membro){
         sala.removeMembro(membro: self.membro_sala.id)
-        CKManager.deleteRecordCompletion(recordName: self.membro_sala.id) { (result) in
-            switch result {
-                case .success(_):
-                    break
-                case .failure(let error):
-                    print(#function)
-                    print(error)
-            }
-        }
+        CKManager.deleteRecord(recordName: self.membro_sala.id)
+        sala.regraDoAdmin()
     }
     
 }

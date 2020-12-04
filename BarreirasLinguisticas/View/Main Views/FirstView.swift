@@ -110,7 +110,7 @@ struct FirstView: View {
             }
         }
         else {
-            print("Entrou no else")
+//            print("Entrou no else")
             stopLoading()
         }
     }
@@ -118,7 +118,7 @@ struct FirstView: View {
     private func stopLoading(){
         print("Stopped loading")
         loading = false
-        print("Sala atual carregada: \(String(describing: dao.salaAtual?.nome))")
+//        print("Sala atual carregada: \(String(describing: dao.salaAtual?.nome))")
         dao.ckLoadAllSalasButCurrent()
     }
     

@@ -247,11 +247,8 @@ struct ProfileView: View {
         if sala.membros.isEmpty {
             // Sala morre se nao tem ninguem
             apagaSalaFromCloud(sala: sala)
-        } else if sala.membros.count == 1 {
-            // Unico membro da sala deve ser admin
-            unicoMembroIsAdmin(sala: sala)
-            CKManager.modifySala(sala)
         } else {
+            sala.regraDoAdmin()
             self.proxima_sala()
             CKManager.modifySala(sala)
         }
@@ -285,9 +282,9 @@ struct ProfileView: View {
     }
     
     func unicoMembroIsAdmin(sala: Sala) {
-        sala.membros[0].isAdmin = true
+//        sala.membros[0].isAdmin = true
         self.proxima_sala()
-        CKManager.modifyMembro(membro: sala.membros[0])
+//        CKManager.modifyMembro(membro: sala.membros[0])
     }
     
     func proxima_sala(){
