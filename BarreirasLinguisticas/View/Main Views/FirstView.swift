@@ -20,6 +20,7 @@ struct FirstView: View {
     @State private var logInStatus = LogInSystem.loggedOut
     @State private var getStarted = false
     @State private var loading = true
+    @State private var loadingMessage = "Wait a moment!"
     
     var body: some View {
         VStack {
@@ -27,7 +28,7 @@ struct FirstView: View {
                 ZStack {
                     Color("cardColor")
                         .edgesIgnoringSafeArea(.all)
-                    ProgressView("")
+                    ProgressView(loadingMessage)
                 }
                 
             } else {
@@ -58,6 +59,7 @@ struct FirstView: View {
             }
             if let recordID = recordID {
                 print("Buscando o usuario atual...")
+                loadingMessage = "Preparing your user :)"
                 CKManager.fetchUsuario(recordName: recordID.recordName) { (result) in
                     switch result{
                         case .success(let fetchedUser):
@@ -81,7 +83,9 @@ struct FirstView: View {
     
     func loadSalas(id_sala: String?, id_usuario: String){
 //        print("BOTOU PRA CARREGAR A SALA ATUAL")
+        print("Buscando salas...")
         if id_sala != nil && !id_sala!.isEmpty {
+            loadingMessage = "Loading rooms :)"
             if let record = dao.getSalaRecord(from: id_sala) {
                 Sala.ckLoad(from: record) { (sala) in
                     dao.idSalaAtual = id_sala
@@ -107,6 +111,7 @@ struct FirstView: View {
                 }
             } else {
                 print("Não pegou record da sala atual :(")
+                loadSalas(id_sala: id_sala, id_usuario: id_usuario)
             }
         }
         else {
