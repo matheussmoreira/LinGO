@@ -52,7 +52,6 @@ struct QuestionsList: View {
             }
             
             TextEditor(text: self.$newComment)
-                //                .frame(width: UIScreen.width - 20, height: 150)
                 .frame(height: 150)
                 .padding(.horizontal)
                 .cornerRadius(20)
@@ -66,12 +65,14 @@ struct QuestionsList: View {
             
             if post.perguntas.isEmpty {
                 if !post.allPerguntasLoaded {
+                    /*  Dois spacers com Vstack pois
+                        sem isso ToggleBar nao fica no topo
+                    */
                     VStack {
                         Spacer()
                         ProgressView("")
                         Spacer()
                     }
-                    // Dois spacers com Vstack pois sem isso ToggleBar nao fica no topo
                 } else {
                     // Carregou tudo e de fato nao ha perguntas
                     VStack {
@@ -130,7 +131,7 @@ struct QuestionDetails: View {
             QuestionRow(comentario: comment)
                 .environmentObject(self.membro)
             HStack {
-                // Botaozinho de denunciar
+                // Botaozinho de Denunciar
                 if !membro.isBlocked /*&& membro.id != comment.publicador.id */{
                     Button(action: {
                         askReport.toggle()
@@ -149,13 +150,12 @@ struct QuestionDetails: View {
                     }
                 }
                 
-                // Botaozinho de apagar
+                // Botaozinho de Apagar
                 if (comment.publicador.id == membro.id) || (!comment.denuncias.isEmpty && membro.isAdmin) {
                     Button(action: {
                         askApagaPergunta.toggle()
                     }){
                         Image(systemName: "trash.circle")
-                            //.padding(.leading)
                             .imageScale(.large)
                         
                     }.alert(isPresented: $askApagaPergunta) {
@@ -166,9 +166,7 @@ struct QuestionDetails: View {
                             },
                             secondaryButton: .cancel())
                     }
-                    //.padding(.leading)
                 }
-                
                 
                 Spacer()
             }.padding(.leading)

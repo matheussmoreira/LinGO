@@ -33,7 +33,7 @@ struct MySavedPosts: View {
             else {
                 ScrollView(.vertical, showsIndicators: true) {
                     if loaded_posts.isEmpty {
-                        // Nenhum post publicado ainda foi baixado
+                        // Nenhum post publicado foi baixado ainda
                         VStack {
                             ProgressView("")
                         }.frame(height: 260)
@@ -58,15 +58,6 @@ struct MySavedPosts: View {
             }
         }
         .navigationBarTitle("Your saved posts")
-//        .onAppear {
-//            self.salvos = []
-//            for i in 0..<self.membro.idsPostsSalvos.count {
-//                if let postSalvo = sala.getPost(id: self.membro.idsPostsSalvos[i]) {
-//                    self.salvos.append(postSalvo)
-//                }
-//
-//            }
-//        }
     } //body
 }
 

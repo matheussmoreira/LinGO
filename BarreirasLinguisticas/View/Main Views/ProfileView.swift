@@ -259,7 +259,7 @@ struct ProfileView: View {
     func apagaSalaFromCloud(sala: Sala){
         dao.removeSala(sala)
         
-        CKManager.deleteRecordCompletion(recordName: sala.id) { (result) in
+        CKManager.deleteRecord(recordName: sala.id) { (result) in
             switch result {
                 case .success(_):
                     DispatchQueue.main.async {
@@ -270,21 +270,14 @@ struct ProfileView: View {
                             CKManager.deleteRecord(recordName: categ.id)
                         }
                         for post in sala.posts {
-                            sala.excluiPost3(post: post)
+                            sala.removePost2(post: post)
                         }
                         self.proxima_sala()
                     }
-                case .failure(let error):
-                    print(#function)
-                    print(error)
+                case .failure(_):
+                    break
             }
         }
-    }
-    
-    func unicoMembroIsAdmin(sala: Sala) {
-//        sala.membros[0].isAdmin = true
-        self.proxima_sala()
-//        CKManager.modifyMembro(membro: sala.membros[0])
     }
     
     func proxima_sala(){

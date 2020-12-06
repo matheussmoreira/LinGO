@@ -135,8 +135,6 @@ struct MyRoomsView: View {
                                 ForEach(minhasSalas) { sala in
                                     Button(action: {
                                         alteraSalaAtual(sala: sala)
-    //                                    self.presentationMode.wrappedValue.dismiss()
-    //                                    self.usuario.sala_atual = sala.id//sala
                                     }) {
                                         ZStack {
                                             Capsule()
@@ -274,9 +272,8 @@ struct MyRoomsView: View {
                     DispatchQueue.main.async {
                         salvaMembroCriador(sala: savedSala, usuario: criador)
                     }
-                case .failure(let error):
-                    print(#function)
-                    print(error)
+                case .failure(_):
+                    break
             }
         }
     }

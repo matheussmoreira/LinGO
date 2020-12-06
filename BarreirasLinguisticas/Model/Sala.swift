@@ -21,7 +21,6 @@ class Sala: Identifiable, ObservableObject, Equatable {
     @Published var membrosRef: [CKRecord.Reference] = []
     @Published var categsRef: [CKRecord.Reference] = []
     @Published var postsRef: [CKRecord.Reference] = []
-    
     @Published var quantComentarios = 0
     @Published var quantComentariosBaixados = 0
     @Published var allComentariosLoaded = false
@@ -31,11 +30,11 @@ class Sala: Identifiable, ObservableObject, Equatable {
         self.nome = nome
     }
     
-    static func == (lhs: Sala, rhs: Sala) -> Bool {
-        return lhs.id == rhs.id
+    private init(){
     }
     
-    private init(){
+    static func == (lhs: Sala, rhs: Sala) -> Bool {
+        return lhs.id == rhs.id
     }
     
     //MARK: - FUNCOES GET
@@ -78,15 +77,6 @@ class Sala: Identifiable, ObservableObject, Equatable {
         }
         return categsId
     }
-    //    func getIdsCategorias(ids: [String]) -> [String] {
-    //        var categorias: [String] = []
-    //        for id in ids {
-    //            for categ in self.categorias {
-    //                if (id == categ.id) { categorias.append(categ.id) }
-    //            }
-    //        }
-    //        return categorias
-    //    }
     
     func getPost(id: String) -> Post? {
         for post in self.posts {
@@ -208,15 +198,6 @@ class Sala: Identifiable, ObservableObject, Equatable {
         }
     }
     
-//    func novoComentario(id: Int, publicador id_publicador: String?, post id_post: String, conteudo: String, is_question: Bool) {
-//        if let publicador = getMembroByUser(id: id_publicador), let post = getPost(id: id_post)  {
-//            post.novoComentario(publicador: publicador, conteudo: conteudo, is_question: is_question)
-//        }
-//        else {
-//            print("Comentário não adicionado por publicador não identificado")
-//        }
-//    }
-    
     func novaAssinatura(membro id_membro: String?, categoria: String) {
         let membro = getMembroByUser(id: id_membro)
         let categ = getCategoria(id: categoria)
@@ -226,7 +207,7 @@ class Sala: Identifiable, ObservableObject, Equatable {
     }
     
     //MARK: - DELECOES
-    func excluiPost3(post: Post) {
+    func removePost2(post: Post) {
         // Apaga os atributos do post
         if post.link != nil {
             CKManager.deleteRecord(recordName: post.link!.ckRecordName)
@@ -240,7 +221,7 @@ class Sala: Identifiable, ObservableObject, Equatable {
         CKManager.deleteRecord(recordName: post.id)
     }
     
-    func excluiPost2(post: Post, membro: Membro) {
+    func removePost(post: Post, membro: Membro) {
         // Apaga os atributos do post
         if post.link != nil {
             CKManager.deleteRecord(recordName: post.link!.ckRecordName)
@@ -253,16 +234,14 @@ class Sala: Identifiable, ObservableObject, Equatable {
         }
         CKManager.deleteRecord(recordName: post.id)
         
-        // Atualiza vetores em que este post esta
+        // Atualiza dos vetores de posts da sala e de publicados do membro
         posts.removeAll(where: { $0.id == post.id})
         CKManager.modifySalaPosts(sala: self) { (result) in
             switch result {
                 case .success(_):
                     DispatchQueue.main.async {
-                        // atualiza no CK dentro dessa funcao
-                        membro.apagaPost(post: post.id)
-                        
-                        // atualiza no CK dentro dessa funcao
+                        // Atualizacao do CK dentro dessas funções
+                        membro.removePostPublicado(post: post.id)
                         for categ in self.categorias {
                             categ.removePostTags(tags: post.tags)
                         }
@@ -276,76 +255,10 @@ class Sala: Identifiable, ObservableObject, Equatable {
         
     }
     
-    func excluiPost(post: Post, membro: Membro){
-        if post.link != nil {
-            CKManager.deleteRecordCompletion(recordName: post.link!.ckRecordName) { (result) in
-                switch result {
-                    case .success(_):
-                        DispatchQueue.main.async {
-                            CKManager.deleteRecordCompletion(recordName: post.id) { (result2) in
-                                switch result2 {
-                                    case .success(_):
-                                        self.removePostSalaMembro(
-                                            id_post: post.id,
-                                            membro: membro
-                                        )
-                                    case .failure(let error2):
-                                        print(#function)
-                                        print(error2)
-                                }
-                            }
-                        }
-                    case .failure(let error):
-                        print(#function)
-                        print(error)
-                }
-            }
-        } else {
-            CKManager.deleteRecordCompletion(recordName: post.id) { (result) in
-                switch result {
-                    case .success(_):
-                        DispatchQueue.main.async {
-                            self.removePostSalaMembro(
-                                id_post: post.id,
-                                membro: membro
-                            )
-                        }
-                    case .failure(let error):
-                        print(#function)
-                        print(error)
-                }
-            }
-        }
-    }
-    
     func excluiCategoria(_ categ: Categoria) {
         CKManager.deleteRecord(recordName: categ.id)
         categorias.removeAll(where: {$0.id == categ.id})
         CKManager.modifySala(self)
-    }
-    
-    private func removePostSalaMembro(id_post: String, membro: Membro){
-        let post_resgatado = self.getPost(id: id_post)
-        posts.removeAll(where: { $0.id == id_post})
-        CKManager.modifySalaPosts(sala: self) { (result) in
-            switch result {
-                case .success(_):
-                    DispatchQueue.main.async {
-                        // atualiza no CK dentro dessa funcao
-                        membro.apagaPost(post: id_post)
-                        
-                        // atualiza no CK dentro dessa funcao
-                        if let post = post_resgatado {
-                            for categ in self.categorias {
-                                categ.removePostTags(tags: post.tags)
-                            }
-                        }
-                    }
-                case .failure(let error2):
-                    print(#function)
-                    print(error2)
-            }
-        }
     }
     
     func removeMembro(membro id_membro: String) {

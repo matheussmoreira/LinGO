@@ -81,7 +81,7 @@ class Membro: Equatable, Identifiable, ObservableObject {
         }
     }
     
-    func apagaPost(post: String?) {
+    func removePostPublicado(post: String?) {
         if (post != nil) {
             idsPostsPublicados.removeAll(where: {$0 == post})
             CKManager.modifyMembro(membro: self)
@@ -91,7 +91,7 @@ class Membro: Equatable, Identifiable, ObservableObject {
     
     func removePostSalvo(post: String?) {
         if (post != nil) {
-            if let idx = getPostSalvoIndex(id: post!) {
+            if let idx = getPostSalvoIdx(id: post!) {
                 self.idsPostsSalvos.remove(at: idx)
                 CKManager.modifyMembro(membro: self)
             }
@@ -105,7 +105,7 @@ class Membro: Equatable, Identifiable, ObservableObject {
     }
     
     //MARK: - FUNCOES GET
-    func getPostSalvoIndex(id: String?) -> Int? {
+    func getPostSalvoIdx(id: String?) -> Int? {
         var idx = 0
         for salvo in idsPostsSalvos {
             if salvo == id {
@@ -118,7 +118,7 @@ class Membro: Equatable, Identifiable, ObservableObject {
         return nil
     }
     
-    func getAssinaturaIndex(id: String) -> Int? {
+    func getAssinaturaIdx(id: String) -> Int? {
         var idx = 0
         for asst in idsAssinaturas {
             if asst == id {

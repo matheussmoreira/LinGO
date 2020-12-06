@@ -170,32 +170,6 @@ struct DiscoverView: View {
         }
     } //body
     
-//    func loadFYPosts() {
-//        fyPosts = []
-//        for assinatura in membro.idsAssinaturas {
-//            fyPosts.append(
-//                contentsOf: sala.getPostsByCategorie(categ: assinatura)
-//            )
-//        }
-//    }
-    
-//    func loadFYPosts2() -> [Post]{
-//        var fy: [Post] = []
-//        for assinatura in membro.idsAssinaturas {
-//            fy.append(
-//                contentsOf: sala.getPostsByCategorie(categ: assinatura)
-//            )
-//        }
-//        return fy
-//    }
-    
-//    func loadRecentPosts() {
-//        recentPosts = []
-//        recentPosts.append(
-//            contentsOf: sala.posts.filter({!fyPosts.contains($0)})
-//        )
-//    }
-    
 }
 
 //struct HomeView_Previews: PreviewProvider {

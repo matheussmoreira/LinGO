@@ -93,7 +93,6 @@ extension LinkPost {
 
 //MARK: - Cache Manager
 extension LinkPost {
-    
     fileprivate func saveLinkInCache(_ id_link: Int?) {
         guard let id_link = id_link else {
             print("SaveLink: Received id as nil")
@@ -110,7 +109,7 @@ extension LinkPost {
         }
     }
     
-    static func fetchLinkFromCache(_ id_link: Int?) -> LinkPost? {
+    static func getLinkFromCache(_ id_link: Int?) -> LinkPost? {
         guard let id_link = id_link else {
             print("LoadLink: Received id as nil")
             return nil

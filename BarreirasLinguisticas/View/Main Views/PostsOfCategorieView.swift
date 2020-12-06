@@ -32,7 +32,7 @@ struct PostsOfCategorieView: View {
                      Nao carregou todos os posts, entao nao tem
                      como falar com certeza que eh pra mostrar a msg
                      "No posts for you"
-                    */
+                     */
                     VStack {
                         ProgressView("")
                     }.frame(height: 260)
@@ -57,9 +57,9 @@ struct PostsOfCategorieView: View {
                     }
                     .sheet(
                         isPresented: $showPostEditor//,
-    //                    onDismiss: {
-    //                        self.loaded_posts = self.sala.getPostsByCategorie(categ: self.categoria.id)
-    //                    }
+                        //                    onDismiss: {
+                        //                        self.loaded_posts = self.sala.getPostsByCategorie(categ: self.categoria.id)
+                        //                    }
                     ){
                         PostCreatorView()
                             .environmentObject(self.membro)
@@ -90,44 +90,45 @@ struct PostsOfCategorieView: View {
             }
         }
         .navigationBarTitle(categoria.nome)
-        .navigationBarItems(trailing:
-                                HStack {
-                                    if loaded_posts.isEmpty && !membro.isBlocked {
-                                        Button(action:{showAlertApagaCategoria.toggle()}) {
-                                            Image(systemName: "trash")
-                                                .imageScale(.large)
-                                                .foregroundColor(LingoColors.lingoBlue)
-                                        }.alert(isPresented: $showAlertApagaCategoria) {
-                                            Alert(
-                                                title: Text("Delete category?"),
-                                                primaryButton: .default(Text("Yes")){
-                                                    apagaCategoria(categoria)
-                                                },
-                                                secondaryButton: .cancel()
-                                            )
-                                        }
-                                    } else {
-                                        Button(action:{showAlertApagaCategoria.toggle()}) {
-                                            Image(systemName: "trash")
-                                                .imageScale(.large)
-                                                .foregroundColor(LingoColors.lingoBlue)
-                                        }.alert(isPresented: $showAlertApagaCategoria) {
-                                            Alert(
-                                                title: Text("You cannot delete a category that contains at least one post or if you are blocked"),
-                                                dismissButton: .default(Text("Ok"))
-                                            )
-                                        }
-                                    }
-
-                                    Button(action:{
-                                        self.changeSubscription()
-                                    }){
-                                        Image(systemName: subscribedImage)
-                                            .padding(.leading)
-                                            .imageScale(.large)
-                                            .foregroundColor(.green)
-                                    }
-                                })
+        .navigationBarItems(
+            trailing:
+                HStack {
+                    if loaded_posts.isEmpty && !membro.isBlocked {
+                        Button(action:{showAlertApagaCategoria.toggle()}) {
+                            Image(systemName: "trash")
+                                .imageScale(.large)
+                                .foregroundColor(LingoColors.lingoBlue)
+                        }.alert(isPresented: $showAlertApagaCategoria) {
+                            Alert(
+                                title: Text("Delete category?"),
+                                primaryButton: .default(Text("Yes")){
+                                    apagaCategoria(categoria)
+                                },
+                                secondaryButton: .cancel()
+                            )
+                        }
+                    } else {
+                        Button(action:{showAlertApagaCategoria.toggle()}) {
+                            Image(systemName: "trash")
+                                .imageScale(.large)
+                                .foregroundColor(LingoColors.lingoBlue)
+                        }.alert(isPresented: $showAlertApagaCategoria) {
+                            Alert(
+                                title: Text("You cannot delete a category that contains at least one post or if you are blocked"),
+                                dismissButton: .default(Text("Ok"))
+                            )
+                        }
+                    }
+                    
+                    Button(action:{
+                        self.changeSubscription()
+                    }){
+                        Image(systemName: subscribedImage)
+                            .padding(.leading)
+                            .imageScale(.large)
+                            .foregroundColor(.green)
+                    }
+                })
         .onAppear { self.load() }
     } //body
     

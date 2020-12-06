@@ -26,9 +26,9 @@ class Usuario: Equatable, Identifiable, ObservableObject {
     @Published var fluencia_ingles: Fluencia = .unknown
     var cor_fluencia: Color {
         switch fluencia_ingles {
-            case Fluencia.advanced/*.rawValue*/: return .blue
-            case Fluencia.intermed/*.rawValue*/: return .yellow
-            case Fluencia.basic/*.rawValue*/ : return .green
+            case Fluencia.advanced: return .blue
+            case Fluencia.intermed: return .yellow
+            case Fluencia.basic: return .green
             default: return .gray
         }
     }
@@ -36,17 +36,14 @@ class Usuario: Equatable, Identifiable, ObservableObject {
     init(nome: String?, foto_perfil: Data?,fluencia_ingles: Fluencia?) {
         self.nome = nome ?? "user"
         self.foto_perfil = foto_perfil ?? UIImage(named: "perfil")!.pngData()
-        self.fluencia_ingles = fluencia_ingles/*.rawValue*/ ?? .unknown
-    }
-    
-    init(){
+        self.fluencia_ingles = fluencia_ingles ?? .unknown
     }
     
     static func == (lhs: Usuario, rhs: Usuario) -> Bool {
         return lhs.id == rhs.id
     }
     
-    static func pegaFluencia(nome: String) -> Fluencia {
+    static func getFluenciaByNome(_ nome: String) -> Fluencia {
         switch nome {
             case "Basic English":
                 return Fluencia.basic
@@ -59,7 +56,7 @@ class Usuario: Equatable, Identifiable, ObservableObject {
         }
     }
     
-    static func pegaFluenciaByIdx(idx: Int) -> Fluencia {
+    static func getFluenciaByIdx(_ idx: Int) -> Fluencia {
         switch idx {
             case 0:
                 return Fluencia.basic
@@ -72,7 +69,7 @@ class Usuario: Equatable, Identifiable, ObservableObject {
         }
     }
     
-    static func pegaIdxByFluencia(fluencia: Fluencia) -> Int {
+    static func getIdxByFluencia(_ fluencia: Fluencia) -> Int {
         switch fluencia {
             case .basic:
                 return 0

@@ -129,7 +129,7 @@ struct CommentDetails: View {
                 .environmentObject(self.membro)
             
             HStack {
-                // Botaozinho de denunciar
+                // Botaozinho de Denunciar
                 if !membro.isBlocked /*&& membro.id != comment.publicador.id*/ {
                     Button(action: {
                         askReport.toggle()
@@ -148,13 +148,12 @@ struct CommentDetails: View {
                     }
                 }
                 
-                // Botaozinho de apagar
+                // Botaozinho de Apagar
                 if (comment.publicador.id == membro.id) || (!comment.denuncias.isEmpty && membro.isAdmin) {
                     Button(action: {
                         askApagaComentario.toggle()
                     }){
                         Image(systemName: "trash.circle")
-                            //                                                .padding(.leading)
                             .imageScale(.large)
                     }.alert(isPresented: $askApagaComentario) {
                         Alert(
@@ -164,7 +163,6 @@ struct CommentDetails: View {
                             },
                             secondaryButton: .cancel())
                     }
-                    //                                        .padding(.leading)
                 }
                 
                 

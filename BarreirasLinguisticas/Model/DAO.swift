@@ -36,9 +36,8 @@ class DAO: ObservableObject {
                             self.allSalasLoaded = true
                         }
                     }
-                case .failure(let error):
-                    print(#function)
-                    fatalError(error.asString)
+                case .failure(_):
+                    break
             }
         }
     }
@@ -60,17 +59,17 @@ class DAO: ObservableObject {
         }
     }
     
-    func getSalaRecord(from sala_id: String?) -> CKRecord? {
-        let records = salasRecords.filter({$0.recordID.recordName == sala_id})
-        if !records.isEmpty {
-            return records[0]
+    func getSala(id: String) -> Sala? {
+        for sala in self.salas {
+            if (id == sala.id) { return sala }
         }
         return nil
     }
     
-    func getSala(id: String) -> Sala? {
-        for sala in self.salas {
-            if (id == sala.id) { return sala }
+    func getSalaRecord(from sala_id: String?) -> CKRecord? {
+        let records = salasRecords.filter({$0.recordID.recordName == sala_id})
+        if !records.isEmpty {
+            return records[0]
         }
         return nil
     }
@@ -110,6 +109,10 @@ class DAO: ObservableObject {
         self.salas.append(sala)
     }
     
+    func removeSala(_ sala: Sala) {
+        salas.removeAll(where: {$0.id == sala.id})
+    }
+    
     func editaPublicadores(usuario: Usuario){
         for sala in salas {
             for post in sala.posts {
@@ -118,9 +121,5 @@ class DAO: ObservableObject {
                 }
             }
         }
-    }
-    
-    func removeSala(_ sala: Sala) {
-        salas.removeAll(where: {$0.id == sala.id})
     }
 }

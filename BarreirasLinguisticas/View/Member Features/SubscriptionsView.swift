@@ -26,7 +26,9 @@ struct SubscriptionsView: View {
             else {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack {
-                        ForEach(self.assinaturas.sorted(by: { $0.nome < $1.nome })) { asst in
+                        ForEach(self.assinaturas.sorted(
+                                    by: { $0.nome < $1.nome }
+                        )) { asst in
                             NavigationLink(
                                 destination: PostsOfCategorieView(categoria: asst, sala: self.sala)
                                     .environmentObject(self.membro)

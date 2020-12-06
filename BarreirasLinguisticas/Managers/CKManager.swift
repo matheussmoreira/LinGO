@@ -10,16 +10,16 @@ import Foundation
 import CloudKit
 
 struct CKManager {
-    static func deleteRecordCompletion(recordName: String, completion: @escaping (Result<CKRecord.ID, Error>) -> ()) {
-        CKContainer.default().publicCloudDatabase.delete(withRecordID: CKRecord.ID(recordName: recordName)) { (recordID, err) in
-            DispatchQueue.main.async {
-                if let err = err {
-                    completion(.failure(err))
-                    return
-                }
-                if let recordID = recordID {
-                    completion(.success(recordID))
-                }
+    static func deleteRecord(recordName: String, completion: @escaping (Result<CKRecord.ID, Error>) -> ()) {
+        let publicDB = CKContainer.default().publicCloudDatabase
+        publicDB.delete(withRecordID: CKRecord.ID(recordName: recordName)) { (recordID, error) in
+            if let error = error {
+                print(#function)
+                print(error)
+                completion(.failure(error))
+            }
+            if let recordID = recordID {
+                completion(.success(recordID))
             }
         }
     }
@@ -32,10 +32,6 @@ struct CKManager {
                 print(error)
                 return
             }
-            if recordID != nil {
-                print("Deletion success!")
-                return
-            }
         }
     }
     
@@ -45,108 +41,28 @@ struct CKManager {
 extension CKManager {
     static func querySalasRecords(completion: @escaping (Result<[CKRecord], Error>) -> ()){
         let publicDB = CKContainer.default().publicCloudDatabase
-        let querySalas = CKQuery(recordType: "Sala", predicate: NSPredicate(value: true))
-        publicDB.perform(querySalas, inZoneWith: nil) { (records, error) in
+        let query = CKQuery(recordType: "Sala", predicate: NSPredicate(value: true))
+        publicDB.perform(query, inZoneWith: nil) { (records, error) in
             if let error = error {
+                print(#function)
+                print(error)
                 completion(.failure(error))
             }
             if let loadedSalas = records {
                 completion(.success(loadedSalas))
             }
         }
-    } // funcao
-    
-    static func getSalaFromRecord(_ salaRecord: CKRecord) -> Sala? {
-        print("Entrou em \(#function)")
-        let salaRecordAsDictionary = salaRecord.asDictionary
-        
-        // RECORD NAME
-        print("Getting salaRecordName...")
-        guard let salaRecordName = salaRecordAsDictionary["recordName"] as? String else {
-            print("\(#function) - Erro ao capturar o recordName de uma sala")
-            return nil
-        }
-        
-        // NOME
-        print("Getting salaNome...")
-        guard let salaNome = salaRecordAsDictionary["nome"] as? String else {
-            print("\(#function) - Erro ao capturar o nome de uma sala")
-            return nil
-        }
-        print("Noma da sala: \(salaNome)")
-        
-        // MEMBROS
-        print("Getting membrosDictionaries...")
-        var membros: [Membro] = []
-        var countMembros = 0
-        if let membrosDictionaries = salaRecord.asDictionary["membros"] as? Array<Optional<Dictionary<String, Any>>> {
-            for membroDictionary in membrosDictionaries {
-                countMembros += 1
-                if let membro = getMembroFromDictionary(membroDictionary) {
-                    membros.append(membro)
-                } else {
-                    print("\t\(#function) - Nao adquiriu membro \(countMembros) do dicionario!")
-                }
-            }
-        } else {
-            print("\(#function) - Erro no cast do vetor de membros")
-            return nil
-        }
-
-        
-        // CATEGORIAS
-        print("Getting categoriasDictionaries...")
-        var categorias: [Categoria] = []
-        var countCategorias = 0
-        if let categoriasDictionaries = salaRecord.asDictionary["categorias"] as? Array<Optional<Dictionary<String, Any>>> {
-            for categoriaDictionary in categoriasDictionaries {
-                countCategorias += 1
-                if let categ = getCategoriaFromDictionary(categoriaDictionary) {
-                    categorias.append(categ)
-                } else {
-                    print("\t\(#function) - Nao adquiriu categoria \(countCategorias) do dicionario!")
-                }
-            }
-        } else {
-            print("\(#function) - Erro no cast do vetor de categorias")
-            return nil
-        }
-        
-        // POSTS
-        print("Getting postsDictionaries...")
-        var posts: [Post] = []
-        var countPosts = 0
-        if let postsDictionaries = salaRecord.asDictionary["posts"] as? Array<Optional<Dictionary<String, Any>>> {
-            for postDictionary in postsDictionaries {
-                countPosts += 1
-                if let post = getPostFromDictionary(postDictionary, with: membros) {
-                    posts.append(post)
-                } else {
-                    print("\t\(#function) - Nao adquiriu post \(countPosts) do dicionario!")
-                }
-            }
-        } else {
-            print("\(#function) - Erro no cast do vetor de posts")
-            return nil
-        }
-        
-        // SALA
-        let sala = Sala(id: salaRecordName, nome: salaNome)
-        sala.membros.append(contentsOf: membros)
-        sala.categorias.append(contentsOf: categorias)
-        sala.posts.append(contentsOf: posts)
-        print("Returning sala \(salaNome)\n")
-        return sala
     }
     
     static func saveSala(nome: String, completion: @escaping (Result<Sala, Error>) -> ()) {
+        let publicDB = CKContainer.default().publicCloudDatabase
         let salaRecord = CKRecord(recordType: "Sala")
         salaRecord["nome"] = nome
         
-        CKContainer.default().publicCloudDatabase.save(salaRecord){ (record, error) in
+        publicDB.save(salaRecord){ (record, error) in
             if let error = error {
                 print(#function)
-                print("Erro ao salvar sala no publicDB")
+                print(error)
                 completion(.failure(error))
                 return
             }
@@ -270,7 +186,7 @@ extension CKManager {
                 let fetchedUser = Usuario(
                     nome: nome,
                     foto_perfil: foto,
-                    fluencia_ingles: Usuario.pegaFluencia(nome: fluencia ?? "")
+                    fluencia_ingles: Usuario.getFluenciaByNome(fluencia ?? "")
                 )
                 fetchedUser.id = id
                 fetchedUser.sala_atual = sala_atual
@@ -700,7 +616,6 @@ extension CKManager {
         let comentarioRecord = CKRecord(recordType: "Comentario")
         comentarioRecord["post"] = comentario.post
         comentarioRecord["id_publicador"] = comentario.publicador.id
-            //CKRecord.Reference(recordID: CKRecord.ID(recordName: comentario.publicador.id), action: .none) // ou action: .none ????
         comentarioRecord["conteudo"] = comentario.conteudo
         comentarioRecord["is_question"] = comentario.is_question ? 1 : 0
 
@@ -777,209 +692,5 @@ extension CKManager {
                 }
             }
         }
-    }
-}
-
-// MARK: - GET FROM DICIONARY
-extension CKManager {
-    private static func getUsuarioFromDictionary(_ userDictionaryOpt: Dictionary<String, Any>?) -> Usuario? {
-//        print("Entrou na função getUserFromDicionary")
-        if let usuarioDictionary = userDictionaryOpt {
-//            print("Vai pegar recordName do usuario")
-            let id = usuarioDictionary["recordName"] as! String
-//            print("Vai pegar nome do usuario")
-            let nome = usuarioDictionary["nome"] as? String
-//            print("Vai pegar fluencia do usuario")
-            let fluencia = Usuario.pegaFluencia(
-                nome: usuarioDictionary["fluencia_ingles"] as! String
-            )
-//            print("Vai pegar foto do usuario")
-//            let foto: UIImage
-            let fotoData = usuarioDictionary["foto_perfil"] as? Data
-//            if let fotoData = usuarioDictionary["foto_perfil"] as? Data {
-//                foto = UIImage(data: fotoData)!
-//            } else {
-//                foto = UIImage(named: "perfil")!
-//            }
-            
-//            print("Montando objeto usuario de nome \(String(describing: nome))")
-            let usuario = Usuario(
-                nome: nome,
-                foto_perfil: fotoData/*foto*/,
-                fluencia_ingles: fluencia
-            )
-//            print("Setando id do usuario")
-            usuario.id = id
-//            print("Returning usuario from dictionary")
-            return usuario
-        }
-//        print(#function)
-//        print("usuarioDictionary is nil")
-        return nil
-    }
-    
-    private static func getMembroFromDictionary(_ membroDictionaryOpt: Dictionary<String, Any>?) -> Membro? {
-        if let membroDictionary = membroDictionaryOpt {
-            let usuario = getUsuarioFromDictionary( membroDictionary["usuario"]! as? Dictionary<String,Any>)
-            
-            let recordName = membroDictionary["recordName"] as! String
-            let idSala = membroDictionary["idSala"] as! String
-            let admin = membroDictionary["is_admin"] as! Int
-            let publicados = membroDictionary["posts_publicados"] as? [String] ?? []
-            let salvos = membroDictionary["posts_salvos"] as? [String] ?? []
-            let assinaturas = membroDictionary["assinaturas"] as? [String] ?? []
-            let blocked = membroDictionary["isBlocked"] as? Int ?? 0
-            
-            let is_admin: Bool
-            if admin == 1 { is_admin = true }
-                else { is_admin = false }
-            
-            let is_blocked: Bool
-            if blocked == 1 { is_blocked = true }
-                else { is_blocked = false }
-            
-            let membro = Membro(usuario: usuario!, idSala: idSala, is_admin: is_admin)
-            membro.id = recordName
-            membro.isBlocked = is_blocked
-            membro.idsPostsPublicados = publicados
-            membro.idsPostsSalvos = salvos
-            membro.idsAssinaturas = assinaturas
-            return membro
-        }
-        return nil
-    }
-    
-    private static func getCategoriaFromDictionary(_ categDictionaryOpt:Dictionary<String, Any>?) -> Categoria? {
-//        print("Entrou na funcao getCategoriaFromDictionary")
-        if let categDictionary = categDictionaryOpt {
-//            print("Pegando o recordName da categoria")
-            let id = categDictionary["recordName"] as! String
-//            print("Pegando o nome da categoria")
-            let nome = categDictionary["nome"] as! String
-//            print("Pegando o tagsPosts da categoria")
-            let tagsPosts = categDictionary["tagsPosts"] as? [String] ?? []
-            
-//            print("Montando o objeto da categoria")
-            let categoria = Categoria(nome: nome)
-            categoria.id = id
-            categoria.tagsPosts = tagsPosts
-//            print("Returning categoria from dictionary")
-            return categoria
-            
-        }
-//        print(#function)
-//        print("categDictionary is nil")
-        return nil
-    }
-    
-    private static func getComentarioFromDictionary(_ comentarioDictionaryOpt:Dictionary<String, Any>?, with membros: [Membro]) -> Comentario?  {
-        if let comentarioDictionary = comentarioDictionaryOpt{
-            let recordName = comentarioDictionary["recordName"] as! String
-            let conteudo = comentarioDictionary["conteudo"] as! String
-            let post = comentarioDictionary["post"] as! String
-            let id_publicador = comentarioDictionary["id_publicador"] as! String
-            let is_question = comentarioDictionary["is_question"] as! Int == 1 ? true : false
-            let votos = comentarioDictionary["votos"] as? [String] ?? []
-            let denuncias = comentarioDictionary["denuncias"] as? [String] ?? []
-            
-            let publicador = membros.filter({$0.id == id_publicador})
-            
-            let comentario = Comentario(
-                post: post,
-                publicador: publicador[0],
-                conteudo: conteudo,
-                is_question: is_question
-            )
-            comentario.votos = votos
-            comentario.denuncias = denuncias
-            comentario.id = recordName
-//            print("Returning comentario from dictionary")
-            return comentario
-        }
-        return nil
-    }
-    
-    private static func getLinkFromDictionary(_ linkDictionaryOpt:Dictionary<String, Any>?) -> LinkPost?  {
-        if let linkDictionary = linkDictionaryOpt{
-            let ckRecordName = linkDictionary["recordName"] as! String
-            let localId = linkDictionary["localId"] as? Int
-            let titulo = linkDictionary["titulo"] as? String
-            let urlString = linkDictionary["urlString"] as? String
-            
-            var foto: Data? = nil
-            let fotoDataFromCache = FileSystem.retrieveImage(forId: String(describing: localId))
-            let fotoDataFromCK = linkDictionary["imagem"] as! Data?
-            
-            if fotoDataFromCache != nil { // Primeiro pega no disco
-                foto = fotoDataFromCache!
-            } else if fotoDataFromCK != nil { // Senao pega no CK
-                foto = fotoDataFromCK
-            }
-            
-            let link = LinkPost()
-            link.ckRecordName = ckRecordName
-            link.localId = localId
-            link.titulo = titulo
-            link.urlString = urlString
-            link.imagem = foto
-//            print("Returning link from dictionary")
-            return link
-        }
-        return nil
-    }
-    
-    private static func getPostFromDictionary(_ postDictionaryOpt:Dictionary<String, Any>?, with membros: [Membro]) -> Post? {
-        if let postDictionary = postDictionaryOpt {
-            if let publicador = getMembroFromDictionary(postDictionary["publicador"] as? Dictionary<String, Any>) {
-                // ATRIBUTOS GERAIS DO POST
-                let id = postDictionary["recordName"] as! String
-                let titulo = postDictionary["titulo"] as! String
-                let descricao = postDictionary["descricao"] as! String
-                let categs = postDictionary["categorias"] as! [String]
-                let tags = postDictionary["tags"] as? [String]
-                let denuncias = postDictionary["denuncias"] as? [String]
-                let link = getLinkFromDictionary(postDictionary["link"] as? Dictionary<String, Any>)
-                
-                // PERGUNTAS
-                var perguntas: [Comentario] = []
-                if let perguntasDicts = postDictionary["perguntas"] as? Array<Dictionary<String,Any>> {
-                    for perguntaDict in perguntasDicts {
-                        if let pergunta = getComentarioFromDictionary(perguntaDict, with: membros) {
-                            perguntas.append(pergunta)
-                        }
-                    }
-                }
-                
-                // COMENTARIOS
-                var comentarios: [Comentario] = []
-                if let comentariosDicts = postDictionary["comentarios"] as? Array<Dictionary<String,Any>> {
-                    for comentarioDict in comentariosDicts {
-                        if let comentario = getComentarioFromDictionary(comentarioDict, with: membros) {
-                            comentarios.append(comentario)
-                        }
-                    }
-                }
-                
-                // MONTAGEM DO POST
-                let post = Post(
-                    titulo: titulo,
-                    descricao: descricao,
-                    link: link,
-                    categs: categs,
-                    tags: "",
-                    publicador: publicador
-                )
-                post.tags = tags ?? []
-                post.denuncias = denuncias ?? []
-                post.perguntas = perguntas
-                post.comentarios = comentarios
-                post.id = id
-//                print("Returning post from dictionary")
-                return post
-                
-            }
-            return nil
-        }
-        return nil
     }
 }

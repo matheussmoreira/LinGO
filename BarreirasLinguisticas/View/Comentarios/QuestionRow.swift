@@ -124,7 +124,7 @@ struct QuestionRow: View {
     } //body
     
     func loadVoto(){
-        if comentario.checkVotoExists(membro: membro) {
+        if comentario.containsVotoOf(membro) {
             voted = true
             votedImage = "hand.raised.fill"
         }

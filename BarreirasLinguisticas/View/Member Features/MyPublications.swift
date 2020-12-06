@@ -33,7 +33,7 @@ struct MyPublications: View {
             else {
                 ScrollView(.vertical, showsIndicators: true) {
                     if loaded_posts.isEmpty {
-                        // Nenhum post publicado ainda foi baixado
+                        // Nenhum post publicado foi baixado ainda
                         VStack {
                             ProgressView("")
                         }.frame(height: 260)
@@ -62,29 +62,10 @@ struct MyPublications: View {
                             }
                         }
                     }
-//                    ForEach(0..<membro.idsPostsPublicados.count) { idx in
-//                        if let post_publicado = sala.getPost(id: membro.idsPostsPublicados[idx]) {
-//                            NavigationLink(
-//                                destination: PostView(
-//                                    sala: sala,
-//                                    post: post_publicado
-//                                )
-//                                    .environmentObject(self.membro)
-//                            ){
-//                                PostCardView(post: sala.getPost(id: membro.idsPostsPublicados[idx])!, sala: sala, width: 0.85)
-//                            }
-//                        }
-//                    }
                 }
             }
         }
         .navigationBarTitle("Your publications")
-//        .navigationBarItems(trailing:
-//                                HStack {
-//                                    Image(systemName: "magnifyingglass")
-//                                        .imageScale(.large)
-//                                        .foregroundColor(LingoColors.lingoBlue)
-//                                })
     } //body
 }
 

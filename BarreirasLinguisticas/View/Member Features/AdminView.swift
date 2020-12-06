@@ -115,9 +115,6 @@ struct PostsDenunciados: View {
         .navigationBarTitle(
             Text("Reported Posts")
         )
-//        .onAppear {
-//            self.posts = self.sala.posts.filter{!$0.denuncias.isEmpty}
-//        }
     }//body
 }
 
@@ -161,22 +158,6 @@ struct ComentariosDenunciados: View {
         .navigationBarTitle(
             Text("Reported Comments")
         )
-    }
-    
-    //Solucao de Contorno
-    private func checaLoaded() -> Bool {
-        var loaded = true
-        if !sala.allPostsLoaded {
-            loaded = false
-        } else {
-            for post in sala.posts {
-                if !post.allPerguntasLoaded || !post.allComentariosLoaded {
-                    loaded = false
-                    break
-                }
-            }
-        }
-        return loaded
     }
     
     private func checaDenuciados() -> [Comentario] {
@@ -274,11 +255,9 @@ struct ComentarioDenunciado: View {
     func apagaComentario(_ comentario: Comentario){
         if let post = sala.getPost(id: comentario.post) {
             if post.perguntas.contains(where: {$0.id == comentario.id}) {
-//                print("Apagando pergunta")
                 post.apagaPergunta(sala: sala, id: comentario.id)
             }
             else if post.comentarios.contains(where: {$0.id == comentario.id}) {
-//                print("Apagando comentário")
                 post.apagaComentario(sala: sala, id: comentario.id)
             }
         }

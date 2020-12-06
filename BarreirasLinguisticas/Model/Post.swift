@@ -89,49 +89,32 @@ class Post: Equatable, Identifiable, ObservableObject {
         }
         
     }
-    
-//    func novoReply(publicador id_publicador: Membro, conteudo: String, original id_original: String) {
-//        if let original = self.getComentarioOriginal(id: id_original) {
-//            let comentario = Comentario(post: self, publicador: publicador, conteudo: conteudo, is_question: false)
-//            comentario.original = original
-//            original.replies.append(comentario)
-//        }
-//        else {
-//            print("Reply não adicionado por comentário original não identificado")
-//        }
-//    }
 
     //MARK: - DELECOES
     func apagaPergunta(sala: Sala, id: String) {
         self.perguntas.removeAll(where: { $0.id == id })
-        
-        CKManager.deleteRecordCompletion(recordName: id) { (result) in
+        CKManager.deleteRecord(recordName: id) { (result) in
             switch result {
                 case .success(_):
                     CKManager.modifyPost(self)
-                    
                     sala.quantComentarios -= 1
                     CKManager.modifySala(sala)
-                case .failure(let error):
-                    print(#function)
-                    print(error)
+                case .failure(_):
+                    break
             }
         }
     }
     
     func apagaComentario(sala: Sala, id: String) {
         self.comentarios.removeAll(where: { $0.id == id })
-        
-        CKManager.deleteRecordCompletion(recordName: id) { (result) in
+        CKManager.deleteRecord(recordName: id) { (result) in
             switch result {
                 case .success(_):
                     CKManager.modifyPost(self)
-                    
                     sala.quantComentarios -= 1
                     CKManager.modifySala(sala)
-                case .failure(let error):
-                    print(#function)
-                    print(error)
+                case .failure(_):
+                    break
             }
         }
     }

@@ -51,22 +51,6 @@ struct CategoriesView: View {
                                         .padding(.top, 5.0)
                                     
                                 }
-//                                if categ.tagsPosts.isEmpty {
-//                                    Text("No related tags")
-//                                        .font(.subheadline)
-//                                        .foregroundColor(Color.gray)
-//                                        .multilineTextAlignment(.leading)
-//                                }
-//                                else {
-//                                    HStack {
-//                                        ForEach(0..<categ.tagsPosts.count) { idx in
-//                                            Text(categ.tagsPosts[idx])
-//                                                .font(.subheadline)
-//                                                .foregroundColor(.gray)
-//                                                .multilineTextAlignment(.leading)
-//                                        }
-//                                    }
-//                                }
                             }
                             .padding(.vertical, 4)
                         }
@@ -89,12 +73,6 @@ struct CategoriesView: View {
                 trailing:
                     HStack {
                         Spacer()
-//                        Image(systemName: "magnifyingglass")
-//                            .imageScale(.large)
-//                            .foregroundColor(LingoColors.lingoBlue)
-//                        EditButton()
-//                            .padding(.leading)
-//                            .foregroundColor(LingoColors.lingoBlue)
                         Button(action: {showCriaCategoria.toggle()}) {
                             Image(systemName: "plus")
                                 .imageScale(.large)

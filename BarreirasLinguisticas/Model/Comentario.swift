@@ -35,8 +35,7 @@ class Comentario: Identifiable, ObservableObject {
         CKManager.modifyComentario(self)
     }
     
-    
-    func checkVotoExists(membro: Membro) -> Bool {
+    func containsVotoOf(_ membro: Membro) -> Bool {
         for membro_voto in votos {
             if membro_voto == membro.id {
                 return true
