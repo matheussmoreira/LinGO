@@ -34,7 +34,7 @@ class Usuario: Equatable, Identifiable, ObservableObject {
     }
     
     init(nome: String?, foto_perfil: Data?,fluencia_ingles: Fluencia?) {
-        self.nome = nome ?? "<nome>"
+        self.nome = nome ?? "user"
         self.foto_perfil = foto_perfil ?? UIImage(named: "perfil")!.pngData()
         self.fluencia_ingles = fluencia_ingles/*.rawValue*/ ?? .unknown
     }
