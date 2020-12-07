@@ -59,7 +59,7 @@ struct FirstView: View {
             }
             if let recordID = recordID {
                 print("Buscando o usuario atual...")
-                loadingMessage = "Loading your user :)"
+                loadingMessage = "Loading your user"
                 CKManager.fetchUsuario(recordName: recordID.recordName) { (result) in
                     switch result{
                         case .success(let fetchedUser):
@@ -85,7 +85,7 @@ struct FirstView: View {
 //        print("BOTOU PRA CARREGAR A SALA ATUAL")
         print("Buscando salas...")
         if id_sala != nil && !id_sala!.isEmpty {
-            loadingMessage = "Preparing rooms :)"
+            loadingMessage = "Preparing rooms"
             if let record = dao.getSalaRecord(from: id_sala) {
                 Sala.ckLoad(from: record) { (sala) in
                     dao.idSalaAtual = id_sala
