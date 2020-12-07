@@ -111,7 +111,7 @@ struct FirstView: View {
                 }
             } else {
                 print("Não pegou record da sala atual :(")
-                loadSalas(id_sala: id_sala, id_usuario: id_usuario)
+                //loadSalas(id_sala: id_sala, id_usuario: id_usuario)
             }
         }
         else {
