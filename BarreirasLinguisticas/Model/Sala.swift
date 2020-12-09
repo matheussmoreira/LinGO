@@ -162,6 +162,9 @@ class Sala: Identifiable, ObservableObject, Equatable {
         
         let post = Post(titulo: titulo, descricao: descricao, link: link, categs: categs, tags: tags, publicador: membro)
         
+        post.allPerguntasLoaded = true
+        post.allComentariosLoaded = true
+        
         CKManager.savePost(post: post) { (result) in
             switch result {
                 case .success(let recordName):

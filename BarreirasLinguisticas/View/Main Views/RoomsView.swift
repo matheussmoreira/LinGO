@@ -270,6 +270,8 @@ struct MyRoomsView: View {
             switch result {
                 case .success(let savedSala):
                     DispatchQueue.main.async {
+                        savedSala.allComentariosLoaded = true
+                        savedSala.allPostsLoaded = true
                         salvaMembroCriador(sala: savedSala, usuario: criador)
                     }
                 case .failure(_):
@@ -370,25 +372,24 @@ struct ItemSala: View {
     @State private var alertEnterRoom = false
     
     var body: some View {
-        ZStack {
-            Capsule()
-                .frame(width: 300.0, height: 50.0)
-                .foregroundColor(.white)
-            
-            Button(action: {
-                alertEnterRoom.toggle()
-            }) {
+        Button(action: {
+            alertEnterRoom.toggle()
+        }) {
+            ZStack {
+                Capsule()
+                    .frame(width: 300.0, height: 50.0)
+                    .foregroundColor(.white)
                 Text(sala.nome)
                     .foregroundColor(LingoColors.lingoBlue)
             }
-            .alert(isPresented: $alertEnterRoom) {
-                Alert(
-                    title: Text("Do you want do become a member of this room?"),
-                    primaryButton: .default(Text("Yes")){
-                        criaNovoMembro(sala: sala)
-                    },
-                    secondaryButton: .cancel())
-            }
+        }
+        .alert(isPresented: $alertEnterRoom) {
+            Alert(
+                title: Text("Do you want do become a member of this room?"),
+                primaryButton: .default(Text("Yes")){
+                    criaNovoMembro(sala: sala)
+                },
+                secondaryButton: .cancel())
         }
     }
     

@@ -23,6 +23,7 @@ struct PostsOfCategorieView: View {
     }
     @State private var mensagem = ""
     @State private var showAlertApagaCategoria = false
+    @State private var notifySubscription = false
     
     var body: some View {
         VStack {
@@ -127,7 +128,12 @@ struct PostsOfCategorieView: View {
                             .padding(.leading)
                             .imageScale(.large)
                             .foregroundColor(.green)
-                    }
+                    }.alert(isPresented: $notifySubscription, content: {
+                        Alert(
+                            title: Text(subscribed ? "Subscribed to \(categoria.nome)!" : "Unsubscribed to \(categoria.nome)!"),
+                            dismissButton: .default(Text("Ok"))
+                        )
+                    })
                 })
         .onAppear { self.load() }
     } //body
@@ -149,6 +155,7 @@ struct PostsOfCategorieView: View {
     
     func changeSubscription(){
         subscribed.toggle()
+        notifySubscription.toggle()
         if subscribed {
             subscribedImage = "checkmark.circle.fill"
             membro.assinaCategoria(categoria: categoria.id)
