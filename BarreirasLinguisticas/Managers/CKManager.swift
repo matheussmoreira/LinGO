@@ -687,6 +687,8 @@ extension CKManager {
                     respostas.append(resposta.id)
                 }
                 fetchedComentarioRecord["respostas"] = respostas
+                print("Vetor de respostas salvo no CK:")
+                print(respostas)
                 
                 publicDB.save(fetchedComentarioRecord) { (savedRecord, error2) in
                     if let error2 = error2 {

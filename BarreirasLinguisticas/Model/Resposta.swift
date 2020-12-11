@@ -22,13 +22,13 @@ class Resposta: Identifiable, ObservableObject {
         self.conteudo = conteudo
     }
     
-    //updateReportStatus
+    //TODO: - updateReportStatus
     
 }
 
 extension Resposta {
-    static func ckLoad(from reference: String, completion: @escaping (Result<Resposta, Error>) -> ()){
-        CKContainer.default().publicCloudDatabase.fetch(withRecordID: CKRecord.ID(recordName: reference)) { (fetchedRecord, error) in
+    static func ckLoad(from id: String, completion: @escaping (Result<Resposta, Error>) -> ()){
+        CKContainer.default().publicCloudDatabase.fetch(withRecordID: CKRecord.ID(recordName: id)) { (fetchedRecord, error) in
             if let error = error {
                 print(#function)
                 print(error)
@@ -51,6 +51,7 @@ extension Resposta {
                                 return
                             }
                             let resposta = Resposta(id_original: id_original, publicador: fetchedMembro, conteudo: conteudo)
+                            resposta.id = record.recordID.recordName
                             
                             completion(.success(resposta))
                         case .failure(let error2):

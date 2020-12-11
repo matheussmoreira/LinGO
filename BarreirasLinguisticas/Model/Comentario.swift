@@ -33,6 +33,7 @@ class Comentario: Identifiable, ObservableObject {
             switch result {
                 case .success(let id):
                     DispatchQueue.main.async {
+                        print("id da resposta salva: \(id)")
                         resposta.id = id
                         self.respostas.append(resposta)
                         CKManager.modifyComentario(self)

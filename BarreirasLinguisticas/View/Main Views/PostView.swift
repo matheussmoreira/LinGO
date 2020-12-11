@@ -97,7 +97,7 @@ struct PostView: View {
                         }
                     }
                     .sheet(isPresented: $showComments) {
-                        CommentsQuestionsToggle(post: self.post)
+                        CQToggle(post: self.post)
                             .environmentObject(self.membro)
                             .environmentObject(self.sala)
                     }

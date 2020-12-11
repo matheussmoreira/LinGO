@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct CommentsQuestionsToggle: View {
+struct CQToggle: View {
     @EnvironmentObject var membro: Membro
     @EnvironmentObject var sala: Sala
     @ObservedObject var post: Post
