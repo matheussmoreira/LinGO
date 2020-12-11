@@ -44,6 +44,8 @@
 		66D7AA8724CB80F0001CEA3A /* CategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7AA8624CB80F0001CEA3A /* CategoriesView.swift */; };
 		66D7AA8B24CB8140001CEA3A /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D7AA8A24CB8140001CEA3A /* ProfileView.swift */; };
 		66E744692547AC4400B33131 /* OnboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E744682547AC4400B33131 /* OnboardView.swift */; };
+		66F41FF72583FBB200A3325B /* Resposta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F41FF62583FBB200A3325B /* Resposta.swift */; };
+		66F41FFB2584038900A3325B /* AnswersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F41FFA2584038900A3325B /* AnswersList.swift */; };
 		EA49EC2A24EEEC210030F135 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA49EC2924EEEC210030F135 /* EditProfileView.swift */; };
 		EA62ABAC24DB62810026C1BE /* CommentRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA62ABAB24DB62810026C1BE /* CommentRow.swift */; };
 		EA62ABAE24DC77790026C1BE /* QuestionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA62ABAD24DC77790026C1BE /* QuestionRow.swift */; };
@@ -91,6 +93,8 @@
 		66D7AA8624CB80F0001CEA3A /* CategoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesView.swift; sourceTree = "<group>"; };
 		66D7AA8A24CB8140001CEA3A /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		66E744682547AC4400B33131 /* OnboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardView.swift; sourceTree = "<group>"; };
+		66F41FF62583FBB200A3325B /* Resposta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resposta.swift; sourceTree = "<group>"; };
+		66F41FFA2584038900A3325B /* AnswersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswersList.swift; sourceTree = "<group>"; };
 		EA49EC2924EEEC210030F135 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		EA62ABAB24DB62810026C1BE /* CommentRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRow.swift; sourceTree = "<group>"; };
 		EA62ABAD24DC77790026C1BE /* QuestionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionRow.swift; sourceTree = "<group>"; };
@@ -146,6 +150,7 @@
 				EA62ABAB24DB62810026C1BE /* CommentRow.swift */,
 				6648ABCD256F0C4C006B90E5 /* QuestionsList.swift */,
 				6648ABD0256F0C74006B90E5 /* CommentsList.swift */,
+				66F41FFA2584038900A3325B /* AnswersList.swift */,
 			);
 			path = Comentarios;
 			sourceTree = "<group>";
@@ -240,6 +245,7 @@
 				66D7AA7B24CB59E1001CEA3A /* Categoria.swift */,
 				66D7AA7F24CB5A08001CEA3A /* Post.swift */,
 				662B018824D9F3FC008BF2D7 /* Comentario.swift */,
+				66F41FF62583FBB200A3325B /* Resposta.swift */,
 				663C8ECB24CC6C2E000936FF /* LinkPost.swift */,
 				6629EBAA24EC671D009802A5 /* Onboard.swift */,
 			);
@@ -350,10 +356,12 @@
 				663C8ECC24CC6C2E000936FF /* LinkPost.swift in Sources */,
 				668903A824D5B7F60062C8CA /* PostView.swift in Sources */,
 				666C803224DCA329001A7148 /* SubscriptionsView.swift in Sources */,
+				66F41FFB2584038900A3325B /* AnswersList.swift in Sources */,
 				667D8BAF24D30469005D51F4 /* DAO.swift in Sources */,
 				6603984B24DB31A100C5629B /* PostsOfCategorieView.swift in Sources */,
 				6675881624D3667400C9B805 /* Usuario.swift in Sources */,
 				665A157624DC2DE500D94359 /* MyPublications.swift in Sources */,
+				66F41FF72583FBB200A3325B /* Resposta.swift in Sources */,
 				66D7AA6524CB5135001CEA3A /* AppDelegate.swift in Sources */,
 				6629EBAB24EC671D009802A5 /* Onboard.swift in Sources */,
 				EA49EC2A24EEEC210030F135 /* EditProfileView.swift in Sources */,

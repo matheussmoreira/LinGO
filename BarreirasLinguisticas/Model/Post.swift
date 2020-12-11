@@ -221,6 +221,7 @@ extension Post{
                     case .success(let loadedPergunta):
                         DispatchQueue.main.async {
                             self.perguntas.append(loadedPergunta)
+                            loadedPergunta.ckLoadAllRespostas(idsRespostas: loadedPergunta.respostasIds)
                             sala.quantComentariosBaixados += 1
                             if sala.quantComentarios == sala.quantComentariosBaixados {
                                 sala.allComentariosLoaded = true

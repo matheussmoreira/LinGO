@@ -64,8 +64,8 @@ struct CommentsQuestionsToggle: View {
                         .padding(.horizontal, 32)
                     } //HStack
                 } //ZStack
-                    .frame(height: 40.0)
-                    .padding()
+                .frame(height: 40.0)
+                .padding()
             }
             
             if questions_selected {

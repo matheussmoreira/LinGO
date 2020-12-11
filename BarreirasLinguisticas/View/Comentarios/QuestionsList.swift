@@ -66,8 +66,8 @@ struct QuestionsList: View {
             if post.perguntas.isEmpty {
                 if !post.allPerguntasLoaded {
                     /*  Dois spacers com Vstack pois
-                        sem isso ToggleBar nao fica no topo
-                    */
+                     sem isso ToggleBar nao fica no topo
+                     */
                     VStack {
                         Spacer()
                         ProgressView("")
@@ -102,6 +102,7 @@ struct QuestionsList: View {
             } //else
         }//VStack
         .frame(width: UIScreen.width)
+        
     } //body
     
     func comenta() {
@@ -125,6 +126,7 @@ struct QuestionDetails: View {
     @State private var askReport = false
     @State private var reported = false
     @State private var askApagaPergunta = false
+    @State private var showAnswers = false
     
     var body: some View {
         VStack {
@@ -168,12 +170,24 @@ struct QuestionDetails: View {
                     }
                 }
                 
+                Button(action: {self.showAnswers.toggle()}){
+                    Text("  Answers  ")
+                        .background(Color.blue)
+                        .cornerRadius(5.0)
+                        .foregroundColor(.white)
+                }.sheet(isPresented: $showAnswers) {
+                    AnswersList(pergunta: comment)
+                        .environmentObject(membro)
+                        .environmentObject(sala)
+                }
+                
                 Spacer()
             }.padding(.leading)
             Divider()
         }.onAppear{
             loadReport(of: comment)
         }
+        
     }
     
     func report(_ question: Comentario){

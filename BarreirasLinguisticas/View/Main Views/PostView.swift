@@ -84,7 +84,7 @@ struct PostView: View {
                     Button(action: {self.showComments.toggle()}) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
-//                                .frame(width: UIScreen.width*0.95, height: 40.0)
+                                //                                .frame(width: UIScreen.width*0.95, height: 40.0)
                                 .frame(height: 40.0)
                                 .padding(.horizontal)
                                 .foregroundColor(LingoColors.lingoBlue)
@@ -109,7 +109,7 @@ struct PostView: View {
                         }) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 10)
-//                                    .frame(width: UIScreen.width*0.95, height: 40.0)
+                                    //                                    .frame(width: UIScreen.width*0.95, height: 40.0)
                                     .frame(height: 40.0)
                                     .padding(.horizontal)
                                     .foregroundColor(LingoColors.lingoBlue)
@@ -129,42 +129,38 @@ struct PostView: View {
                     
                     //MARK: - EXCLUIR POST
                     if (membro.id == post.publicador.id) || (post.denuncias.count>0 && membro.isAdmin) {
-                            Button(action: {
-                                showAlertExcluirPost.toggle()
+                        Button(action: {
+                            showAlertExcluirPost.toggle()
+                            
+                        }) {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 10)
+                                    //                                        .frame(width: UIScreen.width*0.95, height: 40.0)
+                                    .frame(height: 40.0)
+                                    .padding(.horizontal)
+                                    .foregroundColor(LingoColors.lingoBlue)
                                 
-                            }) {
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 10)
-//                                        .frame(width: UIScreen.width*0.95, height: 40.0)
-                                        .frame(height: 40.0)
-                                        .padding(.horizontal)
-                                        .foregroundColor(LingoColors.lingoBlue)
-                                    
-                                    Text("Delete")
-                                        .cornerRadius(8)
-                                        .foregroundColor(.white)
-                                }.padding(.bottom)
-                            }
-                            .alert(isPresented: $showAlertExcluirPost) {
-                                Alert(title: Text("Are you sure you want to delete this?"),
-                                      primaryButton: .default(Text("Delete")){
-                                        sala.removePost(post: post, membro: membro)
-                                        self.presentationMode.wrappedValue.dismiss()
-                                      },
-                                      secondaryButton: .cancel())
-                            }
+                                Text("Delete")
+                                    .cornerRadius(8)
+                                    .foregroundColor(.white)
+                            }.padding(.bottom)
+                        }
+                        .alert(isPresented: $showAlertExcluirPost) {
+                            Alert(title: Text("Are you sure you want to delete this?"),
+                                  primaryButton: .default(Text("Delete")){
+                                    sala.removePost(post: post, membro: membro)
+                                    self.presentationMode.wrappedValue.dismiss()
+                                  },
+                                  secondaryButton: .cancel())
+                        }
                     }
                     
                 } //VStack
                 .frame(width: UIScreen.width)
-            } //ScrollView
-            
+            }
             .onAppear {
                 self.loadBookmark()
             }
-//            .navigationBarTitle(
-//                Text(post.titulo)
-//            )
             .padding(.horizontal)
             .navigationBarItems(
                 trailing:
@@ -178,6 +174,7 @@ struct PostView: View {
             )
         }
         .onAppear{self.loadReport()}
+        
     } //body
     
     func loadBookmark() {

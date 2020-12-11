@@ -682,6 +682,11 @@ extension CKManager {
                 // PREPARA OS DADOS
                 fetchedComentarioRecord["votos"] = comentario.votos
                 fetchedComentarioRecord["denuncias"] = comentario.denuncias
+                var respostas: [String] = []
+                for resposta in comentario.respostas {
+                    respostas.append(resposta.id)
+                }
+                fetchedComentarioRecord["respostas"] = respostas
                 
                 publicDB.save(fetchedComentarioRecord) { (savedRecord, error2) in
                     if let error2 = error2 {
@@ -690,6 +695,29 @@ extension CKManager {
                         return
                     }
                 }
+            }
+        }
+    }
+}
+
+//MARK: - RESPOSTA
+extension CKManager {
+    static func saveResposta(_ resposta: Resposta, completion: @escaping (Result<String, Error>) -> ()){
+        let respostaRecord = CKRecord(recordType: "Resposta")
+        respostaRecord["id_original"] = resposta.id_original
+        respostaRecord["publicador"] = CKRecord.Reference(recordID: CKRecord.ID(recordName: resposta.publicador.id), action: .deleteSelf)
+        respostaRecord["conteudo"] = resposta.conteudo
+        
+        let publicDB = CKContainer.default().publicCloudDatabase
+        publicDB.save(respostaRecord) { (savedRecord, error) in
+            if let error = error {
+                print(#function)
+                print(error)
+                completion(.failure(error))
+            }
+            if let record = savedRecord {
+                let recordName = record.recordID.recordName
+                completion(.success(recordName))
             }
         }
     }
