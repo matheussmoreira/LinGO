@@ -10,6 +10,7 @@ import SwiftUI
 
 struct AnswerRow: View {
     @ObservedObject var resposta: Resposta
+    @ObservedObject var original: Comentario
     @EnvironmentObject var membro: Membro
     @State private var askApagaResposta = false
     
@@ -79,6 +80,7 @@ struct AnswerRow: View {
                             Alert(
                                 title: Text("Delete this answer?"),
                                 primaryButton: .default(Text("Delete")){
+                                    original.perdeResposta(resposta)
                                 },
                                 secondaryButton: .cancel())
                         }

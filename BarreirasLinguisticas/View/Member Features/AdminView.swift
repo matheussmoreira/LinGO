@@ -255,7 +255,7 @@ struct ComentarioDenunciado: View {
     func apagaComentario(_ comentario: Comentario){
         if let post = sala.getPost(id: comentario.post) {
             if post.perguntas.contains(where: {$0.id == comentario.id}) {
-                post.apagaPergunta(sala: sala, id: comentario.id)
+                post.apagaPergunta(sala: sala, pergunta: comentario)
             }
             else if post.comentarios.contains(where: {$0.id == comentario.id}) {
                 post.apagaComentario(sala: sala, id: comentario.id)

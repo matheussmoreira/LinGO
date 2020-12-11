@@ -219,6 +219,9 @@ class Sala: Identifiable, ObservableObject, Equatable {
             CKManager.deleteRecord(recordName: comentario.id)
         }
         for pergunta in post.perguntas {
+            for resp in pergunta.respostas {
+                CKManager.deleteRecord(recordName: resp.id)
+            }
             CKManager.deleteRecord(recordName: pergunta.id)
         }
         CKManager.deleteRecord(recordName: post.id)
@@ -233,6 +236,9 @@ class Sala: Identifiable, ObservableObject, Equatable {
             CKManager.deleteRecord(recordName: comentario.id)
         }
         for pergunta in post.perguntas {
+            for resp in pergunta.respostas {
+                CKManager.deleteRecord(recordName: resp.id)
+            }
             CKManager.deleteRecord(recordName: pergunta.id)
         }
         CKManager.deleteRecord(recordName: post.id)

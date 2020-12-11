@@ -176,7 +176,7 @@ struct QuestionDetails: View {
                         .cornerRadius(5.0)
                         .foregroundColor(.white)
                 }.sheet(isPresented: $showAnswers) {
-                    AnswersList(pergunta: comment)
+                    AnswersList(original: comment)
                         .environmentObject(membro)
                         .environmentObject(sala)
                 }
@@ -201,6 +201,6 @@ struct QuestionDetails: View {
     }
     
     func apagaPergunta(id: String){
-        post.apagaPergunta(sala: sala, id: id)
+        post.apagaPergunta(sala: sala, pergunta: comment)
     }
 }

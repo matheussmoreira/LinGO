@@ -11,7 +11,7 @@ import SwiftUI
 struct AnswersList: View {
     @EnvironmentObject var membro: Membro
     @EnvironmentObject var sala: Sala
-    @ObservedObject var pergunta: Comentario
+    @ObservedObject var original: Comentario
     @State private var newAnswer: String = ""
     @State private var showAlertBlocked = false
     
@@ -78,8 +78,8 @@ struct AnswersList: View {
                         self.hideKeyboard()
                     }
                 
-                if pergunta.respostas.isEmpty {
-                    if !pergunta.allRespostasLoaded {
+                if original.respostas.isEmpty {
+                    if !original.allRespostasLoaded {
                         /*  Dois spacers com Vstack pois
                          sem isso ToggleBar nao fica no topo
                          */
@@ -101,11 +101,11 @@ struct AnswersList: View {
                 else {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack {
-                            ForEach(pergunta.respostas.reversed()) { resposta in
-                                AnswerRow(resposta: resposta)
+                            ForEach(original.respostas.reversed()) { resposta in
+                                AnswerRow(resposta: resposta, original: original)
                                     .environmentObject(membro)
                             }
-                            if !pergunta.allRespostasLoaded  {
+                            if !original.allRespostasLoaded  {
                                 ProgressView("")
                             }
                         }.frame(width: UIScreen.width)
@@ -131,11 +131,11 @@ struct AnswersList: View {
     func responde(){
         if newAnswer != "" {
             let resposta = Resposta(
-                id_original: pergunta.id,
+                id_original: original.id,
                 publicador: membro,
                 conteudo: newAnswer
             )
-            pergunta.ganhaResposta(resposta)
+            original.ganhaResposta(resposta)
             newAnswer = ""
         }
     }
