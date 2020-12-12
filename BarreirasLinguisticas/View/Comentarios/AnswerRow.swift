@@ -11,8 +11,11 @@ import SwiftUI
 struct AnswerRow: View {
     @ObservedObject var resposta: Resposta
     @ObservedObject var original: Comentario
+    @EnvironmentObject var sala: Sala
     @EnvironmentObject var membro: Membro
     @State private var askApagaResposta = false
+    @State private var askReport = false
+    @State private var reported = false
     
     var body: some View {
         ZStack {
@@ -67,30 +70,62 @@ struct AnswerRow: View {
                     }
                 }.padding(.all) //VStack
                 
-                // Botaozinho de Apagar
-                if (resposta.publicador.id == membro.id) || (membro.isAdmin) {
-                    HStack {
+                HStack {
+                    // Botaozinho de Denunciar
+                    if !membro.isBlocked /*&& membro.id != comment.publicador.id */{
                         Button(action: {
-                            askApagaResposta.toggle()
+                            askReport.toggle()
                         }){
-                            Image(systemName: "trash.circle")
+                            Image(systemName: reported ? "exclamationmark.circle.fill" : "exclamationmark.circle")
                                 .imageScale(.large)
+                                .padding(.leading)
                             
-                        }.alert(isPresented: $askApagaResposta) {
+                        }.alert(isPresented: $askReport) {
                             Alert(
-                                title: Text("Delete this answer?"),
-                                primaryButton: .default(Text("Delete")){
-                                    original.perdeResposta(resposta)
+                                title: Text(reported ? "Dismiss report?" : "If you report then the admins of the room will be able to delete this answer"),
+                                primaryButton: .default(Text(reported ? "Yes" : "Report")){
+                                    report(resposta)
                                 },
                                 secondaryButton: .cancel())
                         }
-                        Spacer()
-                    }.padding(.leading)
+                    }
                     
-                    Divider()
+                    // Botaozinho de Apagar
+                    if (resposta.publicador.id == membro.id) || (membro.isAdmin) {
+                        HStack {
+                            Button(action: {
+                                askApagaResposta.toggle()
+                            }){
+                                Image(systemName: "trash.circle")
+                                    .imageScale(.large)
+                                
+                            }.alert(isPresented: $askApagaResposta) {
+                                Alert(
+                                    title: Text("Delete this answer?"),
+                                    primaryButton: .default(Text("Delete")){
+                                        original.perdeResposta(resposta, sala: sala)
+                                    },
+                                    secondaryButton: .cancel())
+                            }
+                            Spacer()
+                        }
+                    }
                 }
+                Divider()
             } //VStack
         }//ZStack
+        .onAppear{
+            loadReport(of: resposta)
+        }
+    }
+    
+    func report(_ resposta: Resposta){
+        resposta.updateReportStatus(from: membro)
+        reported = resposta.denuncias.contains(membro.id)
+    }
+    
+    func loadReport(of resposta: Resposta){
+        reported = resposta.denuncias.contains(membro.id)
     }
 }
 

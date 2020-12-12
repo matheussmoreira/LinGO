@@ -22,7 +22,16 @@ class Resposta: Identifiable, ObservableObject {
         self.conteudo = conteudo
     }
     
-    //TODO: - updateReportStatus
+    func updateReportStatus(from membro: Membro){
+        if !denuncias.contains(membro.id) {
+            denuncias.append(membro.id)
+        }
+        else {
+            denuncias.removeAll(where: {$0 == membro.id})
+        }
+        
+        CKManager.modifyResposta(self)
+    }
     
 }
 
@@ -50,7 +59,11 @@ extension Resposta {
                                 print("\(#function): Problema no cast do conteudo")
                                 return
                             }
+                            let denuncias = record["denuncias"] as? [String] ?? []
+                            
                             let resposta = Resposta(id_original: id_original, publicador: fetchedMembro, conteudo: conteudo)
+                            resposta.denuncias = denuncias
+                            
                             resposta.id = record.recordID.recordName
                             
                             completion(.success(resposta))

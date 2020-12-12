@@ -133,9 +133,6 @@ class Post: Equatable, Identifiable, ObservableObject {
         for pergunta in self.perguntas {
             if (id == pergunta.id) { return pergunta }
         }
-        for coment in self.comentarios {
-            if (id == coment.id) { return coment }
-        }
         return nil
     }
     
@@ -230,11 +227,8 @@ extension Post{
                     case .success(let loadedPergunta):
                         DispatchQueue.main.async {
                             self.perguntas.append(loadedPergunta)
-                            loadedPergunta.ckLoadAllRespostas(idsRespostas: loadedPergunta.respostasIds)
+                            loadedPergunta.ckLoadAllRespostas(idsRespostas: loadedPergunta.respostasIds, sala: sala)
                             sala.quantComentariosBaixados += 1
-                            if sala.quantComentarios == sala.quantComentariosBaixados {
-                                sala.allComentariosLoaded = true
-                            }
                             self.allPerguntasLoaded = (self.perguntas.count == self.perguntasRef.count)
                         }
                     case .failure(_):

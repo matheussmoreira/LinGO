@@ -124,10 +124,13 @@ struct ComentariosDenunciados: View {
     private var denunciados: [Comentario] {
         return checaDenuciados()
     }
+    private var denunciadosResp: [Resposta] {
+        return checaDenunciadosResp()
+    }
     
     var body: some View {
         VStack {
-            if !denunciados.isEmpty {
+            if !denunciados.isEmpty && !denunciadosResp.isEmpty {
                 VStack {
                     ScrollView(.vertical, showsIndicators: true) {
                         VStack {
@@ -137,6 +140,11 @@ struct ComentariosDenunciados: View {
                                 )
                                 .environmentObject(sala)
                                 .environmentObject(membro)
+                            }
+                            ForEach(denunciadosResp) { resp in
+                                RespostaDenunciada(resposta: resp)
+                                    .environmentObject(sala)
+                                    .environmentObject(membro)
                             }
                             if !sala.allComentariosLoaded {
                                 ProgressView("")
@@ -169,6 +177,18 @@ struct ComentariosDenunciados: View {
             denunciados.append(
                 contentsOf: post.comentarios.filter{!$0.denuncias.isEmpty}
             )
+        }
+        return denunciados
+    }
+    
+    private func checaDenunciadosResp() -> [Resposta] {
+        var denunciados: [Resposta] = []
+        for post in sala.posts {
+            for pergunta in post.perguntas {
+                denunciados.append(
+                    contentsOf: pergunta.respostas.filter({!$0.denuncias.isEmpty})
+                )
+            }
         }
         return denunciados
     }
@@ -237,7 +257,7 @@ struct ComentarioDenunciado: View {
                         .imageScale(.large)
                 }.alert(isPresented: $askApagaComentario) {
                     Alert(
-                        title: Text("Delete this comment?"),
+                        title: Text("Delete this?"),
                         primaryButton: .default(Text("Delete")){
                             apagaComentario(comentario)
                         },
@@ -261,6 +281,92 @@ struct ComentarioDenunciado: View {
                 post.apagaComentario(sala: sala, id: comentario.id)
             }
         }
+    }
+    
+}
+
+struct RespostaDenunciada: View {
+    @EnvironmentObject var sala: Sala
+    @EnvironmentObject var membro: Membro
+    @ObservedObject var resposta: Resposta
+    @State private var askApagaResposta = false
+    
+    var body: some View {
+        VStack {
+            HStack(alignment: .top) {
+                Image(uiImage: resposta.publicador.usuario.foto_perfil?.asUIImage() ?? UIImage(named: "perfil")!)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 40.0, height: 40.0)
+                    .clipShape(Circle())
+                
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text(resposta.publicador.usuario.nome)
+                            .font(.subheadline)
+                            .fontWeight(.bold)
+                            .lineLimit(1)
+                            .frame(height: 20.0)
+                        
+                        Spacer()
+                        
+                        Text(resposta.publicador.usuario.fluencia_ingles.rawValue)
+                            .foregroundColor(.gray)
+                            .font(.footnote)
+                            .lineLimit(1)
+                        
+                        Circle()
+                            .fill(resposta.publicador.usuario.cor_fluencia)
+                            .frame(width: 10.0, height: 10.0)
+                            .padding(.trailing)
+                    }
+                    Text(dao.getSala(id: membro.idSala)!.nome)
+                        .frame(height: 6.0)
+                        .font(.caption)
+                        .foregroundColor(Color.gray)
+                        .lineLimit(1)
+                } //VStack
+            } //HStack
+            
+            HStack {
+                Text(resposta.conteudo)
+                    .font(.body)
+                    .padding(.all)
+                    .lineLimit(10)
+                    .frame(width: UIScreen.width*0.95)
+                    .multilineTextAlignment(.leading)
+                    .background(Color.gray.opacity(0.15))
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+            }.padding(.trailing)
+            
+            HStack {
+                Button(action: {
+                    askApagaResposta.toggle()
+                }){
+                    Image(systemName: "trash.circle")
+                        .padding(.leading)
+                        .imageScale(.large)
+                }.alert(isPresented: $askApagaResposta) {
+                    Alert(
+                        title: Text("Delete this?"),
+                        primaryButton: .default(Text("Delete")){
+                        },
+                        secondaryButton: .cancel()
+                    )
+                }
+                Spacer()
+            }
+            Divider()
+        }
+        .padding(.leading)
+        .padding(.top)
+    }
+    
+    func apagaResposta(_ resposta: Resposta){
+        /*if let original = getComentarioOriginal(id: resposta.original) {
+            original.perdeResposta(resposta, sala: sala)
+        }
+        */
     }
     
 }

@@ -28,15 +28,16 @@ class Comentario: Identifiable, ObservableObject {
         self.is_question = is_question
     }
     
-    func ganhaResposta(_ resposta: Resposta) {
+    func ganhaResposta(_ resposta: Resposta, sala: Sala) {
         CKManager.saveResposta(resposta) { (result) in
             switch result {
                 case .success(let id):
                     DispatchQueue.main.async {
-                        print("id da resposta salva: \(id)")
                         resposta.id = id
                         self.respostas.append(resposta)
                         CKManager.modifyComentario(self)
+                        sala.quantComentarios += 1
+                        CKManager.modifySala(sala)
                     }
                 case .failure(_):
                     break
@@ -44,12 +45,14 @@ class Comentario: Identifiable, ObservableObject {
         }
     }
     
-    func perdeResposta(_ resposta: Resposta) {
+    func perdeResposta(_ resposta: Resposta, sala: Sala) {
         CKManager.deleteRecord(recordName: resposta.id) { (result) in
             switch result {
                 case .success(_):
                     self.respostas.removeAll(where: {$0.id == resposta.id})
                     CKManager.modifyComentario(self)
+                    sala.quantComentarios -= 1
+                    CKManager.modifySala(sala)
                 case .failure(_):
                     break
             }
@@ -145,13 +148,17 @@ extension Comentario {
         }
     }
     
-    func ckLoadAllRespostas(idsRespostas: [String]) {
+    func ckLoadAllRespostas(idsRespostas: [String], sala: Sala) {
         for idResposta in idsRespostas {
             Resposta.ckLoad(from: idResposta) { (result) in
                 switch result {
                     case .success(let loadedResposta):
                         DispatchQueue.main.async {
                             self.respostas.append(loadedResposta)
+                            sala.quantComentariosBaixados += 1
+                            if sala.quantComentarios == sala.quantComentariosBaixados {
+                                sala.allComentariosLoaded = true
+                            }
                             if self.respostas.count == self.respostasIds.count {
                                 self.allRespostasLoaded = true
                             }

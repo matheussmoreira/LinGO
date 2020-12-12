@@ -104,6 +104,7 @@ struct AnswersList: View {
                             ForEach(original.respostas.reversed()) { resposta in
                                 AnswerRow(resposta: resposta, original: original)
                                     .environmentObject(membro)
+                                    .environmentObject(sala)
                             }
                             if !original.allRespostasLoaded  {
                                 ProgressView("")
@@ -135,7 +136,7 @@ struct AnswersList: View {
                 publicador: membro,
                 conteudo: newAnswer
             )
-            original.ganhaResposta(resposta)
+            original.ganhaResposta(resposta, sala: sala)
             newAnswer = ""
         }
     }

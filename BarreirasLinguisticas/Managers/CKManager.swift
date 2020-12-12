@@ -687,8 +687,6 @@ extension CKManager {
                     respostas.append(resposta.id)
                 }
                 fetchedComentarioRecord["respostas"] = respostas
-                print("Vetor de respostas salvo no CK:")
-                print(respostas)
                 
                 publicDB.save(fetchedComentarioRecord) { (savedRecord, error2) in
                     if let error2 = error2 {
@@ -720,6 +718,25 @@ extension CKManager {
             if let record = savedRecord {
                 let recordName = record.recordID.recordName
                 completion(.success(recordName))
+            }
+        }
+    }
+    
+    static func modifyResposta(_ resposta: Resposta) {
+        let publicDB = CKContainer.default().publicCloudDatabase
+        publicDB.fetch(withRecordID: CKRecord.ID(recordName: resposta.id)) { (fetchedRecord, error) in
+            if let error = error {
+                print(#function)
+                print(error)
+            }
+            if let record = fetchedRecord {
+                record["denuncias"] = resposta.denuncias
+                publicDB.save(record) { (savedRecord, error2) in
+                    if let error2 = error2 {
+                        print(#function)
+                        print(error2)
+                    }
+                }
             }
         }
     }
