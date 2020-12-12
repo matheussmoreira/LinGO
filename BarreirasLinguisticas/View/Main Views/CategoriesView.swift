@@ -60,16 +60,16 @@ struct CategoriesView: View {
             }
             .navigationBarTitle(Text("Categories"))
             .navigationBarItems(
-//                leading:
-//                    Button(action: {self.showRooms.toggle()}) {
-//                        Image(systemName: "rectangle.grid.1x2")
-//                            .imageScale(.large)
-//                            .foregroundColor(LingoColors.lingoBlue)
-//                    }
-//                    .sheet(isPresented: $showRooms) {
-//                        RoomsView(usuario: self.membro.usuario)
-//                            .environmentObject(self.dao)
-//                    },
+                leading:
+                    Button(action: {self.showRooms.toggle()}) {
+                        Image(systemName: "rectangle.grid.1x2")
+                            .imageScale(.large)
+                            .foregroundColor(LingoColors.lingoBlue)
+                    }
+                    .sheet(isPresented: $showRooms) {
+                        RoomsView(usuario: self.membro.usuario)
+                            .environmentObject(self.dao)
+                    },
                 trailing:
                     HStack {
                         Spacer()

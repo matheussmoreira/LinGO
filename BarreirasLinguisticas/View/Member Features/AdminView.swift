@@ -162,9 +162,6 @@ struct ComentariosDenunciados: View {
                         .foregroundColor(.gray)
                 }
             }
-        }.onAppear{
-            print("Quantidade de comentarios: \(sala.quantComentarios)")
-            print("Quantidade de baixados: \(sala.quantComentariosBaixados)")
         }
         .navigationBarTitle(
             Text("Reported Comments")
