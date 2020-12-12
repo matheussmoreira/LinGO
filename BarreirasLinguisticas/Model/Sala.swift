@@ -297,19 +297,16 @@ extension Sala {
         sala.nome = ckRecord["nome"] as? String ?? ""
         sala.quantComentarios = ckRecord["quantComentarios"] as? Int ?? 0
         if sala.quantComentarios == 0 { sala.allComentariosLoaded = true }
-//        print("Loading sala \(sala.nome)...")
         
         sala.membrosRef = membrosRef
         sala.categsRef = categsRef
         sala.postsRef = postsRef
         
-//        print("\tLoading membros")
         for membroRef in membrosRef {
             Membro.ckLoad(from: membroRef) { (result) in
                 switch result {
                     case .success(let loadedMembro):
                         DispatchQueue.main.async {
-//                            print("\tBaixou membro do usuario \(loadedMembro.usuario.nome)")
                             sala.membros.append(loadedMembro)
                         }
                     case .failure(_):
@@ -319,14 +316,12 @@ extension Sala {
             }
         }
         
-//        print("\tLoading categorias")
         for categRef in categsRef {
             Categoria.ckLoad(from: categRef) { (result) in
                 switch result {
                     case .success(let loadedCateg):
                         DispatchQueue.main.async {
                             sala.categorias.append(loadedCateg)
-//                            print("\tBaixou categoria \(loadedCateg.nome)")
                         }
                     case .failure(_):
                         print("Loading error nas categorias da sala \(sala.nome)!")
@@ -335,14 +330,12 @@ extension Sala {
             }
         }
         
-//        print("\tLoading posts")
         for postRef in postsRef {
             Post.ckLoad(from: postRef, salaMembros: sala.membros) { (result) in
                 switch result {
                     case .success(let loadedPost):
                         if let loadedPost = loadedPost {
                             DispatchQueue.main.async {
-//                                print("\tBaixou post \(loadedPost.titulo)")
                                 sala.posts.append(loadedPost)
                                 loadedPost.ckLoadAllPerguntas(sala: sala)
                                 loadedPost.ckLoadAllComentarios(sala: sala)
