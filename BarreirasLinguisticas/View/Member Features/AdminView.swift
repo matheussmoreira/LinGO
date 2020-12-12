@@ -162,6 +162,9 @@ struct ComentariosDenunciados: View {
                         .foregroundColor(.gray)
                 }
             }
+        }.onAppear{
+            print("Quantidade de comentarios: \(sala.quantComentarios)")
+            print("Quantidade de baixados: \(sala.quantComentariosBaixados)")
         }
         .navigationBarTitle(
             Text("Reported Comments")
@@ -350,6 +353,7 @@ struct RespostaDenunciada: View {
                     Alert(
                         title: Text("Delete this?"),
                         primaryButton: .default(Text("Delete")){
+                            apagaResposta(resposta)
                         },
                         secondaryButton: .cancel()
                     )
@@ -363,10 +367,7 @@ struct RespostaDenunciada: View {
     }
     
     func apagaResposta(_ resposta: Resposta){
-        /*if let original = getComentarioOriginal(id: resposta.original) {
-            original.perdeResposta(resposta, sala: sala)
-        }
-        */
+        resposta.original.perdeResposta(resposta, sala: sala)
     }
     
 }

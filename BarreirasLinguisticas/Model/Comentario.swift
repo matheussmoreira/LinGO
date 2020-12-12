@@ -37,6 +37,7 @@ class Comentario: Identifiable, ObservableObject {
                         self.respostas.append(resposta)
                         CKManager.modifyComentario(self)
                         sala.quantComentarios += 1
+                        sala.quantComentariosBaixados += 1
                         CKManager.modifySala(sala)
                     }
                 case .failure(_):
@@ -49,10 +50,13 @@ class Comentario: Identifiable, ObservableObject {
         CKManager.deleteRecord(recordName: resposta.id) { (result) in
             switch result {
                 case .success(_):
-                    self.respostas.removeAll(where: {$0.id == resposta.id})
-                    CKManager.modifyComentario(self)
-                    sala.quantComentarios -= 1
-                    CKManager.modifySala(sala)
+                    DispatchQueue.main.async {
+                        self.respostas.removeAll(where: {$0.id == resposta.id})
+                        CKManager.modifyComentario(self)
+                        sala.quantComentarios -= 1
+                        sala.quantComentariosBaixados -= 1
+                        CKManager.modifySala(sala)
+                    }
                 case .failure(_):
                     break
             }
@@ -150,7 +154,7 @@ extension Comentario {
     
     func ckLoadAllRespostas(idsRespostas: [String], sala: Sala) {
         for idResposta in idsRespostas {
-            Resposta.ckLoad(from: idResposta) { (result) in
+            Resposta.ckLoad(from: idResposta, original: self) { (result) in
                 switch result {
                     case .success(let loadedResposta):
                         DispatchQueue.main.async {

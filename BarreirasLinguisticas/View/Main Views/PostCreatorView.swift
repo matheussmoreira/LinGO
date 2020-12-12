@@ -196,7 +196,7 @@ struct PostCreatorView: View {
                     return "The post need a description text or an embeded link!"
                     
                 } else {
-                    sala.preparaNovoPost(
+                    sala.salvaPostLink(
                         publicador: id_membro,
                         titulo: titulo,
                         descricao: descricao,

@@ -15,11 +15,13 @@ class Resposta: Identifiable, ObservableObject {
     @Published var publicador: Membro
     @Published var conteudo: String
     @Published var denuncias: [String] = []
+    @Published var original: Comentario
     
-    init(id_original: String, publicador: Membro, conteudo: String) {
+    init(id_original: String, original: Comentario, publicador: Membro, conteudo: String) {
         self.id_original = id_original
         self.publicador = publicador
         self.conteudo = conteudo
+        self.original = original
     }
     
     func updateReportStatus(from membro: Membro){
@@ -36,7 +38,7 @@ class Resposta: Identifiable, ObservableObject {
 }
 
 extension Resposta {
-    static func ckLoad(from id: String, completion: @escaping (Result<Resposta, Error>) -> ()){
+    static func ckLoad(from id: String, original: Comentario, completion: @escaping (Result<Resposta, Error>) -> ()){
         CKContainer.default().publicCloudDatabase.fetch(withRecordID: CKRecord.ID(recordName: id)) { (fetchedRecord, error) in
             if let error = error {
                 print(#function)
@@ -61,9 +63,13 @@ extension Resposta {
                             }
                             let denuncias = record["denuncias"] as? [String] ?? []
                             
-                            let resposta = Resposta(id_original: id_original, publicador: fetchedMembro, conteudo: conteudo)
+                            let resposta = Resposta(
+                                id_original: id_original,
+                                original: original,
+                                publicador: fetchedMembro,
+                                conteudo: conteudo
+                            )
                             resposta.denuncias = denuncias
-                            
                             resposta.id = record.recordID.recordName
                             
                             completion(.success(resposta))

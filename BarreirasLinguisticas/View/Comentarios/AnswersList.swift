@@ -133,6 +133,7 @@ struct AnswersList: View {
         if newAnswer != "" {
             let resposta = Resposta(
                 id_original: original.id,
+                original: original,
                 publicador: membro,
                 conteudo: newAnswer
             )
