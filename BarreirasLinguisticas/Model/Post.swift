@@ -67,6 +67,7 @@ class Post: Equatable, Identifiable, ObservableObject {
 
     func novoComentario(sala: Sala, publicador: Membro, conteudo: String, is_question: Bool) {
         let comentario = Comentario(post: self.id, publicador: publicador, conteudo: conteudo, is_question: is_question)
+        comentario.allRespostasLoaded = true
         
         CKManager.saveComentario(comentario) { (result) in
             switch result {
@@ -91,11 +92,16 @@ class Post: Equatable, Identifiable, ObservableObject {
     }
 
     //MARK: - DELECOES
-    func apagaPergunta(sala: Sala, id: String) {
-        self.perguntas.removeAll(where: { $0.id == id })
-        CKManager.deleteRecord(recordName: id) { (result) in
+    func apagaPergunta(sala: Sala, pergunta: Comentario) {
+        CKManager.deleteRecord(recordName: pergunta.id) { (result) in
             switch result {
                 case .success(_):
+                    for resp in pergunta.respostas {
+                        CKManager.deleteRecord(recordName: resp.id)
+                    }
+                    DispatchQueue.main.async {
+                        self.perguntas.removeAll(where: { $0.id == pergunta.id })
+                    }
                     CKManager.modifyPost(self)
                     sala.quantComentarios -= 1
                     CKManager.modifySala(sala)
@@ -106,10 +112,13 @@ class Post: Equatable, Identifiable, ObservableObject {
     }
     
     func apagaComentario(sala: Sala, id: String) {
-        self.comentarios.removeAll(where: { $0.id == id })
+        
         CKManager.deleteRecord(recordName: id) { (result) in
             switch result {
                 case .success(_):
+                    DispatchQueue.main.async {
+                        self.comentarios.removeAll(where: { $0.id == id })
+                    }
                     CKManager.modifyPost(self)
                     sala.quantComentarios -= 1
                     CKManager.modifySala(sala)
@@ -123,9 +132,6 @@ class Post: Equatable, Identifiable, ObservableObject {
     func getComentarioOriginal(id: String) -> Comentario? {
         for pergunta in self.perguntas {
             if (id == pergunta.id) { return pergunta }
-        }
-        for coment in self.comentarios {
-            if (id == coment.id) { return coment }
         }
         return nil
     }
@@ -221,10 +227,8 @@ extension Post{
                     case .success(let loadedPergunta):
                         DispatchQueue.main.async {
                             self.perguntas.append(loadedPergunta)
+                            loadedPergunta.ckLoadAllRespostas(idsRespostas: loadedPergunta.respostasIds, sala: sala)
                             sala.quantComentariosBaixados += 1
-                            if sala.quantComentarios == sala.quantComentariosBaixados {
-                                sala.allComentariosLoaded = true
-                            }
                             self.allPerguntasLoaded = (self.perguntas.count == self.perguntasRef.count)
                         }
                     case .failure(_):

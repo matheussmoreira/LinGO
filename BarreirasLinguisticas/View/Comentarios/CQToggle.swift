@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct CommentsQuestionsToggle: View {
+struct CQToggle: View {
     @EnvironmentObject var membro: Membro
     @EnvironmentObject var sala: Sala
     @ObservedObject var post: Post
@@ -64,8 +64,8 @@ struct CommentsQuestionsToggle: View {
                         .padding(.horizontal, 32)
                     } //HStack
                 } //ZStack
-                    .frame(height: 40.0)
-                    .padding()
+                .frame(height: 40.0)
+                .padding()
             }
             
             if questions_selected {

@@ -58,13 +58,13 @@ struct FirstView: View {
                 return
             }
             if let recordID = recordID {
-                print("Buscando o usuario atual...")
+//                print("Buscando o usuario atual...")
                 loadingMessage = "Loading your user"
                 CKManager.fetchUsuario(recordName: recordID.recordName) { (result) in
                     switch result{
                         case .success(let fetchedUser):
                             DispatchQueue.main.async {
-                                print("Usuario atual resgatado com sucesso!\n")
+                                print("Usuario atual resgatado com sucesso!")
                                 dao.usuarioAtual = fetchedUser
                                 loadSalas(
                                     id_sala: fetchedUser.sala_atual,
@@ -83,7 +83,7 @@ struct FirstView: View {
     
     func loadSalas(id_sala: String?, id_usuario: String){
 //        print("BOTOU PRA CARREGAR A SALA ATUAL")
-        print("Buscando salas...")
+//        print("Buscando salas...")
         if id_sala != nil && !id_sala!.isEmpty {
             loadingMessage = "Preparing rooms"
             if let record = dao.getSalaRecord(from: id_sala) {
@@ -121,9 +121,7 @@ struct FirstView: View {
     }
     
     private func stopLoading(){
-        print("Stopped loading")
         loading = false
-//        print("Sala atual carregada: \(String(describing: dao.salaAtual?.nome))")
         dao.ckLoadAllSalasButCurrent()
     }
     

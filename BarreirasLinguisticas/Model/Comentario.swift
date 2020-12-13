@@ -17,12 +17,50 @@ class Comentario: Identifiable, ObservableObject {
     @Published var is_question: Bool
     @Published var votos: [String] = []
     @Published var denuncias: [String] = []
+    @Published var respostas: [Resposta] = []
+    @Published var respostasIds: [String] = []
+    @Published var allRespostasLoaded = false
     
     init(post: String, publicador: Membro, conteudo: String, is_question: Bool) {
         self.post = post
         self.publicador = publicador
         self.conteudo = conteudo
         self.is_question = is_question
+    }
+    
+    func ganhaResposta(_ resposta: Resposta, sala: Sala) {
+        CKManager.saveResposta(resposta) { (result) in
+            switch result {
+                case .success(let id):
+                    DispatchQueue.main.async {
+                        resposta.id = id
+                        self.respostas.append(resposta)
+                        CKManager.modifyComentario(self)
+                        sala.quantComentarios += 1
+                        sala.quantComentariosBaixados += 1
+                        CKManager.modifySala(sala)
+                    }
+                case .failure(_):
+                    break
+            }
+        }
+    }
+    
+    func perdeResposta(_ resposta: Resposta, sala: Sala) {
+        CKManager.deleteRecord(recordName: resposta.id) { (result) in
+            switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        self.respostas.removeAll(where: {$0.id == resposta.id})
+                        CKManager.modifyComentario(self)
+                        sala.quantComentarios -= 1
+                        sala.quantComentariosBaixados -= 1
+                        CKManager.modifySala(sala)
+                    }
+                case .failure(_):
+                    break
+            }
+        }
     }
     
     func ganhaVoto(de membro: Membro){
@@ -91,17 +129,46 @@ extension Comentario {
                             (question == 1) ? (is_question = true) : (is_question = false)
                             let votos = record["votos"] as? [String] ?? []
                             let denuncias = record["denuncias"] as? [String] ?? []
+                            let respostasIds = record["respostas"] as? [String] ?? []
                             
                             let comentario = Comentario(post: post, publicador: fetchedMembro, conteudo: conteudo, is_question: is_question)
                             comentario.votos = votos
                             comentario.denuncias = denuncias
                             comentario.id = recordName
+                            comentario.respostasIds = respostasIds
+                            
+                            if respostasIds.isEmpty{
+                                comentario.allRespostasLoaded = true
+                            }
+                            
                             completion(.success(comentario))
                         case .failure(let error2):
                             print(#function)
                             print(error2)
                             completion(.failure(error2))
                     }
+                }
+            }
+        }
+    }
+    
+    func ckLoadAllRespostas(idsRespostas: [String], sala: Sala) {
+        for idResposta in idsRespostas {
+            Resposta.ckLoad(from: idResposta, original: self) { (result) in
+                switch result {
+                    case .success(let loadedResposta):
+                        DispatchQueue.main.async {
+                            self.respostas.append(loadedResposta)
+                            sala.quantComentariosBaixados += 1
+                            if sala.quantComentarios == sala.quantComentariosBaixados {
+                                sala.allComentariosLoaded = true
+                            }
+                            if self.respostas.count == self.respostasIds.count {
+                                self.allRespostasLoaded = true
+                            }
+                        }
+                    case .failure(_):
+                        break
                 }
             }
         }

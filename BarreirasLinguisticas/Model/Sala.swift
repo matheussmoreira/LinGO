@@ -124,7 +124,7 @@ class Sala: Identifiable, ObservableObject, Equatable {
         self.categorias.append(categoria)
     }
     
-    func preparaNovoPost(publicador id_membro: String?, titulo: String, descricao: String?, linkString: String, categs: [String], tags: String) {
+    func salvaPostLink(publicador id_membro: String?, titulo: String, descricao: String?, linkString: String, categs: [String], tags: String) {
         print(#function)
         
         guard let membro = getMembroByUser(id: id_membro) else {
@@ -220,6 +220,9 @@ class Sala: Identifiable, ObservableObject, Equatable {
             CKManager.deleteRecord(recordName: comentario.id)
         }
         for pergunta in post.perguntas {
+            for resp in pergunta.respostas {
+                CKManager.deleteRecord(recordName: resp.id)
+            }
             CKManager.deleteRecord(recordName: pergunta.id)
         }
         CKManager.deleteRecord(recordName: post.id)
@@ -234,6 +237,9 @@ class Sala: Identifiable, ObservableObject, Equatable {
             CKManager.deleteRecord(recordName: comentario.id)
         }
         for pergunta in post.perguntas {
+            for resp in pergunta.respostas {
+                CKManager.deleteRecord(recordName: resp.id)
+            }
             CKManager.deleteRecord(recordName: pergunta.id)
         }
         CKManager.deleteRecord(recordName: post.id)
@@ -350,7 +356,7 @@ extension Sala {
         
         
         DispatchQueue.global().async {
-            // DispatchQueue.global por senao o app trava enquanto baixa as salas
+            // DispatchQueue.global por que senao o app congela enquanto baixa as salas
             while true {
                 // Espera pra retornar a sala quando carrega membros e categs
                 if sala.membros.count == membrosRef.count && sala.categorias.count == categsRef.count && !loadingError {
