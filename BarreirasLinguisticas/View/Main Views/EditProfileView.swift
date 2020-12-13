@@ -12,9 +12,9 @@ struct EditProfileView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var dao: DAO
     @ObservedObject var usuario: Usuario
-    @State private var photoProfile: Image? = Image("perfil")
-    @State private var presentImagePicker = false
-    @State private var presentImageActionScheet = false
+    @State private var foto_perfil: UIImage? = UIImage(named: "perfil")
+    @State private var showImagePicker = false
+    @State private var showImageActionSheet = false
     //@State private var presentCamera = false
     @State private var nome: String = ""
     @State private var fluenciaSelecionada = 0
@@ -23,7 +23,7 @@ struct EditProfileView: View {
     var body: some View {
         NavigationView {
             VStack {
-                photoProfile!
+                Image(uiImage: foto_perfil!)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 150.0, height: 150.0)
@@ -34,13 +34,13 @@ struct EditProfileView: View {
                             .shadow(radius: 8))
                     .padding(.all)
                     .onTapGesture {
-                        self.presentImageActionScheet.toggle()
-                        self.presentImagePicker = true //essa linha so existe na ausencia de camera
-                    }.sheet(isPresented: $presentImagePicker){
+                        self.showImageActionSheet.toggle()
+                        self.showImagePicker = true
+                        //a linha acima so existe na ausencia de camera
+                    }.sheet(isPresented: $showImagePicker){
                         ImagePickerView(
-                            sourceType: .photoLibrary /*self.presentCamera ? .camera : .photoLibrary*/,
-                            image: self.$photoProfile,
-                            isPresented: self.$presentImagePicker
+                            image: self.$foto_perfil,
+                            isPresented: self.$showImagePicker
                         )
                     }
                 //                    .actionSheet(isPresented: $presentImageActionScheet){
@@ -108,7 +108,7 @@ struct EditProfileView: View {
                     })
         }
         .onAppear {
-            self.photoProfile = Image(uiImage: self.usuario.foto_perfil?.asUIImage() ?? UIImage(named: "perfil")!)
+            self.foto_perfil = self.usuario.foto_perfil?.asUIImage() ?? UIImage(named: "perfil")!
             self.fluenciaSelecionada = Usuario.getIdxByFluencia(
                 self.usuario.fluencia_ingles
             )
@@ -116,22 +116,21 @@ struct EditProfileView: View {
     } //body
     
     func editaUsuario() {
-        self.usuario.nome = self.nome == "" ? self.usuario.nome : self.nome
-        self.usuario.fluencia_ingles = Usuario.getFluenciaByIdx(fluenciaSelecionada)
-        self.usuario.foto_perfil = self.photoProfile?.asUIImage().pngData() ?? self.usuario.foto_perfil
+        usuario.nome = nome == "" ? usuario.nome : nome
+        usuario.fluencia_ingles = Usuario.getFluenciaByIdx(fluenciaSelecionada)
+        usuario.foto_perfil = foto_perfil?.pngData() ?? usuario.foto_perfil
         
-        let url = FileSystem.filePath(forId: self.usuario.id)
+        let url = FileSystem.filePath(forId: usuario.id)
         FileSystem.storeImage(
-            data: self.usuario.foto_perfil,
+            data: usuario.foto_perfil,
             url: url,
-            forId: self.usuario.id
+            forId: usuario.id
         )
-        self.usuario.url_foto = url
+        usuario.url_foto = url
         
-        dao.usuarioAtual = self.usuario
-        dao.editaPublicadores(usuario: self.usuario)
-        self.presentationMode.wrappedValue.dismiss()
-        CKManager.modifyUsuario(user: self.usuario)
+        dao.usuarioAtual = usuario
+        presentationMode.wrappedValue.dismiss()
+        CKManager.modifyUsuario(user: usuario)
     }
     
 }
