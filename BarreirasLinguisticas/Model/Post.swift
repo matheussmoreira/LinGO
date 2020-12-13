@@ -101,10 +101,10 @@ class Post: Equatable, Identifiable, ObservableObject {
                     }
                     DispatchQueue.main.async {
                         self.perguntas.removeAll(where: { $0.id == pergunta.id })
+                        CKManager.modifyPost(self)
+                        sala.quantComentarios -= 1
+                        CKManager.modifySala(sala)
                     }
-                    CKManager.modifyPost(self)
-                    sala.quantComentarios -= 1
-                    CKManager.modifySala(sala)
                 case .failure(_):
                     break
             }
@@ -118,10 +118,10 @@ class Post: Equatable, Identifiable, ObservableObject {
                 case .success(_):
                     DispatchQueue.main.async {
                         self.comentarios.removeAll(where: { $0.id == id })
+                        CKManager.modifyPost(self)
+                        sala.quantComentarios -= 1
+                        CKManager.modifySala(sala)
                     }
-                    CKManager.modifyPost(self)
-                    sala.quantComentarios -= 1
-                    CKManager.modifySala(sala)
                 case .failure(_):
                     break
             }

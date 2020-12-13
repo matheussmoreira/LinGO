@@ -152,15 +152,18 @@ struct ProfileView: View {
                                 .frame(height: btn_height)
                                 .frame(width: btn_width)
                                 .overlay(
-                                    Text("Leave Room")
+                                    Text(sala.membros.count == 1 ?
+                                            "Delete Room" : "Leave Room")
                                         .foregroundColor(.red)
                                 )
                         }
                         .alert(isPresented: $showAlertLeave) {
                             Alert(title:
-                                    Text("You won't be a member of this room anymore"
+                                    Text(sala.membros.count == 1 ? "This room will be deleted with all of its content" : "You won't be a member of this room anymore"
                                     ),
-                                  primaryButton: .default(Text("Leave")){
+                                  primaryButton: .default(
+                                    Text(sala.membros.count == 1 ? "Delete" : "Leave")
+                                  ){
                                     sai_sala()
                                   },
                                   secondaryButton: .cancel())
