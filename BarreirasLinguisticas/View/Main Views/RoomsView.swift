@@ -424,6 +424,11 @@ struct ItemSala: View {
         dao.idSalaAtual = self.usuario.sala_atual
         dao.salaAtual = sala
         dao.membroAtual = sala.getMembroByUser(id: self.usuario.id)
+        if !sala.tentouBaixarPosts {
+            sala.ckLoadAllPosts()
+        } else {
+            print("Já baixou posts da sala \(sala.nome)")
+        }
         self.presentationMode.wrappedValue.dismiss()
         CKManager.modifyUsuario(user: self.usuario)
     }
