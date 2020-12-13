@@ -50,7 +50,7 @@ class DAO: ObservableObject {
                     continue
                 }
             }
-            Sala.ckLoad(from: record, completion: { (loadedSala) in
+            Sala.ckLoad(from: record, isSalaAtual: false, completion: { (loadedSala) in
                 if loadedSala != nil {
                     self.salas.append(loadedSala!)
                     self.allSalasLoaded = (self.salas.count == self.salasRecords.count)

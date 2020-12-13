@@ -24,6 +24,7 @@ class Sala: Identifiable, ObservableObject, Equatable {
     @Published var quantComentarios = 0
     @Published var quantComentariosBaixados = 0
     @Published var allComentariosLoaded = false
+    @Published var tentouBaixarPosts = false
     
     init(id: String, nome: String) {
         self.id = id
@@ -279,7 +280,7 @@ class Sala: Identifiable, ObservableObject, Equatable {
 
 // MARK: - CKManagement
 extension Sala {
-    static func ckLoad(from ckRecord: CKRecord, completion: @escaping (Sala?) -> ()) {
+    static func ckLoad(from ckRecord: CKRecord, isSalaAtual: Bool, completion: @escaping (Sala?) -> ()) {
         var loadingError = false
         let sala = Sala()
         let membrosRef = ckRecord["membros"] as? [CKRecord.Reference] ?? []
@@ -291,19 +292,16 @@ extension Sala {
         sala.nome = ckRecord["nome"] as? String ?? ""
         sala.quantComentarios = ckRecord["quantComentarios"] as? Int ?? 0
         if sala.quantComentarios == 0 { sala.allComentariosLoaded = true }
-//        print("Loading sala \(sala.nome)...")
         
         sala.membrosRef = membrosRef
         sala.categsRef = categsRef
         sala.postsRef = postsRef
         
-//        print("\tLoading membros")
         for membroRef in membrosRef {
             Membro.ckLoad(from: membroRef) { (result) in
                 switch result {
                     case .success(let loadedMembro):
                         DispatchQueue.main.async {
-//                            print("\tBaixou membro do usuario \(loadedMembro.usuario.nome)")
                             sala.membros.append(loadedMembro)
                         }
                     case .failure(_):
@@ -313,14 +311,12 @@ extension Sala {
             }
         }
         
-//        print("\tLoading categorias")
         for categRef in categsRef {
             Categoria.ckLoad(from: categRef) { (result) in
                 switch result {
                     case .success(let loadedCateg):
                         DispatchQueue.main.async {
                             sala.categorias.append(loadedCateg)
-//                            print("\tBaixou categoria \(loadedCateg.nome)")
                         }
                     case .failure(_):
                         print("Loading error nas categorias da sala \(sala.nome)!")
@@ -329,26 +325,29 @@ extension Sala {
             }
         }
         
-//        print("\tLoading posts")
-        for postRef in postsRef {
-            Post.ckLoad(from: postRef, salaMembros: sala.membros) { (result) in
-                switch result {
-                    case .success(let loadedPost):
-                        if let loadedPost = loadedPost {
-                            DispatchQueue.main.async {
-//                                print("\tBaixou post \(loadedPost.titulo)")
-                                sala.posts.append(loadedPost)
-                                loadedPost.ckLoadAllPerguntas(sala: sala)
-                                loadedPost.ckLoadAllComentarios(sala: sala)
-                                sala.allPostsLoaded = (sala.posts.count == postsRef.count)
+        if isSalaAtual {
+            print("Baixando posts da sala \(sala.nome)")
+            sala.tentouBaixarPosts = true
+            for postRef in postsRef {
+                Post.ckLoad(from: postRef, salaMembros: sala.membros) { (result) in
+                    switch result {
+                        case .success(let loadedPost):
+                            if let loadedPost = loadedPost {
+                                DispatchQueue.main.async {
+                                    sala.posts.append(loadedPost)
+                                    loadedPost.ckLoadAllPerguntas(sala: sala)
+                                    loadedPost.ckLoadAllComentarios(sala: sala)
+                                    sala.allPostsLoaded = (sala.posts.count == postsRef.count)
+                                }
                             }
-                        }
-                    case .failure(_):
-                        print("Loading error nos posts da sala \(sala.nome)!")
-                        sala.loadingPostsError = true
+                        case .failure(_):
+                            print("Loading error nos posts da sala \(sala.nome)!")
+                            sala.loadingPostsError = true
+                    }
                 }
             }
         }
+        
         
         DispatchQueue.global().async {
             // DispatchQueue.global por senao o app trava enquanto baixa as salas
@@ -370,6 +369,29 @@ extension Sala {
                  comecam mas nao terminam e o app nao fica esperando
                  para todo o sempre !!!
                 */
+            }
+        }
+    }
+    
+    func ckLoadAllPosts() {
+        print("Baixando posts da sala \(nome)")
+        tentouBaixarPosts = true
+        for postRef in postsRef {
+            Post.ckLoad(from: postRef, salaMembros: membros) { (result) in
+                switch result {
+                    case .success(let loadedPost):
+                        if let loadedPost = loadedPost {
+                            DispatchQueue.main.async {
+                                self.posts.append(loadedPost)
+                                loadedPost.ckLoadAllPerguntas(sala: self)
+                                loadedPost.ckLoadAllComentarios(sala: self)
+                                self.allPostsLoaded = (self.posts.count == self.postsRef.count)
+                            }
+                        }
+                    case .failure(_):
+                        print("Loading error nos posts da sala \(self.nome)!")
+                        self.loadingPostsError = true
+                }
             }
         }
     }

@@ -87,7 +87,7 @@ struct FirstView: View {
         if id_sala != nil && !id_sala!.isEmpty {
             loadingMessage = "Preparing rooms"
             if let record = dao.getSalaRecord(from: id_sala) {
-                Sala.ckLoad(from: record) { (sala) in
+                Sala.ckLoad(from: record, isSalaAtual: true) { (sala) in
                     dao.idSalaAtual = id_sala
                     dao.salaAtual = sala
                     
