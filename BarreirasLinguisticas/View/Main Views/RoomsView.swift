@@ -140,8 +140,15 @@ struct MyRoomsView: View {
                                             Capsule()
                                                 .frame(width: 300.0, height: 50.0)
                                                 .foregroundColor(.white)
-                                            Text(sala.nome)
-                                                .foregroundColor(LingoColors.lingoBlue)
+                                            HStack {
+                                                if sala.id == dao.salaAtual?.id {
+                                                    Circle()
+                                                        .fill(Color.red)
+                                                        .frame(width: 10.0, height: 10.0)
+                                                }
+                                                Text(sala.nome)
+                                                    .foregroundColor(LingoColors.lingoBlue)
+                                            }
                                         }
                                     }
                                 }
@@ -307,6 +314,7 @@ struct MyRoomsView: View {
         dao.idSalaAtual = self.usuario.sala_atual
         dao.salaAtual = sala
         dao.membroAtual = sala.getMembroByUser(id: self.usuario.id)
+        dao.membroAtual?.usuario = usuario
         if !sala.tentouBaixarPosts {
             sala.ckLoadAllPosts()
         } else {
@@ -424,6 +432,7 @@ struct ItemSala: View {
         dao.idSalaAtual = self.usuario.sala_atual
         dao.salaAtual = sala
         dao.membroAtual = sala.getMembroByUser(id: self.usuario.id)
+        dao.membroAtual?.usuario = usuario
         if !sala.tentouBaixarPosts {
             sala.ckLoadAllPosts()
         } else {

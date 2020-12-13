@@ -111,6 +111,11 @@ struct PostCardView: View {
             }
             
         } //body
+        .onAppear {
+            if post.publicador.id == dao.membroAtual?.id {
+                post.publicador = dao.membroAtual!
+            }
+        }
     }
     
     func getLinkImage(from link: LinkPost?) {

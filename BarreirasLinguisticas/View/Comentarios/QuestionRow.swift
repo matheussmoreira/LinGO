@@ -105,22 +105,13 @@ struct QuestionRow: View {
                 } //VStack
                     .padding(.all)
             } //ZStack
-            
-            //MARK: - ANSWER HERE
-//            HStack {
-//                membro.usuario.foto_perfil
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fill)
-//                    .frame(width: 20.0, height: 20.0)
-//                    .clipShape(Circle())
-//                    .padding(.leading)
-//
-//                TextField("Answer here", text: $answer)
-//
-//            } //HStack
-//                .padding(.horizontal)
         } //VStack
-            .onAppear { self.loadVoto() }
+            .onAppear {
+                self.loadVoto()
+                if comentario.publicador.id == dao.membroAtual?.id {
+                    comentario.publicador = dao.membroAtual!
+                }
+            }
     } //body
     
     func loadVoto(){

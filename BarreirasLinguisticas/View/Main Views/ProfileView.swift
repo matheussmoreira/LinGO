@@ -49,7 +49,7 @@ struct ProfileView: View {
                                 .colorInvert()
                         )
                     
-                    Text(nome)
+                    Text(membro.usuario.nome)
                         .font(.system(.title, design: .rounded))
                         .fontWeight(.bold)
                         .foregroundColor(Color.primary)
@@ -217,18 +217,20 @@ struct ProfileView: View {
                 .sheet(
                     isPresented: $showEditProfile,
                     onDismiss: {
-                        self.nome = self.membro.usuario.nome
-                        self.foto = self.membro.usuario.foto_perfil
-                        self.fluencia = self.membro.usuario.fluencia_ingles.rawValue
+                        self.membro.usuario = dao.usuarioAtual!
+//                        self.nome = self.membro.usuario.nome
+//                        self.foto = self.membro.usuario.foto_perfil
+//                        self.fluencia = self.membro.usuario.fluencia_ingles.rawValue
                     }
                 ){
                     EditProfileView(usuario: self.membro.usuario)
                         .environmentObject(dao)
                 })
             .onAppear {
-                self.nome = self.membro.usuario.nome
-                self.foto = self.membro.usuario.foto_perfil
-                self.fluencia = self.membro.usuario.fluencia_ingles.rawValue
+                self.membro.usuario = dao.usuarioAtual!
+//                self.nome = self.membro.usuario.nome
+//                self.foto = self.membro.usuario.foto_perfil
+//                self.fluencia = self.membro.usuario.fluencia_ingles.rawValue
             }
         }
     } //body
