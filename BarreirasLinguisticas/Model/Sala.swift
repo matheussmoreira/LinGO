@@ -311,8 +311,9 @@ extension Sala {
                             sala.membros.append(loadedMembro)
                         }
                     case .failure(_):
+                        sala.updateListaMembros(membroRef: membroRef)
                         print("Loading error nos membros da sala \(sala.nome)!")
-                        loadingError = true
+                        //loadingError = true // FICOU EM COMENTARIO QUANDO CONSERTEI O ERRO DE SALA COM MEMBRO NAO EXISTENTE NO BANCO
                 }
             }
         }
@@ -354,7 +355,6 @@ extension Sala {
             }
         }
         
-        
         DispatchQueue.global().async {
             // DispatchQueue.global por que senao o app congela enquanto baixa as salas
             while true {
@@ -377,6 +377,11 @@ extension Sala {
                 */
             }
         }
+    }
+    
+    func updateListaMembros(membroRef: CKRecord.Reference){
+        removeMembro(membro: membroRef.recordID.recordName)
+        CKManager.modifySala(self)
     }
     
     func ckLoadAllPosts() {

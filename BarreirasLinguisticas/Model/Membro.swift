@@ -142,7 +142,8 @@ extension Membro {
 //            print("\tFetch finalizado")
             if let error = error {
                 print(#function)
-                print(error)
+                print(error) // SAINDO ERRO AQUI - RECORD NOT FOUND
+                print("Não achou o Membro de id \(ckReference.recordID.recordName)")
                 completion(.failure(error))
                 return
             }

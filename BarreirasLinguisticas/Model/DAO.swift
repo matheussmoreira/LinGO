@@ -69,9 +69,17 @@ class DAO: ObservableObject {
     func getSalaRecord(from sala_id: String?) -> CKRecord? {
         let records = salasRecords.filter({$0.recordID.recordName == sala_id})
         if !records.isEmpty {
+            print("SALA_ID \(String(describing: sala_id)) encontrada!")
             return records[0]
+        } else {
+            print("SALA_ID: \(String(describing: sala_id)) não encontrada no vetor de records")
+            print("SalasRecords size: \(salasRecords.count)")
+            for record in salasRecords {
+                print("Sala: \(record.recordID.recordName)")
+            }
+            
+            return nil
         }
-        return nil
     }
     
     func getSalasNomes() -> [String] {
