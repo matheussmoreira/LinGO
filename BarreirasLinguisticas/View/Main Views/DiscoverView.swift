@@ -51,9 +51,11 @@ struct DiscoverView: View {
                         VStack {
                             Text("No posts for you 😕")
                                 .foregroundColor(Color.gray)
-                            Text("\nSubscribe in a category")
+                            Text("\nSubscribe in a category,")
                                 .foregroundColor(Color.gray)
-                            Text("or wait for a new post!")
+                            Text("wait for a new post")
+                                .foregroundColor(Color.gray)
+                            Text("or create a new one!")
                                 .foregroundColor(Color.gray)
                         }
                         .frame(height: 260)

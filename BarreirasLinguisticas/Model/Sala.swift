@@ -181,6 +181,7 @@ class Sala: Identifiable, ObservableObject, Equatable {
     }
     
     private func addPostSalaMembro(post savedPost: Post, membro: Membro){
+        print("Entrando em addPostaSalaMembro")
         self.posts.append(savedPost)
         // ATUALIZA O VETOR DE POSTS DA SALA
         CKManager.modifySalaPosts(sala: self) { (result) in
@@ -225,6 +226,7 @@ class Sala: Identifiable, ObservableObject, Equatable {
             }
             CKManager.deleteRecord(recordName: pergunta.id)
         }
+        print("removePost2: Post e seus derivados removidos!")
         CKManager.deleteRecord(recordName: post.id)
     }
     
@@ -242,9 +244,10 @@ class Sala: Identifiable, ObservableObject, Equatable {
             }
             CKManager.deleteRecord(recordName: pergunta.id)
         }
+        print("removePost: Post e seus derivados removidos!")
         CKManager.deleteRecord(recordName: post.id)
         
-        // Atualiza dos vetores de posts da sala e de publicados do membro
+        // Atualizacao dos vetores de posts da sala e de publicados do membro
         posts.removeAll(where: { $0.id == post.id})
         CKManager.modifySalaPosts(sala: self) { (result) in
             switch result {
@@ -268,6 +271,7 @@ class Sala: Identifiable, ObservableObject, Equatable {
     func excluiCategoria(_ categ: Categoria) {
         CKManager.deleteRecord(recordName: categ.id)
         categorias.removeAll(where: {$0.id == categ.id})
+        print("Chamando modifySala de \(#function)")
         CKManager.modifySala(self)
     }
     
@@ -294,6 +298,8 @@ extension Sala {
         let postsRef = ckRecord["posts"] as? [CKRecord.Reference] ?? []
         if postsRef.isEmpty { sala.allPostsLoaded = true }
         
+        var refMembrosRemover: [CKRecord.Reference] = []
+        
         sala.id = ckRecord.recordID.recordName
         sala.nome = ckRecord["nome"] as? String ?? ""
         sala.quantComentarios = ckRecord["quantComentarios"] as? Int ?? 0
@@ -311,7 +317,7 @@ extension Sala {
                             sala.membros.append(loadedMembro)
                         }
                     case .failure(_):
-                        sala.updateListaMembros(membroRef: membroRef)
+                        refMembrosRemover.append(membroRef)
                         print("Loading error nos membros da sala \(sala.nome)!")
                         //loadingError = true // FICOU EM COMENTARIO QUANDO CONSERTEI O ERRO DE SALA COM MEMBRO NAO EXISTENTE NO BANCO
                 }
@@ -363,6 +369,8 @@ extension Sala {
                     
                     sala.regraDoAdmin()
                     
+                    //sala.updateListaMembros(membrosRef: refMembrosRemover)
+                    
                     print("Retornando sala \(sala.nome)!")
                     DispatchQueue.main.async {
                         completion(sala)
@@ -379,8 +387,11 @@ extension Sala {
         }
     }
     
-    func updateListaMembros(membroRef: CKRecord.Reference){
-        removeMembro(membro: membroRef.recordID.recordName)
+    func updateListaMembros(membrosRef: [CKRecord.Reference]){
+        for membro in membrosRef {
+            removeMembro(membro: membro.recordID.recordName)
+        }
+        print("Chamando modifySala de \(#function)")
         CKManager.modifySala(self)
     }
     

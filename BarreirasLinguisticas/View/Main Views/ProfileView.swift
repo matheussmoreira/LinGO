@@ -255,6 +255,7 @@ struct ProfileView: View {
         } else {
             sala.regraDoAdmin()
             self.proxima_sala()
+            print("Chamando modifySala de \(#function)")
             CKManager.modifySala(sala)
         }
         

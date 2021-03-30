@@ -24,8 +24,9 @@ class DAO: ObservableObject {
         loadSalasRecords()
     }
     
-    private func loadSalasRecords(){
+    public func loadSalasRecords(){
 //        print("Loading todos os records das salas...")
+        salasRecords = []
         CKManager.querySalasRecords { (result) in
             switch result {
                 case .success(let records):
@@ -35,6 +36,7 @@ class DAO: ObservableObject {
                         if self.salasRecords.isEmpty {
                             self.allSalasLoaded = true
                         }
+                        print("All salas loaded!")
                     }
                 case .failure(_):
                     break
@@ -74,10 +76,6 @@ class DAO: ObservableObject {
         } else {
             print("SALA_ID: \(String(describing: sala_id)) não encontrada no vetor de records")
             print("SalasRecords size: \(salasRecords.count)")
-            for record in salasRecords {
-                print("Sala: \(record.recordID.recordName)")
-            }
-            
             return nil
         }
     }

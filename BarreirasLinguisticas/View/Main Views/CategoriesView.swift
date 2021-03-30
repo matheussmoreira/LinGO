@@ -154,6 +154,7 @@ struct CreateCategorieView: View {
     func addCategoriaNaSala(categoria savedCategoria: Categoria){
         DispatchQueue.main.async {
             sala.novaCategoria(savedCategoria)
+            print("Chamando modifySala de \(#function)")
             CKManager.modifySala(sala)
             self.presentationMode.wrappedValue.dismiss()
         }

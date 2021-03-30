@@ -82,7 +82,8 @@ struct FirstView: View {
     } // funcao
     
     func loadSalas(id_sala: String?, id_usuario: String){
-        print("BOTOU PRA CARREGAR A SALA ATUAL")
+        sleep(1) // pra garantir que baixou todos os records das salas antes de carregar a sala atual
+        print("\nBOTOU PRA CARREGAR A SALA ATUAL")
         print("Buscando salas...")
         if id_sala != nil && !id_sala!.isEmpty {
             loadingMessage = "Preparing rooms"
@@ -112,11 +113,13 @@ struct FirstView: View {
                 }
             } else {
                 print("Não pegou record da sala atual :(")
-                //loadSalas(id_sala: id_sala, id_usuario: id_usuario)
+                daoz.loadSalasRecords()
+                sleep(2)
+                loadSalas(id_sala: id_sala, id_usuario: id_usuario)
             }
         }
         else {
-//            print("Entrou no else")
+//            print("id_sala = nil")
             stopLoading()
         }
     }

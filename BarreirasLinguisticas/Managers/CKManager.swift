@@ -19,6 +19,7 @@ struct CKManager {
                 completion(.failure(error))
             }
             if let recordID = recordID {
+                print("deleteRecord1: Objeto de recordName \(recordID.recordName) deletado com sucesso!")
                 completion(.success(recordID))
             }
         }
@@ -31,6 +32,9 @@ struct CKManager {
                 print(#function)
                 print(error)
                 return
+            }
+            if let recordID = recordID {
+                print("deleteRecord2: Objeto de recordName \(recordID.recordName) deletado com sucesso!")
             }
         }
     }
@@ -80,6 +84,7 @@ extension CKManager {
     }
     
     static func modifySala(_ sala: Sala){
+        print("Entrando em modifySala")
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: sala.id)) { (record, error) in
             if let error = error {
@@ -123,6 +128,7 @@ extension CKManager {
     }
     
     static func modifySalaPosts(sala: Sala, completion: @escaping (Result<[CKRecord.Reference], Error>) -> ()) {
+        print("Entrando em modifySalaPosts")
         let publicDB = CKContainer.default().publicCloudDatabase
         publicDB.fetch(withRecordID: CKRecord.ID(recordName: sala.id)) { (record, error) in
             if let error = error {
@@ -596,7 +602,9 @@ extension CKManager {
                 print(error)
             }
             if let fetchedLinkRecord = fetchedRecord {
-                fetchedLinkRecord["imagem"] = CKAsset(fileURL: link.urlImagem!)
+                if let imagem = link.urlImagem {
+                    fetchedLinkRecord["imagem"] = CKAsset(fileURL: imagem)
+                }
                 
                 publicDB.save(fetchedLinkRecord) { (savedRecord, error2) in
                     if let error2 = error2 {

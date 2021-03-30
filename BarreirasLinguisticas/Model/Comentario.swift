@@ -38,6 +38,7 @@ class Comentario: Identifiable, ObservableObject {
                         CKManager.modifyComentario(self)
                         sala.quantComentarios += 1
                         sala.quantComentariosBaixados += 1
+                        print("Chamando modifySala de \(#function)")
                         CKManager.modifySala(sala)
                     }
                 case .failure(_):
@@ -55,6 +56,7 @@ class Comentario: Identifiable, ObservableObject {
                         CKManager.modifyComentario(self)
                         sala.quantComentarios -= 1
                         sala.quantComentariosBaixados -= 1
+                        print("Chamando modifySala de \(#function)")
                         CKManager.modifySala(sala)
                     }
                 case .failure(_):

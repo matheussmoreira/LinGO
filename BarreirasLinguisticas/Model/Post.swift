@@ -80,6 +80,7 @@ class Post: Equatable, Identifiable, ObservableObject {
                         CKManager.modifyPost(self)
                         
                         sala.quantComentarios += 1
+                        print("Chamando modifySala de \(#function)")
                         CKManager.modifySala(sala)
                         
                     }
@@ -103,6 +104,7 @@ class Post: Equatable, Identifiable, ObservableObject {
                         self.perguntas.removeAll(where: { $0.id == pergunta.id })
                         CKManager.modifyPost(self)
                         sala.quantComentarios -= 1
+                        print("Chamando modifySala de \(#function)")
                         CKManager.modifySala(sala)
                     }
                 case .failure(_):
@@ -120,6 +122,7 @@ class Post: Equatable, Identifiable, ObservableObject {
                         self.comentarios.removeAll(where: { $0.id == id })
                         CKManager.modifyPost(self)
                         sala.quantComentarios -= 1
+                        print("Chamando modifySala de \(#function)")
                         CKManager.modifySala(sala)
                     }
                 case .failure(_):

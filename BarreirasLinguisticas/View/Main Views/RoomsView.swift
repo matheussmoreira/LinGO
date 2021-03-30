@@ -305,6 +305,7 @@ struct MyRoomsView: View {
     func salaGanhaPrimeiroMembro(sala: Sala, membro: Membro){
         sala.membros.append(membro)
         self.dao.addNovaSala(sala)
+        print("Chamando modifySala de \(#function)")
         CKManager.modifySala(sala)
     
     }
@@ -424,6 +425,7 @@ struct ItemSala: View {
     func salaGanhaNovoMembro(sala: Sala, membro: Membro){
         sala.membros.append(membro)
         alteraSalaAtual(sala: sala)
+        print("Chamando modifySala de \(#function)")
         CKManager.modifySala(sala)
     }
     
